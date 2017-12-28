@@ -1,0 +1,7 @@
+vendor/
+composer.lock
+.DS_Store
+
+#resources
+/res/ucd.all.flat.xml
+/res/ucd.all.flat.csv

@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\DOMHelper;
 
 /**
@@ -10,7 +11,7 @@ use Slothsoft\Core\DOMHelper;
 *
 *  @author Daniel Schulz
 */
-class DOMHelperTest extends PHPUnit_Framework_TestCase{
+class DOMHelperTest extends TestCase{
 	
   /**
   * Just check if the YourClass has no syntax error 

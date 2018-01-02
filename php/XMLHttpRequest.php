@@ -25,7 +25,7 @@ namespace Slothsoft\Core;
 use DOMDocument;
 use Exception;
 
-class XMLHttpRequest // implements \w3c\XMLHttpRequest
+class XMLHttpRequest implements \w3c\XMLHttpRequest
 {
 
     const NEWLINE = "

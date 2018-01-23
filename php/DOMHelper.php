@@ -12,19 +12,22 @@ use DOMDocument;
 use DOMImplementation;
 use DOMNode;
 use DOMXPath;
+use Exception;
 use RuntimeException;
 use XSLTProcessor;
 declare(ticks = 1);
 
 class DOMHelper
 {
-
-    const NS_CMS_MODULE = 'http://schema.slothsoft.net/cms/module';
-
-    const NS_CMS_DICT = 'http://schema.slothsoft.net/cms/dictionary';
-
-    const NS_SAVE_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
-
+    const NS_FARAH_MODULE       = 'http://schema.slothsoft.net/farah/module';
+    const NS_FARAH_DICTIONARY   = 'http://schema.slothsoft.net/farah/dictionary';
+    const NS_FARAH_SITES        = 'http://schema.slothsoft.net/farah/sites';
+    
+    const NS_SAVEGAME_EDITOR    = 'http://schema.slothsoft.net/savegame/editor';
+    
+    const NS_AMBER_AMBERDATA   = 'http://schema.slothsoft.net/amber/amberdata';
+    
+    
     const NS_XML = 'http://www.w3.org/XML/1998/namespace';
 
     const NS_HTML = 'http://www.w3.org/1999/xhtml';
@@ -50,9 +53,15 @@ class DOMHelper
     const NS_SITEMAP = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 
     protected static $namespaceList = [
-        'module' => self::NS_CMS_MODULE,
-        'dict' => self::NS_CMS_DICT,
-        'editor' => self::NS_SAVE_EDITOR,
+        'sfm' => self::NS_FARAH_MODULE,
+        'sfd' => self::NS_FARAH_DICTIONARY,
+        'sfs' => self::NS_FARAH_SITES,
+        
+        'sse' => self::NS_SAVEGAME_EDITOR,
+        
+        'saa' => self::NS_AMBER_AMBERDATA,
+        
+        
         
         'xml' => self::NS_XML,
         'html' => self::NS_HTML,
@@ -107,9 +116,11 @@ class DOMHelper
             $nsList['php'] = self::NS_PHP;
         }
         if ($options & self::XPATH_SLOTHSOFT) {
-            $nsList['module'] = self::NS_CMS_MODULE;
-            $nsList['dict'] = self::NS_CMS_DICT;
-            $nsList['editor'] = self::NS_SAVE_EDITOR;
+            $nsList['sfm'] = self::NS_FARAH_MODULE;
+            $nsList['sfd'] = self::NS_FARAH_DICTIONARY;
+            $nsList['sfs'] = self::NS_FARAH_SITES;
+            $nsList['sse'] = self::NS_SAVEGAME_EDITOR;
+            $nsList['saa'] = self::NS_AMBER_AMBERDATA;
         }
         foreach ($nsList as $prefix => $ns) {
             $xpath->registerNamespace($prefix, $ns);
@@ -192,6 +203,9 @@ class DOMHelper
         
         return $retFragment;
     }
+    public function createDocument (string $namespaceURI, string $qualifiedName) : DOMDocument {
+        return self::_implementation()->createDocument($namespaceURI, $qualifiedName);
+    }
 
     // returns string
     public function stringify(DOMNode $sourceNode)
@@ -235,6 +249,55 @@ class DOMHelper
         $retNode = $targetDoc->createDocumentFragment();
         foreach ($finalDoc->childNodes as $node) {
             $retNode->appendChild($targetDoc->importNode($node, true));
+        }
+        return $retNode;
+    }
+    
+    
+    public function normalizeDocument(DOMDocument $dataDoc)
+    {
+        try {
+            $retDoc = new DOMDocument();
+            
+            $nsList = array_flip(self::$namespaceList);
+            if (isset($nsList[$dataDoc->documentElement->namespaceURI])) {
+                unset($nsList[$dataDoc->documentElement->namespaceURI]);
+            }
+            
+            $this->normalizeNode($dataDoc, $retDoc, $nsList);
+            
+            $retDoc->loadXML($retDoc->saveXML(), LIBXML_NSCLEAN);
+        } catch (Exception $e) {
+            $retDoc = $dataDoc;
+        }
+        return $retDoc;
+    }
+    
+    protected function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList)
+    {
+        $retNode = null;
+        switch ($sourceNode->nodeType) {
+            case XML_DOCUMENT_NODE:
+                $retNode = $retDoc;
+                break;
+            case XML_ELEMENT_NODE:
+                $tagName = isset($nsList[$sourceNode->namespaceURI]) ? $nsList[$sourceNode->namespaceURI] . ':' . $sourceNode->localName : $sourceNode->localName;
+                $retNode = $retDoc->createElementNS($sourceNode->namespaceURI, $tagName);
+                foreach ($sourceNode->attributes as $childNode) {
+                    $tagName = strlen($childNode->prefix) ? $childNode->prefix . ':' . $childNode->localName : $childNode->localName;
+                    $retNode->setAttributeNS($childNode->namespaceURI, $tagName, $childNode->value);
+                }
+                break;
+            default:
+                $retNode = $retDoc->importNode($sourceNode, false);
+                break;
+        }
+        if ($retNode and $sourceNode->hasChildNodes()) {
+            foreach ($sourceNode->childNodes as $childNode) {
+                if ($node = $this->normalizeNode($childNode, $retDoc, $nsList)) {
+                    $retNode->appendChild($node);
+                }
+            }
         }
         return $retNode;
     }

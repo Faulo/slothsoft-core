@@ -10,6 +10,7 @@
  ***********************************************************************/
 namespace Slothsoft\Core;
 
+use Slothsoft\DBMS\DatabaseException;
 use Slothsoft\DBMS\Manager;
 use Exception;
 use DOMDocument;
@@ -58,7 +59,10 @@ class Storage
         if (self::_randomCheck() or ! $storage->exists($name, $storageTime)) {
             $req = self::_httpRequest($options, $uri, $data);
             if ($req->responseXML) {
-                $storage->storeDocument($name, $req->responseXML, $nowTime);
+                $res = $storage->storeDocument($name, $req->responseXML, $nowTime);
+                if (!$res) {
+                    return $req->responseXML;
+                }
             }
         }
         return $storage->retrieveDocument($name, $storageTime);
@@ -422,9 +426,13 @@ class Storage
             $this->tableName = $storageName;
         }
         $this->logFile = sprintf('%s%s.log', self::LOG_PATH, FileSystem::filenameSanitize($this->tableName));
-        $this->dbmsTable = $this->getDBMSTable();
-        if (! $this->dbmsTable->tableExists()) {
-            $this->install();
+        try {
+            $this->dbmsTable = $this->getDBMSTable();
+            if (! $this->dbmsTable->tableExists()) {
+                $this->install();
+            }
+        } catch(DatabaseException $e) {
+            $this->dbmsTable = null;
         }
         $this->now = time();
         $this->touchList = [];
@@ -441,25 +449,27 @@ class Storage
 
     public function install()
     {
-        $sqlCols = [
-            // 'id' => 'int NOT NULL AUTO_INCREMENT',
-            // 'name' => 'CHAR(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL',
-            'id' => 'CHAR(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL',
-            'payload' => 'longtext NOT NULL',
-            'create-time' => 'int NOT NULL DEFAULT "0"',
-            'modify-time' => 'int NOT NULL DEFAULT "0"',
-            'access-time' => 'int NOT NULL DEFAULT "0"'
-        ];
-        $sqlKeys = [
-            'id',
-            // ['type' => 'UNIQUE KEY', 'columns' => ['name']],
-            'create-time',
-            'modify-time',
-            'access-time'
-        ];
-        $options = [ // 'engine' => 'MyISAM', //http://www.sitepoint.com/mysql-mistakes-php-developers/
-];
-        $this->dbmsTable->createTable($sqlCols, $sqlKeys, $options);
+        if ($this->dbmsTable) {
+            $sqlCols = [
+                // 'id' => 'int NOT NULL AUTO_INCREMENT',
+                // 'name' => 'CHAR(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL',
+                'id' => 'CHAR(40) CHARACTER SET ascii COLLATE ascii_bin NOT NULL',
+                'payload' => 'longtext NOT NULL',
+                'create-time' => 'int NOT NULL DEFAULT "0"',
+                'modify-time' => 'int NOT NULL DEFAULT "0"',
+                'access-time' => 'int NOT NULL DEFAULT "0"'
+            ];
+            $sqlKeys = [
+                'id',
+                // ['type' => 'UNIQUE KEY', 'columns' => ['name']],
+                'create-time',
+                'modify-time',
+                'access-time'
+            ];
+            $options = [ // 'engine' => 'MyISAM', //http://www.sitepoint.com/mysql-mistakes-php-developers/
+    ];
+            $this->dbmsTable->createTable($sqlCols, $sqlKeys, $options);
+        }
     }
 
     /**
@@ -470,11 +480,12 @@ class Storage
      */
     public function exists(string $name, int $modifyTime)
     {
-        $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
-        $ret = (bool) count($this->dbmsTable->select('id', $sql));
-        
+        $ret = false;
+        if ($this->dbmsTable) {
+            $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
+            $ret = (bool) count($this->dbmsTable->select('id', $sql));
+        }
         $this->_createLog('exists', $name, $ret);
-        
         return $ret;
     }
 
@@ -487,9 +498,11 @@ class Storage
     public function retrieve(string $name, int $modifyTime)
     {
         $ret = null;
-        $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
-        if ($res = $this->dbmsTable->select('payload', $sql)) {
-            $ret = current($res);
+        if ($this->dbmsTable) {
+            $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
+            if ($res = $this->dbmsTable->select('payload', $sql)) {
+                $ret = current($res);
+            }
         }
         $this->_createLog('retrieve', $name, $ret);
         
@@ -567,7 +580,10 @@ class Storage
      */
     public function delete(string $name)
     {
-        $ret = $this->dbmsTable->delete(self::_hash($name));
+        $ret = false;
+        if ($this->dbmsTable) {
+            $ret = $this->dbmsTable->delete(self::_hash($name));
+        }
         $this->_createLog('delete', $name, $ret);
         
         return $ret;
@@ -584,21 +600,23 @@ class Storage
     {
         $ret = null;
         
-        $update = [];
-        $update['payload'] = (string) $payload;
-        $update['modify-time'] = (int) $modifyTime;
-        $update['access-time'] = $this->now;
-        
-        $insert = $update;
-        $insert['id'] = self::_hash($name);
-        $insert['create-time'] = $this->now;
-        
-        try {
-            $ret = (bool) $this->dbmsTable->insert($insert, $update);
-        } catch (Exception $e) {
-            $ret = false;
+        if ($this->dbmsTable) {
+            $update = [];
+            $update['payload'] = (string) $payload;
+            $update['modify-time'] = (int) $modifyTime;
+            $update['access-time'] = $this->now;
+            
+            $insert = $update;
+            $insert['id'] = self::_hash($name);
+            $insert['create-time'] = $this->now;
+            
+            try {
+                $ret = (bool) $this->dbmsTable->insert($insert, $update);
+            } catch (DatabaseException $e) {
+                $ret = false;
+            }
+            $this->_createLog('store', $name, $ret);
         }
-        $this->_createLog('store', $name, $ret);
         
         return $ret;
     }
@@ -663,15 +681,9 @@ class Storage
 
     public function cleanse()
     {
-        $cutoffTime = $this->now - $this->cleanseTime;
-        $sql = sprintf('`access-time` < %d', $cutoffTime);
-        /*
-         * if ($idList = $this->dbmsTable->select('id', $sql)) {
-         * $this->dbmsTable->delete($idList);
-         * }
-         * //
-         */
-        $this->dbmsTable->optimize();
+        if ($this->dbmsTable) {
+            $this->dbmsTable->optimize();
+        }
     }
 
     public function cron()

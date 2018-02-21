@@ -16,6 +16,27 @@ Llo
 -->
   <default-configuration/>
   <assets>
+    <resource-directory name="data" path="data" type="application/x-php"/>
+    <resource-directory name="css" path="stylesheet" type="text/css"/>
+    <resource-directory name="js" path="script" type="application/javascript"/>
+    <resource-directory name="xsl" path="template" type="application/xslt+xml"/>
+    <resource-directory name="dictionary" path="dictionary" type="application/xml"/>
+    <resource-directory name="pages" path="pages" type="application/xml"/>
+    <directory name="static">
+	    <resource name="language-registry" path="language-subtag-registry.xml" type="application/xml">
+	      <source href="http://www.langtag.net/registries/language-subtag-registry.xml"/>
+	    </resource>
+	    <resource name="iso-639" path="iso-639.xml" type="application/xml">
+	      <source href="http://www.loc.gov/standards/iso639-2/php/code_list.php"/>
+	    </resource>
+	    <resource name="unicode" path="ucd.all.flat.csv" type="text/csv">
+	      <source href="http://unicode.org/Public/UNIDATA/UnicodeData.txt"/>
+	      <options del=";" sep="" key-col="0" val-col="1" output="assoc"/>
+	    </resource>
+	    <resource name="unicode-all" path="ucd.all.flat.xml" type="application/xml">
+	      <source href="http://www.unicode.org/Public/UCD/latest/ucdxml/ucd.all.flat.zip"/>
+	    </resource>
+	</directory>
     <fragment name="sitemap">
       <use-template ref="xsl/_sitemap"/>
       <use-document ref="static/sites"/>

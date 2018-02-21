@@ -8,13 +8,17 @@
  ***********************************************************************/
 namespace Slothsoft\Core;
 
+use Slothsoft\Core\XSLT\XsltFactory;
+use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
+use Slothsoft\Farah\HTTPFile;
 use DOMDocument;
+use DOMDocumentFragment;
 use DOMImplementation;
 use DOMNode;
 use DOMXPath;
 use Exception;
+use OutOfRangeException;
 use RuntimeException;
-use XSLTProcessor;
 declare(ticks = 1);
 
 class DOMHelper
@@ -77,19 +81,11 @@ class DOMHelper
         'sitemap' => self::NS_SITEMAP
     ];
 
-    const XPATH_NS = 1;
-
-    // loadXPath loads all known namespaces
-    const XPATH_HTML = 2;
-
-    // loadXPath loads HTML namespace
-    const XPATH_PHP = 4;
-
-    // loadXPath loads PHP functions
-    const XPATH_SLOTHSOFT = 8;
-
-    // loadXPath loads Slothsoft namespaces
-    public static function loadDocument($filePath, $asHTML = false)
+    const XPATH_NS_ALL = 1; // loadXPath loads all known namespaces
+    const XPATH_HTML = 2; // loadXPath loads HTML namespace
+    const XPATH_PHP = 4; // loadXPath loads PHP functions
+    const XPATH_SLOTHSOFT = 8; // loadXPath loads Slothsoft namespaces
+    public static function loadDocument($filePath, $asHTML = false) : DOMDocument
     {
         $document = new DOMDocument();
         if ($asHTML) {
@@ -100,11 +96,11 @@ class DOMHelper
         return $document;
     }
 
-    public static function loadXPath(DOMDocument $document, $options = self::XPATH_HTML)
+    public static function loadXPath(DOMDocument $document, int $options = self::XPATH_HTML) : DOMXPath
     {
         $xpath = new DOMXPath($document);
         $nsList = [];
-        if ($options & self::XPATH_NS) {
+        if ($options & self::XPATH_NS_ALL) {
             foreach (self::$namespaceList as $prefix => $ns) {
                 $nsList[$prefix] = $ns;
             }
@@ -223,28 +219,39 @@ class DOMHelper
         }
         return $doc;
     }
-
-    public function transform($dataDoc, $templateDoc, array $param = [], $outputURI = null)
-    {
-        if (! ($dataDoc instanceof DOMDocument)) {
-            $dataDoc = $this->load($dataDoc);
-        }
-        if (! ($templateDoc instanceof DOMDocument)) {
-            $templateDoc = $this->load($templateDoc);
-        }
+    
+    private function transformToAdapter($source, $template, array $param = []) : AdapterInterface {
+        $source = XsltFactory::createInput($source);
+        $template = XsltFactory::createInput($template);
         
-        $xslt = new XSLTProcessor();
-		$xslt->setParameter(null, $param);
+        $templateDoc = $template->toDocument();
+        $templateVersion = $templateDoc->documentElement->getAttribute('version');
         
-        $xslt->registerPHPFunctions();
-        $xslt->importStylesheet($templateDoc);
+        $adapter = XsltFactory::createAdapter(floatval($templateVersion));
         
-        return $outputURI === null ? $xslt->transformToDoc($dataDoc) : $xslt->transformToURI($dataDoc, $outputURI);
+        $adapter->setSource($source);
+        $adapter->setTemplate($template);
+        $adapter->setParameters($param);
+        
+        return $adapter;
     }
-
-    public function transformToFragment($dataDoc, $templateDoc, $targetDoc)
+    public function transformToDocument($source, $template, array $param = []) : DOMDocument
     {
-        $finalDoc = $this->transform($dataDoc, $templateDoc);
+        return $this->transformToAdapter($source, $template, $param)->writeDocument();
+    }
+    public function transformToFile($source, $template, array $param = [], HTTPFile $output = null) : HTTPFile
+    {
+        if (!$output) {
+            $output = HTTPFile::createFromTemp();
+        }
+        
+        $adapter = $this->transformToAdapter($source, $template, $param);
+        $adapter->writeFile($output);
+        return $output;
+    }
+    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc) : DOMDocumentFragment
+    {
+        $finalDoc = $this->transformToDocument($source, $template, $param);
         
         $retNode = $targetDoc->createDocumentFragment();
         foreach ($finalDoc->childNodes as $node) {
@@ -300,5 +307,13 @@ class DOMHelper
             }
         }
         return $retNode;
+    }
+    
+    private function newSaxonProcessor(int $xsltVersion) {
+        if (isset(CORE_DOMHELPER_XSLT_USAGE[$xsltVersion])) {
+            $class = CORE_DOMHELPER_XSLT_USAGE[$xsltVersion];
+            return new $class();
+        }
+        throw new OutOfRangeException("DOMHelper does not support XSLT version $xsltVersion! (add it to CORE_DOMHELPER_XSLT_USAGE)");
     }
 }

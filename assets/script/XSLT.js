@@ -18,11 +18,16 @@ var XSLT = {
 			try {
 				while (node = XPath.evaluate("//xsl:import", templateDoc)[0]) {
 					uri = node.getAttribute("href");
+					if (uri.startsWith("farah://")) {
+						uri = "/getAsset.php/" + uri.substring("farah://".length);
+					}
 					if (tmpDoc = DOM.loadDocument(uri)) {
 						nodeList = XPath.evaluate("/xsl:stylesheet/*", tmpDoc);
 						for (i = 0; i < nodeList.length; i++) {
 							node.parentNode.appendChild(templateDoc.importNode(nodeList[i], true));
 						}
+					} else {
+						console.log("XSLT Error: could not load xsl:import " + uri);
 					}
 					node.parentNode.removeChild(node);
 				}

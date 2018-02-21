@@ -11,7 +11,7 @@ use DOMXPath;
  */
 class MimeTypeDictionary
 {
-    const FILE_MIME = 'vendor/slothsoft/core/assets/mimeTypes.xml';
+    const FILE_MIME = 'vendor/slothsoft/core/assets/static/mimeTypes.xml';
     
     private static $initialized = false;
     private static $mimeExtensionList;
@@ -53,7 +53,7 @@ class MimeTypeDictionary
         
         return isset(self::$mimeExtensionList[$mime])
             ? self::$mimeExtensionList[$mime]
-            : 'bin';
+            : '';
     }
     
     public static function guessMime(string $extension) : string
@@ -65,6 +65,20 @@ class MimeTypeDictionary
         return isset(self::$extensionMimeList[$extension])
             ? self::$extensionMimeList[$extension]
             : 'application/octet-stream';
+    }
+    
+    public static function matchesMime(string $extension, string $testMime) : bool
+    {
+        if ($testMime === '*/*') {
+            return true;
+        }
+        
+        $extMime = self::guessMime($extension);
+        
+        $extMime = explode('/', $extMime, 2);
+        $testMime = explode('/', $testMime, 2);
+        
+        return ($testMime[0] === $extMime[0] and ($testMime[1] === '*' or $testMime[1] === $extMime[1]));
     }
 }
 

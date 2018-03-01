@@ -64,7 +64,7 @@ Llo
       <use-script ref="js/NS"/>
       <use-script ref="js/XPath"/>
       <use-script ref="js/XSLT"/>
-      <include-fragment ref="js/HTML5"/>
+      <import ref="js/HTML5"/>
     </fragment>
     <fragment name="HTML5">
       <use-stylesheet ref="css/HTML5"/>

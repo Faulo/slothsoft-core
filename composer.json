@@ -17,7 +17,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"Slothsoft\\Core\\" : "php/"
+			"Slothsoft\\Core\\": "src/Slothsoft/Core/"
 		}
 	}
 }

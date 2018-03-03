@@ -1,7 +1,6 @@
 <?php
 namespace Slothsoft\Core;
 
-use Slothsoft\Farah\Cache;
 use DomainException;
 use Exception;
 
@@ -225,7 +224,8 @@ class Image
         static $cache = null;
         $ret = null;
         if (! $cache) {
-            $cache = new Cache();
+            throw new Exception("Image::generateThumbnail has been disabled.");
+            // $cache = new Cache();
         }
         if (! $thumbWidth) {
             $thumbWidth = self::THUMBNAIL_WIDTH;

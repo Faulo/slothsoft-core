@@ -1,7 +1,7 @@
 <?php
 namespace Slothsoft\Core\FS;
 
-use Slothsoft\Farah\HTTPStream;
+use Slothsoft\Core\IO\HTTPStream;
 
 class DownloadManagerStream extends HTTPStream
 {

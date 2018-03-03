@@ -1,7 +1,7 @@
 <?php
 namespace Slothsoft\Core\Lambda;
 
-use Slothsoft\Farah\HTTPStream;
+use Slothsoft\Core\IO\HTTPStream;
 
 class Stream extends HTTPStream
 {

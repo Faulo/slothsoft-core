@@ -11,13 +11,18 @@ use DOMXPath;
  */
 class MimeTypeDictionary
 {
+
     const FILE_MIME = 'vendor/slothsoft/core/assets/static/mimeTypes.xml';
-    
+
     private static $initialized = false;
+
     private static $mimeExtensionList;
+
     private static $extensionMimeList;
-    private static function init() {
-        if (!self::$initialized) {
+
+    private static function init()
+    {
+        if (! self::$initialized) {
             self::$initialized = true;
             
             self::$mimeExtensionList = [];
@@ -36,38 +41,35 @@ class MimeTypeDictionary
             }
         }
     }
+
     protected static function getMimePath()
     {
         if (! self::$mimeList) {
-            
             
             self::$mimePath = new DOMXPath($mimeDoc);
         }
         return self::$mimeList;
     }
-    public static function guessExtension(string $mime) : string
+
+    public static function guessExtension(string $mime): string
     {
         self::init();
         
         $mime = strtolower($mime);
         
-        return isset(self::$mimeExtensionList[$mime])
-            ? self::$mimeExtensionList[$mime]
-            : '';
+        return isset(self::$mimeExtensionList[$mime]) ? self::$mimeExtensionList[$mime] : '';
     }
-    
-    public static function guessMime(string $extension) : string
+
+    public static function guessMime(string $extension): string
     {
         self::init();
         
         $extension = strtolower($extension);
         
-        return isset(self::$extensionMimeList[$extension])
-            ? self::$extensionMimeList[$extension]
-            : 'application/octet-stream';
+        return isset(self::$extensionMimeList[$extension]) ? self::$extensionMimeList[$extension] : 'application/octet-stream';
     }
-    
-    public static function matchesMime(string $extension, string $testMime) : bool
+
+    public static function matchesMime(string $extension, string $testMime): bool
     {
         if ($testMime === '*/*') {
             return true;

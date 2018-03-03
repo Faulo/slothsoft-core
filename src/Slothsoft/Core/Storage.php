@@ -12,11 +12,9 @@ namespace Slothsoft\Core;
 
 use Slothsoft\DBMS\DatabaseException;
 use Slothsoft\DBMS\Manager;
-use Exception;
 use DOMDocument;
-use DOMDocumentFragment;
 use DOMNode;
-use Slothsoft\DBMS\Table;
+use Exception;
 
 class Storage
 {
@@ -60,7 +58,7 @@ class Storage
             $req = self::_httpRequest($options, $uri, $data);
             if ($req->responseXML) {
                 $res = $storage->storeDocument($name, $req->responseXML, $nowTime);
-                if (!$res) {
+                if (! $res) {
                     return $req->responseXML;
                 }
             }
@@ -431,7 +429,7 @@ class Storage
             if (! $this->dbmsTable->tableExists()) {
                 $this->install();
             }
-        } catch(DatabaseException $e) {
+        } catch (DatabaseException $e) {
             $this->dbmsTable = null;
         }
         $this->now = time();
@@ -467,7 +465,7 @@ class Storage
                 'access-time'
             ];
             $options = [ // 'engine' => 'MyISAM', //http://www.sitepoint.com/mysql-mistakes-php-developers/
-    ];
+            ];
             $this->dbmsTable->createTable($sqlCols, $sqlKeys, $options);
         }
     }

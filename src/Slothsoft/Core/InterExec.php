@@ -9,98 +9,98 @@ class InterExec
 
     /**
      * The command to run.
-     * 
+     *
      * @var string
      */
     public $command_to_run = '';
 
     /**
      * Environment variables (null to use existing variables).
-     * 
+     *
      * @var array|null
      */
     public $environment_vars = null;
 
     /**
      * Time, in seconds, after which command is forcefully aborted.
-     * 
+     *
      * @var integer
      */
     public $timeout = 0;
 
     /**
      * All of the program's standard output till now.
-     * 
+     *
      * @var string
      */
     public $stdout = '';
 
     /**
      * All of the program's error output till now.
-     * 
+     *
      * @var string
      */
     public $stderr = '';
 
     /**
      * Program's exit code (obviously only set after program quits).
-     * 
+     *
      * @var integer
      */
     public $return = 0;
 
     /**
      * Timestamp in seconds of start of execution.
-     * 
+     *
      * @var float
      */
     public $time_start = 0.0;
 
     /**
      * The time taken for the program to run and close.
-     * 
+     *
      * @var float
      */
     public $time_taken = 0;
 
     /**
      * If enabled, fixes a problem with popen not allowing spaces inside program path (even when quoted).
-     * 
+     *
      * @var boolean
      */
     public $fix_windows_path = true;
 
     /**
      * Interval between ticks, in seconds (a value of zero disables interval)
-     * 
+     *
      * @var float
      */
     public $tick_interval = 0;
 
     /**
      * Array containing event callbacks.
-     * 
+     *
      * @var array
      */
     protected $events = array();
 
     /**
      * Process resource.
-     * 
+     *
      * @var resource
      */
     public $process_handle = null;
 
     /**
      * Size of buffer for reading from pipes.
-     * 
+     *
      * @var integer
      */
     public $data_buffer_size = 4096;
 
     /**
      * Process I/O pipes.
-     * 
+     *
      * @var array
      */
     public $pipes = null;
@@ -108,7 +108,7 @@ class InterExec
     /**
      * Pipe type, pipe or pty (Linux only, PHP must be compiled with --enable-pty)
      * Constants : PIPE_TYPE_DEFAULT, PIPE_TYPE_PTY
-     * 
+     *
      * @var string
      */
     public $pipeType = self::PIPE_TYPE_DEFAULT;
@@ -125,7 +125,7 @@ class InterExec
 
     /**
      * Creates new instance.
-     * 
+     *
      * @param string $command_to_run
      *            The command line to execute.
      * @param array $environment_vars
@@ -139,7 +139,7 @@ class InterExec
 
     /**
      * Call callback when an event is triggered.
-     * 
+     *
      * @param string $event
      *            Name of event.
      * @param callable $callback
@@ -152,7 +152,7 @@ class InterExec
 
     /**
      * Trigger an event.
-     * 
+     *
      * @param string $event
      *            Name of event.
      * @param array $args
@@ -172,7 +172,7 @@ class InterExec
 
     /**
      * Returns whether process is currently running or not.
-     * 
+     *
      * @return boolean
      */
     public function is_running()
@@ -186,7 +186,7 @@ class InterExec
 
     /**
      * Returns whether stream currently has pending content or not.
-     * 
+     *
      * @param resource $stream
      *            The stream resource.
      * @return boolean True if there is unread content, false otherwise.
@@ -202,7 +202,7 @@ class InterExec
      * This hack fixes a legacy issue in popen not handling escaped command filenames on Windows.
      * Basically, if we're on windows and the first command part is double quoted, we CD into the
      * directory and execute the command from there.
-     * 
+     *
      * @example : '"C:\a test\b.exe" -h' -> 'cd "C:\a test\" && b.exe -h'
      * @param string $commandPath
      *            The command to fix.
@@ -360,7 +360,7 @@ class InterExec
 
     /**
      * Runs the command!
-     * 
+     *
      * @return InterExec
      */
     public function run()

@@ -8,9 +8,9 @@
  ***********************************************************************/
 namespace Slothsoft\Core;
 
+use Slothsoft\Core\IO\HTTPFile;
 use Slothsoft\Core\XSLT\XsltFactory;
 use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
-use Slothsoft\Farah\HTTPFile;
 use DOMDocument;
 use DOMDocumentFragment;
 use DOMImplementation;
@@ -23,15 +23,17 @@ declare(ticks = 1);
 
 class DOMHelper
 {
-    const NS_FARAH_MODULE       = 'http://schema.slothsoft.net/farah/module';
-    const NS_FARAH_DICTIONARY   = 'http://schema.slothsoft.net/farah/dictionary';
-    const NS_FARAH_SITES        = 'http://schema.slothsoft.net/farah/sites';
-    
-    const NS_SAVEGAME_EDITOR    = 'http://schema.slothsoft.net/savegame/editor';
-    
-    const NS_AMBER_AMBERDATA   = 'http://schema.slothsoft.net/amber/amberdata';
-    
-    
+
+    const NS_FARAH_MODULE = 'http://schema.slothsoft.net/farah/module';
+
+    const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
+
+    const NS_FARAH_SITES = 'http://schema.slothsoft.net/farah/sites';
+
+    const NS_SAVEGAME_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
+
+    const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
+
     const NS_XML = 'http://www.w3.org/XML/1998/namespace';
 
     const NS_HTML = 'http://www.w3.org/1999/xhtml';
@@ -65,8 +67,6 @@ class DOMHelper
         
         'saa' => self::NS_AMBER_AMBERDATA,
         
-        
-        
         'xml' => self::NS_XML,
         'html' => self::NS_HTML,
         'xsl' => self::NS_XSL,
@@ -81,11 +81,15 @@ class DOMHelper
         'sitemap' => self::NS_SITEMAP
     ];
 
-    const XPATH_NS_ALL = 1; // loadXPath loads all known namespaces
-    const XPATH_HTML = 2; // loadXPath loads HTML namespace
-    const XPATH_PHP = 4; // loadXPath loads PHP functions
-    const XPATH_SLOTHSOFT = 8; // loadXPath loads Slothsoft namespaces
-    public static function loadDocument($filePath, $asHTML = false) : DOMDocument
+    const XPATH_NS_ALL = 1;
+ // loadXPath loads all known namespaces
+    const XPATH_HTML = 2;
+ // loadXPath loads HTML namespace
+    const XPATH_PHP = 4;
+ // loadXPath loads PHP functions
+    const XPATH_SLOTHSOFT = 8;
+ // loadXPath loads Slothsoft namespaces
+    public static function loadDocument($filePath, $asHTML = false): DOMDocument
     {
         $document = new DOMDocument();
         if ($asHTML) {
@@ -96,7 +100,7 @@ class DOMHelper
         return $document;
     }
 
-    public static function loadXPath(DOMDocument $document, int $options = self::XPATH_HTML) : DOMXPath
+    public static function loadXPath(DOMDocument $document, int $options = self::XPATH_HTML): DOMXPath
     {
         $xpath = new DOMXPath($document);
         $nsList = [];
@@ -199,7 +203,9 @@ class DOMHelper
         
         return $retFragment;
     }
-    public function createDocument (string $namespaceURI, string $qualifiedName) : DOMDocument {
+
+    public function createDocument(string $namespaceURI, string $qualifiedName): DOMDocument
+    {
         return self::_implementation()->createDocument($namespaceURI, $qualifiedName);
     }
 
@@ -219,8 +225,9 @@ class DOMHelper
         }
         return $doc;
     }
-    
-    private function transformToAdapter($source, $template, array $param = []) : AdapterInterface {
+
+    private function transformToAdapter($source, $template, array $param = []): AdapterInterface
+    {
         $source = XsltFactory::createInput($source);
         $template = XsltFactory::createInput($template);
         
@@ -235,13 +242,15 @@ class DOMHelper
         
         return $adapter;
     }
-    public function transformToDocument($source, $template, array $param = []) : DOMDocument
+
+    public function transformToDocument($source, $template, array $param = []): DOMDocument
     {
         return $this->transformToAdapter($source, $template, $param)->writeDocument();
     }
-    public function transformToFile($source, $template, array $param = [], HTTPFile $output = null) : HTTPFile
+
+    public function transformToFile($source, $template, array $param = [], HTTPFile $output = null): HTTPFile
     {
-        if (!$output) {
+        if (! $output) {
             $output = HTTPFile::createFromTemp();
         }
         
@@ -249,7 +258,8 @@ class DOMHelper
         $adapter->writeFile($output);
         return $output;
     }
-    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc) : DOMDocumentFragment
+
+    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc): DOMDocumentFragment
     {
         $finalDoc = $this->transformToDocument($source, $template, $param);
         
@@ -259,8 +269,7 @@ class DOMHelper
         }
         return $retNode;
     }
-    
-    
+
     public function normalizeDocument(DOMDocument $dataDoc)
     {
         try {
@@ -279,7 +288,7 @@ class DOMHelper
         }
         return $retDoc;
     }
-    
+
     protected function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList)
     {
         $retNode = null;
@@ -308,8 +317,9 @@ class DOMHelper
         }
         return $retNode;
     }
-    
-    private function newSaxonProcessor(int $xsltVersion) {
+
+    private function newSaxonProcessor(int $xsltVersion)
+    {
         if (isset(CORE_DOMHELPER_XSLT_USAGE[$xsltVersion])) {
             $class = CORE_DOMHELPER_XSLT_USAGE[$xsltVersion];
             return new $class();

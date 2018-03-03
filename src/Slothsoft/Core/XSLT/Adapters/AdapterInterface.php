@@ -1,8 +1,8 @@
 <?php
 namespace Slothsoft\Core\XSLT\Adapters;
 
+use Slothsoft\Core\IO\HTTPFile;
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
-use Slothsoft\Farah\HTTPFile;
 use DOMDocument;
 
 /**

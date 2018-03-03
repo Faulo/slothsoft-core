@@ -1,11 +1,11 @@
 <?php
 namespace Slothsoft\Core\XML;
 
+use Slothsoft\Core\IO\Writable\DOMWriterDocumentFromElementTrait;
+use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use DOMDocument;
 use DOMElement;
 use DOMNodeList;
-use Slothsoft\Farah\Module\AssetUses\DOMWriterInterface;
-use Slothsoft\Farah\Module\AssetUses\DOMWriterDocumentFromElementTrait;
 
 /**
  *
@@ -15,8 +15,9 @@ use Slothsoft\Farah\Module\AssetUses\DOMWriterDocumentFromElementTrait;
 class LeanElement implements DOMWriterInterface
 {
     use DOMWriterDocumentFromElementTrait;
-    
-    public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList) : array {
+
+    public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array
+    {
         $ret = [];
         foreach ($domNodeList as $domNode) {
             if ($domNode instanceof DOMElement) {
@@ -25,16 +26,19 @@ class LeanElement implements DOMWriterInterface
         }
         return $ret;
     }
-    public static function createTreeFromDOMDocument(DOMDocument $domDocument) : LeanElement {
+
+    public static function createTreeFromDOMDocument(DOMDocument $domDocument): LeanElement
+    {
         return self::createTreeFromDOMElement($domDocument->documentElement);
     }
-    public static function createTreeFromDOMElement(DOMElement $domElement) : LeanElement {
-        return self::createOneFromDOMElement(
-            $domElement,
-            self::createTreeListFromDOMNodeList($domElement->childNodes)
-        );
+
+    public static function createTreeFromDOMElement(DOMElement $domElement): LeanElement
+    {
+        return self::createOneFromDOMElement($domElement, self::createTreeListFromDOMNodeList($domElement->childNodes));
     }
-    public static function createOneFromDOMElement(DOMElement $element, array $children = []) : LeanElement {
+
+    public static function createOneFromDOMElement(DOMElement $element, array $children = []): LeanElement
+    {
         $tag = $element->localName;
         $attributes = [];
         foreach ($element->attributes as $attr) {
@@ -42,14 +46,18 @@ class LeanElement implements DOMWriterInterface
         }
         return self::createOneFromArray($tag, $attributes, $children);
     }
-    public static function createOneFromArray(string $tag, array $attributes, array $children = []) : LeanElement {
+
+    public static function createOneFromArray(string $tag, array $attributes, array $children = []): LeanElement
+    {
         return new LeanElement($tag, $attributes, $children);
     }
-    
+
     private $tag;
+
     private $attributes;
+
     private $children;
-    
+
     /**
      *
      * @param string $$tag
@@ -62,7 +70,7 @@ class LeanElement implements DOMWriterInterface
         $this->attributes = $attributes;
         $this->children = $children;
     }
-    
+
     /**
      *
      * @return string
@@ -71,7 +79,7 @@ class LeanElement implements DOMWriterInterface
     {
         return $this->tag;
     }
-    
+
     /**
      *
      * @param string $key
@@ -81,17 +89,17 @@ class LeanElement implements DOMWriterInterface
     {
         return isset($this->attributes[$key]);
     }
-    
+
     /**
      *
      * @param string $key
      * @return mixed
      */
-    public function getAttribute(string $key, $default = null) : string
+    public function getAttribute(string $key, $default = null): string
     {
         return $this->attributes[$key] ?? $default;
     }
-    
+
     /**
      *
      * @param string $key
@@ -101,7 +109,7 @@ class LeanElement implements DOMWriterInterface
     {
         $this->attributes[$key] = $val;
     }
-    
+
     /**
      *
      * @return array
@@ -110,7 +118,7 @@ class LeanElement implements DOMWriterInterface
     {
         return $this->attributes;
     }
-    
+
     /**
      *
      * @return array
@@ -119,17 +127,17 @@ class LeanElement implements DOMWriterInterface
     {
         return $this->children;
     }
-    
-    public function getChildByTag(string $tag) {
+
+    public function getChildByTag(string $tag)
+    {
         foreach ($this->children as $child) {
             if ($child->getTag() === $tag) {
                 return $child;
             }
         }
     }
-    
-    
-    public function toElement(DOMDocument $targetDoc) : DOMElement
+
+    public function toElement(DOMDocument $targetDoc): DOMElement
     {
         $element = $targetDoc->createElement($this->tag);
         foreach ($this->attributes as $key => $val) {
@@ -140,9 +148,9 @@ class LeanElement implements DOMWriterInterface
         }
         return $element;
     }
-    
-    
-    public function withAttributes(array $attributes) : LeanElement {
+
+    public function withAttributes(array $attributes): LeanElement
+    {
         $ret = clone $this;
         foreach ($attributes as $key => $val) {
             $ret->setAttribute($key, $val);

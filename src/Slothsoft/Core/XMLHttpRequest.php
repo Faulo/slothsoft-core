@@ -25,7 +25,7 @@ namespace Slothsoft\Core;
 use DOMDocument;
 use Exception;
 
-class XMLHttpRequest implements \w3c\XMLHttpRequest
+class XMLHttpRequest // implements \w3c\XMLHttpRequest
 {
 
     const NEWLINE = "
@@ -400,51 +400,51 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest
                 $this->responseText = substr($this->responseText, 3);
             }
             
-			//parse HTML/XML response body
-			try {
-				$isXML = false;
-				if (strpos($this->_responseType, 'html') !== false) {
-					$isXML = true;
-				}
-				if (strpos($this->_responseType, 'xml') !== false) {
-					$isXML = true;
-				}
-				if ($isXML) {
-					$xml = $this->responseText;
-					$xml = str_replace('&nbsp;', '&#160;', $xml);
-					$xml = str_replace('&', '&amp;', $xml);
-					$xml = preg_replace('/&amp;(#?[\w\d]+;)/i', '&${1}', $xml);
-					if (strlen($xml)) {
-						$this->responseXML = new DOMDocument('1.0', $toCharset);
-						$this->responseXML->loadXML($xml, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_PARSEHUGE);
-						// my_dump($this->responseXML->saveXML());
-						if (! $this->responseXML->documentElement) {
-							$html = mb_convert_encoding($this->responseText, $fromCharset, $toCharset);
-							// $html = preg_replace('/\<!--+.*?-+-\>/s', '', $html); //kommentare rausnehmen, wer braucht die schon
-							// nicht-konforme "--" aus kommentaren entfernen
-							if (preg_match_all('/\<!--+(.*?)-+-\>/s', $html, $matchList)) {
-								foreach ($matchList[0] as $i => $key) {
-									$html = str_replace($key, sprintf('<!--%s-->', str_replace('--', '', $matchList[1][$i])), $html);
-								}
-							}
-							$this->responseXML->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_PARSEHUGE | LIBXML_HTML_NODEFDTD);
-							// überflüssige <?xml>s rausnehmen... unschön...
-							$delNodes = [];
-							foreach ($this->responseXML->childNodes as $childNode) {
-								if ($childNode !== $this->responseXML->documentElement) {
-									$delNodes[] = $childNode;
-								}
-							}
-							foreach ($delNodes as $delNode) {
-								$delNode->parentNode->removeChild($delNode);
-							}
-						}
-						$this->responseXML->encoding = $toCharset;
-					}
-				}
-			} catch (Exception $e) {
-				$this->responseXML = null;
-			}
+            // parse HTML/XML response body
+            try {
+                $isXML = false;
+                if (strpos($this->_responseType, 'html') !== false) {
+                    $isXML = true;
+                }
+                if (strpos($this->_responseType, 'xml') !== false) {
+                    $isXML = true;
+                }
+                if ($isXML) {
+                    $xml = $this->responseText;
+                    $xml = str_replace('&nbsp;', '&#160;', $xml);
+                    $xml = str_replace('&', '&amp;', $xml);
+                    $xml = preg_replace('/&amp;(#?[\w\d]+;)/i', '&${1}', $xml);
+                    if (strlen($xml)) {
+                        $this->responseXML = new DOMDocument('1.0', $toCharset);
+                        $this->responseXML->loadXML($xml, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_PARSEHUGE);
+                        // my_dump($this->responseXML->saveXML());
+                        if (! $this->responseXML->documentElement) {
+                            $html = mb_convert_encoding($this->responseText, $fromCharset, $toCharset);
+                            // $html = preg_replace('/\<!--+.*?-+-\>/s', '', $html); //kommentare rausnehmen, wer braucht die schon
+                            // nicht-konforme "--" aus kommentaren entfernen
+                            if (preg_match_all('/\<!--+(.*?)-+-\>/s', $html, $matchList)) {
+                                foreach ($matchList[0] as $i => $key) {
+                                    $html = str_replace($key, sprintf('<!--%s-->', str_replace('--', '', $matchList[1][$i])), $html);
+                                }
+                            }
+                            $this->responseXML->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_PARSEHUGE | LIBXML_HTML_NODEFDTD);
+                            // überflüssige <?xml>s rausnehmen... unschön...
+                            $delNodes = [];
+                            foreach ($this->responseXML->childNodes as $childNode) {
+                                if ($childNode !== $this->responseXML->documentElement) {
+                                    $delNodes[] = $childNode;
+                                }
+                            }
+                            foreach ($delNodes as $delNode) {
+                                $delNode->parentNode->removeChild($delNode);
+                            }
+                        }
+                        $this->responseXML->encoding = $toCharset;
+                    }
+                }
+            } catch (Exception $e) {
+                $this->responseXML = null;
+            }
         }
     }
 

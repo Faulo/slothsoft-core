@@ -1,10 +1,10 @@
 <?php
 namespace Slothsoft\Core\FS;
 
-use Slothsoft\Farah\HTTPFile;
 use Slothsoft\Core\FileSystem;
 use Slothsoft\Core\Image;
 use Slothsoft\Core\Storage;
+use Slothsoft\Core\IO\HTTPFile;
 use Slothsoft\Core\Lambda\Stackable;
 use DOMDocument;
 use DOMXPath;
@@ -633,7 +633,7 @@ class DownloadWork extends Stackable
                 $path = $options['dest-root'] . $title . DIRECTORY_SEPARATOR;
                 
                 if (strlen($title) and strlen($uri)) {
-					$firstPage = true;
+                    $firstPage = true;
                     
                     $xpath = $options['downloader']->getXPath($uri);
                     foreach ($xpath->evaluate('//script') as $scriptNode) {
@@ -649,13 +649,13 @@ class DownloadWork extends Stackable
                                         // nothing to do \o/
                                     } else {
                                         if ($data = $options['downloader']->getFile($image)) {
-											if ($firstPage) {
-												if (! is_dir($path)) {
-													mkdir($path, 0777, true);
-												}
-												$this->log(sprintf('Downloading hentai "%s" (%s)', $title, $uri));
-												$firstPage = false;
-											}
+                                            if ($firstPage) {
+                                                if (! is_dir($path)) {
+                                                    mkdir($path, 0777, true);
+                                                }
+                                                $this->log(sprintf('Downloading hentai "%s" (%s)', $title, $uri));
+                                                $firstPage = false;
+                                            }
                                             file_put_contents($file, $data);
                                         }
                                     }
@@ -689,22 +689,22 @@ class DownloadWork extends Stackable
         while (count($sourceXPathList)) {
             $sourceXPath = array_shift($sourceXPathList);
             $this->log(sprintf('Checking website "%s"...', $sourceURI));
-			if ($xpath = $this->downloadXPath($sourceURI)) {
-				if ($uri = $this->downloadURI($sourceURI, $sourceXPath, $xpath)) {
-					if (count($sourceXPathList)) {
-						$sourceURI = $uri;
-					} else {
-						$options['source-uri'] = $uri;
-						$ret[] = $options;
-					}
-				} else {
-					$this->log(sprintf('Could not find URL at %s (%s) ???', $sourceURI, $sourceXPath), true);
-					break;
-				}
-			} else {
-				$this->log(sprintf('Could not find XML document at %s ???', $sourceURI), true);
-				break;
-			}
+            if ($xpath = $this->downloadXPath($sourceURI)) {
+                if ($uri = $this->downloadURI($sourceURI, $sourceXPath, $xpath)) {
+                    if (count($sourceXPathList)) {
+                        $sourceURI = $uri;
+                    } else {
+                        $options['source-uri'] = $uri;
+                        $ret[] = $options;
+                    }
+                } else {
+                    $this->log(sprintf('Could not find URL at %s (%s) ???', $sourceURI, $sourceXPath), true);
+                    break;
+                }
+            } else {
+                $this->log(sprintf('Could not find XML document at %s ???', $sourceURI), true);
+                break;
+            }
         }
         // $this->log(sprintf('Prepared to download %d files for %s!', count($ret), $options['name']));
         return $ret;
@@ -889,9 +889,9 @@ class DownloadWork extends Stackable
     protected function downloadNode($sourceURI, $query, DOMXPath $xpath = null)
     {
         $ret = null;
-		if (!$xpath) {
-			$xpath = $this->downloadXPath($sourceURI);
-		}
+        if (! $xpath) {
+            $xpath = $this->downloadXPath($sourceURI);
+        }
         if ($xpath) {
             $ret = $xpath->evaluate($query);
         }
@@ -901,9 +901,9 @@ class DownloadWork extends Stackable
     protected function downloadNodeList($sourceURI, $query, DOMXPath $xpath = null)
     {
         $ret = [];
-		if (!$xpath) {
-			$xpath = $this->downloadXPath($sourceURI);
-		}
+        if (! $xpath) {
+            $xpath = $this->downloadXPath($sourceURI);
+        }
         if ($xpath) {
             $nodeList = $xpath->evaluate($query);
             foreach ($nodeList as $node) {
@@ -916,9 +916,9 @@ class DownloadWork extends Stackable
     protected function downloadString($sourceURI, $query, DOMXPath $xpath = null)
     {
         $ret = null;
-		if (!$xpath) {
-			$xpath = $this->downloadXPath($sourceURI);
-		}
+        if (! $xpath) {
+            $xpath = $this->downloadXPath($sourceURI);
+        }
         if ($xpath) {
             $ret = $xpath->evaluate(sprintf('string(%s)', $query));
         } else {
@@ -930,9 +930,9 @@ class DownloadWork extends Stackable
     protected function downloadStringList($sourceURI, $query, DOMXPath $xpath = null)
     {
         $ret = [];
-		if (!$xpath) {
-			$xpath = $this->downloadXPath($sourceURI);
-		}
+        if (! $xpath) {
+            $xpath = $this->downloadXPath($sourceURI);
+        }
         if ($xpath) {
             $nodeList = $xpath->evaluate($query);
             if (is_object($nodeList)) {

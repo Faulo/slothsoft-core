@@ -1,7 +1,7 @@
 <?php
 namespace Slothsoft\Core;
 
-use Slothsoft\Farah\HTTPFile;
+use Slothsoft\Core\IO\HTTPFile;
 use DOMDocument;
 use Serializable;
 

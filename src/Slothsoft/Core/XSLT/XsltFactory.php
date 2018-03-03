@@ -1,6 +1,9 @@
 <?php
 namespace Slothsoft\Core\XSLT;
 
+use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\Writable\DOMWriterInterface;
+use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
 use Slothsoft\Core\XSLT\Adapters\CliAdapter;
 use Slothsoft\Core\XSLT\Adapters\SaxonProcessorAdapter;
@@ -8,11 +11,8 @@ use Slothsoft\Core\XSLT\Adapters\XsltProcessorAdapter;
 use Slothsoft\Core\XSLT\Inputs\DocumentInput;
 use Slothsoft\Core\XSLT\Inputs\FileInput;
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
-use Slothsoft\Farah\HTTPFile;
 use DOMDocument;
 use DomainException;
-use Slothsoft\Farah\Module\AssetUses\DOMWriterInterface;
-use Slothsoft\Farah\Module\AssetUses\FileWriterInterface;
 
 /**
  *

@@ -82,13 +82,17 @@ class DOMHelper
     ];
 
     const XPATH_NS_ALL = 1;
- // loadXPath loads all known namespaces
+
+    // loadXPath loads all known namespaces
     const XPATH_HTML = 2;
- // loadXPath loads HTML namespace
+
+    // loadXPath loads HTML namespace
     const XPATH_PHP = 4;
- // loadXPath loads PHP functions
+
+    // loadXPath loads PHP functions
     const XPATH_SLOTHSOFT = 8;
- // loadXPath loads Slothsoft namespaces
+
+    // loadXPath loads Slothsoft namespaces
     public static function loadDocument($filePath, $asHTML = false): DOMDocument
     {
         $document = new DOMDocument();

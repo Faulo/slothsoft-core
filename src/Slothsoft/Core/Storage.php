@@ -12,7 +12,9 @@ namespace Slothsoft\Core;
 
 use Slothsoft\DBMS\DatabaseException;
 use Slothsoft\DBMS\Manager;
+use Slothsoft\DBMS\Table;
 use DOMDocument;
+use DOMDocumentFragment;
 use DOMNode;
 use Exception;
 

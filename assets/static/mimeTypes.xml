@@ -21,9 +21,9 @@
 		<sub name="x-mca" ext="mca"/>
 		<sub name="x-subrip" ext="srt"/>
 		<sub name="x-xpinstall" ext="xpi"/>
-		<sub name="x-msdownload" ext="exe"/>
 		<sub name="x-php" ext="php"/>
 		<sub name="x-xsd+xml" ext="xsd"/>
+		<sub name="vnd.microsoft.portable-executable" ext="exe"/><!-- x-msdownload -->
 	</type>
 	<type name="text">
 		<sub name="html" ext="html"/>

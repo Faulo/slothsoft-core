@@ -1,8 +1,9 @@
 <?php
 namespace Slothsoft\Core\FS;
 
-use Exception;
+use Slothsoft\Core\Date;
 use DOMXPath;
+use Exception;
 
 class DownloadManager
 {
@@ -331,7 +332,7 @@ class DownloadManager
         if ($message instanceof DownloadWork) {
             $this->_log .= $message->getLog();
         } else {
-            $this->_log .= sprintf('[%s] %s: %s%s', date(DATE_DATETIME), __CLASS__, $message, PHP_EOL);
+            $this->_log .= sprintf('[%s] %s: %s%s', date(Date::FORMAT_DATETIME), __CLASS__, $message, PHP_EOL);
         }
     }
 }

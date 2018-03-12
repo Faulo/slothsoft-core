@@ -1,8 +1,9 @@
 <?php
 namespace Slothsoft\Core\Lambda;
 
-use Threaded;
+use Slothsoft\Core\Date;
 use Exception;
+use Threaded;
 
 abstract class Stackable extends Threaded
 {
@@ -46,7 +47,7 @@ abstract class Stackable extends Threaded
 
     protected function log($message)
     {
-        $this->_log .= sprintf('[%s] %s%s', date(DATE_DATETIME), $message, PHP_EOL);
+        $this->_log .= sprintf('[%s] %s%s', date(Date::FORMAT_DATETIME), $message, PHP_EOL);
     }
 
     abstract protected function work();

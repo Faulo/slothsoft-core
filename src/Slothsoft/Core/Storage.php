@@ -703,7 +703,7 @@ class Storage
     {
         if (CORE_STORAGE_LOG_ENABLED) {
             $ret = $ret ? 'OK' : 'FAIL';
-            $log = sprintf('[%s] %s: %s %s (%s)%s', date(DATE_DATETIME), $ret, $method, self::_hash($name), $name, PHP_EOL);
+            $log = sprintf('[%s] %s: %s %s (%s)%s', date(Date::FORMAT_DATETIME), $ret, $method, self::_hash($name), $name, PHP_EOL);
             if ($handle = fopen($this->logFile, 'ab')) {
                 fwrite($handle, $log);
                 fclose($handle);

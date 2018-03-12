@@ -118,7 +118,7 @@ class HTTPFile implements FileWriterInterface
             $fileName = 'index.txt';
         }
         $file = self::createFromTemp($fileName);
-        $file->setContents($content);
+        $file->setStream($resource);
         return $file;
     }
 
@@ -281,8 +281,13 @@ class HTTPFile implements FileWriterInterface
     {
         return file_get_contents($this->getPath());
     }
-
+    
     public function setContents(string $content)
+    {
+        return file_put_contents($this->getPath(), $content);
+    }
+    
+    public function setStream($content)
     {
         return file_put_contents($this->getPath(), $content);
     }

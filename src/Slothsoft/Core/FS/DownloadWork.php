@@ -1009,7 +1009,6 @@ class DownloadWork extends Stackable
             $message = '    ' . $message;
         }
         return parent::log($message);
-        // $this->_log .= sprintf('[%s] %s %s%s', date(DATE_DATETIME), $important, $message, PHP_EOL);
     }
 
     protected function _eval($code)

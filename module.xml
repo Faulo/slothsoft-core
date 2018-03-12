@@ -59,19 +59,19 @@ Llo
       <use-document ref="data/language-backend"/>
     </fragment>
     <fragment name="DOM">
-      <use-script ref="js/DOM"/>
-      <use-script ref="js/DOMHelper"/>
-      <use-script ref="js/NS"/>
-      <use-script ref="js/XPath"/>
-      <use-script ref="js/XSLT"/>
+      <link-script ref="js/DOM"/>
+      <link-script ref="js/DOMHelper"/>
+      <link-script ref="js/NS"/>
+      <link-script ref="js/XPath"/>
+      <link-script ref="js/XSLT"/>
       <import ref="js/HTML5"/>
     </fragment>
     <fragment name="HTML5">
-      <use-stylesheet ref="css/HTML5"/>
+      <link-stylesheet ref="css/HTML5"/>
     </fragment>
     <fragment name="XPath">
-      <use-script ref="js/NS"/>
-      <use-script ref="js/XPath"/>
+      <link-script ref="js/NS"/>
+      <link-script ref="js/XPath"/>
     </fragment>
   </assets>
 </module>

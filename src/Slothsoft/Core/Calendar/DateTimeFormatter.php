@@ -1,7 +1,7 @@
 <?php
-namespace Slothsoft\Core;
+namespace Slothsoft\Core\Calendar;
 
-class Date
+class DateTimeFormatter
 {
     const FORMAT_DATETIME = 'd.m.y H:i:s';
     const FORMAT_DATE = 'd.m.y';

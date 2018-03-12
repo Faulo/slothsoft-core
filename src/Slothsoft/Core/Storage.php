@@ -10,6 +10,8 @@
  ***********************************************************************/
 namespace Slothsoft\Core;
 
+use Slothsoft\Core\Calendar\DateTimeFormatter;
+use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\DBMS\DatabaseException;
 use Slothsoft\DBMS\Manager;
 use Slothsoft\DBMS\Table;
@@ -418,10 +420,12 @@ class Storage
 
     protected $touchList;
 
-    protected $cleanseTime = TIME_MONTH;
+    protected $cleanseTime;
 
     public function __construct($storageName = null)
     {
+        $this->cleanseTime = Seconds::MONTH;
+        
         if ($storageName) {
             $this->tableName = $storageName;
         }
@@ -703,7 +707,7 @@ class Storage
     {
         if (CORE_STORAGE_LOG_ENABLED) {
             $ret = $ret ? 'OK' : 'FAIL';
-            $log = sprintf('[%s] %s: %s %s (%s)%s', date(Date::FORMAT_DATETIME), $ret, $method, self::_hash($name), $name, PHP_EOL);
+            $log = sprintf('[%s] %s: %s %s (%s)%s', date(DateTimeFormatter::FORMAT_DATETIME), $ret, $method, self::_hash($name), $name, PHP_EOL);
             if ($handle = fopen($this->logFile, 'ab')) {
                 fwrite($handle, $log);
                 fclose($handle);

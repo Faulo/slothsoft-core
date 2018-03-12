@@ -1,7 +1,7 @@
 <?php
 namespace Slothsoft\Core\FS;
 
-use Slothsoft\Core\Date;
+use Slothsoft\Core\Calendar\DateTimeFormatter;
 use DOMXPath;
 use Exception;
 
@@ -332,7 +332,7 @@ class DownloadManager
         if ($message instanceof DownloadWork) {
             $this->_log .= $message->getLog();
         } else {
-            $this->_log .= sprintf('[%s] %s: %s%s', date(Date::FORMAT_DATETIME), __CLASS__, $message, PHP_EOL);
+            $this->_log .= sprintf('[%s] %s: %s%s', date(DateTimeFormatter::FORMAT_DATETIME), __CLASS__, $message, PHP_EOL);
         }
     }
 }

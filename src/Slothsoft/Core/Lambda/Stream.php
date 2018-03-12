@@ -1,11 +1,13 @@
 <?php
 namespace Slothsoft\Core\Lambda;
 
+use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\Core\IO\HTTPStream;
 
 class Stream extends HTTPStream
 {
-
+    const CHAR_ZEROWIDTHSPACE = '​';
+    
     protected $pool;
 
     protected $workList;
@@ -18,10 +20,10 @@ class Stream extends HTTPStream
     {
         $this->mime = 'text/plain';
         $this->encoding = 'UTF-8';
-        $this->sleepDuration = 10 * TIME_MILLISECOND;
-        $this->heartbeatContent = CHAR_ZEROWIDTHSPACE;
+        $this->sleepDuration = 10 * Seconds::MILLISECOND;
+        $this->heartbeatContent = self::CHAR_ZEROWIDTHSPACE;
         $this->heartbeatContent = PHP_EOL;
-        $this->heartbeatInterval = 60 * TIME_SECOND;
+        $this->heartbeatInterval = 60 * Seconds::SECOND;
         // $this->heartbeatEOL = PHP_EOL;
     }
 

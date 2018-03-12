@@ -11,6 +11,8 @@ declare(strict_types = 1);
  */
 namespace Slothsoft\Core\IO;
 
+use Slothsoft\Core\Calendar\Seconds;
+
 abstract class HTTPStream
 {
 
@@ -34,7 +36,7 @@ abstract class HTTPStream
 
     protected $encoding = null;
 
-    protected $sleepDuration = TIME_MILLISECOND;
+    protected $sleepDuration = Seconds::MILLISECOND;
 
     protected $heartbeatContent = null;
 
@@ -42,10 +44,10 @@ abstract class HTTPStream
     protected $heartbeatEOL = null;
 
     // character to send before new content, when heartbeatContent was sent
-    protected $heartbeatInterval = TIME_SECOND;
+    protected $heartbeatInterval = Seconds::SECOND;
 
     // time without actual content before heartbeatContent is sent
-    protected $heartbeatTimeout = TIME_HOUR;
+    protected $heartbeatTimeout = Seconds::HOUR;
 
     // time without actual content before child is terminated
     public function getMime()

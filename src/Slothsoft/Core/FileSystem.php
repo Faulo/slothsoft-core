@@ -8,11 +8,12 @@
  ***********************************************************************/
 namespace Slothsoft\Core;
 
-use COM;
+use Slothsoft\Core\Calendar\DateTimeFormatter;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Exception;
+use com;
 use finfo;
 
 abstract class FileSystem
@@ -207,11 +208,11 @@ abstract class FileSystem
                     if ($tagName) {
                         $retNode = $dataDoc->createElement($tagName);
                         $time = self::changetime($path);
-                        $attr['change-datetime'] = date(Date::FORMAT_DATETIME, $time);
-                        $attr['change-utc'] = date(Date::FORMAT_UTC, $time);
+                        $attr['change-datetime'] = date(DateTimeFormatter::FORMAT_DATETIME, $time);
+                        $attr['change-utc'] = date(DateTimeFormatter::FORMAT_UTC, $time);
                         $time = self::maketime($path);
-                        $attr['make-datetime'] = date(Date::FORMAT_DATETIME, $time);
-                        $attr['make-utc'] = date(Date::FORMAT_UTC, $time);
+                        $attr['make-datetime'] = date(DateTimeFormatter::FORMAT_DATETIME, $time);
+                        $attr['make-utc'] = date(DateTimeFormatter::FORMAT_UTC, $time);
                         $attr['path'] = $path;
                         $attr['id'] = 'id-' . md5($path);
                         $attr['name'] = $name;

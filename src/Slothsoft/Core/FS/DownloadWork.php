@@ -4,6 +4,7 @@ namespace Slothsoft\Core\FS;
 use Slothsoft\Core\FileSystem;
 use Slothsoft\Core\Image;
 use Slothsoft\Core\Storage;
+use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\Core\IO\HTTPFile;
 use Slothsoft\Core\Lambda\Stackable;
 use DOMDocument;
@@ -13,7 +14,7 @@ use Exception;
 class DownloadWork extends Stackable
 {
 
-    const HTTP_CACHETIME = TIME_MINUTE;
+    private static $HTTP_CACHETIME = Seconds::MINUTE;
 
     private $_options;
 
@@ -22,6 +23,7 @@ class DownloadWork extends Stackable
     // protected $_isDone;
     public function __construct(array $options)
     {
+        
         if (! isset($options['mode'])) {
             $options['mode'] = 'index';
         }
@@ -156,7 +158,7 @@ class DownloadWork extends Stackable
                 if (isset($comicList[$sourceURI])) {
                     break;
                 }
-                $xpath = Storage::loadExternalXPath($sourceURI, TIME_YEAR);
+                $xpath = Storage::loadExternalXPath($sourceURI, Seconds::YEAR);
                 if ($xpath) {
                     if ($xpath) {
                         $title = $xpath->evaluate($options['source-xpath-title']);
@@ -877,7 +879,7 @@ class DownloadWork extends Stackable
         }
         $ret = null;
         try {
-            if ($xpath = Storage::loadExternalXPath($sourceURI, self::HTTP_CACHETIME)) {
+            if ($xpath = Storage::loadExternalXPath($sourceURI, self::$HTTP_CACHETIME)) {
                 $ret = $xpath;
             }
         } catch (Exception $e) {

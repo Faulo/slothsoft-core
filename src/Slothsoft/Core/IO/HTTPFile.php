@@ -13,6 +13,7 @@ namespace Slothsoft\Core\IO;
 
 use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\Storage;
+use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use DOMDocument;
 
@@ -197,7 +198,7 @@ class HTTPFile implements FileWriterInterface
      * @param int $headerCache
      * @return NULL|HTTPFile
      */
-    public static function createFromDownload(string $filePath, string $url, int $headerCache = TIME_YEAR)
+    public static function createFromDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR)
     {
         $ret = self::verifyDownload($filePath, $url, $headerCache);
         if (! $ret) {
@@ -214,7 +215,7 @@ class HTTPFile implements FileWriterInterface
      * @param int $headerCache
      * @return boolean
      */
-    public static function verifyURL(string $url, int $headerCache = TIME_YEAR)
+    public static function verifyURL(string $url, int $headerCache = Seconds::YEAR)
     {
         $ret = false;
         if ($res = Storage::loadExternalHeader($url, $headerCache)) {
@@ -236,7 +237,7 @@ class HTTPFile implements FileWriterInterface
      * @param int $headerCache
      * @return boolean
      */
-    public static function verifyDownload(string $filePath, string $url, int $headerCache = TIME_YEAR)
+    public static function verifyDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR)
     {
         $ret = false;
         if (file_exists($filePath)) {

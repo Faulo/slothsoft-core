@@ -22,6 +22,7 @@
  ***********************************************************************/
 namespace Slothsoft\Core;
 
+use Slothsoft\Core\Calendar\Seconds;
 use DOMDocument;
 use Exception;
 
@@ -69,7 +70,7 @@ class XMLHttpRequest // implements \w3c\XMLHttpRequest
 
     public $connectTimeout = 300;
 
-    public $transferTimeout = TIME_HOUR;
+    public $transferTimeout = Seconds::HOUR;
 
     public $globalDNS = 0;
 

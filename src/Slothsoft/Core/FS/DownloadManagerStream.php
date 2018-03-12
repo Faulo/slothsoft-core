@@ -1,10 +1,12 @@
 <?php
 namespace Slothsoft\Core\FS;
 
+use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\Core\IO\HTTPStream;
 
 class DownloadManagerStream extends HTTPStream
 {
+    const CHAR_ZEROWIDTHSPACE = '​';
 
     protected $ownerManager;
 
@@ -19,8 +21,8 @@ class DownloadManagerStream extends HTTPStream
         $this->mime = 'text/plain';
         $this->encoding = 'UTF-8';
         
-        $this->heartbeatContent = CHAR_ZEROWIDTHSPACE;
-        $this->heartbeatInterval = 10 * TIME_SECOND;
+        $this->heartbeatContent = self::CHAR_ZEROWIDTHSPACE;
+        $this->heartbeatInterval = 10 * Seconds::SECOND;
         // $this->heartbeatEOL = PHP_EOL;
     }
 

@@ -1,7 +1,7 @@
 <?php
 namespace Slothsoft\Core\Lambda;
 
-use Slothsoft\Core\Date;
+use Slothsoft\Core\Calendar\DateTimeFormatter;
 use Exception;
 use Threaded;
 
@@ -47,7 +47,7 @@ abstract class Stackable extends Threaded
 
     protected function log($message)
     {
-        $this->_log .= sprintf('[%s] %s%s', date(Date::FORMAT_DATETIME), $message, PHP_EOL);
+        $this->_log .= sprintf('[%s] %s%s', date(DateTimeFormatter::FORMAT_DATETIME), $message, PHP_EOL);
     }
 
     abstract protected function work();

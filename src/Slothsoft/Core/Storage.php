@@ -17,9 +17,7 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 use Slothsoft\DBMS\DatabaseException;
 use Slothsoft\DBMS\Manager;
-use Slothsoft\DBMS\Table;
 use DOMDocument;
-use DOMDocumentFragment;
 use DOMNode;
 use Exception;
 

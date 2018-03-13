@@ -27,7 +27,7 @@ use Slothsoft\Core\Calendar\Seconds;
 use DOMDocument;
 use Exception;
 
-class XMLHttpRequest // implements \w3c\XMLHttpRequest
+class XMLHttpRequest implements \w3c\XMLHttpRequest
 {
 
     const NEWLINE = "
@@ -116,7 +116,7 @@ class XMLHttpRequest // implements \w3c\XMLHttpRequest
     public static $useCookies = false;
 
     protected $_env = [
-        'SERVER_NAME' => ServerEnvironment::getHostName(),
+        'SERVER_NAME' => 'localhost',
         'SERVER_SOFTWARE' => 'PHP'
     ];
 

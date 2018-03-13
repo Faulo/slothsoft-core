@@ -1,29 +1,30 @@
 {
-    "name": "slothsoft\/core",
-    "description": "Core stuff.",
-    "license": "WTFPL",
-    "authors": [
-        {
-            "name": "Daniel Schulz",
-            "email": "info.slothsoft@gmail.com"
-        }
-    ],
-    "type": "library",
-    "require": {
-        "ext-curl": "*",
-        "php": ">=7.0",
-        "slothsoft\/dbms": "*"
-    },
-    "require-dev": {
-        "phpunit\/phpunit": ">=6.0",
-        "slothsoft\/dbms": "dev-master"
-    },
-    "autoload": {
-        "files": [
-            "src\/autoload.php"
-        ],
-        "psr-0": {
-            "Slothsoft\\Core\\": "src\/"
-        }
-    }
+	"name" : "slothsoft/core",
+	"description" : "Core stuff.",
+	"license" : "WTFPL",
+	"authors" : [{
+			"name" : "Daniel Schulz",
+			"email" : "info.slothsoft@gmail.com"
+		}
+	],
+	"type" : "library",
+	"require" : {
+		"ext-curl" : "*",
+		"php" : ">=7.0",
+		"slothsoft/dbms" : "*",
+		"slothsoft/w3c" : "*"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : ">=6.0",
+		"slothsoft/dbms" : "dev-master",
+		"slothsoft/w3c" : "dev-master"
+	},
+	"autoload" : {
+		"files" : [
+			"src/autoload.php"
+		],
+		"psr-0" : {
+			"Slothsoft\\Core\\" : "src/"
+		}
+	}
 }

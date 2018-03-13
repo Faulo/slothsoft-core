@@ -3,117 +3,8 @@
 
 use Slothsoft\Core\IO\Memory;
 
-if (!defined('SERVER_NAME')) {
-    define('SERVER_NAME', 'localhost');
-}
-if (!defined('SERVER_ROOT')) {
-    define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
-}
-
-if (!defined('CORE_AUTOLOAD_LOG_ENABLED')) {
-    define('CORE_AUTOLOAD_LOG_ENABLED', false);
-}
-
-if (!defined('CORE_STORAGE_LOG_ENABLED')) {
-    define('CORE_STORAGE_LOG_ENABLED', false);
-}
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('autoload-%s.php', PHP_SAPI);
-
-function output($xmlDoc, $xslDoc = null, $debug = false) {
-	if (!($xmlDoc instanceof DOMDocument )) {
-		$xmlFile = $xmlDoc;
-		$xmlDoc = new DOMDocument('1.0', 'UTF-8');
-		$xmlDoc->load($xmlFile);
-	}
-	if ($xslDoc !== null) {
-		if (!($xslDoc instanceof DOMDocument )) {
-			$xslFile = $xslDoc;
-			$xslDoc = new DOMDocument('1.0', 'UTF-8');
-			$xslDoc->load($xslFile);
-		}
-	}
-	
-	$debug = ($debug or isset($_REQUEST['debug']));
-	
-	//$charset = 'iso-8859-1';
-	$charset = 'UTF-8';
-	$mime = 'application/xml';
-	/*
-	if (isset($_SERVER['HTTP_ACCEPT']) and !(stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml'))) {
-		$mime = 'text/html';
-		$method = 'html';
-		$version = '5.0';
-	} else {
-		$mime = 'application/xhtml+xml';
-		$method = 'xml';
-		$version = '1.0';
-	}
-	if ($xslDoc !== null) {
-		$outputElements = $xslDoc->getElementsByTagNameNS('http://www.w3.org/1999/XSL/Transform', 'output');
-		foreach ($outputElements as $outputElement) {
-			$outputElement->setAttribute('media-type', $mime);
-			$outputElement->setAttribute('method', $method);
-			$outputElement->setAttribute('encoding', $charset);
-			$outputElement->setAttribute('version', $version);
-			$outputElement->setAttribute('indent', $debug ? 'yes' : 'no');
-		}
-	}
-	//*/
-	if ($xslDoc === null) {
-		$finalDoc = $xmlDoc; 
-	} else {
-		$xslt = new XSLTProcessor();
-		$xslt->importStylesheet( $xslDoc );
-		$xslt->registerPHPFunctions();
-		$finalDoc = $xslt->transformToDoc( $xmlDoc );
-		if ($debug) {
-			$node = $finalDoc->createElement('DATA');
-			$node->setAttribute('style', 'display: none');
-			$node->appendChild($finalDoc->importNode($xmlDoc->documentElement, true));
-			$finalDoc->documentElement->appendChild($node);
-			$node = $finalDoc->createElement('TEMPLATE');
-			$node->setAttribute('style', 'display: none');
-			$node->appendChild($finalDoc->importNode($xslDoc->documentElement, true));
-			$finalDoc->documentElement->appendChild($node);
-		}
-	}
-	/*
-	HttpResponse::setCache(true);
-	HttpResponse::setGzip(true);
-	HttpResponse::setContentType(sprintf('%s; charset=%s', $mime, $charset));
-	HttpResponse::setData($finalDoc->saveXML());
-	HttpResponse::send();
-	return;
-	//*/
-	switch ($finalDoc->documentElement->namespaceURI) {
-		case 'http://www.w3.org/1999/xhtml':
-			$mime = 'application/xhtml+xml';
-			break;
-		case 'http://www.w3.org/2000/svg':
-			$mime = 'image/svg+xml';
-			break;
-		default:
-			break;
-	}
-	$finalDoc->formatOutput = true;
-	$data = $finalDoc->saveXML();
-	$etag = md5($data);
-	$send = true;
-	if (isset($_SERVER['HTTP_IF_NONE_MATCH']) and $etag === $_SERVER['HTTP_IF_NONE_MATCH']) {
-		header('HTTP/1.1 304 Not Modified');
-		die();
-	}
-	if (!headers_sent()) {
-		header(sprintf('Content-Type: %s; charset=%s', $mime, $charset));
-		header(sprintf('ETag: %s', $etag));
-	}
-	if ($send) {
-		echo $data;
-	}
-	//
-	die();
-}
 
 function my_dump($var) {
 	if (!headers_sent()) {
@@ -139,6 +30,7 @@ function my_dump($var) {
 	var_dump($var);
 	echo '________________________________________________________________________________' . PHP_EOL;
 }
+
 function temp_file($folder, $prefix = null) {
 	$path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $folder;
 	if (!is_dir($path)) {
@@ -154,6 +46,7 @@ function temp_file($folder, $prefix = null) {
 	}
 	throw new \Exception(sprintf('Could not create temporary file at "%s" D:', $path));
 }
+
 function temp_dir($folder, $prefix = null) {
 	$path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $folder;
 	if (!is_dir($path)) {

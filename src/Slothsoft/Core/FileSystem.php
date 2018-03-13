@@ -319,8 +319,8 @@ abstract class FileSystem
     public static function filenameEncode($filename, $removeRoot = false)
     {
         if ($removeRoot) {
-            if (strpos($filename, SERVER_ROOT) === 0) {
-                $filename = substr($filename, strlen(SERVER_ROOT));
+            if (strpos($filename, ServerEnvironment::getRootDirectory()) === 0) {
+                $filename = substr($filename, strlen(ServerEnvironment::getRootDirectory()));
             }
         }
         return str_replace([

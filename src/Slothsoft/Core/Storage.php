@@ -12,6 +12,8 @@ namespace Slothsoft\Core;
 
 use Slothsoft\Core\Calendar\DateTimeFormatter;
 use Slothsoft\Core\Calendar\Seconds;
+use Slothsoft\Core\Configuration\ConfigurationField;
+use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 use Slothsoft\DBMS\DatabaseException;
 use Slothsoft\DBMS\Manager;
 use Slothsoft\DBMS\Table;
@@ -22,10 +24,47 @@ use Exception;
 
 class Storage
 {
-
-    public static $touchOnExit = false;
-
-    const LOG_PATH = SERVER_ROOT . DIR_LOG . 'storage/';
+    private static function logEnabled() : ConfigurationField {
+        static $field;
+        if ($field === null) {
+            $field = new ConfigurationField(false);
+        }
+        return $field;
+    }
+    public static function setLogEnabled(bool $value) {
+        self::logEnabled()->setValue($value);
+    }
+    public static function getLogEnabled() : bool {
+        return self::logEnabled()->getValue();
+    }
+    
+    private static function logDirectory() : ConfigurationField {
+        static $field;
+        if ($field === null) {
+            $field = new DirectoryConfigurationField(ServerEnvironment::getLogDirectory() . 'core-storage');
+        }
+        return $field;
+    }
+    public static function setLogDirectory(string $directory) {
+        self::logDirectory()->setValue($directory);
+    }
+    public static function getLogDirectory() : string {
+        return self::logDirectory()->getValue();
+    }
+    
+    private static function touchOnExit() : ConfigurationField {
+        static $field;
+        if ($field === null) {
+            $field = new ConfigurationField(false);
+        }
+        return $field;
+    }
+    public static function setTouchOnExit(bool $value) {
+        self::logEnabled()->setValue($value);
+    }
+    public static function getTouchOnExit() : bool {
+        return self::logEnabled()->getValue();
+    }
 
     protected static $storageList = [];
 
@@ -429,7 +468,7 @@ class Storage
         if ($storageName) {
             $this->tableName = $storageName;
         }
-        $this->logFile = sprintf('%s%s.log', self::LOG_PATH, FileSystem::filenameSanitize($this->tableName));
+        $this->logFile = sprintf('%s%s.log', self::getLogDirectory(), FileSystem::filenameSanitize($this->tableName));
         try {
             $this->dbmsTable = $this->getDBMSTable();
             if (! $this->dbmsTable->tableExists()) {
@@ -442,10 +481,6 @@ class Storage
         $this->touchList = [];
     }
 
-    /**
-     *
-     * @return null|Table
-     */
     protected function getDBMSTable()
     {
         return Manager::getTable($this->dbName, $this->tableName);
@@ -512,14 +547,6 @@ class Storage
         
         return $ret;
     }
-
-    /**
-     *
-     * @param string $name
-     * @param int $modifyTime
-     * @param DOMDocument $targetDoc
-     * @return NULL|DOMDocumentFragment
-     */
     public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null)
     {
         $ret = null;
@@ -698,14 +725,14 @@ class Storage
 
     public function __destruct()
     {
-        if (self::$touchOnExit) {
+        if (self::getTouchOnExit()) {
             $this->sendTouch();
         }
     }
 
     protected function _createLog($method, $name, $ret)
     {
-        if (CORE_STORAGE_LOG_ENABLED) {
+        if (self::getLogEnabled()) {
             $ret = $ret ? 'OK' : 'FAIL';
             $log = sprintf('[%s] %s: %s %s (%s)%s', date(DateTimeFormatter::FORMAT_DATETIME), $ret, $method, self::_hash($name), $name, PHP_EOL);
             if ($handle = fopen($this->logFile, 'ab')) {

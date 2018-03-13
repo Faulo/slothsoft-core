@@ -1,9 +1,11 @@
 <?php
 
+use Slothsoft\Core\ServerEnvironment;
+
 foreach ([
 	'SERVER_PROTOCOL' => 'HTTP/1.0',
-	'SERVER_NAME' => SERVER_NAME,
-    'HTTP_HOST' => SERVER_NAME,
+    'SERVER_NAME' => ServerEnvironment::getHostName(),
+    'HTTP_HOST' => ServerEnvironment::getHostName(),
 	'DOCUMENT_ROOT' => __DIR__,
 	'REQUEST_URI' => '/',
 	'REQUEST_METHOD' => 'GET',

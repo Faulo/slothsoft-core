@@ -12,7 +12,7 @@ use DOMXPath;
 class MimeTypeDictionary
 {
 
-    const FILE_MIME = 'vendor/slothsoft/core/assets/static/mimeTypes.xml';
+    const FILE_MIME = __DIR__ . '/../../../assets/static/mimeTypes.xml';
 
     private static $initialized = false;
 
@@ -29,7 +29,7 @@ class MimeTypeDictionary
             self::$extensionMimeList = [];
             
             $mimeDoc = new DOMDocument();
-            $mimeDoc->load(SERVER_ROOT . self::FILE_MIME);
+            $mimeDoc->load(self::FILE_MIME);
             foreach ($mimeDoc->getElementsByTagName('sub') as $subNode) {
                 $typeNode = $subNode->parentNode;
                 

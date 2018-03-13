@@ -3,6 +3,21 @@
 
 use Slothsoft\Core\IO\Memory;
 
+if (!defined('SERVER_NAME')) {
+    define('SERVER_NAME', 'localhost');
+}
+if (!defined('SERVER_ROOT')) {
+    define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT']);
+}
+
+if (!defined('CORE_AUTOLOAD_LOG_ENABLED')) {
+    define('CORE_AUTOLOAD_LOG_ENABLED', false);
+}
+
+if (!defined('CORE_STORAGE_LOG_ENABLED')) {
+    define('CORE_STORAGE_LOG_ENABLED', false);
+}
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('autoload-%s.php', PHP_SAPI);
 
 function output($xmlDoc, $xslDoc = null, $debug = false) {

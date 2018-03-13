@@ -7,7 +7,7 @@ if (!defined('SERVER_NAME')) {
     define('SERVER_NAME', 'localhost');
 }
 if (!defined('SERVER_ROOT')) {
-    define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT']);
+    define('SERVER_ROOT', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR);
 }
 
 if (!defined('CORE_AUTOLOAD_LOG_ENABLED')) {

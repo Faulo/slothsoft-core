@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use Slothsoft\Core\Configuration\ConfigurationField;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Adapters;
 
 use Slothsoft\Core\IO\HTTPFile;
@@ -33,7 +34,9 @@ class XsltProcessorAdapter extends GenericAdapter
     public function writeDocument(): DOMDocument
     {
         $xslt = new XSLTProcessor();
-        $xslt->setParameter(null, $this->param);
+        foreach ($this->param as $key => $val) {
+            $xslt->setParameter(null, $key, $val);
+        }
         
         $xslt->registerPHPFunctions();
         $xslt->importStylesheet($this->template->toDocument());

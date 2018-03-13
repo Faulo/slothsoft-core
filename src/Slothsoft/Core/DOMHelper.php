@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 /***********************************************************************
  * DOMHelper v1.00 11.07.2014 © Daniel Schulz
  * 
@@ -19,7 +20,7 @@ use DOMXPath;
 use Exception;
 use OutOfRangeException;
 use RuntimeException;
-declare(ticks = 1);
+
 
 class DOMHelper
 {

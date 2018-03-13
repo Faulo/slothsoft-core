@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Slothsoft\Core\Game;
 
 use Slothsoft\Core\Storage;

@@ -7,8 +7,9 @@ use Slothsoft\Core\IO\HTTPStream;
 
 class Stream extends HTTPStream
 {
+
     const CHAR_ZEROWIDTHSPACE = '​';
-    
+
     protected $pool;
 
     protected $workList;

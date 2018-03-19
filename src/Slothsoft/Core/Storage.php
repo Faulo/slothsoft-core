@@ -1,14 +1,16 @@
 <?php
 declare(strict_types = 1);
-/***********************************************************************
+/**
+ * *********************************************************************
  * \Storage v1.01 01.09.2015 © Daniel Schulz
- * 
- * 	Changelog:
- *		v1.01 01.09.2015
- *			$req->followRedirects = (int) (bool) $options['followRedirects'];
- *		v1.00 25.07.2014
- *			initial release
- ***********************************************************************/
+ *
+ * Changelog:
+ * v1.01 01.09.2015
+ * $req->followRedirects = (int) (bool) $options['followRedirects'];
+ * v1.00 25.07.2014
+ * initial release
+ * *********************************************************************
+ */
 namespace Slothsoft\Core;
 
 use Slothsoft\Core\Calendar\DateTimeFormatter;
@@ -23,45 +25,61 @@ use Exception;
 
 class Storage
 {
-    private static function logEnabled() : ConfigurationField {
+
+    private static function logEnabled(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField(false);
         }
         return $field;
     }
-    public static function setLogEnabled(bool $value) {
+
+    public static function setLogEnabled(bool $value)
+    {
         self::logEnabled()->setValue($value);
     }
-    public static function getLogEnabled() : bool {
+
+    public static function getLogEnabled(): bool
+    {
         return self::logEnabled()->getValue();
     }
-    
-    private static function logDirectory() : ConfigurationField {
+
+    private static function logDirectory(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new DirectoryConfigurationField(ServerEnvironment::getLogDirectory() . 'core-storage');
         }
         return $field;
     }
-    public static function setLogDirectory(string $directory) {
+
+    public static function setLogDirectory(string $directory)
+    {
         self::logDirectory()->setValue($directory);
     }
-    public static function getLogDirectory() : string {
+
+    public static function getLogDirectory(): string
+    {
         return self::logDirectory()->getValue();
     }
-    
-    private static function touchOnExit() : ConfigurationField {
+
+    private static function touchOnExit(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField(false);
         }
         return $field;
     }
-    public static function setTouchOnExit(bool $value) {
+
+    public static function setTouchOnExit(bool $value)
+    {
         self::logEnabled()->setValue($value);
     }
-    public static function getTouchOnExit() : bool {
+
+    public static function getTouchOnExit(): bool
+    {
         return self::logEnabled()->getValue();
     }
 
@@ -546,6 +564,7 @@ class Storage
         
         return $ret;
     }
+
     public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null)
     {
         $ret = null;

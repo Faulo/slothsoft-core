@@ -1,12 +1,14 @@
 <?php
 declare(strict_types = 1);
-/***********************************************************************
+/**
+ * *********************************************************************
  * DOMHelper v1.00 11.07.2014 © Daniel Schulz
- * 
- * 	Changelog:
- *		v1.00 11.07.2014
- *			initial release
- ***********************************************************************/
+ *
+ * Changelog:
+ * v1.00 11.07.2014
+ * initial release
+ * *********************************************************************
+ */
 namespace Slothsoft\Core;
 
 use Slothsoft\Core\IO\HTTPFile;
@@ -20,7 +22,6 @@ use DOMXPath;
 use Exception;
 use OutOfRangeException;
 use RuntimeException;
-
 
 class DOMHelper
 {

@@ -7,62 +7,99 @@ use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 
 class ServerEnvironment
 {
-    private static function rootDirectory() : ConfigurationField  {
+
+    private static function rootDirectory(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new DirectoryConfigurationField();
         }
         return $field;
     }
-    public static function setRootDirectory(string $directory) {
+
+    public static function setRootDirectory(string $directory)
+    {
         self::rootDirectory()->setValue($directory);
     }
-    public static function getRootDirectory() : string {
+
+    public static function getRootDirectory(): string
+    {
         return self::rootDirectory()->getValue();
     }
-    
-    
-    private static function logDirectory() : ConfigurationField {
+
+    private static function logDirectory(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new DirectoryConfigurationField(self::getRootDirectory() . 'log');
         }
         return $field;
     }
-    public static function setLogDirectory(string $directory) {
+
+    public static function setLogDirectory(string $directory)
+    {
         self::logDirectory()->setValue($directory);
     }
-    public static function getLogDirectory() : string {
+
+    public static function getLogDirectory(): string
+    {
         return self::logDirectory()->getValue();
     }
-    
-    
-    private static function cacheDirectory() : ConfigurationField {
+
+    private static function cacheDirectory(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new DirectoryConfigurationField(self::getRootDirectory() . 'cache');
         }
         return $field;
     }
-    public static function setCacheDirectory(string $directory) {
+
+    public static function setCacheDirectory(string $directory)
+    {
         self::cacheDirectory()->setValue($directory);
     }
-    public static function getCacheDirectory() : string {
+
+    public static function getCacheDirectory(): string
+    {
         return self::cacheDirectory()->getValue();
     }
-    
-    
-    private static function hostName() : ConfigurationField {
+
+    private static function dataDirectory(): ConfigurationField
+    {
+        static $field;
+        if ($field === null) {
+            $field = new DirectoryConfigurationField(self::getRootDirectory() . 'data');
+        }
+        return $field;
+    }
+
+    public static function setDataDirectory(string $directory)
+    {
+        self::dataDirectory()->setValue($directory);
+    }
+
+    public static function getDataDirectory(): string
+    {
+        return self::dataDirectory()->getValue();
+    }
+
+    private static function hostName(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField('localhost');
         }
         return $field;
     }
-    public static function setHostName(string $value) {
+
+    public static function setHostName(string $value)
+    {
         self::hostName()->setValue($value);
     }
-    public static function getHostName() : string {
+
+    public static function getHostName(): string
+    {
         return self::hostName()->getValue();
     }
 }

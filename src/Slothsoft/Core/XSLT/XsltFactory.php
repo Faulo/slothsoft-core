@@ -22,64 +22,83 @@ use DomainException;
  */
 class XsltFactory
 {
-    const PROCESSOR_PHP         = 'php';
-    const PROCESSOR_LIBXML      = 'libxml';
-    const PROCESSOR_EXSELT      = 'exselt';
-    const PROCESSOR_SAXON8      = 'saxon8';
-    const PROCESSOR_SAXON9      = 'saxon9';
-    const PROCESSOR_SAXONC      = 'saxonc';
-    
-    //processor-specific stuff
+
+    const PROCESSOR_PHP = 'php';
+
+    const PROCESSOR_LIBXML = 'libxml';
+
+    const PROCESSOR_EXSELT = 'exselt';
+
+    const PROCESSOR_SAXON8 = 'saxon8';
+
+    const PROCESSOR_SAXON9 = 'saxon9';
+
+    const PROCESSOR_SAXONC = 'saxonc';
+
+    // processor-specific stuff
     const PROCESSOR_LIBXML_ARGS = '%2$s %1$s >%3$s';
+
     const PROCESSOR_EXSELT_ARGS = '-xml:%1$s -xsl:%2$s -o:%3$s';
+
     const PROCESSOR_SAXON8_ARGS = '-s %1$s -o %3$s %2$s';
+
     const PROCESSOR_SAXON9_ARGS = '%1$s -xsl:%2$s -o:%3$s';
-    
-    
+
     private static $versionMapping = [
-        '1.0' => self::PROCESSOR_PHP,
+        '1.0' => self::PROCESSOR_PHP
     ];
-    
+
     private static $processorConfiguration = [
         self::PROCESSOR_PHP => [],
         self::PROCESSOR_LIBXML => [
-            'path' => '',
+            'path' => ''
         ],
         self::PROCESSOR_EXSELT => [
-            'path' => '',
+            'path' => ''
         ],
         self::PROCESSOR_SAXON8 => [
-            'path' => '',
+            'path' => ''
         ],
         self::PROCESSOR_SAXON9 => [
-            'path' => '',
+            'path' => ''
         ],
-        self::PROCESSOR_SAXONC => [],
+        self::PROCESSOR_SAXONC => []
     ];
-    
-    public static function setProcessorForVersion(string $xsltVersion, string $processorId) {
+
+    public static function setProcessorForVersion(string $xsltVersion, string $processorId)
+    {
         self::assertIsValidProcessor($processorId);
         self::$versionMapping[$xsltVersion] = $processorId;
     }
-    public static function getProcessorForVersion(string $xsltVersion) : string {
+
+    public static function getProcessorForVersion(string $xsltVersion): string
+    {
         self::assertIsValidVersion($xsltVersion);
         return self::$versionMapping[$xsltVersion];
     }
-    public static function setConfigurationForProcessor(string $processorId, array $config) {
+
+    public static function setConfigurationForProcessor(string $processorId, array $config)
+    {
         self::assertIsValidProcessor($processorId);
         self::$processorConfiguration[$processorId] = $config;
     }
-    public static function getConfigurationForProcessor(string $processorId) : array {
+
+    public static function getConfigurationForProcessor(string $processorId): array
+    {
         self::assertIsValidProcessor($processorId);
         return self::$processorConfiguration[$processorId];
     }
-    private static function assertIsValidVersion(string $xsltVersion) {
-        if (!isset(self::$versionMapping[$xsltVersion])) {
+
+    private static function assertIsValidVersion(string $xsltVersion)
+    {
+        if (! isset(self::$versionMapping[$xsltVersion])) {
             throw new DomainException("XSLT version '$xsltVersion' is not supported by this implementation by default, you may enable it via XsltFactry:setProcessorForVersion.");
         }
     }
-    private static function assertIsValidProcessor(string $processorId) {
-        if (!isset(self::$processorConfiguration[$processorId])) {
+
+    private static function assertIsValidProcessor(string $processorId)
+    {
+        if (! isset(self::$processorConfiguration[$processorId])) {
             throw new DomainException("XSLT processor '$processorId' is not supported by this implementation.");
         }
     }

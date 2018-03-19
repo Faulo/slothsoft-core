@@ -1,26 +1,28 @@
 <?php
 declare(strict_types = 1);
-/***********************************************************************
+/**
+ * *********************************************************************
  * \XMLHttpRequest v1.01 25.07.2014 © Daniel Schulz
- * 
- * 	Changelog:
- *		v1.01 25.07.2014
- *			requires PHP 5.5
- *			public $followRedirects = true;
- *			public $maxRedirects = 10;
- *			public $connectTimeout = 30;
- *			public $transferTimeout = 60;
- *			public $globalDNS = false;
- *			public $keepAliveActive = true;
- *			public $keepAliveTimeout = 60;
- *			public $keepAliveInterval = 30;
- *		v1.00 19.10.2012
- *			initial release
- $req = new \XMLHttpRequest();
- $req->open($method, $uri);
- $req->send($data);
- $req->responseText;
- ***********************************************************************/
+ *
+ * Changelog:
+ * v1.01 25.07.2014
+ * requires PHP 5.5
+ * public $followRedirects = true;
+ * public $maxRedirects = 10;
+ * public $connectTimeout = 30;
+ * public $transferTimeout = 60;
+ * public $globalDNS = false;
+ * public $keepAliveActive = true;
+ * public $keepAliveTimeout = 60;
+ * public $keepAliveInterval = 30;
+ * v1.00 19.10.2012
+ * initial release
+ * $req = new \XMLHttpRequest();
+ * $req->open($method, $uri);
+ * $req->send($data);
+ * $req->responseText;
+ * *********************************************************************
+ */
 namespace Slothsoft\Core;
 
 use Slothsoft\Core\Calendar\Seconds;

@@ -7,6 +7,7 @@ use Slothsoft\Core\IO\HTTPStream;
 
 class DownloadManagerStream extends HTTPStream
 {
+
     const CHAR_ZEROWIDTHSPACE = '​';
 
     protected $ownerManager;

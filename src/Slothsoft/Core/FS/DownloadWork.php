@@ -24,7 +24,6 @@ class DownloadWork extends Stackable
     // protected $_isDone;
     public function __construct(array $options)
     {
-        
         if (! isset($options['mode'])) {
             $options['mode'] = 'index';
         }

@@ -1,4 +1,5 @@
 <?php
+namespace tests\Slothsoft\Core;
 
 use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\DOMHelper;

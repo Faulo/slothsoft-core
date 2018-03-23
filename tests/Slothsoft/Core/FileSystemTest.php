@@ -1,10 +1,12 @@
 <?php
+namespace tests\Slothsoft\Core;
 
 /**
  * Filesystem test case.
  */
 use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\FileSystem;
+use DOMDocument;
 
 class FileSystemTest extends TestCase
 {

@@ -26,10 +26,6 @@ if (isset($_SERVER['argv'])) {
     if (isset($_SERVER['argv'][2])) {
         parse_str($_SERVER['argv'][2], $_REQUEST);
     }
-    unset($_SERVER['argv']);
-}
-if (isset($_SERVER['argc'])) {
-    unset($_SERVER['argc']);
 }
 
 /**

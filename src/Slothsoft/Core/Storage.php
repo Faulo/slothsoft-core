@@ -468,8 +468,6 @@ class Storage
 
     protected $tableName = 'default';
 
-    protected $logFile = null;
-
     protected $dbmsTable;
 
     protected $now;
@@ -485,7 +483,6 @@ class Storage
         if ($storageName) {
             $this->tableName = $storageName;
         }
-        $this->logFile = sprintf('%s%s.log', self::getLogDirectory(), FileSystem::filenameSanitize($this->tableName));
         try {
             $this->dbmsTable = $this->getDBMSTable();
             if (! $this->dbmsTable->tableExists()) {
@@ -751,9 +748,10 @@ class Storage
     protected function _createLog($method, $name, $ret)
     {
         if (self::getLogEnabled()) {
+            $logFile = sprintf('%s%s.log', self::getLogDirectory(), FileSystem::filenameSanitize($this->tableName));
             $ret = $ret ? 'OK' : 'FAIL';
             $log = sprintf('[%s] %s: %s %s (%s)%s', date(DateTimeFormatter::FORMAT_DATETIME), $ret, $method, self::_hash($name), $name, PHP_EOL);
-            if ($handle = fopen($this->logFile, 'ab')) {
+            if ($handle = fopen($logFile, 'ab')) {
                 fwrite($handle, $log);
                 fclose($handle);
             }

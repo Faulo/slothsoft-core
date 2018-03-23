@@ -4,8 +4,6 @@
     <resource-directory name="css" path="stylesheet" type="text/css"/>
     <resource-directory name="js" path="script" type="application/javascript"/>
     <resource-directory name="xsl" path="template" type="application/xslt+xml"/>
-    <resource-directory name="dictionary" path="dictionary" type="application/xml"/>
-    <resource-directory name="pages" path="pages" type="application/xml"/>
     <directory name="static">
 	    <resource name="language-registry" path="language-subtag-registry.xml" type="application/xml">
 	      <source href="http://www.langtag.net/registries/language-subtag-registry.xml"/>

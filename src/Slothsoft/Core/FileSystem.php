@@ -221,7 +221,7 @@ abstract class FileSystem
                         $attr['name'] = $name;
                         $attr['title'] = isset($attr['ext']) ? substr($attr['name'], 0, - (1 + strlen($attr['ext']))) : $attr['name'];
                         foreach ($attr as $key => $val) {
-                            $retNode->setAttribute($key, utf8_encode($val));
+                            $retNode->setAttribute($key, utf8_encode((string) $val));
                         }
                         $retNode->setIdAttribute('id', true);
                         foreach ($childNodes as $node) {

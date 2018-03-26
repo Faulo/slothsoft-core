@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <assets xmlns="http://schema.slothsoft.net/farah/module">
-    <resource-directory name="data" path="data" type="application/x-php"/>
     <resource-directory name="css" path="stylesheet" type="text/css"/>
     <resource-directory name="js" path="script" type="application/javascript"/>
     <resource-directory name="xsl" path="template" type="application/xslt+xml"/>
@@ -19,10 +18,7 @@
 	      <source href="http://www.unicode.org/Public/UCD/latest/ucdxml/ucd.all.flat.zip"/>
 	    </resource>
 	</directory>
-    <fragment name="sitemap">
-      <use-template ref="xsl/_sitemap"/>
-      <use-document ref="static/sites"/>
-    </fragment>
+    <!--
     <fragment name="ipLog">
       <use-template ref="xsl/_ipLog"/>
       <use-document ref="data/ipLog"/>
@@ -40,6 +36,7 @@
       <use-template ref="xsl/_language-backend"/>
       <use-document ref="data/language-backend"/>
     </fragment>
+    -->
     <fragment name="DOM">
       <link-script ref="js/DOM"/>
       <link-script ref="js/DOMHelper"/>

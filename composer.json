@@ -14,12 +14,16 @@
         "php": ">=7.0",
         "slothsoft\/dbms": "*",
         "slothsoft\/farah": "*",
+        "slothsoft\/lang": "*",
+        "slothsoft\/pt": "*",
         "slothsoft\/w3c": "*"
     },
     "require-dev": {
         "phpunit\/phpunit": ">=6.0",
         "slothsoft\/dbms": "dev-master",
         "slothsoft\/farah": "dev-master",
+        "slothsoft\/lang": "dev-master",
+        "slothsoft\/pt": "dev-master",
         "slothsoft\/w3c": "dev-master"
     },
     "autoload": {

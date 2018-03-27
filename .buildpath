@@ -180,12 +180,12 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/slothsoft/lang/php">
+	<buildpathentry kind="src" path="vendor/slothsoft/lang/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/slothsoft/pt/php">
+	<buildpathentry kind="src" path="vendor/slothsoft/pt/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>

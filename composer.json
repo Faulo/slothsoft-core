@@ -1,36 +1,29 @@
 {
-    "name": "slothsoft\/core",
-    "description": "Core stuff.",
-    "license": "WTFPL",
-    "authors": [
-        {
-            "name": "Daniel Schulz",
-            "email": "info.slothsoft@gmail.com"
-        }
-    ],
-    "type": "library",
-    "require": {
-        "ext-curl": "*",
-        "php": ">=7.0",
-        "slothsoft\/dbms": "*",
-        "slothsoft\/farah": "*",
-        "slothsoft\/lang": "*",
-        "slothsoft\/w3c": "*"
-    },
-    "require-dev": {
-        "phpunit\/phpunit": ">=6.0",
-        "slothsoft\/dbms": "dev-master",
-        "slothsoft\/farah": "dev-master",
-        "slothsoft\/lang": "dev-master",
-        "slothsoft\/w3c": "dev-master"
-    },
-    "autoload": {
-        "files": [
-            "src\/autoload.php",
-            "src\/registerModule.php"
-        ],
-        "psr-0": {
-            "Slothsoft\\Core\\": "src\/"
-        }
-    }
+	"name" : "slothsoft/core",
+	"description" : "Core stuff.",
+	"license" : "WTFPL",
+	"authors" : [{
+			"name" : "Daniel Schulz",
+			"email" : "info.slothsoft@gmail.com"
+		}
+	],
+	"type" : "library",
+	"require" : {
+		"ext-curl" : "*",
+		"ext-pthreads" : ">=2.0",
+		"php" : ">=7.0",
+		"slothsoft/w3c" : "*"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : ">=6.0",
+		"slothsoft/w3c" : "dev-master"
+	},
+	"autoload" : {
+		"files" : [
+			"src/autoload.php"
+		],
+		"psr-0" : {
+			"Slothsoft\\Core\\" : "src/"
+		}
+	}
 }

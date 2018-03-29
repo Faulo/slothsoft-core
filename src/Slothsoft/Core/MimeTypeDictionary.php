@@ -13,7 +13,7 @@ use DOMXPath;
 class MimeTypeDictionary
 {
 
-    const FILE_MIME = __DIR__ . '/../../../assets/mimeTypes.xml';
+    const FILE_MIME = __DIR__ . '/../../../mimeTypes.xml';
 
     private static $initialized = false;
 

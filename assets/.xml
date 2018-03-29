@@ -1,8 +1,35 @@
 <?xml version="1.0"?>
 <assets xmlns="http://schema.slothsoft.net/farah/module">
-    <resource-directory name="css" path="stylesheet" type="text/css"/>
-    <resource-directory name="js" path="script" type="application/javascript"/>
-    <resource-directory name="xsl" path="template" type="application/xslt+xml"/>
+    <resource-directory name="css" type="text/css"/>
+    <resource-directory name="js" type="application/javascript"/>
+    <resource-directory name="xsl" type="application/xslt+xml"/>
+	
+    <frgment name="imports">
+	    <fragment name="DOM">
+	      <link-script ref="js/DOM"/>
+	      <link-script ref="js/DOMHelper"/>
+	      <import ref="imports/HTML5"/>
+	      <import ref="imports/XPath"/>
+	      <import ref="imports/XSLT"/>
+	    </fragment>
+	    <fragment name="HTML5">
+	      <link-stylesheet ref="js/HTML5"/>
+	      <link-stylesheet ref="css/HTML5"/>
+	    </fragment>
+	    <fragment name="XPath">
+	      <link-script ref="js/NS"/>
+	      <link-script ref="js/XPath"/>
+	    </fragment>
+	    <fragment name="XSLT">
+	      <link-script ref="js/NS"/>
+	      <link-script ref="js/XSLT"/>
+	    </fragment>
+    </frgment>
+    
+    <resource name="mimeTypes" type="application/xml"/>
+	
+    <!--
+    
     <directory name="static">
 	    <resource name="language-registry" path="language-subtag-registry.xml" type="application/xml">
 	      <source href="http://www.langtag.net/registries/language-subtag-registry.xml"/>
@@ -18,7 +45,7 @@
 	      <source href="http://www.unicode.org/Public/UCD/latest/ucdxml/ucd.all.flat.zip"/>
 	    </resource>
 	</directory>
-    <!--
+	
     <fragment name="ipLog">
       <use-template ref="xsl/_ipLog"/>
       <use-document ref="data/ipLog"/>
@@ -37,19 +64,4 @@
       <use-document ref="data/language-backend"/>
     </fragment>
     -->
-    <fragment name="DOM">
-      <link-script ref="js/DOM"/>
-      <link-script ref="js/DOMHelper"/>
-      <link-script ref="js/NS"/>
-      <link-script ref="js/XPath"/>
-      <link-script ref="js/XSLT"/>
-      <import ref="js/HTML5"/>
-    </fragment>
-    <fragment name="HTML5">
-      <link-stylesheet ref="css/HTML5"/>
-    </fragment>
-    <fragment name="XPath">
-      <link-script ref="js/NS"/>
-      <link-script ref="js/XPath"/>
-    </fragment>
   </assets>

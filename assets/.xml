@@ -4,7 +4,7 @@
     <resource-directory name="js" type="application/javascript"/>
     <resource-directory name="xsl" type="application/xslt+xml"/>
 	
-    <frgment name="imports">
+    <fragment name="imports">
 	    <fragment name="DOM">
 	      <link-script ref="js/DOM"/>
 	      <link-script ref="js/DOMHelper"/>
@@ -24,7 +24,7 @@
 	      <link-script ref="js/NS"/>
 	      <link-script ref="js/XSLT"/>
 	    </fragment>
-    </frgment>
+    </fragment>
     
     <resource name="mimeTypes" type="application/xml"/>
 	

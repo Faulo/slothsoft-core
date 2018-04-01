@@ -8,20 +8,26 @@ use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
 class Client
 {
-    private static function defaultAuthority() : ConfigurationField {
+
+    private static function defaultAuthority(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField();
         }
         return $field;
     }
-    public static function setDefaultAuthority(Authority $authority) {
+
+    public static function setDefaultAuthority(Authority $authority)
+    {
         self::defaultAuthority()->setValue($authority);
     }
-    public static function getDefaultAuthority() : Authority {
+
+    public static function getDefaultAuthority(): Authority
+    {
         return self::defaultAuthority()->getValue();
     }
-    
+
     const CONNECTION_SERVER = 'localhost';
 
     const CONNECTION_CHARSET = 'utf8mb4';
@@ -41,7 +47,7 @@ class Client
     {
         try {
             $authority = self::getDefaultAuthority();
-        } catch(ConfigurationRequiredException $e) {
+        } catch (ConfigurationRequiredException $e) {
             throw new DatabaseException('Database configuration has not been set!', 0, $e);
         }
         @$this->sqli = new mysqli($authority->server, $authority->user, $authority->password);

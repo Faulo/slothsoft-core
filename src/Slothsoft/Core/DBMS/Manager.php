@@ -3,38 +3,48 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\DBMS;
 
 use Slothsoft\Core\Calendar\DateTimeFormatter;
-
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 use Slothsoft\Core\ServerEnvironment;
 
 class Manager
 {
-    private static function logEnabled() : ConfigurationField {
+
+    private static function logEnabled(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField(false);
         }
         return $field;
     }
-    public static function setLogEnabled(bool $value) {
+
+    public static function setLogEnabled(bool $value)
+    {
         self::logEnabled()->setValue($value);
     }
-    public static function getLogEnabled() : bool {
+
+    public static function getLogEnabled(): bool
+    {
         return self::logEnabled()->getValue();
     }
-    
-    private static function logDirectory() : ConfigurationField {
+
+    private static function logDirectory(): ConfigurationField
+    {
         static $field;
         if ($field === null) {
             $field = new DirectoryConfigurationField(ServerEnvironment::getLogDirectory() . 'dbms');
         }
         return $field;
     }
-    public static function setLogDirectory(string $directory) {
+
+    public static function setLogDirectory(string $directory)
+    {
         self::logDirectory()->setValue($directory);
     }
-    public static function getLogDirectory() : string {
+
+    public static function getLogDirectory(): string
+    {
         return self::logDirectory()->getValue();
     }
 

@@ -7,6 +7,7 @@ namespace tests\Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\FileSystem;
 use DOMDocument;
+use DOMElement;
 
 class FileSystemTest extends TestCase
 {
@@ -17,7 +18,8 @@ class FileSystemTest extends TestCase
     {
         $document = FileSystem::asNode(__DIR__);
         
-        assert($document instanceof DOMDocument);
+        $this->assertInstanceOf(DOMDocument::class, $document);
+        $this->assertInstanceOf(DOMElement::class, $document->documentElement);
     }
 }
 

@@ -13,11 +13,10 @@
         "ext-curl": "*",
         "ext-pthreads": ">=2.0",
         "php": ">=7.0",
-        "slothsoft/w3c": "*"
+        "slothsoft/w3c": "dev-master"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=6.5",
-        "slothsoft/w3c": "dev-master"
+        "phpunit/phpunit": ">=6.5"
     },
     "autoload": {
         "psr-0": {

@@ -13,9 +13,6 @@ class FileConfigurationField extends ConfigurationField
         if ($newValue === '') {
             throw new BadMethodCallException("Value must be a valid file path!");
         }
-        if (! is_file($newValue)) {
-            throw new BadMethodCallException("Value must be a valid file path: $newValue");
-        }
         parent::setValue($newValue);
     }
 }

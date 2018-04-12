@@ -10,7 +10,7 @@ use DOMDocument;
  * @author Daniel Schulz
  *        
  */
-class FileInput extends GenericInput
+class FileInput implements InputInterface
 {
 
     private $content;

@@ -1,30 +1,21 @@
 <?php
 declare(strict_types = 1);
-namespace tests\Slothsoft\Core;
+namespace Slothsoft\Core;
 
 use PHPUnit\Framework\TestCase;
-use Slothsoft\Core\DOMHelper;
+use DOMElement;
 
-/**
-*  Corresponding Class to test YourClass class
-*
-*  For each class in your library, there should be a corresponding Unit-Test for it
-*  Unit-Tests should be as much as possible independent from other test going on.
-*
-*  @author Daniel Schulz
-*/
 class DOMHelperTest extends TestCase{
-	
-  /**
-  * Just check if the YourClass has no syntax error 
-  *
-  * This is just a simple check to make sure your library has no syntax error. This helps you troubleshoot
-  * any typo before you even use this library in a real project.
-  *
-  */
-  public function testIsThereAnySyntaxError(){
-	$var = new DOMHelper();
-	$this->assertTrue(is_object($var));
-  }
+    private $dom;
+    public function setUp() {
+        $this->dom = new DOMHelper();
+    }
+    public function testIsThereAnySyntaxError() {
+        $xml = '<xml/>';
+        $fragment = $this->dom->parse($xml);
+        
+        $this->assertInstanceOf(DOMElement::class, $fragment->firstChild);
+        $this->assertEquals('xml', $fragment->firstChild->tagName);
+    }
   
 }

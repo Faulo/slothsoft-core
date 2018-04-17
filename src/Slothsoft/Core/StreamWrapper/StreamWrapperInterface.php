@@ -1,8 +1,17 @@
 <?php
+declare(strict_types = 1);
 namespace Slothsoft\Core\StreamWrapper;
 
 interface StreamWrapperInterface
 {
+    const MODE_OPEN_READONLY = 'rb';
+    const MODE_OPEN_READWRITE = 'rb+';
+    const MODE_CREATE_WRITEONLY = 'wb';
+    const MODE_CREATE_READWRITE = 'wb+';
+    const MODE_APPEND_WRITEONLY = 'ab';
+    const MODE_APPEND_READWRITE = 'ab+';
+    
+    
     /**
      * @return array
      * @see http://php.net/manual/de/function.fstat.php
@@ -11,16 +20,16 @@ interface StreamWrapperInterface
     
     /**
      * @param int $count
-     * @return string
+     * @return string|false
      * @see http://php.net/manual/de/function.fread.php
      */
-    public function stream_read(int $count): string;
+    public function stream_read(int $count);
     
     /**
-     * @return int
+     * @return int|false
      * @see http://php.net/manual/de/function.ftell.php
      */
-    public function stream_tell(): int;
+    public function stream_tell();
     
     /**
      * @return bool
@@ -31,16 +40,16 @@ interface StreamWrapperInterface
     /**
      * @param int $offset
      * @param int $whence
-     * @return int
+     * @return "0"|"-1"
      * @see @see http://php.net/manual/de/function.fseek.php
      */
     public function stream_seek(int $offset, int $whence): int;
     
     /**
      * @param string $data
-     * @return int
+     * @return int|false
      * @see http://php.net/manual/de/function.fwrite.php
      */
-    public function stream_write(string $data): int;
+    public function stream_write(string $data);
 }
 

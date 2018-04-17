@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Slothsoft\Core\StreamWrapper;
 
 class StreamWrapperRegistrar implements StreamWrapperInterface
@@ -34,6 +35,20 @@ class StreamWrapperRegistrar implements StreamWrapperInterface
             return false;
         }
         
+        switch ($mode[0]) {
+            case 'r':
+            case 'w':
+            case 'x':
+            case 'c':
+                $this->stream->stream_seek(0, SEEK_SET);
+                break;
+            case 'a':
+                $this->stream->stream_seek(0, SEEK_END);
+                break;
+            default:
+                return false;
+        }
+        
         return true;
     }
     
@@ -42,15 +57,7 @@ class StreamWrapperRegistrar implements StreamWrapperInterface
     public function stream_stat(): array
     {
         return $this->stream->stream_stat();
-    }
-    public function stream_read(int $count): string
-    {
-        return $this->stream->stream_read($count);
-    }    
-    public function stream_tell(): int
-    {
-        return $this->stream->stream_tell();
-    }    
+    }  
     public function stream_eof(): bool
     {
         return $this->stream->stream_eof();
@@ -59,9 +66,17 @@ class StreamWrapperRegistrar implements StreamWrapperInterface
     {
         return $this->stream->stream_seek($offset, $whence);
     }
-    public function stream_write(string $data): int
+    public function stream_read(int $count)
+    {
+        return $this->stream->stream_read($count);
+    }
+    public function stream_write(string $data)
     {
         return $this->stream->stream_write($data);
     }
+    public function stream_tell()
+    {
+        return $this->stream->stream_tell();
+    }  
 }
 

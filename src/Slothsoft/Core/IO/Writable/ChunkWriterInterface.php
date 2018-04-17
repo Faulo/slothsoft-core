@@ -1,10 +1,11 @@
 <?php
+declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable;
 
-use Traversable;
+use Generator;
 
 interface ChunkWriterInterface
 {
-    public function toChunks() : Traversable;
+    public function toChunks() : Generator;
 }
 

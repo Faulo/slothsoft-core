@@ -4,15 +4,24 @@ namespace Slothsoft\Core\StreamFilter;
 
 abstract class StreamFilterBase extends \php_user_filter implements StreamFilterInterface
 {
+
     const STATE_OPENING = 1;
+
     const STATE_PROCESSING = 2;
+
     const STATE_CLOSING = 3;
+
     const STATE_CLOSED = 4;
+
     private $state;
-    public function onCreate() {
+
+    public function onCreate()
+    {
         $this->state = self::STATE_OPENING;
     }
-    public final function filter($in, $out, &$consumed, $closing) {
+
+    public final function filter($in, $out, &$consumed, $closing)
+    {
         if ($this->state === self::STATE_OPENING) {
             $this->opening = false;
             $data = $this->processHeader();
@@ -42,12 +51,16 @@ abstract class StreamFilterBase extends \php_user_filter implements StreamFilter
         }
         return PSFS_PASS_ON;
     }
-    private function createBucket(string $data) {
+
+    private function createBucket(string $data)
+    {
         return stream_bucket_new($this->stream, $data);
     }
-    
-    abstract protected function processHeader() : string;
-    abstract protected function processPayload(string $input) : string;
-    abstract protected function processFooter() : string;
+
+    abstract protected function processHeader(): string;
+
+    abstract protected function processPayload(string $input): string;
+
+    abstract protected function processFooter(): string;
 }
 

@@ -33,9 +33,9 @@ class DOMHelper
     const NS_FARAH_SITES = 'http://schema.slothsoft.net/farah/sitemap';
 
     const NS_SAVEGAME_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
-    
+
     const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
-    
+
     const NS_SCHEMA_VERSIONING = 'http://schema.slothsoft.net/schema/versioning';
 
     const NS_XML = 'http://www.w3.org/XML/1998/namespace';

@@ -6,12 +6,13 @@ use Slothsoft\Core\IO\Memory;
 use Traversable;
 
 trait ChunkWriterFromResourceTrait {
+
     public function toChunks(): Traversable
     {
         $resource = $this->toResource();
         $chunkSize = 32 * Memory::ONE_KILOBYTE;
         fseek($resource, 0);
-        while (!feof($resource)) {
+        while (! feof($resource)) {
             yield fread($resource, $chunkSize);
         }
     }

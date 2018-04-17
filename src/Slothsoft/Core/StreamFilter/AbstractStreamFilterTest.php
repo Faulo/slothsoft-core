@@ -5,16 +5,23 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractStreamFilterTest extends TestCase
 {
-    abstract protected function getInput() : string;
-    abstract protected function calculateExpectedResult(string $input) : string;
-    abstract protected function getFilterClass() : string;
-    
+
+    abstract protected function getInput(): string;
+
+    abstract protected function calculateExpectedResult(string $input): string;
+
+    abstract protected function getFilterClass(): string;
+
     private $streamId;
+
     private $tempFile;
+
     private $input;
+
     private $expectedResult;
-    
-    public function setUp() {
+
+    public function setUp()
+    {
         $this->streamId = uniqid(md5($this->getFilterClass()));
         $this->tempFile = tempnam(sys_get_temp_dir(), __CLASS__);
         $this->input = $this->getInput();
@@ -22,8 +29,9 @@ abstract class AbstractStreamFilterTest extends TestCase
         
         stream_filter_register($this->streamId, $this->getFilterClass());
     }
-    
-    public function testWriteToResource() {
+
+    public function testWriteToResource()
+    {
         $resource = fopen($this->tempFile, 'wb');
         stream_filter_append($resource, $this->streamId, STREAM_FILTER_WRITE);
         fwrite($resource, $this->input);
@@ -33,7 +41,9 @@ abstract class AbstractStreamFilterTest extends TestCase
         
         $this->assertEquals($this->expectedResult, $actualResult);
     }
-    public function testWriteToPath() {
+
+    public function testWriteToPath()
+    {
         $path = "php://filter/write=$this->streamId/resource=$this->tempFile";
         file_put_contents($path, $this->input);
         
@@ -41,8 +51,9 @@ abstract class AbstractStreamFilterTest extends TestCase
         
         $this->assertEquals($this->expectedResult, $actualResult);
     }
-    
-    public function testReadFromResource() {
+
+    public function testReadFromResource()
+    {
         file_put_contents($this->tempFile, $this->input);
         
         $resource = fopen($this->tempFile, 'rb');
@@ -52,7 +63,9 @@ abstract class AbstractStreamFilterTest extends TestCase
         
         $this->assertEquals($this->expectedResult, $actualResult);
     }
-    public function testReadFromPath() {
+
+    public function testReadFromPath()
+    {
         file_put_contents($this->tempFile, $this->input);
         
         $path = "php://filter/read=$this->streamId/resource=$this->tempFile";

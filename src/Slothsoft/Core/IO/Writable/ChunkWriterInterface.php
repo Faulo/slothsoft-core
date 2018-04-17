@@ -6,6 +6,7 @@ use Generator;
 
 interface ChunkWriterInterface
 {
-    public function toChunks() : Generator;
+
+    public function toChunks(): Generator;
 }
 

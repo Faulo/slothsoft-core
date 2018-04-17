@@ -1,9 +1,7 @@
 <?php
-declare(strict_types = 1);
 namespace Slothsoft\Core\StreamFilter;
 
-
-class ChunkEncodeTest extends AbstractStreamFilterTest
+class ZlibEncodeDeflateTest extends AbstractStreamFilterTest
 {
     protected function getInput() : string
     {
@@ -11,11 +9,11 @@ class ChunkEncodeTest extends AbstractStreamFilterTest
     }
     protected function calculateExpectedResult(string $input) : string
     {
-        return dechex(strlen($input)) . "\r\n$input\r\n0\r\n\r\n";
+        return gzencode($input, -1, FORCE_DEFLATE);
     }
     protected function getFilterClass() : string
     {
-        return ChunkEncode::class;
+        return ZlibEncodeDeflate::class;
     }
 }
 

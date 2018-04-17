@@ -4,30 +4,41 @@ namespace Slothsoft\Core\StreamFilter;
 
 abstract class StreamFilterBase extends \php_user_filter implements StreamFilterInterface
 {
-    private $opening;
+    const STATE_OPENING = 1;
+    const STATE_PROCESSING = 2;
+    const STATE_CLOSING = 3;
+    const STATE_CLOSED = 4;
+    private $state;
     public function onCreate() {
-        $this->opening = true;
+        $this->state = self::STATE_OPENING;
     }
     public final function filter($in, $out, &$consumed, $closing) {
-        if ($this->opening) {
+        if ($this->state === self::STATE_OPENING) {
             $this->opening = false;
             $data = $this->processHeader();
             if ($data !== '') {
                 stream_bucket_append($out, $this->createBucket($data));
             }
+            $this->state = self::STATE_PROCESSING;
         }
-        while ($inBucket = stream_bucket_make_writeable($in)) {
-            $consumed += $inBucket->datalen;
-            $data = $this->processPayload($inBucket->data);
-            if ($data !== '') {
-                stream_bucket_append($out, $this->createBucket($data));
+        if ($this->state === self::STATE_PROCESSING) {
+            while ($inBucket = stream_bucket_make_writeable($in)) {
+                $consumed += $inBucket->datalen;
+                $data = $this->processPayload($inBucket->data);
+                if ($data !== '') {
+                    stream_bucket_append($out, $this->createBucket($data));
+                }
+            }
+            if ($closing or feof($this->stream)) {
+                $this->state = self::STATE_CLOSING;
             }
         }
-        if ($closing) {
+        if ($this->state === self::STATE_CLOSING) {
             $data = $this->processFooter();
             if ($data !== '') {
                 stream_bucket_append($out, $this->createBucket($data));
             }
+            $this->state = self::STATE_CLOSED;
         }
         return PSFS_PASS_ON;
     }

@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\DBMS;
 
-use mysqli;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
@@ -50,7 +49,9 @@ class Client
         } catch (ConfigurationRequiredException $e) {
             throw new DatabaseException('Database configuration has not been set!', 0, $e);
         }
-        @$this->sqli = new mysqli($authority->server, $authority->user, $authority->password);
+        $this->sqli = mysqli_init();
+        $this->sqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
+        @$this->sqli->real_connect($authority->server, $authority->user, $authority->password);
         if ($this->sqli->connect_error) {
             $this->error();
             return false;

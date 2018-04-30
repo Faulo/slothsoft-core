@@ -1,6 +1,9 @@
 <?php
 declare(strict_types = 1);
 use Slothsoft\Core\IO\Memory;
+use Slothsoft\Core\StreamFilter\ChunkEncode;
+use Slothsoft\Core\StreamFilter\ZlibEncodeDeflate;
+use Slothsoft\Core\StreamFilter\ZlibEncodeGzip;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('autoload-%s.php', PHP_SAPI);
 
@@ -104,10 +107,19 @@ function print_execution_time($echo = true)
     return $ret;
 }
 
+function log_message(string $message) {
+    static $file;
+    if ($file === null) {
+        $file = 'C:\\log.txt';
+        file_put_contents($file, '');
+    }
+    file_put_contents($file, $message . PHP_EOL, FILE_APPEND);
+}
 
 
 
-// stream_filter_register('http.content-encoding.gzip', ZlibEncodeGzip::class);
-// stream_filter_register('http.content-encoding.deflate', ZlibEncodeDeflate::class);
 
-// stream_filter_register('http.transfer-encoding.chunked', ChunkEncode::class);
+stream_filter_register('http.content-encoding.gzip', ZlibEncodeGzip::class);
+stream_filter_register('http.content-encoding.deflate', ZlibEncodeDeflate::class);
+
+stream_filter_register('http.transfer-encoding.chunked', ChunkEncode::class);

@@ -65,12 +65,6 @@ abstract class HTTPStream
         return $this->headerList;
     }
 
-    public function getStatus()
-    {
-        $this->parseStatus();
-        return $this->status;
-    }
-
     public function setStatusError()
     {
         $this->status = self::STATUS_ERROR;
@@ -95,9 +89,14 @@ abstract class HTTPStream
     {
         $this->status = self::STATUS_CONTENTDONE;
     }
-
-    protected function parseStatus()
-    {}
+    
+    public function getStatus()
+    {
+        $this->parseStatus();
+        return $this->status;
+    }
+    
+    abstract protected function parseStatus();
 
     public function getContent()
     {
@@ -105,8 +104,7 @@ abstract class HTTPStream
         return $this->content;
     }
 
-    protected function parseContent()
-    {}
+    abstract protected function parseContent();
 
     public function getSleepDuration()
     {

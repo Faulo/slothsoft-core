@@ -119,7 +119,7 @@ function log_message(string $message) {
 
 
 
-stream_filter_register('http.content-encoding.gzip', ZlibEncodeGzip::class);
-stream_filter_register('http.content-encoding.deflate', ZlibEncodeDeflate::class);
+//stream_filter_register('http.content-encoding.gzip', ZlibEncodeGzip::class);
+//stream_filter_register('http.content-encoding.deflate', ZlibEncodeDeflate::class);
 
-stream_filter_register('http.transfer-encoding.chunked', ChunkEncode::class);
+//stream_filter_register('http.transfer-encoding.chunked', ChunkEncode::class);

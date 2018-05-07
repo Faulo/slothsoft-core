@@ -5,17 +5,22 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
 use DOMElement;
 
-class DOMHelperTest extends TestCase{
+class DOMHelperTest extends TestCase
+{
+
     private $dom;
-    public function setUp() {
+
+    public function setUp()
+    {
         $this->dom = new DOMHelper();
     }
-    public function testIsThereAnySyntaxError() {
+
+    public function testIsThereAnySyntaxError()
+    {
         $xml = '<xml/>';
         $fragment = $this->dom->parse($xml);
         
         $this->assertInstanceOf(DOMElement::class, $fragment->firstChild);
         $this->assertEquals('xml', $fragment->firstChild->tagName);
     }
-  
 }

@@ -89,13 +89,13 @@ abstract class HTTPStream
     {
         $this->status = self::STATUS_CONTENTDONE;
     }
-    
+
     public function getStatus()
     {
         $this->parseStatus();
         return $this->status;
     }
-    
+
     abstract protected function parseStatus();
 
     public function getContent()

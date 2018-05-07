@@ -104,7 +104,8 @@ function print_execution_time($echo = true)
     return $ret;
 }
 
-function log_message(string $message) {
+function log_message(string $message)
+{
     static $file;
     if ($file === null) {
         $file = 'C:\\log.txt';

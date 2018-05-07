@@ -8,6 +8,7 @@ use DOMElement;
 
 class FileSystemTest extends TestCase
 {
+
     public function testAsNode()
     {
         $document = FileSystem::asNode(__DIR__);

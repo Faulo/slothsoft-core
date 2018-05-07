@@ -4,15 +4,18 @@ namespace Slothsoft\Core\StreamFilter;
 
 class ZlibEncodeGzipTest extends AbstractStreamFilterTest
 {
-    protected function getInput() : string
+
+    protected function getInput(): string
     {
         return 'hello world';
     }
-    protected function calculateExpectedResult(string $input) : string
+
+    protected function calculateExpectedResult(string $input): string
     {
-        return gzencode($input, -1, FORCE_GZIP);
+        return gzencode($input, - 1, FORCE_GZIP);
     }
-    protected function getFilterClass() : string
+
+    protected function getFilterClass(): string
     {
         return ZlibEncodeGzip::class;
     }

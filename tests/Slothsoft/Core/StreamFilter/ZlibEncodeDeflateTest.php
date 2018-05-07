@@ -4,15 +4,18 @@ namespace Slothsoft\Core\StreamFilter;
 
 class ZlibEncodeDeflateTest extends AbstractStreamFilterTest
 {
-    protected function getInput() : string
+
+    protected function getInput(): string
     {
         return 'hello world';
     }
-    protected function calculateExpectedResult(string $input) : string
+
+    protected function calculateExpectedResult(string $input): string
     {
-        return gzencode($input, -1, FORCE_DEFLATE);
+        return gzencode($input, - 1, FORCE_DEFLATE);
     }
-    protected function getFilterClass() : string
+
+    protected function getFilterClass(): string
     {
         return ZlibEncodeDeflate::class;
     }

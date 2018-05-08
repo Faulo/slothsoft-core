@@ -62,5 +62,11 @@ interface StreamWrapperInterface
      * @see http://php.net/manual/de/function.fwrite.php
      */
     public function stream_write(string $data);
+    
+    /**
+     * @return bool
+     * @see http://php.net/manual/de/function.fclose.php
+     */
+    public function stream_close() : bool;
 }
 

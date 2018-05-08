@@ -36,9 +36,15 @@ class ResourceStreamWrapper implements StreamWrapperInterface
     {
         return fwrite($this->handle, $data);
     }
-
+    
     public function stream_tell()
     {
         return ftell($this->handle);
+    }
+    
+    public function stream_close() : bool
+    {
+        //let's not tho.
+        return true;
     }
 }

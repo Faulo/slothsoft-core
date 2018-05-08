@@ -52,11 +52,21 @@ class Psr7StreamWrapper implements StreamWrapperInterface
             return false;
         }
     }
-
+    
     public function stream_tell()
     {
         try {
             $this->stream->tell();
+        } catch (RuntimeException $e) {
+            return false;
+        }
+    }
+    
+    public function stream_close() : bool
+    {
+        try {
+            $this->stream->close();
+            return true;
         } catch (RuntimeException $e) {
             return false;
         }

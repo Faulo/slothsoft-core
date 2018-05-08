@@ -16,8 +16,10 @@ class MimeTypeDictionary
     const FILE_MIME = __DIR__ . '/../../../mimeTypes.xml';
 
     private static $initialized = false;
-
+    
     private static $mimeExtensionList;
+    
+    private static $mimeCompressionsList;
 
     private static $extensionMimeList;
 
@@ -28,6 +30,7 @@ class MimeTypeDictionary
             
             self::$mimeExtensionList = [];
             self::$extensionMimeList = [];
+            self::$mimeCompressionsList = [];
             
             $mimeDoc = new DOMDocument();
             $mimeDoc->load(self::FILE_MIME);
@@ -39,6 +42,13 @@ class MimeTypeDictionary
                 
                 self::$mimeExtensionList[$mime] = $extension;
                 self::$extensionMimeList[$extension] = $mime;
+                
+                if ($typeNode->hasAttribute('compressions')) {
+                    self::$mimeCompressionsList[$mime] = $typeNode->getAttribute('compressions');
+                }
+                if ($subNode->hasAttribute('compressions')) {
+                    self::$mimeCompressionsList[$mime] = $subNode->getAttribute('compressions');
+                }
             }
         }
     }
@@ -68,6 +78,15 @@ class MimeTypeDictionary
         $extension = strtolower($extension);
         
         return isset(self::$extensionMimeList[$extension]) ? self::$extensionMimeList[$extension] : 'application/octet-stream';
+    }
+    
+    public static function guessCompressions(string $mime): string
+    {
+        self::init();
+        
+        $mime = strtolower($mime);
+        
+        return self::$mimeCompressionsList[$mime] ?? '';
     }
 
     public static function matchesMime(string $extension, string $testMime): bool

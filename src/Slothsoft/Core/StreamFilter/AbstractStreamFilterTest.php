@@ -21,7 +21,7 @@ abstract class AbstractStreamFilterTest extends TestCase
 
     private $expectedResult;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->streamId = uniqid(md5($this->getFilterClass()));
         $this->tempFile = tempnam(sys_get_temp_dir(), __CLASS__);

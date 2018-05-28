@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Slothsoft.html">\Slothsoft</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">1294</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">2</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1103253958"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1103253958" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1347467032"></a>
+                                <a href="../namespaces/Slothsoft.html" style="margin-left: 30px; padding-left: 0">Slothsoft</a>
+            </div>
+            <div id="namespace-1347467032" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1199868818"></a>
+                                <a href="../namespaces/Slothsoft.Core.html" style="margin-left: 30px; padding-left: 0">Core</a>
+            </div>
+            <div id="namespace-1199868818" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1971747621"></a>
+                                <a href="../namespaces/Slothsoft.Core.Calendar.html" style="margin-left: 30px; padding-left: 0">Calendar</a>
+            </div>
+            <div id="namespace-1971747621" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Calendar.DateTimeFormatter.html">DateTimeFormatter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Calendar.Seconds.html">Seconds</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2135801639"></a>
+                                <a href="../namespaces/Slothsoft.Core.Configuration.html" style="margin-left: 30px; padding-left: 0">Configuration</a>
+            </div>
+            <div id="namespace-2135801639" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.ConfigurationField.html">ConfigurationField</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.ConfigurationRequiredException.html">ConfigurationRequiredException</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.DirectoryConfigurationField.html">DirectoryConfigurationField</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.FileConfigurationField.html">FileConfigurationField</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-833704336"></a>
+                                <a href="../namespaces/Slothsoft.Core.DBMS.html" style="margin-left: 30px; padding-left: 0">DBMS</a>
+            </div>
+            <div id="namespace-833704336" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Authority.html">Authority</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Client.html">Client</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.DatabaseException.html">DatabaseException</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Manager.html">Manager</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Table.html">Table</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1002692000"></a>
+                                <a href="../namespaces/Slothsoft.Core.FS.html" style="margin-left: 30px; padding-left: 0">FS</a>
+            </div>
+            <div id="namespace-1002692000" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadManager.html">DownloadManager</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadManagerStream.html">DownloadManagerStream</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadPool.html">DownloadPool</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadWork.html">DownloadWork</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1525674681"></a>
+                                <a href="../namespaces/Slothsoft.Core.Game.html" style="margin-left: 30px; padding-left: 0">Game</a>
+            </div>
+            <div id="namespace-1525674681" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Game.Dice.html">Dice</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Game.Name.html">Name</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Game.Prime.html">Prime</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2113462045"></a>
+                                <a href="../namespaces/Slothsoft.Core.IO.html" style="margin-left: 30px; padding-left: 0">IO</a>
+            </div>
+            <div id="namespace-2113462045" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-202783279"></a>
+                                <a href="../namespaces/Slothsoft.Core.IO.Readable.html" style="margin-left: 30px; padding-left: 0">Readable</a>
+            </div>
+            <div id="namespace-202783279" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.ChunkReaderInterface.html">ChunkReaderInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.DOMReaderInterface.html">DOMReaderInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.FileReaderInterface.html">FileReaderInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.StreamReaderInterface.html">StreamReaderInterface</a></li>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1528288123"></a>
+                                <a href="../namespaces/Slothsoft.Core.IO.Writable.html" style="margin-left: 30px; padding-left: 0">Writable</a>
+            </div>
+            <div id="namespace-1528288123" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.ChunkWriterInterface.html">ChunkWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterInterface.html">DOMWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterInterface.html">FileWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.FilteredStreamWriterInterface.html">FilteredStreamWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.ResourceWriterInterface.html">ResourceWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.StreamWriterInterface.html">StreamWriterInterface</a></li>
+                                                                            <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ChunkWriterFromFileTrait.html">ChunkWriterFromFileTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ChunkWriterFromResourceTrait.html">ChunkWriterFromResourceTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterDocumentFromElementTrait.html">DOMWriterDocumentFromElementTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterElementFromDocumentTrait.html">DOMWriterElementFromDocumentTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterFromFileTrait.html">DOMWriterFromFileTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterFileFromStringTrait.html">FileWriterFileFromStringTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterFromDOMTrait.html">FileWriterFromDOMTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterStringFromFileTrait.html">FileWriterStringFromFileTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ResourceWriterFromChunksTrait.html">ResourceWriterFromChunksTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ResourceWriterFromDOMTrait.html">ResourceWriterFromDOMTrait</a></li>
+                                                                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.IO.HTTPFile.html">HTTPFile</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.IO.HTTPStream.html">HTTPStream</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.IO.Memory.html">Memory</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2050121713"></a>
+                                <a href="../namespaces/Slothsoft.Core.Lambda.html" style="margin-left: 30px; padding-left: 0">Lambda</a>
+            </div>
+            <div id="namespace-2050121713" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Closure.html">Closure</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Manager.html">Manager</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Pool.html">Pool</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Stackable.html">Stackable</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Stream.html">Stream</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1597136861"></a>
+                                <a href="../namespaces/Slothsoft.Core.StreamFilter.html" style="margin-left: 30px; padding-left: 0">StreamFilter</a>
+            </div>
+            <div id="namespace-1597136861" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.StreamFilter.StreamFilterInterface.html">StreamFilterInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.AbstractStreamFilterTest.html">AbstractStreamFilterTest</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ChunkEncode.html">ChunkEncode</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.Identity.html">Identity</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.StreamFilterBase.html">StreamFilterBase</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ZlibEncodeBase.html">ZlibEncodeBase</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ZlibEncodeDeflate.html">ZlibEncodeDeflate</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ZlibEncodeGzip.html">ZlibEncodeGzip</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1435421514"></a>
+                                <a href="../namespaces/Slothsoft.Core.StreamWrapper.html" style="margin-left: 30px; padding-left: 0">StreamWrapper</a>
+            </div>
+            <div id="namespace-1435421514" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.StreamWrapper.StreamWrapperFactoryInterface.html">StreamWrapperFactoryInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.StreamWrapper.StreamWrapperInterface.html">StreamWrapperInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.FileStreamWrapper.html">FileStreamWrapper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.Psr7StreamWrapper.html">Psr7StreamWrapper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.ResourceStreamWrapper.html">ResourceStreamWrapper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.StreamWrapperRegistrar.html">StreamWrapperRegistrar</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-749089708"></a>
+                                <a href="../namespaces/Slothsoft.Core.XML.html" style="margin-left: 30px; padding-left: 0">XML</a>
+            </div>
+            <div id="namespace-749089708" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XML.LeanElement.html">LeanElement</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1841813313"></a>
+                                <a href="../namespaces/Slothsoft.Core.XSLT.html" style="margin-left: 30px; padding-left: 0">XSLT</a>
+            </div>
+            <div id="namespace-1841813313" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-431026342"></a>
+                                <a href="../namespaces/Slothsoft.Core.XSLT.Adapters.html" style="margin-left: 30px; padding-left: 0">Adapters</a>
+            </div>
+            <div id="namespace-431026342" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.XSLT.Adapters.AdapterInterface.html">AdapterInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.CliAdapter.html">CliAdapter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.GenericAdapter.html">GenericAdapter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.SaxonProcessorAdapter.html">SaxonProcessorAdapter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.XsltProcessorAdapter.html">XsltProcessorAdapter</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1461535115"></a>
+                                <a href="../namespaces/Slothsoft.Core.XSLT.Inputs.html" style="margin-left: 30px; padding-left: 0">Inputs</a>
+            </div>
+            <div id="namespace-1461535115" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.XSLT.Inputs.InputInterface.html">InputInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Inputs.DocumentInput.html">DocumentInput</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Inputs.FileInput.html">FileInput</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.XsltFactory.html">XsltFactory</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.CloudFlareScraper.html">CloudFlareScraper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FileSystem.html">FileSystem</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Image.html">Image</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.InterExec.html">InterExec</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.MimeTypeDictionary.html">MimeTypeDictionary</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.RCon.html">RCon</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.ServerEnvironment.html">ServerEnvironment</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Storage.html">Storage</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.WebCrawler.html">WebCrawler</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XMLHttpRequest.html">XMLHttpRequest</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content namespace">
+                    <nav>
+                                                <a href="../namespaces/Slothsoft.Core.html">\Slothsoft\Core</a>
+                                            </nav>
+                    <h1><small>\Slothsoft\Core</small>Lambda</h1>
+
+                    
+                    
+                    
+                                        <h2>Classes</h2>
+                    <table class="table table-hover">
+                                            <tr>
+                            <td><a href="../classes/Slothsoft.Core.Lambda.Closure.html">Closure</a></td>
+                            <td><em></em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/Slothsoft.Core.Lambda.Manager.html">Manager</a></td>
+                            <td><em></em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/Slothsoft.Core.Lambda.Pool.html">Pool</a></td>
+                            <td><em></em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/Slothsoft.Core.Lambda.Stackable.html">Stackable</a></td>
+                            <td><em></em></td>
+                        </tr>
+                                            <tr>
+                            <td><a href="../classes/Slothsoft.Core.Lambda.Stream.html">Stream</a></td>
+                            <td><em></em></td>
+                        </tr>
+                                        </table>
+                                    </div>
+
+                <aside class="span4 detailsbar">
+                    <dl>
+                        <dt>Namespace hierarchy</dt>
+                        <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                    <div class="namespace-wrapper"><a href="../namespaces/default.html">\</a></div>
+                                                            
+                                    <div class="namespace-wrapper"><a href="../namespaces/Slothsoft.html">\Slothsoft</a></div>
+                                                            
+                                    <div class="namespace-wrapper"><a href="../namespaces/Slothsoft.Core.html">\Slothsoft\Core</a></div>
+                                                                                        <div class="namespace-wrapper">\Slothsoft\Core\Lambda</div>
+                        </dd>
+                    </dl>
+                </aside>
+            </div>
+
+            
+            
+        </div>
+    </section>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Slothsoft.html">\Slothsoft</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on May 28th, 2018 at 15:01.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

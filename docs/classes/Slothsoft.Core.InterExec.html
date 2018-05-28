@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Slothsoft.html">\Slothsoft</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">1294</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">2</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1665713604"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1665713604" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-784495167"></a>
+                                <a href="../namespaces/Slothsoft.html" style="margin-left: 30px; padding-left: 0">Slothsoft</a>
+            </div>
+            <div id="namespace-784495167" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1149210357"></a>
+                                <a href="../namespaces/Slothsoft.Core.html" style="margin-left: 30px; padding-left: 0">Core</a>
+            </div>
+            <div id="namespace-1149210357" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1732561488"></a>
+                                <a href="../namespaces/Slothsoft.Core.Calendar.html" style="margin-left: 30px; padding-left: 0">Calendar</a>
+            </div>
+            <div id="namespace-1732561488" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Calendar.DateTimeFormatter.html">DateTimeFormatter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Calendar.Seconds.html">Seconds</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-608216285"></a>
+                                <a href="../namespaces/Slothsoft.Core.Configuration.html" style="margin-left: 30px; padding-left: 0">Configuration</a>
+            </div>
+            <div id="namespace-608216285" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.ConfigurationField.html">ConfigurationField</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.ConfigurationRequiredException.html">ConfigurationRequiredException</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.DirectoryConfigurationField.html">DirectoryConfigurationField</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Configuration.FileConfigurationField.html">FileConfigurationField</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1759288274"></a>
+                                <a href="../namespaces/Slothsoft.Core.DBMS.html" style="margin-left: 30px; padding-left: 0">DBMS</a>
+            </div>
+            <div id="namespace-1759288274" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Authority.html">Authority</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Client.html">Client</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.DatabaseException.html">DatabaseException</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Manager.html">Manager</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.DBMS.Table.html">Table</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1481632137"></a>
+                                <a href="../namespaces/Slothsoft.Core.FS.html" style="margin-left: 30px; padding-left: 0">FS</a>
+            </div>
+            <div id="namespace-1481632137" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadManager.html">DownloadManager</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadManagerStream.html">DownloadManagerStream</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadPool.html">DownloadPool</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FS.DownloadWork.html">DownloadWork</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2066273522"></a>
+                                <a href="../namespaces/Slothsoft.Core.Game.html" style="margin-left: 30px; padding-left: 0">Game</a>
+            </div>
+            <div id="namespace-2066273522" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Game.Dice.html">Dice</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Game.Name.html">Name</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Game.Prime.html">Prime</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1798747142"></a>
+                                <a href="../namespaces/Slothsoft.Core.IO.html" style="margin-left: 30px; padding-left: 0">IO</a>
+            </div>
+            <div id="namespace-1798747142" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-116660704"></a>
+                                <a href="../namespaces/Slothsoft.Core.IO.Readable.html" style="margin-left: 30px; padding-left: 0">Readable</a>
+            </div>
+            <div id="namespace-116660704" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.ChunkReaderInterface.html">ChunkReaderInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.DOMReaderInterface.html">DOMReaderInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.FileReaderInterface.html">FileReaderInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Readable.StreamReaderInterface.html">StreamReaderInterface</a></li>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1789700097"></a>
+                                <a href="../namespaces/Slothsoft.Core.IO.Writable.html" style="margin-left: 30px; padding-left: 0">Writable</a>
+            </div>
+            <div id="namespace-1789700097" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.ChunkWriterInterface.html">ChunkWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterInterface.html">DOMWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterInterface.html">FileWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.FilteredStreamWriterInterface.html">FilteredStreamWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.ResourceWriterInterface.html">ResourceWriterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.IO.Writable.StreamWriterInterface.html">StreamWriterInterface</a></li>
+                                                                            <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ChunkWriterFromFileTrait.html">ChunkWriterFromFileTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ChunkWriterFromResourceTrait.html">ChunkWriterFromResourceTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterDocumentFromElementTrait.html">DOMWriterDocumentFromElementTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterElementFromDocumentTrait.html">DOMWriterElementFromDocumentTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.DOMWriterFromFileTrait.html">DOMWriterFromFileTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterFileFromStringTrait.html">FileWriterFileFromStringTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterFromDOMTrait.html">FileWriterFromDOMTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.FileWriterStringFromFileTrait.html">FileWriterStringFromFileTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ResourceWriterFromChunksTrait.html">ResourceWriterFromChunksTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Slothsoft.Core.IO.Writable.ResourceWriterFromDOMTrait.html">ResourceWriterFromDOMTrait</a></li>
+                                                                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.IO.HTTPFile.html">HTTPFile</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.IO.HTTPStream.html">HTTPStream</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.IO.Memory.html">Memory</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-790744973"></a>
+                                <a href="../namespaces/Slothsoft.Core.Lambda.html" style="margin-left: 30px; padding-left: 0">Lambda</a>
+            </div>
+            <div id="namespace-790744973" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Closure.html">Closure</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Manager.html">Manager</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Pool.html">Pool</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Stackable.html">Stackable</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Lambda.Stream.html">Stream</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1750800467"></a>
+                                <a href="../namespaces/Slothsoft.Core.StreamFilter.html" style="margin-left: 30px; padding-left: 0">StreamFilter</a>
+            </div>
+            <div id="namespace-1750800467" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.StreamFilter.StreamFilterInterface.html">StreamFilterInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.AbstractStreamFilterTest.html">AbstractStreamFilterTest</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ChunkEncode.html">ChunkEncode</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.Identity.html">Identity</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.StreamFilterBase.html">StreamFilterBase</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ZlibEncodeBase.html">ZlibEncodeBase</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ZlibEncodeDeflate.html">ZlibEncodeDeflate</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamFilter.ZlibEncodeGzip.html">ZlibEncodeGzip</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1944969669"></a>
+                                <a href="../namespaces/Slothsoft.Core.StreamWrapper.html" style="margin-left: 30px; padding-left: 0">StreamWrapper</a>
+            </div>
+            <div id="namespace-1944969669" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.StreamWrapper.StreamWrapperFactoryInterface.html">StreamWrapperFactoryInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.StreamWrapper.StreamWrapperInterface.html">StreamWrapperInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.FileStreamWrapper.html">FileStreamWrapper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.Psr7StreamWrapper.html">Psr7StreamWrapper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.ResourceStreamWrapper.html">ResourceStreamWrapper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.StreamWrapper.StreamWrapperRegistrar.html">StreamWrapperRegistrar</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-918417496"></a>
+                                <a href="../namespaces/Slothsoft.Core.XML.html" style="margin-left: 30px; padding-left: 0">XML</a>
+            </div>
+            <div id="namespace-918417496" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XML.LeanElement.html">LeanElement</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2074493257"></a>
+                                <a href="../namespaces/Slothsoft.Core.XSLT.html" style="margin-left: 30px; padding-left: 0">XSLT</a>
+            </div>
+            <div id="namespace-2074493257" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1718860385"></a>
+                                <a href="../namespaces/Slothsoft.Core.XSLT.Adapters.html" style="margin-left: 30px; padding-left: 0">Adapters</a>
+            </div>
+            <div id="namespace-1718860385" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.XSLT.Adapters.AdapterInterface.html">AdapterInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.CliAdapter.html">CliAdapter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.GenericAdapter.html">GenericAdapter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.SaxonProcessorAdapter.html">SaxonProcessorAdapter</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Adapters.XsltProcessorAdapter.html">XsltProcessorAdapter</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1155291432"></a>
+                                <a href="../namespaces/Slothsoft.Core.XSLT.Inputs.html" style="margin-left: 30px; padding-left: 0">Inputs</a>
+            </div>
+            <div id="namespace-1155291432" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Slothsoft.Core.XSLT.Inputs.InputInterface.html">InputInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Inputs.DocumentInput.html">DocumentInput</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.Inputs.FileInput.html">FileInput</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.XSLT.XsltFactory.html">XsltFactory</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Slothsoft.Core.CloudFlareScraper.html">CloudFlareScraper</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.FileSystem.html">FileSystem</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Image.html">Image</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.InterExec.html">InterExec</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.MimeTypeDictionary.html">MimeTypeDictionary</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.RCon.html">RCon</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.ServerEnvironment.html">ServerEnvironment</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.Storage.html">Storage</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.WebCrawler.html">WebCrawler</a></li>
+                                                    <li class="class"><a href="../classes/Slothsoft.Core.XMLHttpRequest.html">XMLHttpRequest</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/Slothsoft.Core.html">\Slothsoft\Core</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\Slothsoft\Core</small>InterExec</h1>
+                    <p><em></em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_on" class="">on()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_is_running" class="">is_running()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_run" class="">run()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_command_to_run" class="">$command_to_run</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_environment_vars" class="">$environment_vars</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_timeout" class="">$timeout</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_stdout" class="">$stdout</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_stderr" class="">$stderr</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_return" class="">$return</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_time_start" class="">$time_start</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_time_taken" class="">$time_taken</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_fix_windows_path" class="">$fix_windows_path</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_tick_interval" class="">$tick_interval</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_process_handle" class="">$process_handle</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_data_buffer_size" class="">$data_buffer_size</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_pipes" class="">$pipes</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_pipeType" class="">$pipeType</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#constant_STDIN" class="">STDIN</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#constant_STDOUT" class="">STDOUT</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#constant_STDERR" class="">STDERR</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#constant_PIPE_TYPE_DEFAULT" class="">PIPE_TYPE_DEFAULT</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#constant_PIPE_TYPE_PTY" class="">PIPE_TYPE_PTY</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_fire" class="">fire()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_stream_has_content" class="">stream_has_content()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_fix_windows_command_path" class="">fix_windows_command_path()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_run_startup" class="">run_startup()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_run_mainloop" class="">run_mainloop()</a><br />
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#method_run_shutdown" class="">run_shutdown()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Slothsoft.Core.InterExec.html#property_events" class="">$events</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Slothsoft.Core.InterExec.html"><div class="path-wrapper">Slothsoft\Core\InterExec.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\Slothsoft\Core\InterExec</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
+                </aside>
+            </div>
+
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_STDIN" name="constant_STDIN" class="anchor"></a>
+            <article id="constant_STDIN" class="constant">
+                <h3 class="">STDIN</h3>
+                <pre class="signature">STDIN</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_STDOUT" name="constant_STDOUT" class="anchor"></a>
+            <article id="constant_STDOUT" class="constant">
+                <h3 class="">STDOUT</h3>
+                <pre class="signature">STDOUT</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_STDERR" name="constant_STDERR" class="anchor"></a>
+            <article id="constant_STDERR" class="constant">
+                <h3 class="">STDERR</h3>
+                <pre class="signature">STDERR</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_PIPE_TYPE_DEFAULT" name="constant_PIPE_TYPE_DEFAULT" class="anchor"></a>
+            <article id="constant_PIPE_TYPE_DEFAULT" class="constant">
+                <h3 class="">PIPE_TYPE_DEFAULT</h3>
+                <pre class="signature">PIPE_TYPE_DEFAULT</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_PIPE_TYPE_PTY" name="constant_PIPE_TYPE_PTY" class="anchor"></a>
+            <article id="constant_PIPE_TYPE_PTY" class="constant">
+                <h3 class="">PIPE_TYPE_PTY</h3>
+                <pre class="signature">PIPE_TYPE_PTY</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_command_to_run" name="property_command_to_run" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$command_to_run</h3>
+                <pre class="signature">$command_to_run : string</pre>
+                <p><em>The command to run.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_environment_vars" name="property_environment_vars" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$environment_vars</h3>
+                <pre class="signature">$environment_vars : array|null</pre>
+                <p><em>Environment variables (null to use existing variables).</em></p>
+                
+
+                                <h4>Type</h4>
+                array|null
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_timeout" name="property_timeout" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$timeout</h3>
+                <pre class="signature">$timeout : integer</pre>
+                <p><em>Time, in seconds, after which command is forcefully aborted.</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_stdout" name="property_stdout" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$stdout</h3>
+                <pre class="signature">$stdout : string</pre>
+                <p><em>All of the program&#039;s standard output till now.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_stderr" name="property_stderr" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$stderr</h3>
+                <pre class="signature">$stderr : string</pre>
+                <p><em>All of the program&#039;s error output till now.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_return" name="property_return" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$return</h3>
+                <pre class="signature">$return : integer</pre>
+                <p><em>Program&#039;s exit code (obviously only set after program quits).</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_time_start" name="property_time_start" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$time_start</h3>
+                <pre class="signature">$time_start : float</pre>
+                <p><em>Timestamp in seconds of start of execution.</em></p>
+                
+
+                                <h4>Type</h4>
+                float
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_time_taken" name="property_time_taken" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$time_taken</h3>
+                <pre class="signature">$time_taken : float</pre>
+                <p><em>The time taken for the program to run and close.</em></p>
+                
+
+                                <h4>Type</h4>
+                float
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_fix_windows_path" name="property_fix_windows_path" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$fix_windows_path</h3>
+                <pre class="signature">$fix_windows_path : boolean</pre>
+                <p><em>If enabled, fixes a problem with popen not allowing spaces inside program path (even when quoted).</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tick_interval" name="property_tick_interval" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tick_interval</h3>
+                <pre class="signature">$tick_interval : float</pre>
+                <p><em>Interval between ticks, in seconds (a value of zero disables interval)</em></p>
+                
+
+                                <h4>Type</h4>
+                float
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_process_handle" name="property_process_handle" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$process_handle</h3>
+                <pre class="signature">$process_handle : resource</pre>
+                <p><em>Process resource.</em></p>
+                
+
+                                <h4>Type</h4>
+                resource
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_data_buffer_size" name="property_data_buffer_size" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$data_buffer_size</h3>
+                <pre class="signature">$data_buffer_size : integer</pre>
+                <p><em>Size of buffer for reading from pipes.</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_pipes" name="property_pipes" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$pipes</h3>
+                <pre class="signature">$pipes : array</pre>
+                <p><em>Process I/O pipes.</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_pipeType" name="property_pipeType" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$pipeType</h3>
+                <pre class="signature">$pipeType : string</pre>
+                <p><em>Pipe type, pipe or pty (Linux only, PHP must be compiled with --enable-pty)
+Constants : PIPE_TYPE_DEFAULT, PIPE_TYPE_PTY</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_events" name="property_events" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$events</h3>
+                <pre class="signature">$events : array</pre>
+                <p><em>Array containing event callbacks.</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(string  <span class="argument">$command_to_run</span>, array  <span class="argument">$environment_vars = null</span>) </pre>
+                <p><em>Creates new instance.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$command_to_run </td>
+                                <td><p>The command line to execute.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$environment_vars </td>
+                                <td><p>(Optional) Environment variables.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_on" name="method_on" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">on()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">on(string  <span class="argument">$event</span>, callable  <span class="argument">$callback</span>) </pre>
+                <p><em>Call callback when an event is triggered.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$event </td>
+                                <td><p>Name of event.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>callable</td>
+                                <td>$callback </td>
+                                <td><p>The callback to call.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_is_running" name="method_is_running" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">is_running()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">is_running() : boolean</pre>
+                <p><em>Returns whether process is currently running or not.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_run" name="method_run" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">run()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">run() : \Slothsoft\Core\InterExec</pre>
+                <p><em>Runs the command!</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/Slothsoft.Core.InterExec.html">\Slothsoft\Core\InterExec</a>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_fire" name="method_fire" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">fire()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">fire(string  <span class="argument">$event</span>, array  <span class="argument">$args = array()</span>) : mixed</pre>
+                <p><em>Trigger an event.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$event </td>
+                                <td><p>Name of event.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$args </td>
+                                <td><p>(Optional) Arguments to pass to event.
+Note that the first argument is always $this.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                            &mdash; <p>Value resulting from event callback.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_stream_has_content" name="method_stream_has_content" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">stream_has_content()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">stream_has_content(resource  <span class="argument">$stream</span>) : boolean</pre>
+                <p><em>Returns whether stream currently has pending content or not.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>resource</td>
+                                <td>$stream </td>
+                                <td><p>The stream resource.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>True if there is unread content, false otherwise.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_fix_windows_command_path" name="method_fix_windows_command_path" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">fix_windows_command_path()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">fix_windows_command_path(string  <span class="argument">$commandPath</span>) : string</pre>
+                <p><em>This hack fixes a legacy issue in popen not handling escaped command filenames on Windows.</em></p>
+                <p>Basically, if we're on windows and the first command part is double quoted, we CD into the
+directory and execute the command from there.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$commandPath </td>
+                                <td><p>The command to fix.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The command with the path fixed.</p>
+                                    				
+                                                            <h4>Examples</h4>
+                                                                <h5>&#039;&quot;C:\a test\b.exe&quot; -h&#039; -&gt; &#039;cd &quot;C:\a test\&quot; &amp;&amp; b.exe -h&#039;</h5>
+                        <pre class="pre-scrollable">** File not found : : **</pre>
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_run_startup" name="method_run_startup" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">run_startup()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">run_startup() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_run_mainloop" name="method_run_mainloop" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">run_mainloop()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">run_mainloop() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_run_shutdown" name="method_run_shutdown" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">run_shutdown()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">run_shutdown() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">InterExec.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Slothsoft\Core\InterExec.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Slothsoft.html">\Slothsoft</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on May 28th, 2018 at 15:01.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

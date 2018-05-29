@@ -24,7 +24,7 @@ class DirectoryConfigurationField extends ConfigurationField
         if ($value === false) {
             throw new RuntimeException("Could not create directory: $newValue");
         }
-        parent::setValue($value . DIRECTORY_SEPARATOR);
+        parent::setValue($value);
     }
 }
 

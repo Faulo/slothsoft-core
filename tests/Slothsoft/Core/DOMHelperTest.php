@@ -15,7 +15,7 @@ class DOMHelperTest extends TestCase
         $this->dom = new DOMHelper();
     }
 
-    public function testIsThereAnySyntaxError()
+    public function testParseFragment()
     {
         $xml = '<xml/>';
         $fragment = $this->dom->parse($xml);

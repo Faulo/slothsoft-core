@@ -25,18 +25,26 @@ use RuntimeException;
 
 class DOMHelper
 {
+    const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
+    
+    const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
 
     const NS_FARAH_MODULE = 'http://schema.slothsoft.net/farah/module';
-
-    const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
 
     const NS_FARAH_SITES = 'http://schema.slothsoft.net/farah/sitemap';
 
     const NS_SAVEGAME_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
 
-    const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
-
     const NS_SCHEMA_VERSIONING = 'http://schema.slothsoft.net/schema/versioning';
+    
+    private const SLOTHSOFT_NAMESPACES = [
+        'saa' => self::NS_AMBER_AMBERDATA,
+        'sfd' => self::NS_FARAH_DICTIONARY,
+        'sfm' => self::NS_FARAH_MODULE,
+        'sfs' => self::NS_FARAH_SITES,
+        'sse' => self::NS_SAVEGAME_EDITOR,
+        'ssv' => self::NS_SCHEMA_VERSIONING,
+    ];
 
     const NS_XML = 'http://www.w3.org/XML/1998/namespace';
 
@@ -51,8 +59,25 @@ class DOMHelper
     const NS_XLINK = 'http://www.w3.org/1999/xlink';
 
     const NS_ATOM = 'http://www.w3.org/2005/Atom';
+    
+    private const W3C_NAMESPACES = [
+        'html' => self::NS_HTML,
+        'xml' => self::NS_XML,
+        'xsl' => self::NS_XSL,
+        'xsd' => self::NS_XSD,
+        'svg' => self::NS_SVG,
+        'xlink' => self::NS_XLINK,
+        'atom' => self::NS_ATOM,
+    ];
+    private const HTML_NAMESPACES = [
+        'html' => self::NS_HTML,
+    ];
 
     const NS_PHP = 'http://php.net/xpath';
+    
+    private const PHP_NAMESPACES = [
+        'php' => self::NS_PHP,
+    ];
 
     const NS_EM = 'http://www.mozilla.org/2004/em-rdf#';
 
@@ -61,40 +86,20 @@ class DOMHelper
     const NS_MEDIA = 'http://search.yahoo.com/mrss/';
 
     const NS_SITEMAP = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-
-    protected static $namespaceList = [
-        'sfm' => self::NS_FARAH_MODULE,
-        'sfd' => self::NS_FARAH_DICTIONARY,
-        'sfs' => self::NS_FARAH_SITES,
-        
-        'sse' => self::NS_SAVEGAME_EDITOR,
-        
-        'saa' => self::NS_AMBER_AMBERDATA,
-        
-        'xml' => self::NS_XML,
-        'html' => self::NS_HTML,
-        'xsl' => self::NS_XSL,
-        'xsd' => self::NS_XSD,
-        'svg' => self::NS_SVG,
-        'xlink' => self::NS_XLINK,
-        'atom' => self::NS_ATOM,
-        'php' => self::NS_PHP,
+    
+    private const MISC_NAMESPACES = [        
         'em' => self::NS_EM,
         'gd' => self::NS_GD,
         'media' => self::NS_MEDIA,
-        'sitemap' => self::NS_SITEMAP
+        'sitemap' => self::NS_SITEMAP,
     ];
 
-    const XPATH_NS_ALL = 1;
-
-    // loadXPath loads all known namespaces
-    const XPATH_HTML = 2;
-
-    // loadXPath loads HTML namespace
-    const XPATH_PHP = 4;
-
-    // loadXPath loads PHP functions
-    const XPATH_SLOTHSOFT = 8;
+    const XPATH_NS_ALL = -1;
+    const XPATH_SLOTHSOFT = 1;
+    const XPATH_W3C = 2;
+    const XPATH_HTML = 4;
+    const XPATH_PHP = 8;
+    const XPATH_MISC = 16;
 
     // loadXPath loads Slothsoft namespaces
     public static function loadDocument($filePath, $asHTML = false): DOMDocument
@@ -112,23 +117,20 @@ class DOMHelper
     {
         $xpath = new DOMXPath($document);
         $nsList = [];
-        if ($options & self::XPATH_NS_ALL) {
-            foreach (self::$namespaceList as $prefix => $ns) {
-                $nsList[$prefix] = $ns;
-            }
+        if ($options & self::XPATH_SLOTHSOFT) {
+            $nsList += self::SLOTHSOFT_NAMESPACES;
+        }
+        if ($options & self::XPATH_W3C) {
+            $nsList += self::W3C_NAMESPACES;
         }
         if ($options & self::XPATH_HTML) {
-            $nsList['html'] = self::NS_HTML;
+            $nsList += self::HTML_NAMESPACES;
         }
         if ($options & self::XPATH_PHP) {
-            $nsList['php'] = self::NS_PHP;
+            $nsList += self::PHP_NAMESPACES;
         }
-        if ($options & self::XPATH_SLOTHSOFT) {
-            $nsList['sfm'] = self::NS_FARAH_MODULE;
-            $nsList['sfd'] = self::NS_FARAH_DICTIONARY;
-            $nsList['sfs'] = self::NS_FARAH_SITES;
-            $nsList['sse'] = self::NS_SAVEGAME_EDITOR;
-            $nsList['saa'] = self::NS_AMBER_AMBERDATA;
+        if ($options & self::XPATH_MISC) {
+            $nsList += self::MISC_NAMESPACES;
         }
         foreach ($nsList as $prefix => $ns) {
             $xpath->registerNamespace($prefix, $ns);
@@ -139,23 +141,22 @@ class DOMHelper
         return $xpath;
     }
 
-    const HTML_FRAME = '<?xml version="1.0" encoding="UTF-8"?><html><body>%s</body></html>';
+    private const HTML_FRAME = '<?xml version="1.0" encoding="UTF-8"?><html><body>%s</body></html>';
 
-    protected static $impl;
-
-    protected static function _implementation()
+    private static function dom()
     {
-        if (! self::$impl) {
-            self::$impl = new DOMImplementation();
+        static $implementation;
+        if ($implementation === null) {
+            $implementation = new DOMImplementation();
         }
-        return self::$impl;
+        return $implementation;
     }
 
     // returns DOMDocumentFragment
     public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false)
     {
         if ($asHTML) {
-            $parseDoc = self::_implementation()->createDocument();
+            $parseDoc = self::dom()->createDocument();
             
             $ret = @$parseDoc->loadHTML(sprintf(self::HTML_FRAME, $xmlCode));
             if (! $ret) {
@@ -192,7 +193,7 @@ class DOMHelper
             }
         } else {
             if ($targetDoc === null) {
-                $targetDoc = self::_implementation()->createDocument();
+                $targetDoc = self::dom()->createDocument();
             }
             
             $retFragment = $targetDoc->createDocumentFragment();
@@ -214,7 +215,7 @@ class DOMHelper
 
     public function createDocument(string $namespaceURI, string $qualifiedName): DOMDocument
     {
-        return self::_implementation()->createDocument($namespaceURI, $qualifiedName);
+        return self::dom()->createDocument($namespaceURI, $qualifiedName);
     }
 
     // returns string
@@ -297,7 +298,7 @@ class DOMHelper
         return $retDoc;
     }
 
-    protected function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList)
+    private function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList)
     {
         $retNode = null;
         switch ($sourceNode->nodeType) {

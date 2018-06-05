@@ -2,6 +2,7 @@
 <phpdoc>
   <parser>
     <target>docs/tmp</target>
+    <visibility>public,protected</visibility>
   </parser>
   <transformer>
     <target>docs</target>

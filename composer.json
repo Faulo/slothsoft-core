@@ -30,7 +30,8 @@
         ]
     },
     "keywords": [
-        "slothsoft"
+        "slothsoft",
+        "docs"
     ],
     "autoload-dev": {
         "classmap": [

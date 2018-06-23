@@ -6,7 +6,7 @@ class Seconds
 {
 
     const USLEEP_FACTOR = 1000000;
-    
+
     const MICROSECOND = 0.000001;
 
     const MILLISECOND = 0.001;

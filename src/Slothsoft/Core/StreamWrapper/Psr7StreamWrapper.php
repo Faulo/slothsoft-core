@@ -52,7 +52,7 @@ class Psr7StreamWrapper implements StreamWrapperInterface
             return false;
         }
     }
-    
+
     public function stream_tell()
     {
         try {
@@ -61,8 +61,8 @@ class Psr7StreamWrapper implements StreamWrapperInterface
             return false;
         }
     }
-    
-    public function stream_close() : bool
+
+    public function stream_close(): bool
     {
         try {
             $this->stream->close();

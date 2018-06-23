@@ -16,9 +16,9 @@ class MimeTypeDictionary
     const FILE_MIME = __DIR__ . '/../../../mimeTypes.xml';
 
     private static $initialized = false;
-    
+
     private static $mimeExtensionList;
-    
+
     private static $mimeCompressionsList;
 
     private static $extensionMimeList;
@@ -79,7 +79,7 @@ class MimeTypeDictionary
         
         return isset(self::$extensionMimeList[$extension]) ? self::$extensionMimeList[$extension] : 'application/octet-stream';
     }
-    
+
     public static function guessCompressions(string $mime): string
     {
         self::init();

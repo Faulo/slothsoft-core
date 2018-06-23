@@ -83,13 +83,13 @@ class StreamWrapperRegistrar implements StreamWrapperInterface
     {
         return $this->stream->stream_write($data);
     }
-    
+
     public function stream_tell()
     {
         return $this->stream->stream_tell();
     }
-    
-    public function stream_close() : bool
+
+    public function stream_close(): bool
     {
         return $this->stream->stream_close();
     }

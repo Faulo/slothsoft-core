@@ -10,7 +10,7 @@ class DOMHelperTest extends TestCase
 
     private $dom;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->dom = new DOMHelper();
     }

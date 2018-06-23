@@ -25,8 +25,9 @@ use RuntimeException;
 
 class DOMHelper
 {
+
     const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
-    
+
     const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
 
     const NS_FARAH_MODULE = 'http://schema.slothsoft.net/farah/module';
@@ -36,14 +37,14 @@ class DOMHelper
     const NS_SAVEGAME_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
 
     const NS_SCHEMA_VERSIONING = 'http://schema.slothsoft.net/schema/versioning';
-    
+
     private const SLOTHSOFT_NAMESPACES = [
         'saa' => self::NS_AMBER_AMBERDATA,
         'sfd' => self::NS_FARAH_DICTIONARY,
         'sfm' => self::NS_FARAH_MODULE,
         'sfs' => self::NS_FARAH_SITES,
         'sse' => self::NS_SAVEGAME_EDITOR,
-        'ssv' => self::NS_SCHEMA_VERSIONING,
+        'ssv' => self::NS_SCHEMA_VERSIONING
     ];
 
     const NS_XML = 'http://www.w3.org/XML/1998/namespace';
@@ -59,7 +60,7 @@ class DOMHelper
     const NS_XLINK = 'http://www.w3.org/1999/xlink';
 
     const NS_ATOM = 'http://www.w3.org/2005/Atom';
-    
+
     private const W3C_NAMESPACES = [
         'html' => self::NS_HTML,
         'xml' => self::NS_XML,
@@ -67,16 +68,17 @@ class DOMHelper
         'xsd' => self::NS_XSD,
         'svg' => self::NS_SVG,
         'xlink' => self::NS_XLINK,
-        'atom' => self::NS_ATOM,
+        'atom' => self::NS_ATOM
     ];
+
     private const HTML_NAMESPACES = [
-        'html' => self::NS_HTML,
+        'html' => self::NS_HTML
     ];
 
     const NS_PHP = 'http://php.net/xpath';
-    
+
     private const PHP_NAMESPACES = [
-        'php' => self::NS_PHP,
+        'php' => self::NS_PHP
     ];
 
     const NS_EM = 'http://www.mozilla.org/2004/em-rdf#';
@@ -86,19 +88,24 @@ class DOMHelper
     const NS_MEDIA = 'http://search.yahoo.com/mrss/';
 
     const NS_SITEMAP = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-    
-    private const MISC_NAMESPACES = [        
+
+    private const MISC_NAMESPACES = [
         'em' => self::NS_EM,
         'gd' => self::NS_GD,
         'media' => self::NS_MEDIA,
-        'sitemap' => self::NS_SITEMAP,
+        'sitemap' => self::NS_SITEMAP
     ];
 
-    const XPATH_NS_ALL = -1;
+    const XPATH_NS_ALL = - 1;
+
     const XPATH_SLOTHSOFT = 1;
+
     const XPATH_W3C = 2;
+
     const XPATH_HTML = 4;
+
     const XPATH_PHP = 8;
+
     const XPATH_MISC = 16;
 
     // loadXPath loads Slothsoft namespaces

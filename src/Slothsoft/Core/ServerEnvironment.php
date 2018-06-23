@@ -12,7 +12,7 @@ class ServerEnvironment
     {
         static $field;
         if ($field === null) {
-            $field = new DirectoryConfigurationField();
+            $field = new DirectoryConfigurationField(sys_get_temp_dir());
         }
         return $field;
     }
@@ -31,7 +31,7 @@ class ServerEnvironment
     {
         static $field;
         if ($field === null) {
-            $field = new DirectoryConfigurationField(self::getRootDirectory() . DIRECTORY_SEPARATOR . 'log');
+            $field = new DirectoryConfigurationField(sys_get_temp_dir());
         }
         return $field;
     }
@@ -50,7 +50,7 @@ class ServerEnvironment
     {
         static $field;
         if ($field === null) {
-            $field = new DirectoryConfigurationField(self::getRootDirectory() . DIRECTORY_SEPARATOR . 'cache');
+            $field = new DirectoryConfigurationField(sys_get_temp_dir());
         }
         return $field;
     }
@@ -69,7 +69,7 @@ class ServerEnvironment
     {
         static $field;
         if ($field === null) {
-            $field = new DirectoryConfigurationField(self::getRootDirectory() . DIRECTORY_SEPARATOR . 'data');
+            $field = new DirectoryConfigurationField(sys_get_temp_dir());
         }
         return $field;
     }

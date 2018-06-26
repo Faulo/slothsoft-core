@@ -4,6 +4,7 @@ namespace Slothsoft\Core\IO\Writable;
 
 use DOMDocument;
 use DOMElement;
+use Slothsoft\Core\DOMHelper;
 
 /**
  *
@@ -19,7 +20,7 @@ trait DOMWriterFromFileTrait {
 
     public function toDocument(): DOMDocument
     {
-        return $this->toFile()->getDocument();
+        return DOMHelper::loadDocument((string) $this->toFile());
     }
 }
 

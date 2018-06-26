@@ -27,5 +27,11 @@ class FileInfoFactory
         $document->save((string) $file);
         return $file;
     }
+    public static function createFromResource($resource) : SplFileInfo
+    {
+        $file = self::createTempFile();
+        file_put_contents((string) $file, $resource);
+        return $file;
+    }
 }
 

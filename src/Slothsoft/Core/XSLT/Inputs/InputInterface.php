@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Inputs;
 
-use Slothsoft\Core\IO\HTTPFile;
 use DOMDocument;
+use SplFileInfo;
 
 /**
  *
@@ -13,7 +13,7 @@ use DOMDocument;
 interface InputInterface
 {
 
-    public function toFile(): HTTPFile;
+    public function toFile(): SplFileInfo;
 
     public function toDocument(): DOMDocument;
 }

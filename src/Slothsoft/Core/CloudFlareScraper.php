@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core;
 
-use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
 use Serializable;
 
@@ -17,7 +17,7 @@ class CloudFlareScraper implements Serializable
 
     public function __construct($cookieFile = null, $trySolving = true)
     {
-        $this->cookieFile = $cookieFile === null ? HTTPFile::getTempFile() : $cookieFile;
+        $this->cookieFile = $cookieFile === null ? FileInfoFactory::createTempFile() : $cookieFile;
         $this->trySolving = $trySolving;
     }
 

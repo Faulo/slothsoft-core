@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
+use SplFileInfo;
 use XSLTProcessor;
 
 /**
@@ -14,10 +15,10 @@ use XSLTProcessor;
 class XsltProcessorAdapter extends GenericAdapter
 {
 
-    public function writeFile(HTTPFile $outputFile = null): HTTPFile
+    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo
     {
         if (! $outputFile) {
-            $outputFile = HTTPFile::createFromTemp();
+            $outputFile = FileInfoFactory::createTempFile();
         }
         
         $xslt = new XSLTProcessor();
@@ -26,7 +27,7 @@ class XsltProcessorAdapter extends GenericAdapter
         $xslt->registerPHPFunctions();
         $xslt->importStylesheet($this->template->toDocument());
         
-        $xslt->transformToUri($this->source->toDocument(), $outputFile->getPath());
+        $xslt->transformToUri($this->source->toDocument(), (string) $outputFile);
         
         return $outputFile;
     }

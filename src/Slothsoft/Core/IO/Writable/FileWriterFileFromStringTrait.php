@@ -2,7 +2,8 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable;
 
-use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\FileInfoFactory;
+use SplFileInfo;
 
 /**
  *
@@ -11,9 +12,9 @@ use Slothsoft\Core\IO\HTTPFile;
  */
 trait FileWriterFileFromStringTrait {
 
-    public function toFile(): HTTPFile
+    public function toFile(): SplFileInfo
     {
-        return HTTPFile::createFromString($this->toString());
+        return FileInfoFactory::createFromString($this->toString());
     }
 }
 

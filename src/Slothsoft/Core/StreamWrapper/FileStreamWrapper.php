@@ -2,13 +2,13 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\StreamWrapper;
 
-use Slothsoft\Core\IO\HTTPFile;
+use SplFileInfo;
 
 class FileStreamWrapper extends ResourceStreamWrapper
 {
 
-    public function __construct(HTTPFile $file)
+    public function __construct(SplFileInfo $file)
     {
-        parent::__construct(fopen($file->getPath(), StreamWrapperInterface::MODE_OPEN_READONLY));
+        parent::__construct(fopen((string) $file, StreamWrapperInterface::MODE_OPEN_READONLY));
     }
 }

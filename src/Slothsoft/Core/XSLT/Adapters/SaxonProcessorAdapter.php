@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
+use SplFileInfo;
 
 /**
  *
@@ -24,20 +25,18 @@ class SaxonProcessorAdapter extends GenericAdapter
      * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toFile()
      *
      */
-    public function writeFile(HTTPFile $outputFile = null): HTTPFile
+    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo
     {
         if (! $outputFile) {
-            $outputFile = HTTPFile::createFromTemp();
+            $outputFile = FileInfoFactory::createTempFile();
         }
         
         $saxon = $this->newSaxonProcessor();
         $xslt = $saxon->newXsltProcessor();
         
-        $xslt->setSourceFromFile($this->source->toFile()
-            ->getPath());
-        $xslt->compileFromFile($this->template->toFile()
-            ->getPath());
-        $xslt->setOutputFile($outputFile->getPath());
+        $xslt->setSourceFromFile((string) $this->source->toFile());
+        $xslt->compileFromFile((string) $this->template->toFile());
+        $xslt->setOutputFile((string) $outputFile);
         
         $xslt->transformToFile();
         

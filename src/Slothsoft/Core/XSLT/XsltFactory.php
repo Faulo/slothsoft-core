@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT;
 
-use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\FileInfoFactory;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
@@ -14,6 +14,7 @@ use Slothsoft\Core\XSLT\Inputs\FileInput;
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
 use DOMDocument;
 use DomainException;
+use SplFileInfo;
 
 /**
  *
@@ -129,12 +130,12 @@ class XsltFactory
     {
         switch (true) {
             case is_string($input):
-                return new FileInput(HTTPFile::createFromPath($input));
+                return new FileInput(FileInfoFactory::createFromPath($input));
             case $input instanceof DOMDocument:
                 return new DocumentInput($input);
             case $input instanceof DOMWriterInterface:
                 return new DocumentInput($input->toDocument());
-            case $input instanceof HTTPFile:
+            case $input instanceof SplFileInfo:
                 return new FileInput($input);
             case $input instanceof FileWriterInterface:
                 return new FileInput($input->toFile());

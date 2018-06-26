@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable;
 
-use Slothsoft\Core\IO\HTTPFile;
+use SplFileInfo;
 
 /**
  *
@@ -12,7 +12,7 @@ use Slothsoft\Core\IO\HTTPFile;
 interface FileWriterInterface
 {
 
-    public function toFile(): HTTPFile;
+    public function toFile(): SplFileInfo;
 
     public function toString(): string;
 }

@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Inputs;
 
-use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
+use SplFileInfo;
 
 /**
  *
@@ -22,10 +23,10 @@ class DocumentInput implements InputInterface
         $this->content = $input;
     }
 
-    public function toFile(): HTTPFile
+    public function toFile(): SplFileInfo
     {
         if ($this->contentFile === null) {
-            $this->contentFile = HTTPFile::createFromDocument($this->content);
+            $this->contentFile = FileInfoFactory::createFromDocument($this->content);
         }
         return $this->contentFile;
     }

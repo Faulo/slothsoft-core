@@ -2,7 +2,8 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Readable;
 
-use Slothsoft\Core\IO\HTTPFile;
+use SplFileInfo;
+
 
 /**
  *
@@ -12,7 +13,7 @@ use Slothsoft\Core\IO\HTTPFile;
 interface FileReaderInterface
 {
 
-    public function fromFile(HTTPFile $sourceFile);
+    public function fromFile(SplFileInfo $sourceFile);
 
     public function fromString(string $sourceString);
 }

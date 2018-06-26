@@ -7,7 +7,7 @@ use RecursiveIteratorIterator;
 
 class RecursiveFileIterator extends RecursiveFilterIterator
 {
-    public static function iterateDirectory(string $directory) : RecursiveIteratorIterator {
+    public static function iterateDirectory(string $directory) : iterable {
         $directoryIterator = new RecursiveDirectoryIterator($directory);
         $filteredIterator = new self($directoryIterator);
         return new RecursiveIteratorIterator($filteredIterator);

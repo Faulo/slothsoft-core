@@ -2,7 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use Slothsoft\Core\IO\HTTPFile;
+use SplFileInfo;
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
 use DOMDocument;
 
@@ -20,7 +20,7 @@ interface AdapterInterface
 
     public function setParameters(array $param);
 
-    public function writeFile(HTTPFile $outputFile = null): HTTPFile;
+    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo;
 
     public function writeDocument(): DOMDocument;
 }

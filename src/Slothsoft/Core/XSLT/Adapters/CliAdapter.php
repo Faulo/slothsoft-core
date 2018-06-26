@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use Slothsoft\Core\IO\HTTPFile;
+use SplFileInfo;
 use DOMDocument;
+use Slothsoft\Core\IO\FileInfoFactory;
 
 /**
  *
@@ -31,13 +32,13 @@ class CliAdapter extends GenericAdapter
      * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toFile()
      *
      */
-    public function writeFile(HTTPFile $outputFile = null): HTTPFile
+    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo
     {
         if (! $outputFile) {
-            $outputFile = HTTPFile::createFromTemp();
+            $outputFile = FileInfoFactory::createTempFile();
         }
         
-        $command = escapeshellarg($this->path) . ' ' . sprintf($this->args, escapeshellarg($this->source->toFile()->getPath()), escapeshellarg($this->template->toFile()->getPath()), escapeshellarg($outputFile->getPath()));
+        $command = escapeshellarg($this->path) . ' ' . sprintf($this->args, escapeshellarg((string) $this->source->toFile()), escapeshellarg((string) $this->template->toFile()), escapeshellarg((string) $outputFile));
         exec($command, $output, $res);
         if ($res !== 0) {
             die($command);

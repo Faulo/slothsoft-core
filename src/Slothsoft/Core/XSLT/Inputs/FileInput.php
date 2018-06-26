@@ -2,8 +2,9 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Inputs;
 
-use Slothsoft\Core\IO\HTTPFile;
 use DOMDocument;
+use SplFileInfo;
+use Slothsoft\Core\DOMHelper;
 
 /**
  *
@@ -17,12 +18,12 @@ class FileInput implements InputInterface
 
     private $contentDocument;
 
-    public function __construct(HTTPFile $input)
+    public function __construct(SplFileInfo $input)
     {
         $this->content = $input;
     }
 
-    public function toFile(): HTTPFile
+    public function toFile(): SplFileInfo
     {
         return $this->content;
     }
@@ -30,7 +31,7 @@ class FileInput implements InputInterface
     public function toDocument(): DOMDocument
     {
         if ($this->contentDocument === null) {
-            $this->contentDocument = $this->content->getDocument();
+            $this->contentDocument = DOMHelper::loadDocument((string) $this->content);
         }
         return $this->contentDocument;
     }

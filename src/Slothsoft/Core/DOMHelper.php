@@ -11,7 +11,7 @@ declare(strict_types = 1);
  */
 namespace Slothsoft\Core;
 
-use Slothsoft\Core\IO\HTTPFile;
+use Slothsoft\Core\IO\FileInfoFactory;
 use Slothsoft\Core\XSLT\XsltFactory;
 use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
 use DOMDocument;
@@ -22,6 +22,7 @@ use DOMXPath;
 use Exception;
 use OutOfRangeException;
 use RuntimeException;
+use SplFileInfo;
 
 class DOMHelper
 {
@@ -264,10 +265,10 @@ class DOMHelper
         return $this->transformToAdapter($source, $template, $param)->writeDocument();
     }
 
-    public function transformToFile($source, $template, array $param = [], HTTPFile $output = null): HTTPFile
+    public function transformToFile($source, $template, array $param = [], SplFileInfo $output = null): SplFileInfo
     {
         if (! $output) {
-            $output = HTTPFile::createFromTemp();
+            $output = FileInfoFactory::createFromTemp();
         }
         
         $adapter = $this->transformToAdapter($source, $template, $param);

@@ -13,8 +13,8 @@ use SplFileInfo;
 interface FileReaderInterface
 {
 
-    public function fromFile(SplFileInfo $sourceFile);
+    public function fromFile(SplFileInfo $sourceFile) : void;
 
-    public function fromString(string $sourceString);
+    public function fromString(string $sourceString) : void;
 }
 

@@ -18,6 +18,7 @@ use DOMXPath;
 use Exception;
 use com;
 use finfo;
+use Slothsoft\Core\IO\FileInfoFactory;
 
 abstract class FileSystem
 {
@@ -43,6 +44,8 @@ abstract class FileSystem
     const SCANDIR_WEBPATH = 8;
 
     const SCANDIR_SORT = 32;
+    
+    const SCANDIR_FILEINFO = 64;
 
     const ARCHIVE_MAX_FILES = 1000;
 
@@ -499,6 +502,14 @@ abstract class FileSystem
             }
         }
         $ret = array_values(array_diff($ret, $exclude));
+        if ($options & self::SCANDIR_SORT) {
+            $tmp = [];
+            foreach ($ret as $i => $val) {
+                $tmp[$val] = preg_replace('/\.[^\.]+$/', '', $val);
+            }
+            asort($tmp);
+            $ret = array_keys($tmp);
+        }
         if ($options & self::SCANDIR_REALPATH) {
             foreach ($ret as &$val) {
                 $val = $dirPath . $val;
@@ -509,14 +520,11 @@ abstract class FileSystem
                 $val = self::webpath($dirPath . $val);
             }
             unset($val);
-        }
-        if ($options & self::SCANDIR_SORT) {
-            $tmp = [];
-            foreach ($ret as $i => $val) {
-                $tmp[$val] = preg_replace('/\.[^\.]+$/', '', $val);
+        } elseif ($options & self::SCANDIR_FILEINFO) {
+            foreach ($ret as &$val) {
+                $val = FileInfoFactory::createFromPath($dirPath . $val);
             }
-            asort($tmp);
-            $ret = array_keys($tmp);
+            unset($val);
         }
         return $ret;
     }

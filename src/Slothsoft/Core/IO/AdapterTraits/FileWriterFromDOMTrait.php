@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace Slothsoft\Core\IO\Writable;
+namespace Slothsoft\Core\IO\AdapterTraits;
 
 use SplFileInfo;
 use Slothsoft\Core\IO\FileInfoFactory;

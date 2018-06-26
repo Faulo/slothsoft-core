@@ -19,6 +19,7 @@ use DOMDocumentFragment;
 use DOMImplementation;
 use DOMNode;
 use DOMXPath;
+use DomainException;
 use Exception;
 use OutOfRangeException;
 use RuntimeException;
@@ -249,6 +250,9 @@ class DOMHelper
         $template = XsltFactory::createInput($template);
         
         $templateDoc = $template->toDocument();
+        if ($templateDoc->documentElement->namespaceURI !== self::NS_XSL) {
+            throw new DomainException("Template file '{$template->toFile()}' is in namespace '{$templateDoc->documentElement->namespaceURI}, but should have been 'http://www.w3.org/1999/XSL/Transform'!");
+        }
         $templateVersion = $templateDoc->documentElement->getAttribute('version');
         
         $adapter = XsltFactory::createAdapter(floatval($templateVersion));

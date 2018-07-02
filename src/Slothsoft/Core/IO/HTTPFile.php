@@ -343,4 +343,9 @@ class HTTPFile implements FileWriterInterface
     {
         return $this->getContents();
     }
+    public function toFileName(): string
+    {
+        return $this->getName();
+    }
+
 }

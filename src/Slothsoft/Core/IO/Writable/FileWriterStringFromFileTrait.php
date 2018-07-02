@@ -11,7 +11,7 @@ trait FileWriterStringFromFileTrait {
 
     public function toString(): string
     {
-        return $this->toFile()->getContents();
+        return file_get_contents((string) $this->toFile());
     }
 }
 

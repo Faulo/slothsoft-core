@@ -11,6 +11,11 @@ class FileInfo extends SplFileInfo implements FileWriterInterface
     {
         return $this;
     }
+    
+    public function toFileName(): string
+    {
+        return $this->getFilename();
+    }
 
     public function toString(): string
     {

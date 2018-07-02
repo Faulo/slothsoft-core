@@ -13,6 +13,8 @@ interface FileWriterInterface
 {
 
     public function toFile(): SplFileInfo;
+    
+    public function toFileName(): string;
 
     public function toString(): string;
 }

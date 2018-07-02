@@ -16,9 +16,9 @@ use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Exception;
+use SplFileInfo;
 use com;
 use finfo;
-use Slothsoft\Core\IO\FileInfoFactory;
 
 abstract class FileSystem
 {
@@ -454,7 +454,7 @@ abstract class FileSystem
 
     public static function scanDir($relPath, $options = 0, $filter = null)
     {
-        $dirPath = realpath($relPath);
+        $dirPath = realpath((string) $relPath);
         if ($dirPath === false) {
             return [];
         }
@@ -522,7 +522,7 @@ abstract class FileSystem
             unset($val);
         } elseif ($options & self::SCANDIR_FILEINFO) {
             foreach ($ret as &$val) {
-                $val = FileInfoFactory::createFromPath($dirPath . $val);
+                $val = new SplFileInfo($dirPath . $val);
             }
             unset($val);
         }

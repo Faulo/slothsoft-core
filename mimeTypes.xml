@@ -41,6 +41,7 @@
 		<sub name="png" ext="png" spec="http://tools.ietf.org/html/rfc2083" />
 		<sub name="jpeg" ext="jpg" />
 		<sub name="gif" ext="gif" />
+		<sub name="x-tga" ext="tga" spec="http://www.gamers.org/dEngine/quake3/TGA.txt"/>
 	</type>
 	<type name="video">
 		<sub name="webm" ext="webm" />

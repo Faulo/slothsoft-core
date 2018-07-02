@@ -62,7 +62,9 @@ class Image
     {
         $destInfo = self::imageInfo($destFile);
         $destImage = self::createFromFile($destFile);
+        imagealphablending($destImage, true);
         foreach ($sourceFileList as $index => $sourceFile) {
+            $sourceFile = (string) $sourceFile;
             if ($sourceFile) {
                 $sourceInfo = self::imageInfo($sourceFile);
                 

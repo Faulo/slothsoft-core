@@ -6,7 +6,6 @@ use Psr\Http\Message\StreamInterface;
 
 interface StreamWriterInterface
 {
-
     public function toStream(): StreamInterface;
 }
 

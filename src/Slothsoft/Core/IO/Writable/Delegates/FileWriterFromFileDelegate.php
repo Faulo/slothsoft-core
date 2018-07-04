@@ -1,21 +1,16 @@
 <?php
-namespace Slothsoft\Core\IO\AdapterDelegates;
+namespace Slothsoft\Core\IO\Writable\Delegates;
 
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
-use Slothsoft\Core\IO\Writable\FileWriterStringFromFileTrait;
 use SplFileInfo;
 
 class FileWriterFromFileDelegate implements FileWriterInterface
 {
-    use FileWriterStringFromFileTrait;
-    
     private $delegate;
-    private $fileName;
     private $result;
     
-    public function __construct(callable $delegate, ?string $fileName = null) {
+    public function __construct(callable $delegate) {
         $this->delegate = $delegate;
-        $this->fileName = $fileName;
     }
     
     public function toFile(): SplFileInfo
@@ -25,10 +20,6 @@ class FileWriterFromFileDelegate implements FileWriterInterface
             assert($this->result instanceof SplFileInfo, "FileWriterFromFileDelegate must return SplFileInfo!");
         }
         return $this->result;
-    }
-    
-    public function toFileName() : string {
-        return $this->fileName ?? $this->toFile()->getFilename();
     }
 }
 

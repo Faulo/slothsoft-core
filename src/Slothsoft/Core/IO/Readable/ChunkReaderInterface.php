@@ -2,11 +2,10 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Readable;
 
-use Traversable;
+use Generator;
 
 interface ChunkReaderInterface
 {
-
-    public function fromChunks(Traversable $chunks);
+    public function fromChunks(Generator $chunks);
 }
 

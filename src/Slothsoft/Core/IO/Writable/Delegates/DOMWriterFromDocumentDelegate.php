@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
-namespace Slothsoft\Core\IO\AdapterDelegates;
+namespace Slothsoft\Core\IO\Writable\Delegates;
 
-use Slothsoft\Core\IO\Writable\DOMWriterElementFromDocumentTrait;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
+use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
 use DOMDocument;
 
 class DOMWriterFromDocumentDelegate implements DOMWriterInterface

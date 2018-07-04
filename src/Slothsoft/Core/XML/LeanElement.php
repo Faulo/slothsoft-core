@@ -2,8 +2,8 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XML;
 
-use Slothsoft\Core\IO\Writable\DOMWriterDocumentFromElementTrait;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
+use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 use DOMDocument;
 use DOMElement;
 use DOMNodeList;

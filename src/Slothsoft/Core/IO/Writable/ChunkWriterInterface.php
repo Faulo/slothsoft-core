@@ -4,9 +4,8 @@ namespace Slothsoft\Core\IO\Writable;
 
 use Generator;
 
-interface ChunkWriterInterface
+interface ChunkWriterInterface 
 {
-
     public function toChunks(): Generator;
 }
 

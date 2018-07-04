@@ -9,13 +9,8 @@ use SplFileInfo;
  * @author Daniel Schulz
  *        
  */
-interface FileWriterInterface
+interface FileWriterInterface 
 {
-
     public function toFile(): SplFileInfo;
-    
-    public function toFileName(): string;
-
-    public function toString(): string;
 }
 

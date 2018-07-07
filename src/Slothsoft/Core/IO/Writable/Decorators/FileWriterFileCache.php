@@ -25,7 +25,7 @@ class FileWriterFileCache implements FileWriterInterface
     private function refreshCacheFile() : void {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {
-            if ($this->cacheFile->isFile()) {
+            if ($this->cacheFile->isFile() and $this->cacheFile->getSize() > 0) {
                 $shouldRefreshCache = ($this->shouldRefreshCacheDelegate)($this->cacheFile);
             }
         } else {

@@ -1,44 +1,44 @@
 <?php
 declare(strict_types = 1);
-namespace Slothsoft\Core\IO;
+namespace Slothsoft\Core\IO\Psr7;
 
 use Psr\Http\Message\StreamInterface;
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
+use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 use BadMethodCallException;
 
-class GeneratorStream implements StreamInterface
+class ProcessStream implements StreamInterface
 {
+    private $command;
+    private $handle;
 
-    private $writer;
-
-    private $generator;
-
-    public function __construct(ChunkWriterInterface $writer)
+    public function __construct(string $command)
     {
-        $this->writer = $writer;
-        $this->generator = $writer->toChunks();
+        $this->command = $command;
+    }
+    private function init() {
+        $this->handle = popen($this->command, StreamWrapperInterface::MODE_OPEN_READONLY);
     }
 
     public function eof()
     {
-        return ! $this->generator->valid();
+        return feof($this->handle);
     }
 
     public function rewind()
     {
-        throw new BadMethodCallException('Cannot rewind a GeneratorStream.');
+        $this->seek(0);
     }
 
     public function close()
     {
-        $this->writer = null;
-        $this->generator = null;
+        pclose($this->handle);
     }
 
     public function detach()
     {
-        $this->writer = null;
-        $this->generator = null;
+        $ret = $this->handle;
+        $this->handle = null;
+        return $ret;
     }
 
     public function getMetadata($key = null)
@@ -67,7 +67,7 @@ class GeneratorStream implements StreamInterface
 
     public function tell()
     {
-        throw new BadMethodCallException('Cannot tell a GeneratorStream.');
+        throw new BadMethodCallException('Cannot tell a ProcessStream.');
     }
 
     public function isReadable()
@@ -77,9 +77,7 @@ class GeneratorStream implements StreamInterface
 
     public function read($length)
     {
-        $ret = (string) $this->generator->current();
-        $this->generator->next();
-        return $ret;
+        return fread($this->handle, $length);
     }
 
     public function isSeekable()
@@ -89,7 +87,11 @@ class GeneratorStream implements StreamInterface
 
     public function seek($offset, $whence = SEEK_SET)
     {
-        throw new BadMethodCallException('Cannot seek a GeneratorStream.');
+        if ($offset === 0 and $whence === SEEK_SET) {
+            $this->init();
+        } else {
+            throw new BadMethodCallException('Cannot seek a ProcessStream.');
+        }
     }
 
     public function isWritable()
@@ -99,6 +101,6 @@ class GeneratorStream implements StreamInterface
 
     public function write($string)
     {
-        throw new BadMethodCallException('Cannot write a GeneratorStream.');
+        throw new BadMethodCallException('Cannot write a ProcessStream.');
     }
 }

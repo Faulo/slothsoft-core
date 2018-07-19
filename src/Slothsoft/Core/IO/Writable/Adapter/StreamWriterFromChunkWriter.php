@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
 use Psr\Http\Message\StreamInterface;
-use Slothsoft\Core\IO\GeneratorStream;
+use Slothsoft\Core\IO\Psr7\GeneratorStream;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 

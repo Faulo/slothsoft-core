@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Readable;
 
 use DOMDocument;
-use DOMDocumentFragment;
+use DOMElement;
 
 /**
  *
@@ -13,8 +13,8 @@ use DOMDocumentFragment;
 interface DOMReaderInterface
 {
 
-    public function fromDocument(DOMDocument $sourceDoc);
+    public function fromDocument(DOMDocument $sourceDoc) : void;
 
-    public function fromDocumentFragment(DOMDocumentFragment $sourceFragment);
+    public function fromElement(DOMElement $sourceElement) : void;
 }
 

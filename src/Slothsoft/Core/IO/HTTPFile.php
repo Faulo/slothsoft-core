@@ -16,6 +16,7 @@ use Slothsoft\Core\Storage;
 use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use DOMDocument;
+use SplFileInfo;
 
 class HTTPFile implements FileWriterInterface
 {
@@ -334,9 +335,9 @@ class HTTPFile implements FileWriterInterface
         return is_file($this->path);
     }
 
-    public function toFile(): HTTPFile
+    public function toFile(): SplFileInfo
     {
-        return $this;
+        return FileInfoFactory::createFromPath($this->path);
     }
 
     public function toString(): string

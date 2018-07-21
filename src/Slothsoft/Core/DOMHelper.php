@@ -27,8 +27,10 @@ use SplFileInfo;
 
 class DOMHelper
 {
-
+    
     const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
+    
+    const NS_CRON_INSTRUCTIONS = 'http://schema.slothsoft.net/cron/instructions';
 
     const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
 
@@ -42,6 +44,7 @@ class DOMHelper
 
     private const SLOTHSOFT_NAMESPACES = [
         'saa' => self::NS_AMBER_AMBERDATA,
+        'sci' => self::NS_CRON_INSTRUCTIONS,
         'sfd' => self::NS_FARAH_DICTIONARY,
         'sfm' => self::NS_FARAH_MODULE,
         'sfs' => self::NS_FARAH_SITES,

@@ -119,6 +119,14 @@ class LeanElement implements DOMWriterInterface
     {
         return $this->attributes;
     }
+    
+    /**
+     * @param LeanElement $child
+     */
+    public function appendChild(LeanElement $child): void
+    {
+        $this->children[] = $child;
+    }
 
     /**
      *

@@ -98,7 +98,7 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="con" path="org.eclipse.dltk.USER_LIBRARY/Saxon"/>
-	<buildpathentry combineaccessrules="false" kind="prj" path="/slothsoft-w3c"/>
+	
 	<buildpathentry kind="src" path="vendor/phar-io/manifest/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
@@ -169,4 +169,4 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-</buildpath>
+<buildpathentry combineaccessrules="false" kind="prj" path="/slothsoft-w3c"/></buildpath>

@@ -33,6 +33,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>node_modules/@slothsoft</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>vendor/slothsoft</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>

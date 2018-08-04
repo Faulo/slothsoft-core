@@ -13,13 +13,19 @@ class DOMWriterFromFileWriter implements DOMWriterInterface
     use DOMWriterElementFromDocumentTrait;
     
     private $source;
-    public function __construct(FileWriterInterface $source) {
+    private $documentURI;
+    public function __construct(FileWriterInterface $source, ?string $documentURI = null) {
         $this->source = $source;
+        $this->documentURI = $documentURI;
     }
     
     public function toDocument(): DOMDocument
     {
-        return DOMHelper::loadDocument((string) $this->source->toFile());
+        $document = DOMHelper::loadDocument((string) $this->source->toFile());
+        if ($this->documentURI !== null) {
+            $document->documentURI = $this->documentURI;
+        }
+        return $document;
     }
 }
 

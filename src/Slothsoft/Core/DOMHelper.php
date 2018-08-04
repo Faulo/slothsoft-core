@@ -152,6 +152,17 @@ class DOMHelper
         }
         return $xpath;
     }
+    public static function guessExtension(string $namespaceURI): string
+    {
+        switch ($namespaceURI) {
+            case self::NS_HTML:
+                return 'xhtml';
+            case self::NS_SVG:
+                return 'svg';
+            default:
+                return 'xml';
+        }
+    }
 
     private const HTML_FRAME = '<?xml version="1.0" encoding="UTF-8"?><html><body>%s</body></html>';
 

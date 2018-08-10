@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Sanitizer;
 
 class IntegerSanitizer implements SanitizerInterface 

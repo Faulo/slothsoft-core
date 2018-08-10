@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c66196654749fb9829d9a1bc4d8273a2",
+    "content-hash": "3cfef41752bc3ab58df124f2797f3d58",
     "packages": [
         {
             "name": "guzzlehttp/psr7",
@@ -123,11 +123,11 @@
         },
         {
             "name": "slothsoft/w3c",
-            "version": "dev-develop",
+            "version": "1.0.0",
             "dist": {
                 "type": "path",
                 "url": "C:/Webserver/htdocs/workspace/slothsoft-w3c",
-                "reference": "7e99fd45d055a22bfb7ca8953d0afe53263f2bf2",
+                "reference": "dbb26add0a11f3dc1e3ac6a034c8ce3de8622ad5",
                 "shasum": null
             },
             "require": {
@@ -1629,11 +1629,9 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "slothsoft/w3c": 20
-    },
-    "prefer-stable": true,
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2"

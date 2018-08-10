@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
-	
+	<buildpathentry combineaccessrules="false" kind="prj" path="/slothsoft-w3c"/>
 	<buildpathentry kind="con" path="org.eclipse.dltk.USER_LIBRARY/COM"/>
 	<buildpathentry kind="con" path="org.eclipse.dltk.USER_LIBRARY/Saxon"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
@@ -169,4 +169,4 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-<buildpathentry combineaccessrules="false" kind="prj" path="/slothsoft-w3c"/></buildpath>
+</buildpath>

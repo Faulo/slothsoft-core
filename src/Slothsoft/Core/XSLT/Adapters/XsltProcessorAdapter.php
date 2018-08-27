@@ -36,7 +36,7 @@ class XsltProcessorAdapter extends GenericAdapter
     {
         $xslt = new XSLTProcessor();
         foreach ($this->param as $key => $val) {
-            $xslt->setParameter(null, $key, $val);
+            $xslt->setParameter('', (string) $key, (string) $val);
         }
         
         $xslt->registerPHPFunctions();

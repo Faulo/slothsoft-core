@@ -23,6 +23,12 @@ class FileWriterFileCache implements FileWriterInterface
     }
     
     private function refreshCacheFile() : void {
+        if ($this->shouldRefreshCache()) {
+            copy((string) $this->sourceWriter->toFile(), (string) $this->cacheFile);
+        }
+    }
+    
+    private function shouldRefreshCache() : bool {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {
             if ($this->cacheFile->isFile() and $this->cacheFile->getSize() > 0) {
@@ -31,10 +37,7 @@ class FileWriterFileCache implements FileWriterInterface
         } else {
             mkdir($this->cacheFile->getPath(), 0777, true);
         }
-        
-        if ($shouldRefreshCache) {
-            copy((string) $this->sourceWriter->toFile(), (string) $this->cacheFile);
-        }
+        return $shouldRefreshCache;
     }
 }
 

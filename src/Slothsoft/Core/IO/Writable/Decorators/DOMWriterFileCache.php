@@ -39,6 +39,13 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface
     }
     
     private function refreshCacheFile() : void {
+        if ($this->shouldRefreshCache()) {
+            $this->document = $this->sourceWriter->toDocument();
+            $this->document->save((string) $this->cacheFile);
+        }
+    }
+    
+    private function shouldRefreshCache() : bool {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {
             if ($this->cacheFile->isFile() and $this->cacheFile->getSize() > 0) {
@@ -47,12 +54,7 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface
         } else {
             mkdir($this->cacheFile->getPath(), 0777, true);
         }
-        
-        if ($shouldRefreshCache) {
-            $this->document = $this->sourceWriter->toDocument();
-            $this->document->save((string) $this->cacheFile);
-        }
+        return $shouldRefreshCache;
     }
-
 }
 

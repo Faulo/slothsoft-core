@@ -2,18 +2,20 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\XML;
 
+use Ds\Vector;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 use DOMDocument;
 use DOMElement;
 use DOMNodeList;
+use Serializable;
 
 /**
  *
  * @author Daniel Schulz
  *        
  */
-class LeanElement implements DOMWriterInterface
+class LeanElement implements DOMWriterInterface, Serializable
 {
     use DOMWriterDocumentFromElementTrait;
 
@@ -48,9 +50,9 @@ class LeanElement implements DOMWriterInterface
         return self::createOneFromArray($tag, $attributes, $children);
     }
 
-    public static function createOneFromArray(string $tag, array $attributes, array $children = []): LeanElement
+    public static function createOneFromArray(string $tag, array $attributes, iterable $children = []): LeanElement
     {
-        return new LeanElement($tag, $attributes, $children);
+        return new LeanElement($tag, $attributes, $children instanceof Vector ? $children : new Vector($children));
     }
 
     private $tag;
@@ -65,7 +67,7 @@ class LeanElement implements DOMWriterInterface
      * @param array $attributes
      * @param array $children
      */
-    private function __construct(string $tag, array $attributes, array $children)
+    private function __construct(string $tag, array $attributes, Vector $children)
     {
         $this->tag = $tag;
         $this->attributes = $attributes;
@@ -96,7 +98,7 @@ class LeanElement implements DOMWriterInterface
      * @param string $key
      * @return mixed
      */
-    public function getAttribute(string $key, $default = null): string
+    public function getAttribute(string $key, $default = null)
     {
         return $this->attributes[$key] ?? $default;
     }
@@ -106,7 +108,7 @@ class LeanElement implements DOMWriterInterface
      * @param string $key
      * @param mixed $val
      */
-    public function setAttribute(string $key, string $val)
+    public function setAttribute(string $key, $val) : void
     {
         $this->attributes[$key] = $val;
     }
@@ -130,14 +132,14 @@ class LeanElement implements DOMWriterInterface
 
     /**
      *
-     * @return array
+     * @return LeanElement[]
      */
-    public function getChildren(): array
+    public function getChildren(): iterable
     {
         return $this->children;
     }
 
-    public function getChildByTag(string $tag)
+    public function getChildByTag(string $tag) : ?LeanElement
     {
         foreach ($this->children as $child) {
             if ($child->getTag() === $tag) {
@@ -166,5 +168,17 @@ class LeanElement implements DOMWriterInterface
         }
         return $ret;
     }
+    
+    public function serialize()
+    {
+        return serialize([$this->tag, $this->attributes, $this->children->toArray()]);
+    }
+
+    public function unserialize($serialized)
+    {
+        [$this->tag, $this->attributes, $this->children] = unserialize($serialized);
+        $this->children = new Vector($this->children);
+    }
+
 }
 

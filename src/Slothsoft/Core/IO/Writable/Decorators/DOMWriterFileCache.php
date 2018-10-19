@@ -7,6 +7,7 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
 use DOMDocument;
 use SplFileInfo;
+use Slothsoft\Core\DOMHelper;
 
 class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface
 {
@@ -34,11 +35,19 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface
     {
         $this->refreshCacheFile();
         if ($this->document === null) {
-            $this->document->load((string) $this->cacheFile);
+            $this->document = DOMHelper::loadDocument((string) $this->cacheFile);
         }
+        return $this->document;
     }
     
     private function refreshCacheFile() : void {
+        if ($this->shouldRefreshCache()) {
+            $this->document = $this->sourceWriter->toDocument();
+            $this->document->save((string) $this->cacheFile);
+        }
+    }
+    
+    private function shouldRefreshCache() : bool {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {
             if ($this->cacheFile->isFile() and $this->cacheFile->getSize() > 0) {
@@ -47,12 +56,7 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface
         } else {
             mkdir($this->cacheFile->getPath(), 0777, true);
         }
-        
-        if ($shouldRefreshCache) {
-            $this->document = $this->sourceWriter->toDocument();
-            $this->document->save((string) $this->cacheFile);
-        }
+        return $shouldRefreshCache;
     }
-
 }
 

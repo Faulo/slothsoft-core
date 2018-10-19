@@ -23,12 +23,14 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface
     public function toChunks(): Generator
     {
         if ($this->shouldRefreshCache()) {
-            $handle = $this->cacheFile->openFile(StreamWrapperInterface::MODE_CREATE_WRITEONLY);
+            $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
             foreach ($this->sourceWriter->toChunks() as $chunk) {
-                $handle->fwrite($chunk);
+                fwrite($handle, $chunk);
                 yield $chunk;
             }
-            unset($handle);
+            rewind($handle);
+            file_put_contents((string) $this->cacheFile, $handle);
+            fclose($handle);
         } else {
             $handle = $this->cacheFile->openFile(StreamWrapperInterface::MODE_OPEN_READONLY);
             while (!$handle->eof()) {
@@ -41,11 +43,13 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface
     public function toFile(): SplFileInfo
     {
         if ($this->shouldRefreshCache()) {
-            $handle = $this->cacheFile->openFile(StreamWrapperInterface::MODE_CREATE_WRITEONLY);
+            $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
             foreach ($this->sourceWriter->toChunks() as $chunk) {
-                $handle->fwrite($chunk);
+                fwrite($handle, $chunk);
             }
-            unset($handle);
+            rewind($handle);
+            file_put_contents((string) $this->cacheFile, $handle);
+            fclose($handle);
         }
         return $this->cacheFile;
     }
@@ -61,8 +65,6 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface
             mkdir($this->cacheFile->getPath(), 0777, true);
         }
         return $shouldRefreshCache;
-        
-        
     }
 }
 

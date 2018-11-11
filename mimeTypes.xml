@@ -42,6 +42,7 @@
 		<sub name="jpeg" ext="jpg" />
 		<sub name="gif" ext="gif" />
 		<sub name="x-tga" ext="tga" spec="http://www.gamers.org/dEngine/quake3/TGA.txt"/>
+		<sub name="x-icon" ext="ico" />
 	</type>
 	<type name="video">
 		<sub name="webm" ext="webm" />

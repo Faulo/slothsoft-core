@@ -447,7 +447,7 @@ class Client
     public function escape($string)
     {
         if ($this->connect()) {
-            return $this->sqli->real_escape_string($string);
+            return $this->sqli->real_escape_string((string) $string);
         }
         return $string;
     }

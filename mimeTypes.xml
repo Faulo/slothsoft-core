@@ -15,6 +15,7 @@
 		<sub name="vnd.unity" ext="unity3d" />
 		<sub name="vnd.microsoft.portable-executable" ext="exe" />
 		<sub name="zip" ext="zip" />
+		<sub name="wasm" ext="wasm" compressions="gzip,deflate"/>
 		<sub name="x-7z-compressed" ext="7z" />
 		<sub name="x-lzh-compressed" ext="lha" />
 		<sub name="x-nbt" ext="dat" />

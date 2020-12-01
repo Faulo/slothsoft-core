@@ -16,7 +16,7 @@ abstract class GenericAdapter implements AdapterInterface
 
     protected $template;
 
-    protected $param;
+    protected $param = [];
 
     public function setParameters(array $param)
     {

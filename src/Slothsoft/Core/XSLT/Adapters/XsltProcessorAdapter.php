@@ -22,7 +22,9 @@ class XsltProcessorAdapter extends GenericAdapter
         }
         
         $xslt = new XSLTProcessor();
-        $xslt->setParameter(null, $this->param);
+        foreach ($this->param as $key => $val) {
+            $xslt->setParameter('', (string) $key, (string) $val);
+        }
         
         $xslt->registerPHPFunctions();
         $xslt->importStylesheet($this->template->toDocument());

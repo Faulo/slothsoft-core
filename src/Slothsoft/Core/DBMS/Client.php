@@ -166,10 +166,6 @@ class Client
                     if (! isset($val['name'])) {
                         $val['name'] = reset($val['columns']);
                     }
-                    foreach ($val['columns'] as &$c) {
-                        $c = sprintf('`%s`', $c);
-                    }
-                    unset($c);
                     $sql = sprintf('%s `%s` (%s)', $val['type'], $val['name'], implode(',', $val['columns']));
                 } else {
                     $sql = sprintf('KEY `%s` (`%s`)', $val, $val);

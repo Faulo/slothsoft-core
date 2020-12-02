@@ -1,16 +1,19 @@
+# == Windows ==
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# == Composer ==
 /composer.phar
 /vendor/
+
+# == Farah ==
 /data/
 /cache/
 /log/
+
+# == Misc ==
 tmp/
 temp/
 unused/
-*Kopie*
-Thumbs.db
-.DS_Store
-*.tmp
-/package-lock.json
-/node_modules/
-/composer.lock
-/docs/

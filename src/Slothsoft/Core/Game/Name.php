@@ -4,8 +4,7 @@ namespace Slothsoft\Core\Game;
 
 use Slothsoft\Core\Storage;
 
-class Name
-{
+class Name {
 
     const GENERATE_URI = 'http://listofrandomnames.com/index.cfm';
 
@@ -24,8 +23,7 @@ class Name
         'numberof' => 1
     ];
 
-    public static function generate(array $config = [])
-    {
+    public static function generate(array $config = []) {
         $ret = null;
         $param = self::$generateConfig;
         foreach ($param as $key => &$val) {
@@ -35,7 +33,7 @@ class Name
             }
         }
         unset($val);
-        
+
         if ($xpath = Storage::loadExternalXPath(self::GENERATE_URI, 0, $param, [
             'method' => 'POST'
         ])) {

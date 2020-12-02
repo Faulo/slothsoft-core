@@ -10,8 +10,7 @@ use DOMElement;
  * @author Daniel Schulz
  *        
  */
-interface DOMWriterInterface 
-{
+interface DOMWriterInterface {
 
     public function toElement(DOMDocument $targetDoc): DOMElement;
 

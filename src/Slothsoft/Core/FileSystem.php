@@ -20,8 +20,7 @@ use SplFileInfo;
 use com;
 use finfo;
 
-abstract class FileSystem
-{
+abstract class FileSystem {
 
     const ZIP_PATH = 'C:/Program Files/7-Zip/7z.exe';
 
@@ -44,7 +43,7 @@ abstract class FileSystem
     const SCANDIR_WEBPATH = 8;
 
     const SCANDIR_SORT = 32;
-    
+
     const SCANDIR_FILEINFO = 64;
 
     const ARCHIVE_MAX_FILES = 1000;
@@ -88,31 +87,26 @@ abstract class FileSystem
         'ass'
     ];
 
-    public static function isVideo($fileName)
-    {
+    public static function isVideo($fileName) {
         return in_array(strtolower(self::extension($fileName)), self::$videoExtensions);
     }
 
-    public static function isAudio($fileName)
-    {
+    public static function isAudio($fileName) {
         return in_array(strtolower(self::extension($fileName)), self::$audioExtensions);
     }
 
-    public static function isSubttitle($fileName)
-    {
+    public static function isSubttitle($fileName) {
         return in_array(strtolower(self::extension($fileName)), self::$subttitleExtensions);
     }
 
-    public static function drawBytes($size, $precision = 2)
-    {
+    public static function drawBytes($size, $precision = 2) {
         for ($i = 0; $size > 1024; $i ++) {
             $size /= 1024.0;
         }
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
     }
 
-    public static function getStorage()
-    {
+    public static function getStorage() {
         $storage = null;
         if (! $storage) {
             $storage = new Storage('FileSystem');
@@ -120,8 +114,7 @@ abstract class FileSystem
         return $storage;
     }
 
-    public static function generateStorageKey($path, $hash = '')
-    {
+    public static function generateStorageKey($path, $hash = '') {
         $key = realpath($path);
         if (! $key) {
             throw new Exception(sprintf('PATH NOT FOUND: "%s"', $path));
@@ -132,8 +125,7 @@ abstract class FileSystem
         return sprintf('FileSystem://%s', $key);
     }
 
-    public static function asNode($path, DOMDocument $dataDoc = null)
-    {
+    public static function asNode($path, DOMDocument $dataDoc = null) {
         $retNode = null;
         $storage = null;
         $returnDocument = ! $dataDoc;
@@ -170,7 +162,7 @@ abstract class FileSystem
                         $attr['ext'] = self::extension($path);
                         if (self::isVideo($path)) {
                             $attr['isVideo'] = '';
-                            
+
                             /*
                              * $mediaInfo = self::mediaInfo($path);
                              * $mediaTypes = ['video', 'audio', 'subtitle'];
@@ -244,13 +236,11 @@ abstract class FileSystem
         return $retNode;
     }
 
-    public static function webpath($fileName, $absolute = true)
-    {
+    public static function webpath($fileName, $absolute = true) {
         return $absolute ? str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen($_SERVER['DOCUMENT_ROOT']))) : str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen(dirname($_SERVER['SCRIPT_FILENAME']) . '/')));
     }
 
-    public static function size($fileName)
-    {
+    public static function size($fileName) {
         $size = null;
         if (is_readable($fileName)) {
             $size = filesize($fileName);
@@ -260,25 +250,21 @@ abstract class FileSystem
         return $size;
     }
 
-    public static function free($fileName)
-    {
+    public static function free($fileName) {
         return disk_free_space($fileName);
     }
 
-    public static function mime($fileName)
-    {
+    public static function mime($fileName) {
         $fInfo = new FInfo(FILEINFO_MIME_TYPE);
         @$ret = $fInfo->file($fileName);
         return $ret;
     }
 
-    public static function extension($fileName)
-    {
+    public static function extension($fileName) {
         return pathinfo($fileName, PATHINFO_EXTENSION);
     }
 
-    public static function changetime($fileName)
-    {
+    public static function changetime($fileName) {
         // $time = filemtime($fileName);
         $time = null;
         if (is_readable($fileName)) {
@@ -289,8 +275,7 @@ abstract class FileSystem
         return $time;
     }
 
-    public static function maketime($fileName)
-    {
+    public static function maketime($fileName) {
         // $time = filemtime($fileName);
         $time = null;
         if (is_readable($fileName)) {
@@ -301,8 +286,7 @@ abstract class FileSystem
         return $time;
     }
 
-    public static function lookupFile($fileName)
-    {
+    public static function lookupFile($fileName) {
         if (is_readable($fileName)) {
             $com = new COM('Scripting.FileSystemObject');
             return is_file($fileName) ? $com->GetFile($fileName) : $com->GetFolder($fileName);
@@ -322,8 +306,7 @@ abstract class FileSystem
         return null;
     }
 
-    public static function filenameEncode($filename, $removeRoot = false)
-    {
+    public static function filenameEncode($filename, $removeRoot = false) {
         if ($removeRoot) {
             if (strpos($filename, ServerEnvironment::getRootDirectory()) === 0) {
                 $filename = substr($filename, strlen(ServerEnvironment::getRootDirectory()));
@@ -337,8 +320,7 @@ abstract class FileSystem
         ], '-', $filename);
     }
 
-    public static function filenameSanitize($filename)
-    {
+    public static function filenameSanitize($filename) {
         $notAllowed = [
             ':',
             '\\',
@@ -367,8 +349,7 @@ abstract class FileSystem
         return $filename;
     }
 
-    public static function download($filePath, $downloadName)
-    {
+    public static function download($filePath, $downloadName) {
         // error_reporting(0);
         $size = (float) self::size($filePath);
         $start = 0.0;
@@ -407,8 +388,7 @@ abstract class FileSystem
         self::outputChunk($filePath, $start, $length);
     }
 
-    public static function outputChunk($filePath, $start, $length)
-    {
+    public static function outputChunk($filePath, $start, $length) {
         set_time_limit(0);
         // how many bytes per chunk
         $chunksize = 16384; // 1 kB
@@ -452,8 +432,7 @@ abstract class FileSystem
         fclose($handle);
     }
 
-    public static function scanDir($relPath, $options = 0, $filter = null)
-    {
+    public static function scanDir($relPath, $options = 0, $filter = null) {
         $dirPath = realpath((string) $relPath);
         if ($dirPath === false) {
             return [];
@@ -529,8 +508,7 @@ abstract class FileSystem
         return $ret;
     }
 
-    public static function dirModifyTime($dirPath, $rootPath = null)
-    {
+    public static function dirModifyTime($dirPath, $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);
             $rootPath = dirname($dirPath);
@@ -554,8 +532,7 @@ abstract class FileSystem
         return false;
     }
 
-    public static function mediaInfo($filePath)
-    {
+    public static function mediaInfo($filePath) {
         $filePath = realpath($filePath);
         $ret = [
             'file' => $filePath,
@@ -606,8 +583,7 @@ abstract class FileSystem
         return $ret;
     }
 
-    public static function extractArchive($archivePath, $targetDirectory)
-    {
+    public static function extractArchive($archivePath, $targetDirectory) {
         if (! is_readable(self::ZIP_PATH)) {
             throw new Exception('7-Zip not found @ ' . self::ZIP_PATH);
         }
@@ -620,12 +596,11 @@ abstract class FileSystem
         return true;
     }
 
-    public static function archivePath($directoryPath, $archiveName, $checkUpdate = false)
-    {
+    public static function archivePath($directoryPath, $archiveName, $checkUpdate = false) {
         $directoryPath = realpath($directoryPath);
         // $rootPath = realpath($directoryPath . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR;
         // $dirPath = substr($directoryPath, strlen($rootPath));
-        
+
         if (! is_readable(self::ZIP_PATH)) {
             throw new Exception('7-Zip not found @ ' . self::ZIP_PATH);
         }
@@ -638,8 +613,7 @@ abstract class FileSystem
         return true;
     }
 
-    private static function add2archive($path, $archive, $rootPath, &$fileCount = 0)
-    {
+    private static function add2archive($path, $archive, $rootPath, &$fileCount = 0) {
         $ret = true;
         if (is_dir($rootPath . $path)) {
             $archive->addEmptyDir($path);
@@ -662,14 +636,13 @@ abstract class FileSystem
         return $ret;
     }
 
-    public static function downloadByURI($destPath, $sourceURI, array $options = [])
-    {
+    public static function downloadByURI($destPath, $sourceURI, array $options = []) {
         $ret = 'ERROR';
         $downloadCommand = isset($options['download-cmd']) ? $options['download-cmd'] : 'curl %s -o %s';
         $copyCommand = isset($options['copy-cmd']) ? $options['copy-cmd'] : 'copy %s %s /y';
         $successCommand = isset($options['success-cmd']) ? $options['success-cmd'] : null;
         $successPHP = isset($options['success-php']) ? $options['success-php'] : null;
-        
+
         // $tempPath = tempnam(sys_get_temp_dir(), 'FS');
         $tempPath = temp_file(__CLASS__);
         $downloadExec = sprintf($downloadCommand, escapeshellarg($sourceURI), escapeshellarg($tempPath));
@@ -705,8 +678,7 @@ abstract class FileSystem
         return $ret;
     }
 
-    public static function getLinkByXPath($sourceURI, $linkQuery)
-    {
+    public static function getLinkByXPath($sourceURI, $linkQuery) {
         $ret = false;
         $sourceParam = parse_url($sourceURI);
         $doc = new DOMDocument();
@@ -725,8 +697,7 @@ abstract class FileSystem
         return $ret;
     }
 
-    public static function loadCSV($path, $delimiter = ',', $enclosure = '"', $escape = '\\')
-    {
+    public static function loadCSV($path, $delimiter = ',', $enclosure = '"', $escape = '\\') {
         $ret = null;
         if ($handle = fopen($path, 'r')) {
             $ret = [];
@@ -750,15 +721,13 @@ abstract class FileSystem
         '~'
     ];
 
-    public static function base64Encode($fileName)
-    {
+    public static function base64Encode($fileName) {
         $fileName = base64_encode($fileName);
         $fileName = str_replace(self::$base64Source, self::$base64Target, $fileName);
         return $fileName;
     }
 
-    public static function base64Decode($fileName)
-    {
+    public static function base64Decode($fileName) {
         $fileName = str_replace(self::$base64Target, self::$base64Source, $fileName);
         $fileName = base64_decode($fileName);
         return $fileName;

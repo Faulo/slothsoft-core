@@ -4,8 +4,7 @@ namespace Slothsoft\Core;
 
 use Exception;
 
-class RCon
-{
+class RCon {
 
     const PACKET_SIZE = 1400;
 
@@ -47,8 +46,7 @@ class RCon
 
     public $errstr;
 
-    public function __construct($ip, $port, $password)
-    {
+    public function __construct($ip, $port, $password) {
         $this->ip = $ip;
         $this->port = $port;
         $this->requestId = 0;
@@ -62,39 +60,37 @@ class RCon
         $this->send(self::SERVERDATA_AUTH, $password);
     }
 
-    public function execute($message)
-    {
+    public function execute($message) {
         return $this->send(self::SERVERDATA_EXECCOMMAND, $message);
     }
 
-    public function send($commandId, $messageBody)
-    {
+    public function send($commandId, $messageBody) {
         $this->requestId ++;
         $sendData = [];
         $sendData['requestId'] = $this->requestId;
         $sendData['commandId'] = $commandId;
         $sendData['string1'] = $messageBody . self::NULL_BYTE;
         $sendData['string2'] = '' . self::NULL_BYTE;
-        
+
         $sendData['requestId'] = pack('V', $sendData['requestId']);
         $sendData['commandId'] = pack('V', $sendData['commandId']);
-        
+
         $sendString = implode('', $sendData);
         $packetSize = strlen($sendString);
         $packetSize = pack('V', $packetSize);
-        
+
         $sendString = $packetSize . $sendString;
         // Send packet
         // my_dump($sendData);die();
         fwrite($this->socket, $sendString, strlen($sendString));
-        
+
         // Read response
         $responseData = [];
         $responseData['requestId'] = 0;
         $responseData['commandId'] = 0;
         $responseData['string1'] = '';
         $responseData['string2'] = '';
-        
+
         $string = fread($this->socket, 4);
         if ($length = $this->getLong($string)) {
             $string = fread($this->socket, $length);
@@ -118,8 +114,7 @@ class RCon
         return $responseData['string1'];
     }
 
-    protected function throwError($string, array $data)
-    {
+    protected function throwError($string, array $data) {
         throw new Exception(vsprintf($string, $data));
     }
 
@@ -130,8 +125,7 @@ class RCon
      * @param string $string
      *            String
      */
-    protected function getLong(&$string)
-    {
+    protected function getLong(&$string) {
         $ret = 0;
         $data = substr($string, 0, 4);
         $string = substr($string, 4);
@@ -148,8 +142,7 @@ class RCon
      * @param string $string
      *            String
      */
-    protected function getString(&$string)
-    {
+    protected function getString(&$string) {
         $ret = null;
         $data = explode("\0", $string, 2);
         if (isset($data[1])) {

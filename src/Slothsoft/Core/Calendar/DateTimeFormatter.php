@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\Calendar;
 
-class DateTimeFormatter
-{
+class DateTimeFormatter {
 
     const FORMAT_DATETIME = 'd.m.y H:i:s';
 

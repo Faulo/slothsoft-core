@@ -21,8 +21,7 @@ use SplFileInfo;
  * @author Daniel Schulz
  *        
  */
-class XsltFactory
-{
+class XsltFactory {
 
     const PROCESSOR_PHP = 'php';
 
@@ -66,50 +65,43 @@ class XsltFactory
         self::PROCESSOR_SAXONC => []
     ];
 
-    public static function setProcessorForVersion(string $xsltVersion, string $processorId)
-    {
+    public static function setProcessorForVersion(string $xsltVersion, string $processorId) {
         self::assertIsValidProcessor($processorId);
         self::$versionMapping[$xsltVersion] = $processorId;
     }
 
-    public static function getProcessorForVersion(string $xsltVersion): string
-    {
+    public static function getProcessorForVersion(string $xsltVersion): string {
         self::assertIsValidVersion($xsltVersion);
         return self::$versionMapping[$xsltVersion];
     }
 
-    public static function setConfigurationForProcessor(string $processorId, array $config)
-    {
+    public static function setConfigurationForProcessor(string $processorId, array $config) {
         self::assertIsValidProcessor($processorId);
         self::$processorConfiguration[$processorId] = $config;
     }
 
-    public static function getConfigurationForProcessor(string $processorId): array
-    {
+    public static function getConfigurationForProcessor(string $processorId): array {
         self::assertIsValidProcessor($processorId);
         return self::$processorConfiguration[$processorId];
     }
 
-    private static function assertIsValidVersion(string $xsltVersion)
-    {
+    private static function assertIsValidVersion(string $xsltVersion) {
         if (! isset(self::$versionMapping[$xsltVersion])) {
             throw new DomainException("XSLT version '$xsltVersion' is not supported by this implementation by default, you may enable it via XsltFactry:setProcessorForVersion.");
         }
     }
 
-    private static function assertIsValidProcessor(string $processorId)
-    {
+    private static function assertIsValidProcessor(string $processorId) {
         if (! isset(self::$processorConfiguration[$processorId])) {
             throw new DomainException("XSLT processor '$processorId' is not supported by this implementation.");
         }
     }
 
-    public static function createAdapter(float $xsltVersion): AdapterInterface
-    {
+    public static function createAdapter(float $xsltVersion): AdapterInterface {
         $xsltVersion = sprintf('%1.1f', $xsltVersion);
         $processorId = self::getProcessorForVersion($xsltVersion);
         $config = self::getConfigurationForProcessor($processorId);
-        
+
         switch ($processorId) {
             case self::PROCESSOR_PHP:
                 return new XsltProcessorAdapter();
@@ -126,8 +118,7 @@ class XsltFactory
         }
     }
 
-    public static function createInput($input): InputInterface
-    {
+    public static function createInput($input): InputInterface {
         switch (true) {
             case is_string($input):
                 return new FileInput(FileInfoFactory::createFromPath($input));

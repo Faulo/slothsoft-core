@@ -18,8 +18,7 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use DOMDocument;
 use SplFileInfo;
 
-class HTTPFile implements FileWriterInterface
-{
+class HTTPFile implements FileWriterInterface {
 
     const STATUS_BAD_REQUEST = 400;
 
@@ -31,8 +30,7 @@ class HTTPFile implements FileWriterInterface
      *
      * @return string
      */
-    public static function getTempFile()
-    {
+    public static function getTempFile() {
         // $ret = tempnam(sys_get_temp_dir() . DIRECTORY_SEPARATOR . __NAMESPACE__, __CLASS__);
         $ret = temp_file(__CLASS__);
         // my_dump($ret);
@@ -45,13 +43,11 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromPath(string $filePath, string $fileName = '')
-    {
+    public static function createFromPath(string $filePath, string $fileName = '') {
         return new HTTPFile($filePath, $fileName);
     }
 
-    public static function createFromTemp(string $fileName = '')
-    {
+    public static function createFromTemp(string $fileName = '') {
         return self::createFromPath(self::getTempFile(), $fileName);
     }
 
@@ -61,8 +57,7 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromDocument(DOMDocument $doc, string $fileName = '')
-    {
+    public static function createFromDocument(DOMDocument $doc, string $fileName = '') {
         if ($fileName === '') {
             $fileName = 'index.xml';
         }
@@ -77,8 +72,7 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromString(string $content, string $fileName = '')
-    {
+    public static function createFromString(string $content, string $fileName = '') {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
@@ -94,8 +88,7 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromFileList(array $fileList, string $fileName = '')
-    {
+    public static function createFromFileList(array $fileList, string $fileName = '') {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
@@ -113,8 +106,7 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromStream($resource, string $fileName = '')
-    {
+    public static function createFromStream($resource, string $fileName = '') {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
@@ -130,8 +122,7 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromJSON($object, string $fileName = '')
-    {
+    public static function createFromJSON($object, string $fileName = '') {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'data.json';
@@ -145,8 +136,7 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return NULL|HTTPFile
      */
-    public static function createFromPHP(string $phpCommand, string $fileName = '')
-    {
+    public static function createFromPHP(string $phpCommand, string $fileName = '') {
         if ($fileName === '') {
             $fileName = basename($phpCommand);
             if ($fileName === '') {
@@ -165,8 +155,7 @@ class HTTPFile implements FileWriterInterface
      * @param string $fileName
      * @return NULL|HTTPFile
      */
-    public static function createFromURL(string $url, string $fileName = '')
-    {
+    public static function createFromURL(string $url, string $fileName = '') {
         if ($fileName === '') {
             $fileName = basename($url);
             if ($fileName === '') {
@@ -177,7 +166,7 @@ class HTTPFile implements FileWriterInterface
         if (! isset($param['host'])) {
             $url = 'http://slothsoft.net' . $url;
         }
-        
+
         if (self::CURL_ENABLED) {
             $refererURI = sprintf('Referer: %s://%s%s', $param['scheme'], $param['host'], $param['path']);
             $filePath = self::getTempFile();
@@ -198,8 +187,7 @@ class HTTPFile implements FileWriterInterface
      * @param int $headerCache
      * @return NULL|HTTPFile
      */
-    public static function createFromDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR)
-    {
+    public static function createFromDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR) {
         $ret = self::verifyDownload($filePath, $url, $headerCache);
         if (! $ret) {
             if ($file = self::createFromURL($url)) {
@@ -215,8 +203,7 @@ class HTTPFile implements FileWriterInterface
      * @param int $headerCache
      * @return boolean
      */
-    public static function verifyURL(string $url, int $headerCache = Seconds::YEAR)
-    {
+    public static function verifyURL(string $url, int $headerCache = Seconds::YEAR) {
         $ret = false;
         if ($res = Storage::loadExternalHeader($url, $headerCache)) {
             $status = isset($res['status']) ? (int) $res['status'] : self::STATUS_BAD_REQUEST;
@@ -237,8 +224,7 @@ class HTTPFile implements FileWriterInterface
      * @param int $headerCache
      * @return boolean
      */
-    public static function verifyDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR)
-    {
+    public static function verifyDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR) {
         $ret = false;
         if (file_exists($filePath)) {
             if ($headerCache === - 1) {
@@ -259,8 +245,7 @@ class HTTPFile implements FileWriterInterface
 
     protected $name;
 
-    protected function __construct(string $filePath, string $fileName = '')
-    {
+    protected function __construct(string $filePath, string $fileName = '') {
         if ($fileName === '') {
             $fileName = basename($filePath);
         }
@@ -268,43 +253,35 @@ class HTTPFile implements FileWriterInterface
         $this->name = $fileName;
     }
 
-    public function getPath()
-    {
+    public function getPath() {
         return $this->path;
     }
 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    public function getContents(): string
-    {
+    public function getContents(): string {
         return file_get_contents($this->getPath());
     }
 
-    public function setContents(string $content)
-    {
+    public function setContents(string $content) {
         return file_put_contents($this->getPath(), $content);
     }
 
-    public function setStream($content)
-    {
+    public function setStream($content) {
         return file_put_contents($this->getPath(), $content);
     }
 
-    public function getDocument()
-    {
+    public function getDocument() {
         return DOMHelper::loadDocument($this->getPath());
     }
 
-    public function setDocument(DOMDocument $content)
-    {
+    public function setDocument(DOMDocument $content) {
         return $content->save($this->getPath());
     }
 
-    public function copyTo($dir, $name = null, $copyClosure = null)
-    {
+    public function copyTo($dir, $name = null, $copyClosure = null) {
         $ret = false;
         if ($dir = realpath($dir)) {
             if (! $name) {
@@ -325,28 +302,23 @@ class HTTPFile implements FileWriterInterface
         return $ret;
     }
 
-    public function delete()
-    {
+    public function delete() {
         return unlink($this->getPath());
     }
 
-    public function exists(): bool
-    {
+    public function exists(): bool {
         return is_file($this->path);
     }
 
-    public function toFile(): SplFileInfo
-    {
+    public function toFile(): SplFileInfo {
         return FileInfoFactory::createFromPath($this->path);
     }
 
-    public function toString(): string
-    {
+    public function toString(): string {
         return $this->getContents();
     }
-    public function toFileName(): string
-    {
+
+    public function toFileName(): string {
         return $this->getName();
     }
-
 }

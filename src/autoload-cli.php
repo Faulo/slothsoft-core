@@ -33,7 +33,6 @@ if (isset($_SERVER['argv'])) {
  *
  * @return array
  */
-function apache_request_headers()
-{
+function apache_request_headers() {
     return [];
 }

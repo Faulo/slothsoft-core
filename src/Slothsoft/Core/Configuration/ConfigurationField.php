@@ -2,20 +2,17 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\Configuration;
 
-class ConfigurationField
-{
+class ConfigurationField {
 
     private $value;
 
-    public function __construct($defaultValue = null)
-    {
+    public function __construct($defaultValue = null) {
         if ($defaultValue !== null) {
             $this->setValue($defaultValue);
         }
     }
 
-    public function getValue()
-    {
+    public function getValue() {
         if ($this->value === null) {
             $traceList = debug_backtrace();
             $class = $traceList[1]['class'];
@@ -31,8 +28,7 @@ class ConfigurationField
         return $this->value;
     }
 
-    public function setValue($newValue)
-    {
+    public function setValue($newValue) {
         $this->value = $newValue;
     }
 }

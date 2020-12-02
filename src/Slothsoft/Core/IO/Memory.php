@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO;
 
-class Memory
-{
+class Memory {
 
     const ONE_BYTE = 1;
 

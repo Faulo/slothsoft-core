@@ -10,11 +10,10 @@ use DOMElement;
  * @author Daniel Schulz
  *        
  */
-interface DOMReaderInterface
-{
+interface DOMReaderInterface {
 
-    public function fromDocument(DOMDocument $sourceDoc) : void;
+    public function fromDocument(DOMDocument $sourceDoc): void;
 
-    public function fromElement(DOMElement $sourceElement) : void;
+    public function fromElement(DOMElement $sourceElement): void;
 }
 

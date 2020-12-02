@@ -23,11 +23,9 @@ use DOMDocument;
 use DOMNode;
 use Exception;
 
-class Storage
-{
+class Storage {
 
-    private static function logEnabled(): ConfigurationField
-    {
+    private static function logEnabled(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField(false);
@@ -35,18 +33,15 @@ class Storage
         return $field;
     }
 
-    public static function setLogEnabled(bool $value)
-    {
+    public static function setLogEnabled(bool $value) {
         self::logEnabled()->setValue($value);
     }
 
-    public static function getLogEnabled(): bool
-    {
+    public static function getLogEnabled(): bool {
         return self::logEnabled()->getValue();
     }
 
-    private static function logDirectory(): ConfigurationField
-    {
+    private static function logDirectory(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new DirectoryConfigurationField(ServerEnvironment::getLogDirectory() . 'core-storage');
@@ -54,18 +49,15 @@ class Storage
         return $field;
     }
 
-    public static function setLogDirectory(string $directory)
-    {
+    public static function setLogDirectory(string $directory) {
         self::logDirectory()->setValue($directory);
     }
 
-    public static function getLogDirectory(): string
-    {
+    public static function getLogDirectory(): string {
         return self::logDirectory()->getValue();
     }
 
-    private static function touchOnExit(): ConfigurationField
-    {
+    private static function touchOnExit(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField(false);
@@ -73,13 +65,11 @@ class Storage
         return $field;
     }
 
-    public static function setTouchOnExit(bool $value)
-    {
+    public static function setTouchOnExit(bool $value) {
         self::logEnabled()->setValue($value);
     }
 
-    public static function getTouchOnExit(): bool
-    {
+    public static function getTouchOnExit(): bool {
         return self::logEnabled()->getValue();
     }
 
@@ -90,8 +80,7 @@ class Storage
      * @param string $name
      * @return Storage
      */
-    public static function loadStorage(string $name)
-    {
+    public static function loadStorage(string $name) {
         if (! isset(self::$storageList[$name])) {
             self::$storageList[$name] = new Storage($name);
         }
@@ -106,8 +95,7 @@ class Storage
      * @param mixed $options
      * @return null|DOMDocument
      */
-    public static function loadExternalDocument(string $uri, int $cacheTime = null, $data = null, $options = null)
-    {
+    public static function loadExternalDocument(string $uri, int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -134,8 +122,7 @@ class Storage
      * @param mixed $options
      * @return boolean
      */
-    public static function clearExternalDocument(string $uri, int $cacheTime = null, $data = null, $options = null)
-    {
+    public static function clearExternalDocument(string $uri, int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -151,8 +138,7 @@ class Storage
      * @param mixed $options
      * @return NULL|\DOMXPath
      */
-    public static function loadExternalXPath(string $uri, int $cacheTime = null, $data = null, $options = null)
-    {
+    public static function loadExternalXPath(string $uri, int $cacheTime = null, $data = null, $options = null) {
         $ret = null;
         if ($doc = self::loadExternalDocument($uri, $cacheTime, $data, $options)) {
             $ret = DOMHelper::loadXPath($doc);
@@ -168,8 +154,7 @@ class Storage
      * @param mixed $options
      * @return NULL|mixed
      */
-    public static function loadExternalJSON(string $uri, int $cacheTime = null, $data = null, $options = null)
-    {
+    public static function loadExternalJSON(string $uri, int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -193,20 +178,19 @@ class Storage
      * @param mixed $options
      * @return NULL|string
      */
-    public static function loadExternalFile(string $uri, int $cacheTime = null, $data = null, $options = null)
-    {
+    public static function loadExternalFile(string $uri, int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
-        
+
         if ($options['nocache']) {
             return self::_httpRequest($options, $uri, $data)->responseText;
         }
-        
+
         $storage = self::_getStorageByURI($uri);
         $name = self::_name($options, $uri, $data);
         $nowTime = time();
         $storageTime = $nowTime - $cacheTime;
-        
+
         $ret = $storage->retrieve($name, $storageTime);
         if ($ret === null) {
             $req = self::_httpRequest($options, $uri, $data);
@@ -215,7 +199,7 @@ class Storage
                 $ret = $req->responseText;
             }
         }
-        
+
         return $ret;
     }
 
@@ -227,8 +211,7 @@ class Storage
      * @param mixed $options
      * @return NULL|array
      */
-    public static function loadExternalHeader(string $uri, int $cacheTime = null, $data = null, $options = null)
-    {
+    public static function loadExternalHeader(string $uri, int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $options['method'] = 'HEAD';
@@ -236,7 +219,7 @@ class Storage
         $name = self::_name($options, $uri, $data);
         $nowTime = time();
         $storageTime = $nowTime - $cacheTime;
-        
+
         $ret = self::_randomCheck() ? null : $storage->retrieveJSON($name, $storageTime);
         if ($ret === null) {
             $req = self::_httpRequest($options, $uri, $data);
@@ -244,7 +227,7 @@ class Storage
             $ret['status'] = $req->status;
             $storage->storeJSON($name, $ret, $nowTime);
         }
-        
+
         return $ret;
     }
 
@@ -253,29 +236,27 @@ class Storage
      *
      * @return boolean
      */
-    protected static function _randomCheck()
-    {
+    protected static function _randomCheck() {
         return ! rand(0, 999);
     }
 
-    protected static function _httpRequest(array $options, $uri, $data)
-    {
+    protected static function _httpRequest(array $options, $uri, $data) {
         // echo sprintf('XMLHttpRequest %s "%s"...%s', $options['method'], $uri, PHP_EOL);
         $req = new XMLHttpRequest();
         $req->open($options['method'], $uri);
-        
+
         if (isset($options['followRedirects'])) {
             $req->followRedirects = (int) (bool) $options['followRedirects'];
         }
-        
+
         if (isset($options['oauth'])) {
             $options['header']['authorization'] = self::_httpOAuth($options, $uri);
         }
-        
+
         if (isset($options['cookieFile'])) {
             $req->setCookieFile($options['cookieFile']);
         }
-        
+
         if (! isset($options['header']['referer'])) {
             $refererURI = $uri;
             $refererParam = parse_url($refererURI);
@@ -294,11 +275,11 @@ class Storage
         if ($options['header']['referer'] === false) {
             unset($options['header']['referer']);
         }
-        
+
         foreach ($options['header'] as $key => $val) {
             $req->setRequestHeader($key, $val);
         }
-        
+
         if (! defined('PHPUNIT_COMPOSER_INSTALL')) {
             // TODO/HACK: only run requests if not doing tests
             $req->send($data);
@@ -310,8 +291,7 @@ class Storage
      *
      * @param mixed $options
      */
-    protected static function _httpOptions(&$options)
-    {
+    protected static function _httpOptions(&$options) {
         if (! is_array($options)) {
             $options = [
                 'method' => $options
@@ -331,8 +311,7 @@ class Storage
         }
     }
 
-    protected static function _httpOAuth(array $options, string $uri)
-    {
+    protected static function _httpOAuth(array $options, string $uri) {
         $params = [];
         $params['realm'] = $uri;
         $params['oauth_consumer_key'] = $options['oauth']['appToken'];
@@ -341,7 +320,7 @@ class Storage
         $params['oauth_timestamp'] = time();
         $params['oauth_signature_method'] = 'HMAC-SHA1';
         $params['oauth_version'] = '1.0';
-        
+
         $values = [];
         foreach ($params as $key => $val) {
             if ($key !== 'realm') {
@@ -351,29 +330,29 @@ class Storage
             }
         }
         ksort($values);
-        
+
         $baseString = [];
         $baseString[] = $options['method'];
         $baseString[] = $uri;
         $baseString[] = implode('&', $values);
-        
+
         foreach ($baseString as &$val) {
             $val = rawurlencode($val);
         }
         unset($val);
         $baseString = implode('&', $baseString);
-        
+
         $signatureKey = rawurlencode($options['oauth']['appSecret']) . '&' . rawurlencode($options['oauth']['accessSecret']);
         $rawSignature = hash_hmac('sha1', $baseString, $signatureKey, true);
         $oAuthSignature = base64_encode($rawSignature);
-        
+
         $params['oauth_signature'] = $oAuthSignature;
-        
+
         $arr = [];
         foreach ($params as $key => $val) {
             $arr[] = sprintf('%s="%s"', $key, $val);
         }
-        
+
         return sprintf('OAuth %s', implode(', ', $arr));
     }
 
@@ -383,8 +362,7 @@ class Storage
      * @throws Exception
      * @return Storage
      */
-    protected static function _getStorageByURI(string $uri)
-    {
+    protected static function _getStorageByURI(string $uri) {
         $scheme = self::_getSchemeFromURI($uri);
         $host = self::_getHostFromURI($uri);
         $storageName = sprintf('%s-%s', $scheme, $host);
@@ -394,8 +372,7 @@ class Storage
         return self::loadStorage($storageName);
     }
 
-    public static function _getStorageNameFromURI($uri)
-    {
+    public static function _getStorageNameFromURI($uri) {
         $arr = parse_url(strtolower($uri));
         if (! isset($arr['scheme'])) {
             $arr['scheme'] = 'http';
@@ -417,8 +394,7 @@ class Storage
         return implode('.', $host);
     }
 
-    protected static function _getHostFromURI($uri)
-    {
+    protected static function _getHostFromURI($uri) {
         $host = parse_url($uri, PHP_URL_HOST);
         $host = strtolower($host);
         $host = explode('.', $host);
@@ -437,30 +413,26 @@ class Storage
         return $host;
     }
 
-    protected static function _getSchemeFromURI($uri)
-    {
+    protected static function _getSchemeFromURI($uri) {
         return parse_url($uri, PHP_URL_SCHEME);
     }
 
     protected static $hashList = [];
 
-    protected static function _hash($name)
-    {
+    protected static function _hash($name) {
         if (! isset(self::$hashList[$name])) {
             self::$hashList[$name] = sha1($name);
         }
         return self::$hashList[$name];
     }
 
-    protected static function _name(array $options, $uri, $data)
-    {
+    protected static function _name(array $options, $uri, $data) {
         return sprintf('%s %s?%s', $options['method'], $uri, serialize($data));
     }
 
     protected static $dom;
 
-    protected static function _DOMHelper()
-    {
+    protected static function _DOMHelper() {
         if (! self::$dom) {
             self::$dom = new DOMHelper();
         }
@@ -479,10 +451,9 @@ class Storage
 
     protected $cleanseTime;
 
-    public function __construct($storageName = null)
-    {
+    public function __construct($storageName = null) {
         $this->cleanseTime = Seconds::MONTH;
-        
+
         if ($storageName) {
             $this->tableName = $storageName;
         }
@@ -498,13 +469,11 @@ class Storage
         $this->touchList = [];
     }
 
-    protected function getDBMSTable()
-    {
+    protected function getDBMSTable() {
         return Manager::getTable($this->dbName, $this->tableName);
     }
 
-    public function install()
-    {
+    public function install() {
         if ($this->dbmsTable) {
             $sqlCols = [
                 // 'id' => 'int NOT NULL AUTO_INCREMENT',
@@ -534,8 +503,7 @@ class Storage
      * @param int $modifyTime
      * @return boolean
      */
-    public function exists(string $name, int $modifyTime)
-    {
+    public function exists(string $name, int $modifyTime) {
         $ret = false;
         if ($this->dbmsTable) {
             $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
@@ -551,8 +519,7 @@ class Storage
      * @param int $modifyTime
      * @return NULL|mixed
      */
-    public function retrieve(string $name, int $modifyTime)
-    {
+    public function retrieve(string $name, int $modifyTime) {
         $ret = null;
         if ($this->dbmsTable) {
             $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
@@ -561,12 +528,11 @@ class Storage
             }
         }
         $this->_createLog('retrieve', $name, $ret);
-        
+
         return $ret;
     }
 
-    public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null)
-    {
+    public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null) {
         $ret = null;
         if ($data = $this->retrieve($name, $modifyTime)) {
             $dom = self::_DOMHelper();
@@ -581,8 +547,7 @@ class Storage
      * @param int $modifyTime
      * @return NULL|DOMDocument
      */
-    public function retrieveDocument(string $name, int $modifyTime)
-    {
+    public function retrieveDocument(string $name, int $modifyTime) {
         $retDoc = null;
         $data = $this->retrieve($name, $modifyTime);
         if ($data !== null) {
@@ -590,9 +555,9 @@ class Storage
             @$retDoc->loadXML($data, LIBXML_PARSEHUGE);
             if (! $retDoc->documentElement) {
                 $retDoc = null;
-                
+
                 $this->_createLog('retrieveDocument', $name, false);
-                
+
                 $this->delete($name);
                 // echo sprintf('"%s" is not a valid Document!', $name) . PHP_EOL;
                 // $retDoc->loadXML($data);
@@ -609,8 +574,7 @@ class Storage
      * @throws Exception
      * @return mixed
      */
-    public function retrieveJSON(string $name, int $modifyTime)
-    {
+    public function retrieveJSON(string $name, int $modifyTime) {
         $retObject = null;
         $data = $this->retrieve($name, $modifyTime);
         if ($data !== null) {
@@ -627,14 +591,13 @@ class Storage
      * @param string $name
      * @return boolean
      */
-    public function delete(string $name)
-    {
+    public function delete(string $name) {
         $ret = false;
         if ($this->dbmsTable) {
             $ret = $this->dbmsTable->delete(self::_hash($name));
         }
         $this->_createLog('delete', $name, $ret);
-        
+
         return $ret;
     }
 
@@ -645,20 +608,19 @@ class Storage
      * @param int $modifyTime
      * @return boolean
      */
-    public function store(string $name, string $payload, int $modifyTime)
-    {
+    public function store(string $name, string $payload, int $modifyTime) {
         $ret = null;
-        
+
         if ($this->dbmsTable) {
             $update = [];
             $update['payload'] = (string) $payload;
             $update['modify-time'] = (int) $modifyTime;
             $update['access-time'] = $this->now;
-            
+
             $insert = $update;
             $insert['id'] = self::_hash($name);
             $insert['create-time'] = $this->now;
-            
+
             try {
                 $ret = (bool) $this->dbmsTable->insert($insert, $update);
             } catch (DatabaseException $e) {
@@ -666,7 +628,7 @@ class Storage
             }
             $this->_createLog('store', $name, $ret);
         }
-        
+
         return $ret;
     }
 
@@ -677,8 +639,7 @@ class Storage
      * @param int $modifyTime
      * @return boolean
      */
-    public function storeXML(string $name, DOMNode $dataNode, int $modifyTime)
-    {
+    public function storeXML(string $name, DOMNode $dataNode, int $modifyTime) {
         $dom = self::_DOMHelper();
         return $this->store($name, $dom->stringify($dataNode), $modifyTime);
     }
@@ -690,8 +651,7 @@ class Storage
      * @param int $modifyTime
      * @return boolean
      */
-    public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime)
-    {
+    public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime) {
         return $dataDoc->documentElement ? $this->store($name, $dataDoc->saveXML(), $modifyTime) : false;
     }
 
@@ -702,13 +662,11 @@ class Storage
      * @param int $modifyTime
      * @return boolean
      */
-    public function storeJSON(string $name, $dataObject, int $modifyTime)
-    {
+    public function storeJSON(string $name, $dataObject, int $modifyTime) {
         return $this->store($name, json_encode($dataObject), $modifyTime);
     }
 
-    protected function touch(int $id)
-    {
+    protected function touch(int $id) {
         if ($id = (int) $id) {
             $this->touchList[$id] = $id;
             // $arr = [];
@@ -717,8 +675,7 @@ class Storage
         }
     }
 
-    public function sendTouch()
-    {
+    public function sendTouch() {
         if ($this->touchList) {
             $arr = [];
             $arr['access-time'] = $this->now;
@@ -728,28 +685,24 @@ class Storage
         }
     }
 
-    public function cleanse()
-    {
+    public function cleanse() {
         if ($this->dbmsTable) {
             $this->dbmsTable->optimize();
         }
     }
 
-    public function cron()
-    {
+    public function cron() {
         $this->cleanse();
         return true;
     }
 
-    public function __destruct()
-    {
+    public function __destruct() {
         if (self::getTouchOnExit()) {
             $this->sendTouch();
         }
     }
 
-    protected function _createLog($method, $name, $ret)
-    {
+    protected function _createLog($method, $name, $ret) {
         if (self::getLogEnabled()) {
             $logFile = sprintf('%s%s.log', self::getLogDirectory(), FileSystem::filenameSanitize($this->tableName));
             $ret = $ret ? 'OK' : 'FAIL';

@@ -9,8 +9,7 @@ use Slothsoft\Core\XSLT\Inputs\InputInterface;
  * @author Daniel Schulz
  *        
  */
-abstract class GenericAdapter implements AdapterInterface
-{
+abstract class GenericAdapter implements AdapterInterface {
 
     protected $source;
 
@@ -18,18 +17,15 @@ abstract class GenericAdapter implements AdapterInterface
 
     protected $param = [];
 
-    public function setParameters(array $param)
-    {
+    public function setParameters(array $param) {
         $this->param = $param;
     }
 
-    public function setSource(InputInterface $input)
-    {
+    public function setSource(InputInterface $input) {
         $this->source = $input;
     }
 
-    public function setTemplate(InputInterface $input)
-    {
+    public function setTemplate(InputInterface $input) {
         $this->template = $input;
     }
 }

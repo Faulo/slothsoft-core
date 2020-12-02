@@ -25,11 +25,10 @@ use OutOfRangeException;
 use RuntimeException;
 use SplFileInfo;
 
-class DOMHelper
-{
-    
+class DOMHelper {
+
     const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
-    
+
     const NS_CRON_INSTRUCTIONS = 'http://schema.slothsoft.net/cron/instructions';
 
     const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
@@ -114,8 +113,7 @@ class DOMHelper
     const XPATH_MISC = 16;
 
     // loadXPath loads Slothsoft namespaces
-    public static function loadDocument($filePath, $asHTML = false): DOMDocument
-    {
+    public static function loadDocument($filePath, $asHTML = false): DOMDocument {
         $document = new DOMDocument();
         if ($asHTML) {
             $document->loadHTMLFile($filePath, LIBXML_PARSEHUGE);
@@ -125,8 +123,7 @@ class DOMHelper
         return $document;
     }
 
-    public static function loadXPath(DOMDocument $document, int $options = self::XPATH_HTML): DOMXPath
-    {
+    public static function loadXPath(DOMDocument $document, int $options = self::XPATH_HTML): DOMXPath {
         $xpath = new DOMXPath($document);
         $nsList = [];
         if ($options & self::XPATH_SLOTHSOFT) {
@@ -152,8 +149,8 @@ class DOMHelper
         }
         return $xpath;
     }
-    public static function guessExtension(string $namespaceURI): string
-    {
+
+    public static function guessExtension(string $namespaceURI): string {
         switch ($namespaceURI) {
             case self::NS_HTML:
                 return 'xhtml';
@@ -166,8 +163,7 @@ class DOMHelper
 
     private const HTML_FRAME = '<?xml version="1.0" encoding="UTF-8"?><html><body>%s</body></html>';
 
-    private static function dom()
-    {
+    private static function dom() {
         static $implementation;
         if ($implementation === null) {
             $implementation = new DOMImplementation();
@@ -176,11 +172,10 @@ class DOMHelper
     }
 
     // returns DOMDocumentFragment
-    public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false)
-    {
+    public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false) {
         if ($asHTML) {
             $parseDoc = self::dom()->createDocument();
-            
+
             $ret = @$parseDoc->loadHTML(sprintf(self::HTML_FRAME, $xmlCode));
             if (! $ret) {
                 ob_start();
@@ -190,18 +185,18 @@ class DOMHelper
                 throw new RuntimeException(sprintf('Error loading HTML:%s%s%s%s', PHP_EOL, substr($xmlCode, 0, 1024), PHP_EOL, substr($error, 0, 1024)));
             }
             $rootNode = $parseDoc->documentElement->lastChild;
-            
+
             if ($targetDoc === null) {
                 $targetDoc = $parseDoc;
             }
-            
+
             $retFragment = $targetDoc->createDocumentFragment();
-            
+
             $childNodeList = [];
             foreach ($rootNode->childNodes as $childNode) {
                 $childNodeList[] = $childNode;
             }
-            
+
             foreach ($childNodeList as $childNode) {
                 if ($targetDoc === $parseDoc) {
                     $retFragment->appendChild($childNode);
@@ -218,9 +213,9 @@ class DOMHelper
             if ($targetDoc === null) {
                 $targetDoc = self::dom()->createDocument();
             }
-            
+
             $retFragment = $targetDoc->createDocumentFragment();
-            
+
             if (strlen($xmlCode)) {
                 $ret = @$retFragment->appendXML($xmlCode);
                 if (! $ret) {
@@ -232,23 +227,20 @@ class DOMHelper
                 }
             }
         }
-        
+
         return $retFragment;
     }
 
-    public function createDocument(string $namespaceURI, string $qualifiedName): DOMDocument
-    {
+    public function createDocument(string $namespaceURI, string $qualifiedName): DOMDocument {
         return self::dom()->createDocument($namespaceURI, $qualifiedName);
     }
 
     // returns string
-    public function stringify(DOMNode $sourceNode)
-    {
+    public function stringify(DOMNode $sourceNode) {
         return $sourceNode->ownerDocument->saveXML($sourceNode);
     }
 
-    public function load($url, $asHTML = false)
-    {
+    public function load($url, $asHTML = false) {
         $doc = new DOMDocument();
         if ($asHTML) {
             $doc->loadHTMLFile((string) $url);
@@ -258,46 +250,42 @@ class DOMHelper
         return $doc;
     }
 
-    private function transformToAdapter($source, $template, array $param = []): AdapterInterface
-    {
+    private function transformToAdapter($source, $template, array $param = []): AdapterInterface {
         $source = XsltFactory::createInput($source);
         $template = XsltFactory::createInput($template);
-        
+
         $templateDoc = $template->toDocument();
         if ($templateDoc->documentElement->namespaceURI !== self::NS_XSL) {
             throw new DomainException("Template file '{$template->toFile()}' is in namespace '{$templateDoc->documentElement->namespaceURI}, but should have been 'http://www.w3.org/1999/XSL/Transform'!");
         }
         $templateVersion = $templateDoc->documentElement->getAttribute('version');
-        
+
         $adapter = XsltFactory::createAdapter(floatval($templateVersion));
-        
+
         $adapter->setSource($source);
         $adapter->setTemplate($template);
         $adapter->setParameters($param);
-        
+
         return $adapter;
     }
 
-    public function transformToDocument($source, $template, array $param = []): DOMDocument
-    {
+    public function transformToDocument($source, $template, array $param = []): DOMDocument {
         return $this->transformToAdapter($source, $template, $param)->writeDocument();
     }
 
-    public function transformToFile($source, $template, array $param = [], SplFileInfo $output = null): SplFileInfo
-    {
+    public function transformToFile($source, $template, array $param = [], SplFileInfo $output = null): SplFileInfo {
         if (! $output) {
             $output = FileInfoFactory::createFromTemp();
         }
-        
+
         $adapter = $this->transformToAdapter($source, $template, $param);
         $adapter->writeFile($output);
         return $output;
     }
 
-    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc): DOMDocumentFragment
-    {
+    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc): DOMDocumentFragment {
         $finalDoc = $this->transformToDocument($source, $template, $param);
-        
+
         $retNode = $targetDoc->createDocumentFragment();
         foreach ($finalDoc->childNodes as $node) {
             $retNode->appendChild($targetDoc->importNode($node, true));
@@ -305,18 +293,17 @@ class DOMHelper
         return $retNode;
     }
 
-    public function normalizeDocument(DOMDocument $dataDoc)
-    {
+    public function normalizeDocument(DOMDocument $dataDoc) {
         try {
             $retDoc = new DOMDocument();
-            
+
             $nsList = array_flip(self::$namespaceList);
             if (isset($nsList[$dataDoc->documentElement->namespaceURI])) {
                 unset($nsList[$dataDoc->documentElement->namespaceURI]);
             }
-            
+
             $this->normalizeNode($dataDoc, $retDoc, $nsList);
-            
+
             $retDoc->loadXML($retDoc->saveXML(), LIBXML_NSCLEAN);
         } catch (Exception $e) {
             $retDoc = $dataDoc;
@@ -324,8 +311,7 @@ class DOMHelper
         return $retDoc;
     }
 
-    private function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList)
-    {
+    private function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList) {
         $retNode = null;
         switch ($sourceNode->nodeType) {
             case XML_DOCUMENT_NODE:
@@ -353,8 +339,7 @@ class DOMHelper
         return $retNode;
     }
 
-    private function newSaxonProcessor(int $xsltVersion)
-    {
+    private function newSaxonProcessor(int $xsltVersion) {
         if (isset(CORE_DOMHELPER_XSLT_USAGE[$xsltVersion])) {
             $class = CORE_DOMHELPER_XSLT_USAGE[$xsltVersion];
             return new $class();

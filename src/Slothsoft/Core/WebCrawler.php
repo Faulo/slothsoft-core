@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core;
 
-class WebCrawler
-{
+class WebCrawler {
 
     public $maxDepth = 0;
 
@@ -17,20 +16,18 @@ class WebCrawler
 
     protected $errorList;
 
-    public function __construct($url)
-    {
+    public function __construct($url) {
         $this->url = $url;
         $this->linkList = [];
         $this->errorList = [];
     }
 
-    public function crawl()
-    {
+    public function crawl() {
         $href = $this->buildURL('', $this->url);
         $this->crawlURL($href);
-        
+
         asort($this->linkList);
-        
+
         $ret = [];
         $ret[] = $this->url;
         $ret[] = '';
@@ -40,8 +37,7 @@ class WebCrawler
         return implode(PHP_EOL, $ret);
     }
 
-    protected function crawlURL($url, $depth = 0, $parentUrl = '')
-    {
+    protected function crawlURL($url, $depth = 0, $parentUrl = '') {
         if (! isset($this->linkList[$url])) {
             switch (true) {
                 case count($this->linkList) >= $this->maxDocs:
@@ -79,7 +75,7 @@ class WebCrawler
                             ])) {
                                 $this->linkList[$url] = sprintf('OK	document	%s', $url);
                                 // my_dump($this->linkList);die();
-                                
+
                                 $xpath = new \DOMXPath($doc);
                                 $nodeList = $xpath->evaluate('//@href');
                                 foreach ($nodeList as $node) {
@@ -105,17 +101,16 @@ class WebCrawler
         }
     }
 
-    protected function buildURL($url, $parentUrl = '')
-    {
+    protected function buildURL($url, $parentUrl = '') {
         $success = true;
-        
+
         $url = preg_replace('/\?.*/', '', $url);
         $data = parse_url($url);
         $parentData = parse_url($parentUrl);
         if (! isset($parentData['path'])) {
             $parentData['path'] = '';
         }
-        
+
         if (isset($data['scheme'])) {
             if ($data['scheme'] !== $parentData['scheme']) {
                 $success = false;
@@ -170,7 +165,7 @@ class WebCrawler
         }
         // $data['path'] = str_replace('/./', '/', $data['path']);
         // $data['path'] = preg_replace('/\/[^\/]+\/\.\.\//', '/', $data['path']);
-        
+
         switch ($data['scheme']) {
             case 'javascript':
             case 'mailto':

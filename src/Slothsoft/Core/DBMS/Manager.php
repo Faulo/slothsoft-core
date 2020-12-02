@@ -7,11 +7,9 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 use Slothsoft\Core\ServerEnvironment;
 
-class Manager
-{
+class Manager {
 
-    private static function logEnabled(): ConfigurationField
-    {
+    private static function logEnabled(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField(false);
@@ -19,18 +17,15 @@ class Manager
         return $field;
     }
 
-    public static function setLogEnabled(bool $value)
-    {
+    public static function setLogEnabled(bool $value) {
         self::logEnabled()->setValue($value);
     }
 
-    public static function getLogEnabled(): bool
-    {
+    public static function getLogEnabled(): bool {
         return self::logEnabled()->getValue();
     }
 
-    private static function logDirectory(): ConfigurationField
-    {
+    private static function logDirectory(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new DirectoryConfigurationField(ServerEnvironment::getLogDirectory() . 'dbms');
@@ -38,13 +33,11 @@ class Manager
         return $field;
     }
 
-    public static function setLogDirectory(string $directory)
-    {
+    public static function setLogDirectory(string $directory) {
         self::logDirectory()->setValue($directory);
     }
 
-    public static function getLogDirectory(): string
-    {
+    public static function getLogDirectory(): string {
         return self::logDirectory()->getValue();
     }
 
@@ -56,8 +49,7 @@ class Manager
 
     protected static $tableList = [];
 
-    public static function getClient()
-    {
+    public static function getClient() {
         if (! self::$client) {
             self::_createLog(sprintf('Manager: creating Client...'));
             self::$client = new Client();
@@ -65,36 +57,33 @@ class Manager
         return self::$client;
     }
 
-    public static function getDatabase($dbName)
-    {
+    public static function getDatabase($dbName) {
         $dbName = mb_strtolower(trim($dbName));
         if (! isset(self::$databaseList[$dbName])) {
-            
+
             self::_createLog(sprintf('Manager: creating Database %s...', $dbName));
-            
+
             self::$databaseList[$dbName] = new Database(self::getClient(), $dbName);
         }
         return self::$databaseList[$dbName];
     }
 
-    public static function getTable($dbName, $tableName)
-    {
+    public static function getTable($dbName, $tableName) {
         $dbName = mb_strtolower(trim($dbName));
         $tableName = mb_strtolower(trim($tableName));
         if (! isset(self::$tableList[$dbName])) {
             self::$tableList[$dbName] = [];
         }
         if (! isset(self::$tableList[$dbName][$tableName])) {
-            
+
             self::_createLog(sprintf('Manager: creating Table %s.%s...', $dbName, $tableName));
-            
+
             self::$tableList[$dbName][$tableName] = new Table(self::getDatabase($dbName), $tableName);
         }
         return self::$tableList[$dbName][$tableName];
     }
 
-    public static function cron()
-    {
+    public static function cron() {
         $infoTable = self::getTable('information_schema', 'TABLES');
         $tableList = $infoTable->select([
             'TABLE_SCHEMA',
@@ -124,8 +113,7 @@ class Manager
         }
     }
 
-    public static function _createLog($sql)
-    {
+    public static function _createLog($sql) {
         if (self::getLogEnabled()) {
             if (strlen($sql) > self::LOG_LINELENGTH) {
                 $sql = substr($sql, 0, self::LOG_LINELENGTH) . '...';

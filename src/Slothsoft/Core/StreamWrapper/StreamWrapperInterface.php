@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\StreamWrapper;
 
-interface StreamWrapperInterface
-{
+interface StreamWrapperInterface {
 
     const MODE_OPEN_READONLY = 'rb';
 

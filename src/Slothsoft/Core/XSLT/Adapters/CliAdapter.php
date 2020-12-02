@@ -11,8 +11,7 @@ use Slothsoft\Core\IO\FileInfoFactory;
  * @author Daniel Schulz
  *        
  */
-class CliAdapter extends GenericAdapter
-{
+class CliAdapter extends GenericAdapter {
 
     private $path;
 
@@ -20,8 +19,7 @@ class CliAdapter extends GenericAdapter
 
     /**
      */
-    public function __construct(string $path, string $args)
-    {
+    public function __construct(string $path, string $args) {
         $this->path = $path;
         $this->args = $args;
     }
@@ -32,12 +30,11 @@ class CliAdapter extends GenericAdapter
      * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toFile()
      *
      */
-    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo
-    {
+    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo {
         if (! $outputFile) {
             $outputFile = FileInfoFactory::createTempFile();
         }
-        
+
         $command = escapeshellarg($this->path) . ' ' . sprintf($this->args, escapeshellarg((string) $this->source->toFile()), escapeshellarg((string) $this->template->toFile()), escapeshellarg((string) $outputFile));
         exec($command, $output, $res);
         if ($res !== 0) {
@@ -52,8 +49,7 @@ class CliAdapter extends GenericAdapter
      * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toDocument()
      *
      */
-    public function writeDocument(): DOMDocument
-    {
+    public function writeDocument(): DOMDocument {
         return $this->writeFile()->getDocument();
     }
 }

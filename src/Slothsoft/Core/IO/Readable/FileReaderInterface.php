@@ -4,17 +4,15 @@ namespace Slothsoft\Core\IO\Readable;
 
 use SplFileInfo;
 
-
 /**
  *
  * @author Daniel Schulz
  *        
  */
-interface FileReaderInterface
-{
+interface FileReaderInterface {
 
-    public function fromFile(SplFileInfo $sourceFile) : void;
+    public function fromFile(SplFileInfo $sourceFile): void;
 
-    public function fromString(string $sourceString) : void;
+    public function fromString(string $sourceString): void;
 }
 

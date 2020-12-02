@@ -15,12 +15,10 @@ use Serializable;
  * @author Daniel Schulz
  *        
  */
-class LeanElement implements DOMWriterInterface, Serializable
-{
+class LeanElement implements DOMWriterInterface, Serializable {
     use DOMWriterDocumentFromElementTrait;
 
-    public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array
-    {
+    public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array {
         $ret = [];
         foreach ($domNodeList as $domNode) {
             if ($domNode instanceof DOMElement) {
@@ -30,18 +28,15 @@ class LeanElement implements DOMWriterInterface, Serializable
         return $ret;
     }
 
-    public static function createTreeFromDOMDocument(DOMDocument $domDocument): LeanElement
-    {
+    public static function createTreeFromDOMDocument(DOMDocument $domDocument): LeanElement {
         return self::createTreeFromDOMElement($domDocument->documentElement);
     }
 
-    public static function createTreeFromDOMElement(DOMElement $domElement): LeanElement
-    {
+    public static function createTreeFromDOMElement(DOMElement $domElement): LeanElement {
         return self::createOneFromDOMElement($domElement, self::createTreeListFromDOMNodeList($domElement->childNodes));
     }
 
-    public static function createOneFromDOMElement(DOMElement $element, array $children = []): LeanElement
-    {
+    public static function createOneFromDOMElement(DOMElement $element, array $children = []): LeanElement {
         $tag = $element->localName;
         $attributes = [];
         foreach ($element->attributes as $attr) {
@@ -50,8 +45,7 @@ class LeanElement implements DOMWriterInterface, Serializable
         return self::createOneFromArray($tag, $attributes, $children);
     }
 
-    public static function createOneFromArray(string $tag, array $attributes, iterable $children = []): LeanElement
-    {
+    public static function createOneFromArray(string $tag, array $attributes, iterable $children = []): LeanElement {
         return new LeanElement($tag, $attributes, $children instanceof Vector ? $children : new Vector($children));
     }
 
@@ -67,8 +61,7 @@ class LeanElement implements DOMWriterInterface, Serializable
      * @param array $attributes
      * @param array $children
      */
-    private function __construct(string $tag, array $attributes, Vector $children)
-    {
+    private function __construct(string $tag, array $attributes, Vector $children) {
         $this->tag = $tag;
         $this->attributes = $attributes;
         $this->children = $children;
@@ -78,8 +71,7 @@ class LeanElement implements DOMWriterInterface, Serializable
      *
      * @return string
      */
-    public function getTag(): string
-    {
+    public function getTag(): string {
         return $this->tag;
     }
 
@@ -88,8 +80,7 @@ class LeanElement implements DOMWriterInterface, Serializable
      * @param string $key
      * @return bool
      */
-    public function hasAttribute(string $key): bool
-    {
+    public function hasAttribute(string $key): bool {
         return isset($this->attributes[$key]);
     }
 
@@ -98,8 +89,7 @@ class LeanElement implements DOMWriterInterface, Serializable
      * @param string $key
      * @return mixed
      */
-    public function getAttribute(string $key, $default = null)
-    {
+    public function getAttribute(string $key, $default = null) {
         return $this->attributes[$key] ?? $default;
     }
 
@@ -108,8 +98,7 @@ class LeanElement implements DOMWriterInterface, Serializable
      * @param string $key
      * @param mixed $val
      */
-    public function setAttribute(string $key, $val) : void
-    {
+    public function setAttribute(string $key, $val): void {
         $this->attributes[$key] = $val;
     }
 
@@ -117,16 +106,15 @@ class LeanElement implements DOMWriterInterface, Serializable
      *
      * @return array
      */
-    public function getAttributes(): array
-    {
+    public function getAttributes(): array {
         return $this->attributes;
     }
-    
+
     /**
+     *
      * @param LeanElement $child
      */
-    public function appendChild(LeanElement $child): void
-    {
+    public function appendChild(LeanElement $child): void {
         $this->children[] = $child;
     }
 
@@ -134,13 +122,11 @@ class LeanElement implements DOMWriterInterface, Serializable
      *
      * @return LeanElement[]
      */
-    public function getChildren(): iterable
-    {
+    public function getChildren(): iterable {
         return $this->children;
     }
 
-    public function getChildByTag(string $tag) : ?LeanElement
-    {
+    public function getChildByTag(string $tag): ?LeanElement {
         foreach ($this->children as $child) {
             if ($child->getTag() === $tag) {
                 return $child;
@@ -148,8 +134,7 @@ class LeanElement implements DOMWriterInterface, Serializable
         }
     }
 
-    public function toElement(DOMDocument $targetDoc): DOMElement
-    {
+    public function toElement(DOMDocument $targetDoc): DOMElement {
         $element = $targetDoc->createElement($this->tag);
         foreach ($this->attributes as $key => $val) {
             $element->setAttribute($key, $val);
@@ -160,25 +145,29 @@ class LeanElement implements DOMWriterInterface, Serializable
         return $element;
     }
 
-    public function withAttributes(array $attributes): LeanElement
-    {
+    public function withAttributes(array $attributes): LeanElement {
         $ret = clone $this;
         foreach ($attributes as $key => $val) {
             $ret->setAttribute($key, $val);
         }
         return $ret;
     }
-    
-    public function serialize()
-    {
-        return serialize([$this->tag, $this->attributes, $this->children->toArray()]);
+
+    public function serialize() {
+        return serialize([
+            $this->tag,
+            $this->attributes,
+            $this->children->toArray()
+        ]);
     }
 
-    public function unserialize($serialized)
-    {
-        [$this->tag, $this->attributes, $this->children] = unserialize($serialized);
+    public function unserialize($serialized) {
+        [
+            $this->tag,
+            $this->attributes,
+            $this->children
+        ] = unserialize($serialized);
         $this->children = new Vector($this->children);
     }
-
 }
 

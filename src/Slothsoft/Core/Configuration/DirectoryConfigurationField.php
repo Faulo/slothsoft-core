@@ -5,11 +5,9 @@ namespace Slothsoft\Core\Configuration;
 use BadMethodCallException;
 use RuntimeException;
 
-class DirectoryConfigurationField extends ConfigurationField
-{
+class DirectoryConfigurationField extends ConfigurationField {
 
-    public function setValue($newValue)
-    {
+    public function setValue($newValue) {
         $newValue = (string) $newValue;
         if ($newValue === '') {
             throw new BadMethodCallException("Value must be a valid directory path!");

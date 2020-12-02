@@ -10,8 +10,7 @@ use SplFileInfo;
  * @author Daniel Schulz
  *        
  */
-interface InputInterface
-{
+interface InputInterface {
 
     public function toFile(): SplFileInfo;
 

@@ -12,8 +12,7 @@ use DOMElement;
  */
 trait DOMWriterElementFromDocumentTrait {
 
-    public function toElement(DOMDocument $targetDoc): DOMElement
-    {
+    public function toElement(DOMDocument $targetDoc): DOMElement {
         return $targetDoc->importNode($this->toDocument()->documentElement, true);
     }
 }

@@ -11,25 +11,21 @@ use Slothsoft\Core\DOMHelper;
  * @author Daniel Schulz
  *        
  */
-class FileInput implements InputInterface
-{
+class FileInput implements InputInterface {
 
     private $content;
 
     private $contentDocument;
 
-    public function __construct(SplFileInfo $input)
-    {
+    public function __construct(SplFileInfo $input) {
         $this->content = $input;
     }
 
-    public function toFile(): SplFileInfo
-    {
+    public function toFile(): SplFileInfo {
         return $this->content;
     }
 
-    public function toDocument(): DOMDocument
-    {
+    public function toDocument(): DOMDocument {
         if ($this->contentDocument === null) {
             $this->contentDocument = DOMHelper::loadDocument((string) $this->content);
         }

@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\Calendar;
 
-class Seconds
-{
+class Seconds {
 
     const USLEEP_FACTOR = 1000000;
 

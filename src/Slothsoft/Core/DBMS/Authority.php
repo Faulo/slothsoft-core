@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\DBMS;
 
-class Authority
-{
+class Authority {
 
     public $server;
 
@@ -11,8 +10,7 @@ class Authority
 
     public $password;
 
-    public function __construct(string $server, string $user, string $password)
-    {
+    public function __construct(string $server, string $user, string $password) {
         $this->server = $server;
         $this->user = $user;
         $this->password = $password;

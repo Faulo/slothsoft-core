@@ -6,110 +6,98 @@ use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use BadMethodCallException;
 
-class GeneratorStream implements StreamInterface
-{
+class GeneratorStream implements StreamInterface {
+
     private const NEW = 1;
+
     private const START = 2;
+
     private const MIDDLE = 3;
+
     private const END = 4;
-    
+
     private $writer;
-    
+
     private $generator;
-    
+
     private $state;
-    
-    public function __construct(ChunkWriterInterface $writer)
-    {
+
+    public function __construct(ChunkWriterInterface $writer) {
         $this->writer = $writer;
         $this->state = self::NEW;
     }
+
     private function init() {
         if ($this->state === self::NEW) {
             $this->generator = $this->writer->toChunks();
             $this->state = self::START;
         }
     }
-    
-    public function eof()
-    {
+
+    public function eof() {
         $this->init();
         return ! $this->generator->valid();
     }
-    
-    public function rewind()
-    {
+
+    public function rewind() {
         $this->seek(0);
     }
-    
-    public function close()
-    {
+
+    public function close() {
         $this->writer = null;
         $this->generator = null;
         $this->state = self::END;
     }
-    
-    public function detach()
-    {
+
+    public function detach() {
         $this->writer = null;
         $this->generator = null;
         $this->state = self::END;
     }
-    
-    public function getMetadata($key = null)
-    {
+
+    public function getMetadata($key = null) {
         return $key === null ? [] : null;
     }
-    
-    public function getContents()
-    {
+
+    public function getContents() {
         $ret = '';
         while (! $this->eof()) {
             $ret .= $this->read(PHP_INT_MAX);
         }
         return $ret;
     }
-    
-    public function __toString()
-    {
+
+    public function __toString() {
         return $this->getContents();
     }
-    
-    public function getSize()
-    {
+
+    public function getSize() {
         return null;
     }
-    
-    public function tell()
-    {
+
+    public function tell() {
         throw new BadMethodCallException('Cannot tell a GeneratorStream.');
     }
-    
-    public function isReadable()
-    {
+
+    public function isReadable() {
         return true;
     }
-    
-    public function read($length)
-    {
+
+    public function read($length) {
         $this->init();
         if ($this->state === self::START) {
             $this->state = self::MIDDLE;
         } else {
             $this->generator->next();
         }
-        return $this->generator->valid()
-            ? (string) $this->generator->current()
-            : '';
+        return $this->generator->valid() ? (string) $this->generator->current() : '';
     }
-    
-    public function isSeekable()
-    {
+
+    public function isSeekable() {
         return false;
     }
-    
-    public function seek($offset, $whence = SEEK_SET)
-    {
+
+    public function seek($offset, $whence = SEEK_SET) {
         if ($offset === 0 and $whence === SEEK_SET) {
             if ($this->state === self::MIDDLE) {
                 $this->generator->rewind();
@@ -119,14 +107,12 @@ class GeneratorStream implements StreamInterface
             throw new BadMethodCallException('Cannot seek a GeneratorStream.');
         }
     }
-    
-    public function isWritable()
-    {
+
+    public function isWritable() {
         return false;
     }
-    
-    public function write($string)
-    {
+
+    public function write($string) {
         throw new BadMethodCallException('Cannot write a GeneratorStream.');
     }
 }

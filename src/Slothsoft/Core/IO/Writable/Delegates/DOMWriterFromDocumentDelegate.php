@@ -6,20 +6,18 @@ use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
 use DOMDocument;
 
-class DOMWriterFromDocumentDelegate implements DOMWriterInterface
-{
+class DOMWriterFromDocumentDelegate implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
 
     private $delegate;
+
     private $result;
 
-    public function __construct(callable $delegate)
-    {
+    public function __construct(callable $delegate) {
         $this->delegate = $delegate;
     }
 
-    public function toDocument(): DOMDocument
-    {
+    public function toDocument(): DOMDocument {
         if ($this->result === null) {
             $this->result = ($this->delegate)();
             assert($this->result instanceof DOMDocument, "DOMWriterFromDocumentDelegate must return DOMDocument!");

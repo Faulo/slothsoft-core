@@ -64,7 +64,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/phpspec/prophecy/src">
+	<buildpathentry kind="src" path="vendor/phpspec/prophecy/src/Prophecy">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -105,6 +105,11 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/psr/http-message/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/ralouphie/getallheaders/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>
@@ -169,7 +174,7 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/slothsoft/w3c/tests">
+	<buildpathentry kind="src" path="vendor/symfony/polyfill-ctype">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>

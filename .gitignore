@@ -7,3 +7,6 @@ $RECYCLE.BIN/
 # == Composer ==
 /composer.phar
 /vendor/
+
+# == phpDocumentor ==
+/docs/tmp/

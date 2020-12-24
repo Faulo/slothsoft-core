@@ -6,13 +6,11 @@ use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMElement;
 
-class FileSystemTest extends TestCase
-{
+class FileSystemTest extends TestCase {
 
-    public function testAsNode()
-    {
+    public function testAsNode() {
         $document = FileSystem::asNode(__DIR__);
-        
+
         $this->assertInstanceOf(DOMDocument::class, $document);
         $this->assertInstanceOf(DOMElement::class, $document->documentElement);
     }

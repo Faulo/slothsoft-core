@@ -5,11 +5,9 @@ namespace Slothsoft\Core\DBMS;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
-class Client
-{
+class Client {
 
-    private static function defaultAuthority(): ConfigurationField
-    {
+    private static function defaultAuthority(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField();
@@ -17,13 +15,11 @@ class Client
         return $field;
     }
 
-    public static function setDefaultAuthority(Authority $authority)
-    {
+    public static function setDefaultAuthority(Authority $authority) {
         self::defaultAuthority()->setValue($authority);
     }
 
-    public static function getDefaultAuthority(): Authority
-    {
+    public static function getDefaultAuthority(): Authority {
         return self::defaultAuthority()->getValue();
     }
 
@@ -39,11 +35,9 @@ class Client
 
     protected $dbName = null;
 
-    public function __construct()
-    {}
+    public function __construct() {}
 
-    public function reconnect()
-    {
+    public function reconnect() {
         try {
             $authority = self::getDefaultAuthority();
         } catch (ConfigurationRequiredException $e) {
@@ -63,21 +57,18 @@ class Client
         return true;
     }
 
-    public static function disconnect()
-    {
+    public function disconnect() {
         if ($this->connected) {
             $this->connected = false;
             $this->sqli->close();
         }
     }
 
-    protected function connect()
-    {
+    protected function connect() {
         return ($this->connected and $this->sqli->ping()) or ($this->reconnect() and $this->connected = true);
     }
 
-    public function setDatabase($dbName)
-    {
+    public function setDatabase($dbName) {
         $ret = null;
         $this->dbName = null;
         if ($this->connect()) {
@@ -87,8 +78,7 @@ class Client
         return $ret;
     }
 
-    public function tableExists($dbName, $tableName)
-    {
+    public function tableExists($dbName, $tableName) {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'tables', 'table_name', sprintf('table_schema = "%s" AND table_name = "%s"', $this->escape($dbName), $this->escape($tableName)));
@@ -97,16 +87,14 @@ class Client
         return $ret;
     }
 
-    public function tableMove($oldDbName, $oldTableName, $newDbName, $newTableName)
-    {
+    public function tableMove($oldDbName, $oldTableName, $newDbName, $newTableName) {
         $oldHandle = $this->get_handle($oldDbName, $oldTableName);
         $newHandle = $this->get_handle($newDbName, $newTableName);
         $sql = sprintf('RENAME TABLE %s TO %s', $oldHandle, $newHandle);
         return $this->execute($sql);
     }
 
-    public function databaseExists($dbName)
-    {
+    public function databaseExists($dbName) {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'schemata', 'schema_name', sprintf('schema_name = "%s"', $this->escape($dbName)));
@@ -115,8 +103,7 @@ class Client
         return $ret;
     }
 
-    public function getDatabaseList()
-    {
+    public function getDatabaseList() {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'schemata', 'schema_name');
@@ -124,8 +111,7 @@ class Client
         return $ret;
     }
 
-    public function getTableList($dbName)
-    {
+    public function getTableList($dbName) {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'tables', 'table_name', sprintf('table_schema = "%s"', $this->escape($dbName)));
@@ -133,8 +119,7 @@ class Client
         return $ret;
     }
 
-    public function createDatabase($dbName)
-    {
+    public function createDatabase($dbName) {
         $dbHandle = $this->get_handle($dbName);
         $sql = sprintf('CREATE DATABASE IF NOT EXISTS %s', $dbHandle);
         if (! $this->execute($sql)) {
@@ -142,8 +127,7 @@ class Client
         }
     }
 
-    public function deleteDatabase($dbName)
-    {
+    public function deleteDatabase($dbName) {
         $dbHandle = $this->get_handle($dbName);
         $sql = sprintf('DROP DATABASE IF EXISTS %s', $dbHandle);
         if (! $this->execute($sql)) {
@@ -151,8 +135,7 @@ class Client
         }
     }
 
-    public function createTable($dbName, $tableName, array $cols, array $keys, array $options = [])
-    {
+    public function createTable($dbName, $tableName, array $cols, array $keys, array $options = []) {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $colStr = [];
         foreach ($cols as $key => $val) {
@@ -186,8 +169,7 @@ class Client
         }
     }
 
-    public function addIndex($dbName, $tableName, $index)
-    {
+    public function addIndex($dbName, $tableName, $index) {
         if (! is_array($index)) {
             $index = [
                 'name' => $index,
@@ -205,8 +187,7 @@ class Client
 
     // SELECT $cols FROM $table WHERE ($string)
     // $cols: true => ['*'], 'col' => 'col', ['c1', 'c2'] => 'c1, c2'
-    public function select($dbName, $tableName, $cols = true, $sqlString = '', $sqlSuffix = '')
-    {
+    public function select($dbName, $tableName, $cols = true, $sqlString = '', $sqlSuffix = '') {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
@@ -287,8 +268,7 @@ class Client
     }
 
     // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
-    public function insert($dbName, $tableName, $insertData = [], $onDuplicateData = [])
-    {
+    public function insert($dbName, $tableName, $insertData = [], $onDuplicateData = []) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
@@ -322,8 +302,7 @@ class Client
     }
 
     // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
-    public function update($dbName, $tableName, $arr = [], $id = false)
-    {
+    public function update($dbName, $tableName, $arr = [], $id = false) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
@@ -338,8 +317,7 @@ class Client
     }
 
     // DELETE FROM $table WHERE id = $id
-    public function delete($dbName, $tableName, $id = false)
-    {
+    public function delete($dbName, $tableName, $id = false) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
@@ -354,23 +332,20 @@ class Client
     }
 
     // führt alles Mögliche aus, möglichst vermeiden ^^
-    public function execute($sqlString)
-    {
+    public function execute($sqlString) {
         if ($this->connect()) {
             Manager::_createLog($sqlString);
             return $this->sqli->query($sqlString);
         }
     }
 
-    public function executeFile($file)
-    {
+    public function executeFile($file) {
         if ($sql = file_get_contents($file)) {
             return $this->sqli->multi_query($sql);
         }
     }
 
-    public function getColumns($dbName, $tableName)
-    {
+    public function getColumns($dbName, $tableName) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
@@ -389,8 +364,7 @@ class Client
         return $ret;
     }
 
-    public function optimize($dbName, $tableName)
-    {
+    public function optimize($dbName, $tableName) {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $sql = sprintf('OPTIMIZE TABLE %s', $dbHandle);
         $res = $this->execute($sql);
@@ -414,8 +388,7 @@ class Client
         throw new DatabaseException(implode(PHP_EOL, $err));
     }
 
-    public function resetCharset($dbName, $tableName = null)
-    {
+    public function resetCharset($dbName, $tableName = null) {
         // ALTER DATABASE <database_name> CHARACTER SET utf8 COLLATE utf8_unicode_ci;
         // ALTER TABLE <table_name> DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         // ALTER TABLE <table_name> CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -440,8 +413,7 @@ class Client
         }
     }
 
-    public function escape($string)
-    {
+    public function escape($string) {
         if ($this->connect()) {
             return $this->sqli->real_escape_string((string) $string);
         }
@@ -449,8 +421,7 @@ class Client
     }
 
     // gibt id-string zurück
-    protected function get_ids($id)
-    {
+    protected function get_ids($id) {
         if (is_array($id)) {
             switch (count($id)) {
                 case 0:
@@ -482,8 +453,7 @@ class Client
     }
 
     // gibt update-string zurück
-    protected function _get_update_data(array $arr)
-    {
+    protected function _get_update_data(array $arr) {
         $ret = [];
         foreach ($arr as $key => $val) {
             if ($val === null) {
@@ -504,8 +474,7 @@ class Client
     }
 
     // gibt db-handle zurück
-    protected function get_handle($dbName, $tableName = null)
-    {
+    protected function get_handle($dbName, $tableName = null) {
         if ($dbName === null) {
             $dbName = $tableName;
             $tableName = null;
@@ -513,8 +482,7 @@ class Client
         return $tableName === null ? sprintf('`%s`', $dbName) : sprintf('`%s`.`%s`', $dbName, $tableName);
     }
 
-    protected function error($sql = null)
-    {
+    protected function error($sql = null) {
         $err = '';
         if ($sql) {
             $err .= 'ERROR querying statement:' . PHP_EOL;

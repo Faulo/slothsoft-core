@@ -6,16 +6,15 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use Generator;
 
+class ChunkWriterFromStringWriter implements ChunkWriterInterface {
 
-class ChunkWriterFromStringWriter implements ChunkWriterInterface
-{
     private $source;
+
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
-    
-    public function toChunks(): Generator
-    {
+
+    public function toChunks(): Generator {
         yield $this->source->toString();
     }
 }

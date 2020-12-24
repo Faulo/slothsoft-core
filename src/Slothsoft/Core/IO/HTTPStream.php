@@ -13,8 +13,7 @@ namespace Slothsoft\Core\IO;
 
 use Slothsoft\Core\Calendar\Seconds;
 
-abstract class HTTPStream
-{
+abstract class HTTPStream {
 
     const STATUS_ERROR = 0;
 
@@ -50,89 +49,73 @@ abstract class HTTPStream
     protected $heartbeatTimeout = Seconds::HOUR;
 
     // time without actual content before child is terminated
-    public function getMime()
-    {
+    public function getMime() {
         return $this->mime;
     }
 
-    public function getEncoding()
-    {
+    public function getEncoding() {
         return $this->encoding;
     }
 
-    public function getHeaderList()
-    {
+    public function getHeaderList() {
         return $this->headerList;
     }
 
-    public function setStatusError()
-    {
+    public function setStatusError() {
         $this->status = self::STATUS_ERROR;
     }
 
-    public function setStatusDone()
-    {
+    public function setStatusDone() {
         $this->status = self::STATUS_DONE;
     }
 
-    public function setStatusRetry()
-    {
+    public function setStatusRetry() {
         $this->status = self::STATUS_RETRY;
     }
 
-    public function setStatusContent()
-    {
+    public function setStatusContent() {
         $this->status = self::STATUS_CONTENT;
     }
 
-    public function setStatusContentDone()
-    {
+    public function setStatusContentDone() {
         $this->status = self::STATUS_CONTENTDONE;
     }
 
-    public function getStatus()
-    {
+    public function getStatus() {
         $this->parseStatus();
         return $this->status;
     }
 
     abstract protected function parseStatus();
 
-    public function getContent()
-    {
+    public function getContent() {
         $this->parseContent();
         return $this->content;
     }
 
     abstract protected function parseContent();
 
-    public function getSleepDuration()
-    {
+    public function getSleepDuration() {
         return $this->sleepDuration;
     }
 
-    public function getHeartbeatInterval()
-    {
+    public function getHeartbeatInterval() {
         return $this->heartbeatInterval;
     }
 
-    public function getHeartbeatTimeout()
-    {
+    public function getHeartbeatTimeout() {
         return $this->heartbeatTimeout;
     }
 
-    public function getHeartbeatContent()
-    {
+    public function getHeartbeatContent() {
         return $this->heartbeatContent;
     }
 
-    public function getHeartbeatEOL()
-    {
+    public function getHeartbeatEOL() {
         return $this->heartbeatEOL;
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         return sprintf('%s: %d', __CLASS__, time());
     }
 }

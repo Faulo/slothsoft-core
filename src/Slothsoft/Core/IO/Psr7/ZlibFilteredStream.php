@@ -4,32 +4,27 @@ namespace Slothsoft\Core\IO\Psr7;
 
 use Psr\Http\Message\StreamInterface;
 
-class ZlibFilteredStream extends AbstractFilteredStream
-{
+class ZlibFilteredStream extends AbstractFilteredStream {
 
     private $zlibCoding;
 
     private $compressor;
 
-    public function __construct(StreamInterface $stream, int $zlibCoding)
-    {
+    public function __construct(StreamInterface $stream, int $zlibCoding) {
         parent::__construct($stream);
         $this->zlibCoding = $zlibCoding;
     }
 
-    protected function processHeader(): string
-    {
+    protected function processHeader(): string {
         $this->compressor = deflate_init($this->zlibCoding);
         return '';
     }
 
-    protected function processPayload(string $data): string
-    {
+    protected function processPayload(string $data): string {
         return deflate_add($this->compressor, $data, ZLIB_NO_FLUSH);
     }
 
-    protected function processFooter(): string
-    {
+    protected function processFooter(): string {
         return deflate_add($this->compressor, '', ZLIB_FINISH);
     }
 }

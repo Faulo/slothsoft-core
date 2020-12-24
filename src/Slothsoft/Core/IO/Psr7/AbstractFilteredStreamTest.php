@@ -6,8 +6,7 @@ use function GuzzleHttp\Psr7\stream_for;
 use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
-abstract class AbstractFilteredStreamTest extends TestCase
-{
+abstract class AbstractFilteredStreamTest extends TestCase {
 
     abstract protected function getInput(): string;
 
@@ -21,20 +20,18 @@ abstract class AbstractFilteredStreamTest extends TestCase
 
     private $factory;
 
-    public function setUp(): void
-    {
+    public function setUp(): void {
         $input = $this->getInput();
         $this->inputStream = stream_for($input);
         $this->expectedResult = $this->calculateExpectedResult($input);
         $this->factory = $this->getFilterFactory();
     }
 
-    public function testReadStream()
-    {
+    public function testReadStream() {
         $stream = $this->factory->toFilteredStream($this->inputStream);
-        
+
         $actualResult = $stream->getContents();
-        
+
         $this->assertEquals($this->expectedResult, $actualResult);
     }
 }

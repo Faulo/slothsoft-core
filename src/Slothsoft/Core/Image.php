@@ -5,8 +5,7 @@ namespace Slothsoft\Core;
 use DomainException;
 use Exception;
 
-class Image
-{
+class Image {
 
     const IRFANVIEW_ACTIVE = true;
 
@@ -39,16 +38,14 @@ class Image
 
     const THUMBNAIL_HEIGHT = 240;
 
-    protected static function getTempFile()
-    {
+    protected static function getTempFile() {
         // $ret = tempnam(sys_get_temp_dir(), __CLASS__);
         $ret = temp_file(__CLASS__);
         // my_dump($ret);
         return $ret;
     }
 
-    public static function createSprite($destFile, $spriteWidth, $spriteHeight, $cols = 1, $rows = 1, array $imageList = [])
-    {
+    public static function createSprite($destFile, $spriteWidth, $spriteHeight, $cols = 1, $rows = 1, array $imageList = []) {
         $width = $spriteWidth * $cols;
         $height = $spriteHeight * $rows;
         $ret = imagepng(imagecreatetruecolor($width, $height), $destFile, 9);
@@ -58,8 +55,7 @@ class Image
         return $ret;
     }
 
-    public static function addSprite($destFile, array $sourceFileList, $spriteWidth = null, $spriteHeigh = null)
-    {
+    public static function addSprite($destFile, array $sourceFileList, $spriteWidth = null, $spriteHeigh = null) {
         $destInfo = self::imageInfo($destFile);
         $destImage = self::createFromFile($destFile);
         imagealphablending($destImage, true);
@@ -67,10 +63,10 @@ class Image
             $sourceFile = (string) $sourceFile;
             if ($sourceFile) {
                 $sourceInfo = self::imageInfo($sourceFile);
-                
+
                 $width = $spriteWidth === null ? $sourceInfo['width'] : $spriteWidth;
                 $height = $spriteHeigh === null ? $sourceInfo['height'] : $spriteHeigh;
-                
+
                 $x = $width * $index;
                 $y = 0;
                 while ($x >= $destInfo['width']) {
@@ -85,8 +81,7 @@ class Image
         return imagepng($destImage, $destFile, 9);
     }
 
-    public static function imageInfo($file)
-    {
+    public static function imageInfo($file) {
         $arr = getimagesize($file);
         return [
             'width' => $arr[0],
@@ -95,8 +90,7 @@ class Image
         ];
     }
 
-    public static function createFromFile($file)
-    {
+    public static function createFromFile($file) {
         $size = getimagesize($file);
         switch ($size['mime']) {
             case 'image/jpeg':
@@ -110,26 +104,24 @@ class Image
         }
     }
 
-    public static function setTransparency($image_source, $new_image)
-    {
+    public static function setTransparency($image_source, $new_image) {
         $transparencyIndex = imagecolortransparent($image_source);
         $transparencyColor = array(
             'red' => 255,
             'green' => 255,
             'blue' => 255
         );
-        
+
         if ($transparencyIndex > - 1) {
             $transparencyColor = imagecolorsforindex($image_source, $transparencyIndex);
         }
-        
+
         $transparencyIndex = imagecolorallocate($new_image, $transparencyColor['red'], $transparencyColor['green'], $transparencyColor['blue']);
         imagefill($new_image, 0, 0, $transparencyIndex);
         imagecolortransparent($new_image, $transparencyIndex);
     }
 
-    public static function splitImage($file, $x, $y, $new_width, $new_height)
-    {
+    public static function splitImage($file, $x, $y, $new_width, $new_height) {
         $pic = self::createFromFile($file);
         $new_image = imagecreatetruecolor($new_width, $new_height);
         self::setTransparency($pic, $new_image);
@@ -146,8 +138,7 @@ class Image
         return $new_image;
     }
 
-    public static function convertFile($sourceFile, $destFile)
-    {
+    public static function convertFile($sourceFile, $destFile) {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
         if (self::IRFANVIEW_ACTIVE) {
@@ -160,7 +151,7 @@ class Image
             exec($command);
         }
         $ret = file_exists($destFile);
-        
+
         if (self::OPTIPNG_ACTIVE) {
             if ($ret and strtolower(pathinfo($destFile, PATHINFO_EXTENSION)) === 'png') {
                 $command = '"' . self::OPTIPNG_PATH . '" ';
@@ -168,12 +159,11 @@ class Image
                 exec($command);
             }
         }
-        
+
         return $ret;
     }
 
-    public static function scaleFile($sourceFile, $destFile, $width, $height)
-    {
+    public static function scaleFile($sourceFile, $destFile, $width, $height) {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
         if (self::IRFANVIEW_ACTIVE) {
@@ -181,9 +171,9 @@ class Image
             $command .= sprintf(self::IRFANVIEW_QUERY_SCALE, escapeshellarg($sourceFile), escapeshellarg($destFile), $width, $height);
             exec($command);
         }
-        
+
         $ret = file_exists($destFile);
-        
+
         if (self::OPTIPNG_ACTIVE) {
             if ($ret and strtolower(pathinfo($destFile, PATHINFO_EXTENSION)) === 'png') {
                 $command = '"' . self::OPTIPNG_PATH . '" ';
@@ -191,30 +181,28 @@ class Image
                 exec($command);
             }
         }
-        
+
         return $ret;
     }
 
-    public static function cropFile($sourceFile, $destFile, $width, $height)
-    {}
+    public static function cropFile($sourceFile, $destFile, $width, $height) {}
 
-    public static function mergeFile($sourceFile, $appendFile, $targetFile = null)
-    {
+    public static function mergeFile($sourceFile, $appendFile, $targetFile = null) {
         if ($targetFile === null) {
             $targetFile = $sourceFile;
         }
         $ret = false;
-        
+
         $sourceImage = self::createFromFile($sourceFile);
         $appendImage = self::createFromFile($appendFile);
-        
+
         if ($sourceImage and $appendImage) {
             imagealphablending($sourceImage, true);
             imagesavealpha($sourceImage, true);
-            
+
             $appendInfo = self::imageInfo($appendFile);
             imagecopy($sourceImage, $appendImage, 0, 0, 0, 0, $appendInfo['width'], $appendInfo['height']);
-            
+
             $tempFile = self::getTempFile();
             imagepng($sourceImage, $tempFile);
             $ret = self::convertFile($tempFile, $targetFile);
@@ -222,8 +210,7 @@ class Image
         return $ret;
     }
 
-    public static function generateThumbnail($sourceFile, $thumbWidth = null, $thumbHeight = null, $returnLink = true)
-    {
+    public static function generateThumbnail($sourceFile, $thumbWidth = null, $thumbHeight = null, $returnLink = true) {
         static $cache = null;
         $ret = null;
         if (! $cache) {
@@ -249,10 +236,10 @@ class Image
             $tmpFile = sprintf('%s.%dx%d%s', $fileHash, $thumbWidth, $thumbHeight, $fileExt);
             // $tmpFile = FileSystem::filenameEncode($tmpFile, true);
             // echo $tmpFile . PHP_EOL;
-            
+
             $destFile = $cache->getPath($tmpFile, 'images/');
             $destLink = $cache->getURI($tmpFile, 'images/');
-            
+
             if ($sourceFile and ! file_exists($destFile) or filemtime($destFile) < filemtime($sourceFile)) {
                 if (self::IRFANVIEW_ACTIVE and is_readable(self::IRFANVIEW_PATH)) {
                     $command = '"' . self::IRFANVIEW_PATH . '" ';

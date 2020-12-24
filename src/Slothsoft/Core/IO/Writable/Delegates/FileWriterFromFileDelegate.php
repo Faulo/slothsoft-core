@@ -5,17 +5,17 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
-class FileWriterFromFileDelegate implements FileWriterInterface
-{
+class FileWriterFromFileDelegate implements FileWriterInterface {
+
     private $delegate;
+
     private $result;
-    
+
     public function __construct(callable $delegate) {
         $this->delegate = $delegate;
     }
-    
-    public function toFile(): SplFileInfo
-    {
+
+    public function toFile(): SplFileInfo {
         if ($this->result === null) {
             $this->result = ($this->delegate)();
             assert($this->result instanceof SplFileInfo, "FileWriterFromFileDelegate must return SplFileInfo!");

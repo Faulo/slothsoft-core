@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
-use Slothsoft\Core\IO\Memory;
+namespace Slothsoft\Core;
 
+use Slothsoft\Core\IO\Memory;
 require_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('autoload-%s.php', PHP_SAPI);
 
-function my_dump($var)
-{
+function my_dump($var) {
     if (! headers_sent()) {
         header('Content-Type: text/plain; charset=UTF-8');
     }
@@ -31,8 +31,7 @@ function my_dump($var)
     echo '________________________________________________________________________________' . PHP_EOL;
 }
 
-function temp_file($folder, $prefix = null)
-{
+function temp_file($folder, $prefix = null) {
     $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $folder;
     if (! is_dir($path)) {
         mkdir($path, 0777, true);
@@ -48,8 +47,7 @@ function temp_file($folder, $prefix = null)
     throw new \Exception(sprintf('Could not create temporary file at "%s" D:', $path));
 }
 
-function temp_dir($folder, $prefix = null)
-{
+function temp_dir($folder, $prefix = null) {
     $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $folder;
     if (! is_dir($path)) {
         mkdir($path, 0777, true);
@@ -63,8 +61,7 @@ function temp_dir($folder, $prefix = null)
     throw new \Exception(sprintf('Could not create temporary directory at "%s" D:', $path));
 }
 
-function get_execution_time()
-{
+function get_execution_time() {
     static $microtime_start = null;
     if ($microtime_start === null) {
         $microtime_start = microtime(true);
@@ -74,29 +71,27 @@ function get_execution_time()
 }
 get_execution_time();
 
-function log_execution_time($file, $line)
-{
+function log_execution_time($file, $line) {
     if (isset($_REQUEST['dev-time'])) {
         static $previousMemory = null;
         static $previousTime = null;
-        
+
         $nowMemory = memory_get_usage();
         $nowTime = get_execution_time();
-        
+
         $diffMemory = $previousMemory === null ? 0 : $nowMemory - $previousMemory;
         $diffTime = $previousTime === null ? 0 : $nowTime - $previousTime;
-        
+
         $previousMemory = $nowMemory;
         $previousTime = $nowTime;
-        
+
         printf('Took %5dMB (+%5dMB) and %6dms (+%4dms) to get to line %4d in file "%s"%s', $nowMemory / Memory::ONE_MEGABYTE, $diffMemory / Memory::ONE_MEGABYTE, $nowTime, $diffTime, $line, basename($file), PHP_EOL);
         flush();
     }
 }
 log_execution_time(__FILE__, __LINE__);
 
-function print_execution_time($echo = true)
-{
+function print_execution_time($echo = true) {
     $ret = sprintf('Execution so far has taken %d ms and %.2f MB.%s', get_execution_time(), memory_get_peak_usage() / 1048576, PHP_EOL);
     if ($echo) {
         echo $ret;
@@ -104,8 +99,7 @@ function print_execution_time($echo = true)
     return $ret;
 }
 
-function log_message(string $message)
-{
+function log_message(string $message) {
     static $file;
     if ($file === null) {
         $file = 'C:\\log.txt';

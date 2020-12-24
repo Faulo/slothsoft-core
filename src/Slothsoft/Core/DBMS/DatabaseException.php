@@ -9,7 +9,6 @@ use Exception;
  * @author Daniel Schulz
  *        
  */
-class DatabaseException extends Exception
-{
+class DatabaseException extends Exception {
 }
 

@@ -2,8 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\StreamFilter;
 
-interface StreamFilterInterface
-{
+interface StreamFilterInterface {
 
     public function filter($in, $out, &$consumed, $closing);
 

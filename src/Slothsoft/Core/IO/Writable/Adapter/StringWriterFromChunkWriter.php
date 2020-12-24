@@ -6,15 +6,15 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
-class StringWriterFromChunkWriter implements StringWriterInterface
-{
+class StringWriterFromChunkWriter implements StringWriterInterface {
+
     private $source;
+
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;
     }
-    
-    public function toString(): string
-    {
+
+    public function toString(): string {
         $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
         foreach ($this->source->toChunks() as $data) {
             fwrite($handle, $data);

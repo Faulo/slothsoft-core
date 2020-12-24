@@ -11,8 +11,7 @@ use DOMDocument;
  * @author Daniel Schulz
  *        
  */
-interface AdapterInterface
-{
+interface AdapterInterface {
 
     public function setSource(InputInterface $input);
 

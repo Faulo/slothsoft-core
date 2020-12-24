@@ -4,8 +4,7 @@ namespace Slothsoft\Core\IO\Writable;
 
 use Psr\Http\Message\StreamInterface;
 
-interface FilteredStreamWriterInterface
-{
+interface FilteredStreamWriterInterface {
 
     /**
      * Appends a filter to a stream.

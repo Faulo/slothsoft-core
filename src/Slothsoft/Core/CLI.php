@@ -11,32 +11,32 @@ class CLI {
     private static function totalTimeout(): ConfigurationField {
         static $field;
         if ($field === null) {
-            $field = new ConfigurationField(- 1);
+            $field = new ConfigurationField(0);
         }
         return $field;
     }
 
-    public static function setTotalTimeout(int $value) {
+    public static function setTotalTimeout(float $value) {
         self::totalTimeout()->setValue($value);
     }
 
-    public static function getTotalTimeout(): int {
+    public static function getTotalTimeout(): float {
         return self::totalTimeout()->getValue();
     }
 
     private static function idleTimeout(): ConfigurationField {
         static $field;
         if ($field === null) {
-            $field = new ConfigurationField(- 1);
+            $field = new ConfigurationField(0);
         }
         return $field;
     }
 
-    public static function setIdleTimeout(int $value) {
+    public static function setIdleTimeout(float $value) {
         self::idleTimeout()->setValue($value);
     }
 
-    public static function getIdleTimeout(): int {
+    public static function getIdleTimeout(): float {
         return self::idleTimeout()->getValue();
     }
 
@@ -73,13 +73,13 @@ class CLI {
     }
 
     public static function execute(string $command, string $workingDirectory = null): int {
-        echo PHP_EOL . PHP_EOL . sprintf('[%s]> %s', date('d.m.y H:i:s'), $command) . PHP_EOL;
+        fwrite(self::getStdOut(), PHP_EOL . PHP_EOL . sprintf('[%s]> %s', date('d.m.y H:i:s'), $command) . PHP_EOL);
         $process = Process::fromShellCommandline($command);
         if ($workingDirectory) {
             $process->setWorkingDirectory($workingDirectory);
         }
-        $process->setTimeout(self::getTotalTimeout() === - 1 ? null : getTotalTimeout());
-        $process->setIdleTimeout(self::getIdleTimeout() === - 1 ? null : getIdleTimeout());
+        $process->setTimeout(self::getTotalTimeout());
+        $process->setIdleTimeout(self::getIdleTimeout());
         try {
             $process->start();
             foreach ($process as $type => $data) {
@@ -90,6 +90,7 @@ class CLI {
                 }
             }
         } catch (ProcessTimedOutException $e) {
+            fwrite(self::getStdErr(), $e->getMessage() . PHP_EOL);
             trigger_error($e->getMessage(), E_USER_WARNING);
         }
 

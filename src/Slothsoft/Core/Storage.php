@@ -406,6 +406,7 @@ class Storage {
             $host = $last . '.' . $host;
         }
         if ($host === 'twitter.com') { // this is why you don't set precedences
+            $match = [];
             if (preg_match('~/i/([a-z]+)/~', $uri, $match)) {
                 $host = $match[1] . '.' . $host;
             }

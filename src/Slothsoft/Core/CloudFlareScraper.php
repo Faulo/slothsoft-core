@@ -61,7 +61,7 @@ class CloudFlareScraper implements Serializable {
             '[]' => '0',
             ')+(' => ').('
         ];
-
+        $match = [];
         if (preg_match('/f, (\w+)={"(\w+)":([^}]+)};/', $html, $match)) {
             // my_dump($match);
             $var = 0;
@@ -73,6 +73,7 @@ class CloudFlareScraper implements Serializable {
             // hLpaLqb.rkJvDPgfESVZ+=+((!+[]+!![]+!![]+!![]+!![]+[])+(+[]));
             $varName = $match[1] . '.' . $match[2];
             $query = sprintf('/%s\.%s.=([^;]+);/', $match[1], $match[2]);
+            $matchList = [];
             if (preg_match_all($query, $html, $matchList)) {
                 // my_dump($matchList);
                 $translationTable[$varName] = '$var';

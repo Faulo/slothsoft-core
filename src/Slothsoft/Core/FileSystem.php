@@ -366,6 +366,7 @@ abstract class FileSystem {
         ];
         if (isset($_SERVER['HTTP_RANGE'])) {
             $range = $_SERVER['HTTP_RANGE'];
+            $match = [];
             if (preg_match('/^bytes=(\d+)-$/', $range, $match)) {
                 $start = (float) $match[1];
                 // file_put_contents('start.'.time() . '.1.json', json_encode($start));
@@ -483,7 +484,7 @@ abstract class FileSystem {
         $ret = array_values(array_diff($ret, $exclude));
         if ($options & self::SCANDIR_SORT) {
             $tmp = [];
-            foreach ($ret as $i => $val) {
+            foreach ($ret as $val) {
                 $tmp[$val] = preg_replace('/\.[^\.]+$/', '', $val);
             }
             asort($tmp);
@@ -551,8 +552,10 @@ abstract class FileSystem {
                 $ret = $mediaInfo;
             } else {
                 $command = sprintf('%s -i "%s" 2>&1', self::FFMPEG_PATH, $filePath);
+                $res = [];
                 exec($command, $res);
                 foreach ($res as $line) {
+                    $match = [];
                     if (preg_match('/^\s*Stream #(\d+):(\d+)\(*(.*?)\)*:\s+(\w+):\s+([\w\d_]+)(.*)$/', $line, $match)) {
                         // array_shift($match);
                         // $ret[] = $match;
@@ -569,6 +572,7 @@ abstract class FileSystem {
                             'codec' => $codec,
                             'settings' => $settings
                         ];
+                        $m = [];
                         if (preg_match('/(\d{2,4})x(\d{2,4})/', $settings, $m)) {
                             $ret[$type][$key]['width'] = $m[1];
                             $ret[$type][$key]['height'] = $m[2];
@@ -647,8 +651,7 @@ abstract class FileSystem {
         $tempPath = temp_file(__CLASS__);
         $downloadExec = sprintf($downloadCommand, escapeshellarg($sourceURI), escapeshellarg($tempPath));
         // my_dump($downloadExec);
-        $res = exec($downloadExec);
-        // my_dump($res);
+        exec($downloadExec);
         if (file_exists($tempPath)) {
             if (self::size($tempPath)) {
                 $download = true;
@@ -660,7 +663,7 @@ abstract class FileSystem {
                 }
                 if ($download) {
                     $copyExec = sprintf($copyCommand, escapeshellarg($tempPath), escapeshellarg($destPath));
-                    $res = exec($copyExec);
+                    exec($copyExec);
                     if (file_exists($destPath)) {
                         $ret = sprintf('Updated file "%s"!', $destPath);
                         if ($successCommand) {
@@ -671,7 +674,6 @@ abstract class FileSystem {
                             eval($successPHP);
                         }
                     }
-                    // my_dump($res);
                 }
             }
         }

@@ -21,7 +21,6 @@ use DOMNode;
 use DOMXPath;
 use DomainException;
 use Exception;
-use OutOfRangeException;
 use RuntimeException;
 use SplFileInfo;
 
@@ -337,13 +336,5 @@ class DOMHelper {
             }
         }
         return $retNode;
-    }
-
-    private function newSaxonProcessor(int $xsltVersion) {
-        if (isset(CORE_DOMHELPER_XSLT_USAGE[$xsltVersion])) {
-            $class = CORE_DOMHELPER_XSLT_USAGE[$xsltVersion];
-            return new $class();
-        }
-        throw new OutOfRangeException("DOMHelper does not support XSLT version $xsltVersion! (add it to CORE_DOMHELPER_XSLT_USAGE)");
     }
 }

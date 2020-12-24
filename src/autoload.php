@@ -1,5 +1,7 @@
 <?php
 declare(strict_types = 1);
+namespace Slothsoft\Core;
+
 use Slothsoft\Core\IO\Memory;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('autoload-%s.php', PHP_SAPI);

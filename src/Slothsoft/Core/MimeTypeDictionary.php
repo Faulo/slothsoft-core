@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use DOMDocument;
-use DOMXPath;
 
 /**
  *
@@ -49,14 +48,6 @@ class MimeTypeDictionary {
                 }
             }
         }
-    }
-
-    protected static function getMimePath() {
-        if (! self::$mimeList) {
-
-            self::$mimePath = new DOMXPath($mimeDoc);
-        }
-        return self::$mimeList;
     }
 
     public static function guessExtension(string $mime): string {

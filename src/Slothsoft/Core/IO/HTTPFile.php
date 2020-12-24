@@ -293,6 +293,8 @@ class HTTPFile implements FileWriterInterface {
                 $ret = $copyClosure($sourcePath, $targetPath);
             } elseif (is_string($copyClosure) and strlen($copyClosure)) {
                 $command = sprintf($copyClosure, escapeshellarg($sourcePath), escapeshellarg($targetPath));
+                $output = [];
+                $result = 0;
                 exec($command, $output, $result);
                 $ret = ($result === 0);
             } else {

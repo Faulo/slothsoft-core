@@ -57,7 +57,7 @@ class Client {
         return true;
     }
 
-    public static function disconnect() {
+    public function disconnect() {
         if ($this->connected) {
             $this->connected = false;
             $this->sqli->close();

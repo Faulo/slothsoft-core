@@ -36,9 +36,11 @@ class CliAdapter extends GenericAdapter {
         }
 
         $command = escapeshellarg($this->path) . ' ' . sprintf($this->args, escapeshellarg((string) $this->source->toFile()), escapeshellarg((string) $this->template->toFile()), escapeshellarg((string) $outputFile));
-        exec($command, $output, $res);
-        if ($res !== 0) {
-            die($command);
+        $output = [];
+        $result = 0;
+        exec($command, $output, $result);
+        if ($result !== 0) {
+            throw new \RuntimeException($command, $result);
         }
         return $outputFile;
     }

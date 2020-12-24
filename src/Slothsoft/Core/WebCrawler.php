@@ -144,7 +144,7 @@ class WebCrawler {
             $path = $data['path'];
             $path = explode('/', $path);
             $newPath = [];
-            foreach ($path as $i => $val) {
+            foreach ($path as $val) {
                 switch ($val) {
                     case '.':
                         break;

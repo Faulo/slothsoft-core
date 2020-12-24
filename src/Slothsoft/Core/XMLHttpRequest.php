@@ -157,7 +157,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             'fragment' => null
         );
         $arr = parse_url($url);
-        foreach ($this->urlParam as $key => $val) {
+        foreach (array_keys($this->urlParam) as $key) {
             if (isset($arr[$key])) {
                 $this->urlParam[$key] = $arr[$key];
             }
@@ -207,7 +207,6 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
 
     public function send($data = null) {
         $type = null;
-        $originalData = $data;
         if ($data !== null) {
             if (is_string($data)) {
                 $type = 'application/x-www-form-urlencoded';
@@ -217,14 +216,6 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                 $type = 'application/xml';
             }
             if (is_array($data)) {
-                /*
-                 * foreach ($data as $key => &$val) {
-                 * //$val = urlencode($key) . '=' . urlencode($val);
-                 * $val = $key . '=' . $val;
-                 * }
-                 * $data = implode('&', $data);
-                 * //
-                 */
                 $data = http_build_query($data);
                 $type = 'application/x-www-form-urlencoded';
             }
@@ -318,6 +309,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             while ($headPos = (int) strpos($this->responseHead, self::NEWLINE . self::NEWLINE)) {
                 $this->responseHead = substr($this->responseHead, $headPos + strlen(self::NEWLINE . self::NEWLINE));
             }
+            $match = [];
             if (preg_match('/^HTTP\/1\.1 (\d+) ([\w ]+)/', $this->responseHead, $match)) {
                 $this->status = (int) $match[1];
                 $this->statusText = $match[2];
@@ -420,6 +412,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                             $html = mb_convert_encoding($this->responseText, $fromCharset, $toCharset);
                             // $html = preg_replace('/\<!--+.*?-+-\>/s', '', $html); //kommentare rausnehmen, wer braucht die schon
                             // nicht-konforme "--" aus kommentaren entfernen
+                            $matchList = [];
                             if (preg_match_all('/\<!--+(.*?)-+-\>/s', $html, $matchList)) {
                                 foreach ($matchList[0] as $i => $key) {
                                     $html = str_replace($key, sprintf('<!--%s-->', str_replace('--', '', $matchList[1][$i])), $html);

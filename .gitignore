@@ -7,13 +7,3 @@ $RECYCLE.BIN/
 # == Composer ==
 /composer.phar
 /vendor/
-
-# == Farah ==
-/data/
-/cache/
-/log/
-
-# == Misc ==
-tmp/
-temp/
-unused/

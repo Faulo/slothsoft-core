@@ -79,7 +79,7 @@ class CLITest extends TestCase {
         $code = CLI::execute($command);
         restore_error_handler();
         
-        $this->assertEquals(1, $code);
+        $this->assertNotEquals(0, $code);
     }
 
     public function testExecuteWithIdleTimeout() {
@@ -99,7 +99,7 @@ class CLITest extends TestCase {
         $code = CLI::execute($command);
         restore_error_handler();
         
-        $this->assertEquals(1, $code);
+        $this->assertNotEquals(0, $code);
     }
 }
 

@@ -72,8 +72,15 @@ class CLITest extends TestCase {
         CLI::setTotalTimeout(0.01);
         CLI::setIdleTimeout(0);
         
-        //$this->expectWarning();
+        $triggered = false;
+        $handler = function(int $errno, string $errstr) use (&$triggered) {
+            $triggered = true;
+        };
+        set_error_handler($handler, E_USER_WARNING);
         CLI::execute($command);
+        restore_error_handler();
+        
+        $this->assertTrue($triggered);
     }
 
     public function testExecuteWithIdleTimeout() {
@@ -86,8 +93,15 @@ class CLITest extends TestCase {
         CLI::setTotalTimeout(0);
         CLI::setIdleTimeout(0.01);
         
-        //$this->expectWarning();
+        $triggered = false;
+        $handler = function(int $errno, string $errstr) use (&$triggered) {
+            $triggered = true;
+        };
+        set_error_handler($handler, E_USER_WARNING);
         CLI::execute($command);
+        restore_error_handler();
+        
+        $this->assertTrue($triggered);
     }
 }
 

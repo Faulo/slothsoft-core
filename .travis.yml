@@ -4,4 +4,4 @@ php:
 install:
   - composer install
 script:
-  - phpunit --configuration phpunit.xml
+  - vendor/bin/phpunit --configuration phpunit.xml

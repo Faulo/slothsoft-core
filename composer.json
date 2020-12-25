@@ -23,21 +23,21 @@
 		"ext-curl" : "*"
 	},
 	"autoload" : {
-		"psr-0" : {
-			"Slothsoft\\Core\\" : "src/"
-		},
 		"files" : [
-			"src/autoload.php"
-		]
+			"scripts/bootstrap.php"
+		],
+		"psr-4" : {
+			"Slothsoft\\Core\\" : "src"
+		}
 	},
 	"keywords" : [
 		"slothsoft",
 		"docs"
 	],
 	"autoload-dev" : {
-		"classmap" : [
-			"tests/"
-		]
+		"psr-4" : {
+			"Slothsoft\\Core\\" : "tests"
+		}
 	},
 	"homepage" : "http://farah.slothsoft.net/modules/core"
 }

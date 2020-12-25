@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Error\Warning;
 
 class CLITest extends TestCase {
 
@@ -72,8 +71,8 @@ class CLITest extends TestCase {
 
         CLI::setTotalTimeout(0.01);
         CLI::setIdleTimeout(0);
-
-        $this->expectException(Warning::class);
+        
+        $this->expectWarning();
         CLI::execute($command);
     }
 
@@ -86,8 +85,8 @@ class CLITest extends TestCase {
 
         CLI::setTotalTimeout(0);
         CLI::setIdleTimeout(0.01);
-
-        $this->expectException(Warning::class);
+        
+        $this->expectWarning();
         CLI::execute($command);
     }
 }

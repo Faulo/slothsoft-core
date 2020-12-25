@@ -1,46 +1,6 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\Slothsoft\\Core\\apache_request_headers\u0028\u0029",
-            "name": "apache_request_headers",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_apache_request_headers"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\my_dump\u0028\u0029",
-            "name": "my_dump",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_my_dump"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\temp_file\u0028\u0029",
-            "name": "temp_file",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_temp_file"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\temp_dir\u0028\u0029",
-            "name": "temp_dir",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_temp_dir"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\get_execution_time\u0028\u0029",
-            "name": "get_execution_time",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_get_execution_time"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\log_execution_time\u0028\u0029",
-            "name": "log_execution_time",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_log_execution_time"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\print_execution_time\u0028\u0029",
-            "name": "print_execution_time",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_print_execution_time"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\log_message\u0028\u0029",
-            "name": "log_message",
-            "summary": "",
-            "url": "namespaces/slothsoft-core.html#function_log_message"
-        },                {
             "fqsen": "\\Slothsoft\\Core\\Calendar\\DateTimeFormatter",
             "name": "DateTimeFormatter",
             "summary": "",
@@ -4766,6 +4726,11 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html"
         },                {
+            "fqsen": "\\Slothsoft\\Core\\Calendar",
+            "name": "Calendar",
+            "summary": "",
+            "url": "namespaces/slothsoft-core-calendar.html"
+        },                {
             "fqsen": "\\Slothsoft\\Core",
             "name": "Core",
             "summary": "",
@@ -4775,11 +4740,6 @@ Search.appendIndex(
             "name": "Slothsoft",
             "summary": "",
             "url": "namespaces/slothsoft.html"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\Calendar",
-            "name": "Calendar",
-            "summary": "",
-            "url": "namespaces/slothsoft-core-calendar.html"
         },                {
             "fqsen": "\\Slothsoft\\Core\\Configuration",
             "name": "Configuration",

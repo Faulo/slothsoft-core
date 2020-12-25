@@ -2,6 +2,6 @@ language: php
 php:
   - '7.2'
 install:
-  - composer install
+  - composer install --no-interaction
 script:
   - vendor/bin/phpunit --configuration phpunit.xml

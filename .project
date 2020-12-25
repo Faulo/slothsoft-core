@@ -3,7 +3,6 @@
 	<name>slothsoft-core</name>
 	<comment></comment>
 	<projects>
-		<project>slothsoft-w3c</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

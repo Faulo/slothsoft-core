@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
-	<buildpathentry combineaccessrules="false" kind="prj" path="/slothsoft-w3c"/>
 	<buildpathentry kind="con" path="org.eclipse.dltk.USER_LIBRARY/COM"/>
 	<buildpathentry kind="con" path="org.eclipse.dltk.USER_LIBRARY/Saxon"/>
 	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry kind="src" path="scripts">
+		<attributes>
+			<attribute name="composer" value="source"/>
+		</attributes>
+	</buildpathentry>
 	<buildpathentry kind="src" path="src">
 		<attributes>
 			<attribute name="composer" value="source"/>
@@ -90,11 +94,6 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/phpunit/php-token-stream/src">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/phpunit/phpunit-mock-objects/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>

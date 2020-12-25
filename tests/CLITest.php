@@ -58,8 +58,8 @@ class CLITest extends TestCase {
         rewind($err);
         $out = stream_get_contents($out);
         $err = stream_get_contents($err);
-        $this->assertContains($command, $out);
-        $this->assertContains(PHP_VERSION, $out);
+        $this->assertStringContainsString($command, $out);
+        $this->assertStringContainsString(PHP_VERSION, $out);
         $this->assertEmpty($err);
     }
 

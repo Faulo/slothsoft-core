@@ -71,14 +71,14 @@ class CLITest extends TestCase {
 
         CLI::setTotalTimeout(0.01);
         CLI::setIdleTimeout(0);
-        
-        $handler = function(int $errno, string $errstr) {
+
+        $handler = function (int $errno, string $errstr) {
             $this->assertEquals(E_USER_WARNING, $errno);
         };
         set_error_handler($handler, E_USER_WARNING);
         $code = CLI::execute($command);
         restore_error_handler();
-        
+
         $this->assertNotEquals(0, $code);
     }
 
@@ -91,14 +91,14 @@ class CLITest extends TestCase {
 
         CLI::setTotalTimeout(0);
         CLI::setIdleTimeout(0.01);
-        
-        $handler = function(int $errno, string $errstr) {
+
+        $handler = function (int $errno, string $errstr) {
             $this->assertEquals(E_USER_WARNING, $errno);
         };
         set_error_handler($handler, E_USER_WARNING);
         $code = CLI::execute($command);
         restore_error_handler();
-        
+
         $this->assertNotEquals(0, $code);
     }
 }

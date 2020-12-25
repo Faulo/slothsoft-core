@@ -1,7 +1,7 @@
 language: php
 php:
   - '7.2'
-install:
+before_script:
   - composer install
 script:
-  - phpunit --configuration phpunit.xml
+  - vendor/bin/phpunit --configuration phpunit.xml

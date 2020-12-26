@@ -133,7 +133,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
 
     // request
-    public function open($method, $url, $async = true, $user = null, $password = null) {
+    public function open(string $method, string $url, bool $async = true, string $user = null, string $password = null): void {
         $this->method = $method;
         $this->url = $url;
         $this->async = $async;
@@ -193,7 +193,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         $this->readyState = self::OPENED;
     }
 
-    public function setRequestHeader($header, $value) {
+    public function setRequestHeader(string $header, string $value): void {
         if ($this->readyState !== self::OPENED) {
             throw new Exception('InvalidStateError');
         }
@@ -205,7 +205,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         return isset($this->requestHeaders[$header]) ? $this->requestHeaders[$header] : null;
     }
 
-    public function send($data = null) {
+    public function send($data = null): void {
         $type = null;
         if ($data !== null) {
             if (is_string($data)) {
@@ -439,25 +439,25 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
 
-    public function abort() {}
+    public function abort(): void {}
 
-    public function overrideMimeType($mime) {
+    public function overrideMimeType(string $mime): void {
         if ($this->readyState === self::OPENED or $this->readyState === self::DONE) {
             throw new Exception('InvalidStateError');
         }
     }
 
-    public function getResponseHeader($header) {
+    public function getResponseHeader(string $header): string {
         $header = strtolower($header);
         return isset($this->responseHeaders[$header]) ? $this->responseHeaders[$header] : null;
     }
 
-    public function getAllResponseHeaders() {
+    public function getAllResponseHeaders(): array {
         return $this->responseHead;
     }
 
     // EventTarget
-    public function addEventListener($type, $listener, $capture = false) {
+    public function addEventListener(string $type, callable $listener, bool $capture = false): void {
         if (! isset($this->eventListeners[$type])) {
             $this->eventListeners[$type] = array();
         }
@@ -466,7 +466,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
 
-    public function removeEventListener($type, $listener, $capture = false) {
+    public function removeEventListener(string $type, callable $listener, bool $capture = false): void {
         if (! isset($this->eventListeners[$type])) {
             $this->eventListeners[$type] = array();
         }
@@ -478,7 +478,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
 
-    public function dispatchEvent($event) {}
+    public function dispatchEvent($event): bool {}
 
     // proprietary
     public function setCookieFile($file) {

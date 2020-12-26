@@ -113,7 +113,7 @@ class DOMHelper {
 
     // loadXPath loads Slothsoft namespaces
     public static function loadDocument($filePath, $asHTML = false): DOMDocument {
-        $document = new DOMDocument();
+        $document = self::dom()->createDocument();
         if ($asHTML) {
             $document->loadHTMLFile($filePath, LIBXML_PARSEHUGE);
         } else {
@@ -170,8 +170,7 @@ class DOMHelper {
         return $implementation;
     }
 
-    // returns DOMDocumentFragment
-    public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false) {
+    public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false): DOMDocumentFragment {
         if ($asHTML) {
             $parseDoc = self::dom()->createDocument();
 
@@ -234,13 +233,12 @@ class DOMHelper {
         return self::dom()->createDocument($namespaceURI, $qualifiedName);
     }
 
-    // returns string
-    public function stringify(DOMNode $sourceNode) {
+    public function stringify(DOMNode $sourceNode): string {
         return $sourceNode->ownerDocument->saveXML($sourceNode);
     }
 
-    public function load($url, $asHTML = false) {
-        $doc = new DOMDocument();
+    public function load($url, $asHTML = false): DOMDocument {
+        $doc = self::dom()->createDocument();
         if ($asHTML) {
             $doc->loadHTMLFile((string) $url);
         } else {
@@ -282,9 +280,12 @@ class DOMHelper {
         return $output;
     }
 
-    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc): DOMDocumentFragment {
+    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc = null): DOMDocumentFragment {
         $finalDoc = $this->transformToDocument($source, $template, $param);
 
+        if ($targetDoc === null) {
+            $targetDoc = self::dom()->createDocument();
+        }
         $retNode = $targetDoc->createDocumentFragment();
         foreach ($finalDoc->childNodes as $node) {
             $retNode->appendChild($targetDoc->importNode($node, true));
@@ -294,7 +295,7 @@ class DOMHelper {
 
     public function normalizeDocument(DOMDocument $dataDoc) {
         try {
-            $retDoc = new DOMDocument();
+            $retDoc = self::dom()->createDocument();
 
             $nsList = array_flip(self::$namespaceList);
             if (isset($nsList[$dataDoc->documentElement->namespaceURI])) {

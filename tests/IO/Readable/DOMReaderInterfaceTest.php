@@ -1,0 +1,15 @@
+<?php
+declare(strict_types = 1);
+namespace Slothsoft\Core\IO\Readable;
+        
+use PHPUnit\Framework\TestCase;
+        
+/**
+ * @todo auto-generated
+ */
+class DOMReaderInterfaceTest extends TestCase {
+        
+    public function testInterfaceExists(): void {
+        $this->assertTrue(interface_exists(DOMReaderInterface::class));
+    }
+}

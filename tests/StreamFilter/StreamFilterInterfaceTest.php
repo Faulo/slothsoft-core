@@ -1,0 +1,15 @@
+<?php
+declare(strict_types = 1);
+namespace Slothsoft\Core\StreamFilter;
+        
+use PHPUnit\Framework\TestCase;
+        
+/**
+ * @todo auto-generated
+ */
+class StreamFilterInterfaceTest extends TestCase {
+        
+    public function testInterfaceExists(): void {
+        $this->assertTrue(interface_exists(StreamFilterInterface::class));
+    }
+}

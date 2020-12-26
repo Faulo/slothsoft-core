@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * DOMWriterFromDocumentDelegateTest
+ *
  * @see DOMWriterFromDocumentDelegate
  *
  * @todo auto-generated

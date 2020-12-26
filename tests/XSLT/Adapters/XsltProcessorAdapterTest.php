@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT\Adapters;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * XsltProcessorAdapterTest
+ *
  * @see XsltProcessorAdapter
  *
  * @todo auto-generated

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\StreamWrapper;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * Psr7StreamWrapperTest
+ *
  * @see Psr7StreamWrapper
  *
  * @todo auto-generated

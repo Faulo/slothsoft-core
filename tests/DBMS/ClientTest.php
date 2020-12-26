@@ -5,6 +5,8 @@ namespace Slothsoft\Core\DBMS;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * ClientTest
+ *
  * @see Client
  *
  * @todo auto-generated

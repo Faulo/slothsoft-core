@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * ImageTest
+ *
  * @see Image
  *
  * @todo auto-generated

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Traits;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * DOMWriterDocumentFromElementTraitTest
+ *
  * @see DOMWriterDocumentFromElementTrait
  *
  * @todo auto-generated

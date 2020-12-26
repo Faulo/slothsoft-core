@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * InterExecTest
+ *
  * @see InterExec
  *
  * @todo auto-generated

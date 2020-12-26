@@ -5,6 +5,8 @@ namespace Slothsoft\Core\Calendar;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * SecondsTest
+ *
  * @see Seconds
  *
  * @todo auto-generated

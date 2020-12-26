@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT\Inputs;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * DocumentInputTest
+ *
  * @see DocumentInput
  *
  * @todo auto-generated

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\StreamWrapper;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * FileStreamWrapperTest
+ *
  * @see FileStreamWrapper
  *
  * @todo auto-generated

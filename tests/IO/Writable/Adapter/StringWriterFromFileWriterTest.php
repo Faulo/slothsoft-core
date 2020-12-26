@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Adapter;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * StringWriterFromFileWriterTest
+ *
  * @see StringWriterFromFileWriter
  *
  * @todo auto-generated

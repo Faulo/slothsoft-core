@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT\Inputs;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * InputInterfaceTest
+ *
  * @see InputInterface
  *
  * @todo auto-generated

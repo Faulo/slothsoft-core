@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Sanitizer;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * ArraySanitizerTest
+ *
  * @see ArraySanitizer
  *
  * @todo auto-generated

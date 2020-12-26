@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * ChunkWriterInterfaceTest
+ *
  * @see ChunkWriterInterface
  *
  * @todo auto-generated

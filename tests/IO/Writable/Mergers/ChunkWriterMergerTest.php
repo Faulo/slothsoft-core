@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Mergers;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * ChunkWriterMergerTest
+ *
  * @see ChunkWriterMerger
  *
  * @todo auto-generated

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * XsltFactoryTest
+ *
  * @see XsltFactory
  *
  * @todo auto-generated

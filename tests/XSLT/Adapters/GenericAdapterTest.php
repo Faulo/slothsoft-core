@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT\Adapters;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * GenericAdapterTest
+ *
  * @see GenericAdapter
  *
  * @todo auto-generated

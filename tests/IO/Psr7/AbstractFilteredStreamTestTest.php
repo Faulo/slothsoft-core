@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Psr7;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * AbstractFilteredStreamTestTest
+ *
  * @see AbstractFilteredStreamTest
  *
  * @todo auto-generated

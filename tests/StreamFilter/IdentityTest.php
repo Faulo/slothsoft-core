@@ -5,6 +5,8 @@ namespace Slothsoft\Core\StreamFilter;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * IdentityTest
+ *
  * @see Identity
  *
  * @todo auto-generated

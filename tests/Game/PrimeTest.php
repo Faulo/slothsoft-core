@@ -5,6 +5,8 @@ namespace Slothsoft\Core\Game;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * PrimeTest
+ *
  * @see Prime
  *
  * @todo auto-generated

@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * ServerEnvironmentTest
+ *
  * @see ServerEnvironment
  *
  * @todo auto-generated

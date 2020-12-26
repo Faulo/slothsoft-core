@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * DOMWriterInterfaceTest
+ *
  * @see DOMWriterInterface
  *
  * @todo auto-generated

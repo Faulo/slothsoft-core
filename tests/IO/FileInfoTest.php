@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * FileInfoTest
+ *
  * @see FileInfo
  *
  * @todo auto-generated

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\Game;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * NameTest
+ *
  * @see Name
  *
  * @todo auto-generated

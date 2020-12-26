@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Psr7;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * StreamHelperTest
+ *
  * @see StreamHelper
  *
  * @todo auto-generated

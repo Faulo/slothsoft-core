@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see FileInfoFactory
+ *
  * @todo auto-generated
  */
 class FileInfoFactoryTest extends TestCase {

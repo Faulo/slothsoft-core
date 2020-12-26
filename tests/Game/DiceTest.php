@@ -5,6 +5,8 @@ namespace Slothsoft\Core\Game;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see Dice
+ *
  * @todo auto-generated
  */
 class DiceTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Psr7;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ChunkedFilteredStreamFactory
+ *
  * @todo auto-generated
  */
 class ChunkedFilteredStreamFactoryTest extends TestCase {

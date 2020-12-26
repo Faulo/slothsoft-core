@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see RCon
+ *
  * @todo auto-generated
  */
 class RConTest extends TestCase {

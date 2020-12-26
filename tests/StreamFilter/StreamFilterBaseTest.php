@@ -5,6 +5,8 @@ namespace Slothsoft\Core\StreamFilter;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see StreamFilterBase
+ *
  * @todo auto-generated
  */
 class StreamFilterBaseTest extends TestCase {

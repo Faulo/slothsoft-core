@@ -5,6 +5,8 @@ namespace Slothsoft\Core\Configuration;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ConfigurationRequiredException
+ *
  * @todo auto-generated
  */
 class ConfigurationRequiredExceptionTest extends TestCase {

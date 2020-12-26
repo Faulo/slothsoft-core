@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ImageHelper
+ *
  * @todo auto-generated
  */
 class ImageHelperTest extends TestCase {

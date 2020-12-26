@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see Storage
+ *
  * @todo auto-generated
  */
 class StorageTest extends TestCase {

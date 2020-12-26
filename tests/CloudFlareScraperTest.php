@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see CloudFlareScraper
+ *
  * @todo auto-generated
  */
 class CloudFlareScraperTest extends TestCase {

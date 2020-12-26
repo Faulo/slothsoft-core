@@ -5,6 +5,8 @@ namespace Slothsoft\Core\DBMS;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see Table
+ *
  * @todo auto-generated
  */
 class TableTest extends TestCase {

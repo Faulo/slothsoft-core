@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see StreamWriterInterface
+ *
  * @todo auto-generated
  */
 class StreamWriterInterfaceTest extends TestCase {

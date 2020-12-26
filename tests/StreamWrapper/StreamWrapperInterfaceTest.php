@@ -5,6 +5,8 @@ namespace Slothsoft\Core\StreamWrapper;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see StreamWrapperInterface
+ *
  * @todo auto-generated
  */
 class StreamWrapperInterfaceTest extends TestCase {

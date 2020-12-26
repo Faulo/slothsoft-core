@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see RecursiveFileIterator
+ *
  * @todo auto-generated
  */
 class RecursiveFileIteratorTest extends TestCase {

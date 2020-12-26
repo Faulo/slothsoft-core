@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see StreamWriterFromStreamDelegate
+ *
  * @todo auto-generated
  */
 class StreamWriterFromStreamDelegateTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Psr7;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ProcessStream
+ *
  * @todo auto-generated
  */
 class ProcessStreamTest extends TestCase {

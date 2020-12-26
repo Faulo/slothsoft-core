@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Decorators;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see StringWriterMemoryCache
+ *
  * @todo auto-generated
  */
 class StringWriterMemoryCacheTest extends TestCase {

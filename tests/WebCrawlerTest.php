@@ -5,6 +5,8 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see WebCrawler
+ *
  * @todo auto-generated
  */
 class WebCrawlerTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ChunkWriterFromChunksDelegate
+ *
  * @todo auto-generated
  */
 class ChunkWriterFromChunksDelegateTest extends TestCase {

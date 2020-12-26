@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Psr7;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ZlibFilteredStreamFactory
+ *
  * @todo auto-generated
  */
 class ZlibFilteredStreamFactoryTest extends TestCase {

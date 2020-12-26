@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see HTTPFile
+ *
  * @todo auto-generated
  */
 class HTTPFileTest extends TestCase {

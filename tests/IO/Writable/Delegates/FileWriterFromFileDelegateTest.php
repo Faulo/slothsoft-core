@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see FileWriterFromFileDelegate
+ *
  * @todo auto-generated
  */
 class FileWriterFromFileDelegateTest extends TestCase {

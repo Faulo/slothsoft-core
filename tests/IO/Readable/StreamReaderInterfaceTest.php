@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Readable;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see StreamReaderInterface
+ *
  * @todo auto-generated
  */
 class StreamReaderInterfaceTest extends TestCase {

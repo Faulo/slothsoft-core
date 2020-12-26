@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see DOMWriterFromDOMWriterDelegate
+ *
  * @todo auto-generated
  */
 class DOMWriterFromDOMWriterDelegateTest extends TestCase {

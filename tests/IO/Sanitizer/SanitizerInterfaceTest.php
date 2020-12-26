@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Sanitizer;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see SanitizerInterface
+ *
  * @todo auto-generated
  */
 class SanitizerInterfaceTest extends TestCase {

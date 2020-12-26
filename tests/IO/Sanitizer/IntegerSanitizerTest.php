@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Sanitizer;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see IntegerSanitizer
+ *
  * @todo auto-generated
  */
 class IntegerSanitizerTest extends TestCase {

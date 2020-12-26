@@ -5,6 +5,8 @@ namespace Slothsoft\Core\Configuration;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ConfigurationField
+ *
  * @todo auto-generated
  */
 class ConfigurationFieldTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see StringWriterFromStringDelegate
+ *
  * @todo auto-generated
  */
 class StringWriterFromStringDelegateTest extends TestCase {

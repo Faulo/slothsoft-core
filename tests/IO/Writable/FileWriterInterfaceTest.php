@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see FileWriterInterface
+ *
  * @todo auto-generated
  */
 class FileWriterInterfaceTest extends TestCase {

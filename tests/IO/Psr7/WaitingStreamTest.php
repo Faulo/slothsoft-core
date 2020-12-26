@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Psr7;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see WaitingStream
+ *
  * @todo auto-generated
  */
 class WaitingStreamTest extends TestCase {

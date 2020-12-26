@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Writable\Decorators;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see DOMWriterFileCache
+ *
  * @todo auto-generated
  */
 class DOMWriterFileCacheTest extends TestCase {

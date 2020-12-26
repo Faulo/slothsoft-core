@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Readable;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ChunkReaderInterface
+ *
  * @todo auto-generated
  */
 class ChunkReaderInterfaceTest extends TestCase {

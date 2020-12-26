@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see Memory
+ *
  * @todo auto-generated
  */
 class MemoryTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT\Adapters;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see CliAdapter
+ *
  * @todo auto-generated
  */
 class CliAdapterTest extends TestCase {

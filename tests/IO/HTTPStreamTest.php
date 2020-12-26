@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see HTTPStream
+ *
  * @todo auto-generated
  */
 class HTTPStreamTest extends TestCase {

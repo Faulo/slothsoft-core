@@ -5,6 +5,8 @@ namespace Slothsoft\Core\IO\Readable;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see DOMReaderInterface
+ *
  * @todo auto-generated
  */
 class DOMReaderInterfaceTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\DBMS;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see DatabaseException
+ *
  * @todo auto-generated
  */
 class DatabaseExceptionTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\Calendar;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see Seconds
+ *
  * @todo auto-generated
  */
 class SecondsTest extends TestCase {

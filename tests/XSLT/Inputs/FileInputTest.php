@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT\Inputs;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see FileInput
+ *
  * @todo auto-generated
  */
 class FileInputTest extends TestCase {

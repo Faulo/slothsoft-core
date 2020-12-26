@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XSLT\Adapters;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see AdapterInterface
+ *
  * @todo auto-generated
  */
 class AdapterInterfaceTest extends TestCase {

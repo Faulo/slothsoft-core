@@ -5,6 +5,8 @@ namespace Slothsoft\Core\StreamFilter;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see ZlibEncodeBase
+ *
  * @todo auto-generated
  */
 class ZlibEncodeBaseTest extends TestCase {

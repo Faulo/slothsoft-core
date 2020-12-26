@@ -5,6 +5,8 @@ namespace Slothsoft\Core\XML;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see LeanElement
+ *
  * @todo auto-generated
  */
 class LeanElementTest extends TestCase {

@@ -5,6 +5,8 @@ namespace Slothsoft\Core\DBMS;
 use PHPUnit\Framework\TestCase;
         
 /**
+ * @see Authority
+ *
  * @todo auto-generated
  */
 class AuthorityTest extends TestCase {

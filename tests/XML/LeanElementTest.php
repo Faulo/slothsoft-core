@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class LeanElementTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(LeanElement::class));
+        $this->assertTrue(class_exists(LeanElement::class), "Failed to load class 'Slothsoft\Core\XML\LeanElement'!");
     }
 }

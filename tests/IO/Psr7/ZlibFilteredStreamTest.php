@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ZlibFilteredStreamTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ZlibFilteredStream::class));
+        $this->assertTrue(class_exists(ZlibFilteredStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\ZlibFilteredStream'!");
     }
 }

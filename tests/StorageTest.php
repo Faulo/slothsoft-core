@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StorageTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Storage::class));
+        $this->assertTrue(class_exists(Storage::class), "Failed to load class 'Slothsoft\Core\Storage'!");
     }
 }

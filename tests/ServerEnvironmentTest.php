@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ServerEnvironmentTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ServerEnvironment::class));
+        $this->assertTrue(class_exists(ServerEnvironment::class), "Failed to load class 'Slothsoft\Core\ServerEnvironment'!");
     }
 }

@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class HTTPFileTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(HTTPFile::class));
+        $this->assertTrue(class_exists(HTTPFile::class), "Failed to load class 'Slothsoft\Core\IO\HTTPFile'!");
     }
 }

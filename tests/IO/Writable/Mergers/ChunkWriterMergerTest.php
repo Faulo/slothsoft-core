@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ChunkWriterMergerTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ChunkWriterMerger::class));
+        $this->assertTrue(class_exists(ChunkWriterMerger::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Mergers\ChunkWriterMerger'!");
     }
 }

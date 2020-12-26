@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ManagerTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Manager::class));
+        $this->assertTrue(class_exists(Manager::class), "Failed to load class 'Slothsoft\Core\DBMS\Manager'!");
     }
 }

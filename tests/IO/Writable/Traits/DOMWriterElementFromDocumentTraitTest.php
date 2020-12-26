@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class DOMWriterElementFromDocumentTraitTest extends TestCase {
         
     public function testTraitExists(): void {
-        $this->assertTrue(trait_exists(DOMWriterElementFromDocumentTrait::class));
+        $this->assertTrue(trait_exists(DOMWriterElementFromDocumentTrait::class), "Failed to load trait 'Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait'!");
     }
 }

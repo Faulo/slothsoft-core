@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class AuthorityTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Authority::class));
+        $this->assertTrue(class_exists(Authority::class), "Failed to load class 'Slothsoft\Core\DBMS\Authority'!");
     }
 }

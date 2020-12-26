@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StreamWriterFromStreamDelegateTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(StreamWriterFromStreamDelegate::class));
+        $this->assertTrue(class_exists(StreamWriterFromStreamDelegate::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Delegates\StreamWriterFromStreamDelegate'!");
     }
 }

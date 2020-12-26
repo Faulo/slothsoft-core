@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ConfigurationFieldTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ConfigurationField::class));
+        $this->assertTrue(class_exists(ConfigurationField::class), "Failed to load class 'Slothsoft\Core\Configuration\ConfigurationField'!");
     }
 }

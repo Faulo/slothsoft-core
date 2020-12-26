@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StringWriterFromStringDelegateTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(StringWriterFromStringDelegate::class));
+        $this->assertTrue(class_exists(StringWriterFromStringDelegate::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Delegates\StringWriterFromStringDelegate'!");
     }
 }

@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class FileStreamWrapperTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(FileStreamWrapper::class));
+        $this->assertTrue(class_exists(FileStreamWrapper::class), "Failed to load class 'Slothsoft\Core\StreamWrapper\FileStreamWrapper'!");
     }
 }

@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StreamWriterInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(StreamWriterInterface::class));
+        $this->assertTrue(interface_exists(StreamWriterInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Writable\StreamWriterInterface'!");
     }
 }

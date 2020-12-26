@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StreamWriterMemoryCacheTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(StreamWriterMemoryCache::class));
+        $this->assertTrue(class_exists(StreamWriterMemoryCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\StreamWriterMemoryCache'!");
     }
 }

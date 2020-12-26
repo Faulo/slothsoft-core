@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class MemoryTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Memory::class));
+        $this->assertTrue(class_exists(Memory::class), "Failed to load class 'Slothsoft\Core\IO\Memory'!");
     }
 }

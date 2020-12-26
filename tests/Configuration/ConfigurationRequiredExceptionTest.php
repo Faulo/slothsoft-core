@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ConfigurationRequiredExceptionTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ConfigurationRequiredException::class));
+        $this->assertTrue(class_exists(ConfigurationRequiredException::class), "Failed to load class 'Slothsoft\Core\Configuration\ConfigurationRequiredException'!");
     }
 }

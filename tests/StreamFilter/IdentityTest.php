@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class IdentityTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Identity::class));
+        $this->assertTrue(class_exists(Identity::class), "Failed to load class 'Slothsoft\Core\StreamFilter\Identity'!");
     }
 }

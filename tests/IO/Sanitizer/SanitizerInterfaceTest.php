@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class SanitizerInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(SanitizerInterface::class));
+        $this->assertTrue(interface_exists(SanitizerInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Sanitizer\SanitizerInterface'!");
     }
 }

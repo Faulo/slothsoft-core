@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StreamReaderInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(StreamReaderInterface::class));
+        $this->assertTrue(interface_exists(StreamReaderInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Readable\StreamReaderInterface'!");
     }
 }

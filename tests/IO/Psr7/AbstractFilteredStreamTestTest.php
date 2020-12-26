@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class AbstractFilteredStreamTestTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(AbstractFilteredStreamTest::class));
+        $this->assertTrue(class_exists(AbstractFilteredStreamTest::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\AbstractFilteredStreamTest'!");
     }
 }

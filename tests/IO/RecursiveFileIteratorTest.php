@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class RecursiveFileIteratorTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(RecursiveFileIterator::class));
+        $this->assertTrue(class_exists(RecursiveFileIterator::class), "Failed to load class 'Slothsoft\Core\IO\RecursiveFileIterator'!");
     }
 }

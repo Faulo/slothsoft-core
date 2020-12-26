@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class SecondsTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Seconds::class));
+        $this->assertTrue(class_exists(Seconds::class), "Failed to load class 'Slothsoft\Core\Calendar\Seconds'!");
     }
 }

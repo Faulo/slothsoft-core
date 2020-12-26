@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class SaxonProcessorAdapterTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(SaxonProcessorAdapter::class));
+        $this->assertTrue(class_exists(SaxonProcessorAdapter::class), "Failed to load class 'Slothsoft\Core\XSLT\Adapters\SaxonProcessorAdapter'!");
     }
 }

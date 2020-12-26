@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class DOMReaderInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(DOMReaderInterface::class));
+        $this->assertTrue(interface_exists(DOMReaderInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Readable\DOMReaderInterface'!");
     }
 }

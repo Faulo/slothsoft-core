@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StreamWrapperInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(StreamWrapperInterface::class));
+        $this->assertTrue(interface_exists(StreamWrapperInterface::class), "Failed to load interface 'Slothsoft\Core\StreamWrapper\StreamWrapperInterface'!");
     }
 }

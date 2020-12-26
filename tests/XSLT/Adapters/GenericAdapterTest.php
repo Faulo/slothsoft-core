@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class GenericAdapterTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(GenericAdapter::class));
+        $this->assertTrue(class_exists(GenericAdapter::class), "Failed to load class 'Slothsoft\Core\XSLT\Adapters\GenericAdapter'!");
     }
 }

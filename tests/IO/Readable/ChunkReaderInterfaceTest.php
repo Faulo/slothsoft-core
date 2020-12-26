@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ChunkReaderInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(ChunkReaderInterface::class));
+        $this->assertTrue(interface_exists(ChunkReaderInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Readable\ChunkReaderInterface'!");
     }
 }

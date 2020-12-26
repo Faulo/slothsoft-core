@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ChunkWriterInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(ChunkWriterInterface::class));
+        $this->assertTrue(interface_exists(ChunkWriterInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Writable\ChunkWriterInterface'!");
     }
 }

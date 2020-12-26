@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StringWriterInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(StringWriterInterface::class));
+        $this->assertTrue(interface_exists(StringWriterInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Writable\StringWriterInterface'!");
     }
 }

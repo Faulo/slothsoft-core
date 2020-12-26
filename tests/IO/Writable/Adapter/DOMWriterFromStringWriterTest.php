@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class DOMWriterFromStringWriterTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(DOMWriterFromStringWriter::class));
+        $this->assertTrue(class_exists(DOMWriterFromStringWriter::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\DOMWriterFromStringWriter'!");
     }
 }

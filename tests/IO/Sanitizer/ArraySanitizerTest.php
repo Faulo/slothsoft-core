@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ArraySanitizerTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ArraySanitizer::class));
+        $this->assertTrue(class_exists(ArraySanitizer::class), "Failed to load class 'Slothsoft\Core\IO\Sanitizer\ArraySanitizer'!");
     }
 }

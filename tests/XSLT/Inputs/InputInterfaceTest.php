@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class InputInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(InputInterface::class));
+        $this->assertTrue(interface_exists(InputInterface::class), "Failed to load interface 'Slothsoft\Core\XSLT\Inputs\InputInterface'!");
     }
 }

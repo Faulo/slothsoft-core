@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ImageHelperTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ImageHelper::class));
+        $this->assertTrue(class_exists(ImageHelper::class), "Failed to load class 'Slothsoft\Core\ImageHelper'!");
     }
 }

@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class FileWriterFileCacheTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(FileWriterFileCache::class));
+        $this->assertTrue(class_exists(FileWriterFileCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\FileWriterFileCache'!");
     }
 }

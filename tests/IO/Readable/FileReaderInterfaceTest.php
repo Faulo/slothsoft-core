@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class FileReaderInterfaceTest extends TestCase {
         
     public function testInterfaceExists(): void {
-        $this->assertTrue(interface_exists(FileReaderInterface::class));
+        $this->assertTrue(interface_exists(FileReaderInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Readable\FileReaderInterface'!");
     }
 }

@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class TableTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Table::class));
+        $this->assertTrue(class_exists(Table::class), "Failed to load class 'Slothsoft\Core\DBMS\Table'!");
     }
 }

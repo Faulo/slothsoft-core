@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class PrimeTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Prime::class));
+        $this->assertTrue(class_exists(Prime::class), "Failed to load class 'Slothsoft\Core\Game\Prime'!");
     }
 }

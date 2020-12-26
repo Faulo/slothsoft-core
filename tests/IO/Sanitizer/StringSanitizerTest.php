@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StringSanitizerTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(StringSanitizer::class));
+        $this->assertTrue(class_exists(StringSanitizer::class), "Failed to load class 'Slothsoft\Core\IO\Sanitizer\StringSanitizer'!");
     }
 }

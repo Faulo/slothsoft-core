@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class RConTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(RCon::class));
+        $this->assertTrue(class_exists(RCon::class), "Failed to load class 'Slothsoft\Core\RCon'!");
     }
 }

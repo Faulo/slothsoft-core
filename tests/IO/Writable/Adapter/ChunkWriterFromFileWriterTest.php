@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ChunkWriterFromFileWriterTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ChunkWriterFromFileWriter::class));
+        $this->assertTrue(class_exists(ChunkWriterFromFileWriter::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\ChunkWriterFromFileWriter'!");
     }
 }

@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class StringWriterFromChunkWriterTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(StringWriterFromChunkWriter::class));
+        $this->assertTrue(class_exists(StringWriterFromChunkWriter::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\StringWriterFromChunkWriter'!");
     }
 }

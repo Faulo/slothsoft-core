@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ZlibEncodeBaseTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ZlibEncodeBase::class));
+        $this->assertTrue(class_exists(ZlibEncodeBase::class), "Failed to load class 'Slothsoft\Core\StreamFilter\ZlibEncodeBase'!");
     }
 }

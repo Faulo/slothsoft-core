@@ -10,6 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ClientTest extends TestCase {
         
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(Client::class));
+        $this->assertTrue(class_exists(Client::class), "Failed to load class 'Slothsoft\Core\DBMS\Client'!");
     }
 }

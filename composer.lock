@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4656735a608cf7678ba8f9aebd6e5576",
+    "content-hash": "26f63ab7e6cda2ca55c20e4190fd00d1",
     "packages": [
         {
             "name": "guzzlehttp/psr7",
@@ -235,25 +235,30 @@
         },
         {
             "name": "slothsoft/w3c",
-            "version": "1.0.4",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Faulo/slothsoft-w3c.git",
-                "reference": "6e0f4d18dd7022c641e3920dae88f259298090bc"
+                "reference": "30e9a06dcabc318cdfbd827ff34319ca4db3b229"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Faulo/slothsoft-w3c/zipball/6e0f4d18dd7022c641e3920dae88f259298090bc",
-                "reference": "6e0f4d18dd7022c641e3920dae88f259298090bc",
+                "url": "https://api.github.com/repos/Faulo/slothsoft-w3c/zipball/30e9a06dcabc318cdfbd827ff34319ca4db3b229",
+                "reference": "30e9a06dcabc318cdfbd827ff34319ca4db3b229",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2"
+                "php": "7.2 - 8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~8.0.0"
+                "phpunit/phpunit": "8.5.*"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "1.0-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "w3c\\": "src"
@@ -277,9 +282,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Faulo/slothsoft-w3c/issues",
-                "source": "https://github.com/Faulo/slothsoft-w3c/tree/1.0.4"
+                "source": "https://github.com/Faulo/slothsoft-w3c/tree/develop"
             },
-            "time": "2020-12-25T18:45:33+00:00"
+            "time": "2020-12-26T10:22:38+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -2199,7 +2204,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "slothsoft/w3c": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

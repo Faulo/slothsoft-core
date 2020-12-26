@@ -170,7 +170,7 @@ class DOMHelper {
         return $implementation;
     }
 
-    public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false) : DOMDocumentFragment {
+    public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false): DOMDocumentFragment {
         if ($asHTML) {
             $parseDoc = self::dom()->createDocument();
 
@@ -233,11 +233,11 @@ class DOMHelper {
         return self::dom()->createDocument($namespaceURI, $qualifiedName);
     }
 
-    public function stringify(DOMNode $sourceNode) : string {
+    public function stringify(DOMNode $sourceNode): string {
         return $sourceNode->ownerDocument->saveXML($sourceNode);
     }
 
-    public function load($url, $asHTML = false) : DOMDocument {
+    public function load($url, $asHTML = false): DOMDocument {
         $doc = self::dom()->createDocument();
         if ($asHTML) {
             $doc->loadHTMLFile((string) $url);
@@ -282,7 +282,7 @@ class DOMHelper {
 
     public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc = null): DOMDocumentFragment {
         $finalDoc = $this->transformToDocument($source, $template, $param);
-        
+
         if ($targetDoc === null) {
             $targetDoc = self::dom()->createDocument();
         }

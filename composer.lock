@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aea3e60897d0e81884c97ae264c35073",
+    "content-hash": "3ffa4954a64ad74de50e5f38dc039fc7",
     "packages": [
         {
             "name": "guzzlehttp/psr7",
@@ -270,20 +270,20 @@
         },
         {
             "name": "slothsoft/w3c",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Faulo/slothsoft-w3c.git",
-                "reference": "de9114a3af30c2941924c33afdce542a8ed22416"
+                "reference": "578baa0927203e2ac6b39ca62fee8bbb83887da0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Faulo/slothsoft-w3c/zipball/de9114a3af30c2941924c33afdce542a8ed22416",
-                "reference": "de9114a3af30c2941924c33afdce542a8ed22416",
+                "url": "https://api.github.com/repos/Faulo/slothsoft-w3c/zipball/578baa0927203e2ac6b39ca62fee8bbb83887da0",
+                "reference": "578baa0927203e2ac6b39ca62fee8bbb83887da0",
                 "shasum": ""
             },
             "require": {
-                "php": "7.2 - 8.0"
+                "php": "7.2 - 8.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "8.5.*"
@@ -317,9 +317,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Faulo/slothsoft-w3c/issues",
-                "source": "https://github.com/Faulo/slothsoft-w3c/tree/1.1.0"
+                "source": "https://github.com/Faulo/slothsoft-w3c/tree/1.1.1"
             },
-            "time": "2020-12-26T12:29:45+00:00"
+            "time": "2022-01-04T18:38:50+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -2247,7 +2247,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.2 - 8.0",
+        "php": "7.2 - 8.1",
         "ext-xsl": "*"
     },
     "platform-dev": [],

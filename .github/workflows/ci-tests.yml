@@ -1,4 +1,4 @@
-name: Continuous Integration - Tests
+name: Tests
 
 on: [push]
 
@@ -6,7 +6,9 @@ jobs:
   run-tests:
     name: Run Tests
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        php: ["7.2", "7.3", "7.4", "8.0", "8.1"]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -20,13 +22,13 @@ jobs:
       - name: Install Composer
         uses: php-actions/composer@v6
         with:
-          php_version: 7.2
+          php_version: ${{ matrix.php }}
           php_extensions: xsl
 
       - name: Run PHPUnit
         uses: php-actions/phpunit@v3
         with:
-          php_version: 7.2
+          php_version: ${{ matrix.php }}
           php_extensions: xsl
           version: 8
           bootstrap: vendor/autoload.php
@@ -37,7 +39,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: results
+          name: results-${{ matrix.php }}
           path: phpunit.results.xml
   
   publish-results:

@@ -39,9 +39,9 @@ jobs:
         with:
           name: results
           path: phpunit.results.xml
-    
+  
   publish-results:
-    name: Publish Test Results
+    name: Publish Results
     runs-on: ubuntu-latest
     needs: run-tests
     if: always()

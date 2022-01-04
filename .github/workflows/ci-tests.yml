@@ -1,0 +1,24 @@
+name: Continuous Integration - Tests
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+      - uses: actions/checkout@v2
+      
+      - name: Install Composer
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.2
+
+      - name: Run PHPUnit
+        uses: php-actions/phpunit@v3
+        with:
+          php_version: 7.2
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          args: --coverage-text

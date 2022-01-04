@@ -20,12 +20,12 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 7.2
-          php_extensions: xsl
 
       - name: Run PHPUnit
         uses: php-actions/phpunit@v3
         with:
           php_version: 7.2
+          php_extensions: xsl
           version: 8
           bootstrap: vendor/autoload.php
           configuration: phpunit.xml

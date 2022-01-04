@@ -11,18 +11,33 @@ class MimeTypeDictionaryTest extends TestCase {
             [
                 'html',
                 'text/html',
-                'text/*'
+                'text/*',
+                false,
             ],
             [
                 'xhtml',
                 'application/xhtml+xml',
-                'application/*'
+                'application/*',
+                true,
             ],
             [
                 'svg',
                 'image/svg+xml',
-                'image/*'
-            ]
+                'image/*',
+                true,
+            ],
+            [
+                'xml',
+                'application/xml',
+                'application/*',
+                true,
+            ],
+            [
+                'bin',
+                'application/octet-stream',
+                'application/*',
+                false,
+            ],
         ];
     }
 
@@ -30,7 +45,7 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testGuessExtensions(string $extension, string $mimeType, string $parentMimeType) {
+    public function testGuessExtensions(string $extension, string $mimeType, string $parentMimeType, bool $isXml) {
         $this->assertEquals($extension, MimeTypeDictionary::guessExtension($mimeType));
     }
 
@@ -38,17 +53,25 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testGuessMimeType(string $extension, string $mimeType, string $parentMimeType) {
+    public function testGuessMimeType(string $extension, string $mimeType, string $parentMimeType, bool $isXml) {
         $this->assertEquals($mimeType, MimeTypeDictionary::guessMime($extension));
     }
-
+    
     /**
      *
      * @dataProvider someMimeTypes
      */
-    public function testMatchesMime(string $extension, string $mimeType, string $parentMimeType) {
+    public function testMatchesMime(string $extension, string $mimeType, string $parentMimeType, bool $isXml) {
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, $mimeType));
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, $parentMimeType));
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, '*/*'));
+    }
+    
+    /**
+     *
+     * @dataProvider someMimeTypes
+     */
+    public function testIsXml(string $extension, string $mimeType, string $parentMimeType, bool $isXml) {
+        $this->assertEquals($isXml, MimeTypeDictionary::isXml($mimeType));
     }
 }

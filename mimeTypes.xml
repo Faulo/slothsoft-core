@@ -7,7 +7,7 @@
 		<sub name="xslt+xml" ext="xsl" compressions="gzip,deflate" />
 		<sub name="rdf+xml" ext="rdf" compressions="gzip,deflate" />
 		<sub name="javascript" ext="js" compressions="gzip,deflate" />
-		<sub name="octet-stream" ext="" />
+		<sub name="octet-stream" ext="bin" />
 		<sub name="json" ext="json" compressions="gzip,deflate" />
 		<sub name="pdf" ext="pdf" />
 		<sub name="font-sfnt" ext="ttf" spec="http://developer.apple.com/fonts/TTRefMan/RM06/Chap6name.html" />

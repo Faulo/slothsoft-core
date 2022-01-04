@@ -20,6 +20,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 7.2
+          php_extensions: xsl
 
       - name: Run PHPUnit
         uses: php-actions/phpunit@v3

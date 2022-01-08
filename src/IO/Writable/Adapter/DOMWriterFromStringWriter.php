@@ -9,6 +9,7 @@ use DOMElement;
 
 class DOMWriterFromStringWriter implements DOMWriterInterface {
 
+    /** @var StringWriterInterface */
     private $source;
 
     public function __construct(StringWriterInterface $source) {

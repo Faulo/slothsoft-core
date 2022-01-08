@@ -6,8 +6,10 @@ use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 class StringWriterFromStringDelegate implements StringWriterInterface {
 
+    /** @var callable */
     private $delegate;
 
+    /** @var string */
     private $result;
 
     public function __construct(callable $delegate) {

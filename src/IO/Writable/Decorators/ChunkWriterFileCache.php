@@ -11,10 +11,13 @@ use SplFileInfo;
 
 class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface {
 
+    /** @var ChunkWriterInterface */
     private $sourceWriter;
 
+    /** @var SplFileInfo */
     private $cacheFile;
 
+    /** @var callable */
     private $shouldRefreshCacheDelegate;
 
     public function __construct(ChunkWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {

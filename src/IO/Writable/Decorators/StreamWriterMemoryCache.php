@@ -7,8 +7,10 @@ use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 
 class StreamWriterMemoryCache implements StreamWriterInterface {
 
+    /** @var StreamWriterInterface */
     private $source;
 
+    /** @var StreamInterface */
     private $result;
 
     public function __construct(StreamWriterInterface $source) {

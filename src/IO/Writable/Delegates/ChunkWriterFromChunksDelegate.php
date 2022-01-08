@@ -7,8 +7,10 @@ use Generator;
 
 class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
 
+    /** @var callable */
     private $delegate;
 
+    /** @var Generator */
     private $result;
 
     public function __construct(callable $delegate) {

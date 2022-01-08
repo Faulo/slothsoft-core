@@ -7,8 +7,10 @@ use SplFileInfo;
 
 class FileWriterMemoryCache implements FileWriterInterface {
 
+    /** @var FileWriterInterface */
     private $source;
 
+    /** @var SplFileInfo */
     private $result;
 
     public function __construct(FileWriterInterface $source) {

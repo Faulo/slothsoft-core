@@ -7,10 +7,13 @@ use SplFileInfo;
 
 class FileWriterFileCache implements FileWriterInterface {
 
+    /** @var FileWriterInterface */
     private $sourceWriter;
 
+    /** @var SplFileInfo */
     private $cacheFile;
 
+    /** @var callable */
     private $shouldRefreshCacheDelegate;
 
     public function __construct(FileWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {

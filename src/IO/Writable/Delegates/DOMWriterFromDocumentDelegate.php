@@ -9,8 +9,10 @@ use DOMDocument;
 class DOMWriterFromDocumentDelegate implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
 
+    /** @var callable */
     private $delegate;
 
+    /** @var DOMDocument */
     private $result;
 
     public function __construct(callable $delegate) {

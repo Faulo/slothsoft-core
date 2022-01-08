@@ -11,8 +11,10 @@ use DOMDocument;
 class DOMWriterFromFileWriter implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
 
+    /** @var FileWriterInterface */
     private $source;
 
+    /** @var string */
     private $documentURI;
 
     public function __construct(FileWriterInterface $source, ?string $documentURI = null) {

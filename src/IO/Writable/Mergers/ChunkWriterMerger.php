@@ -7,6 +7,7 @@ use Generator;
 
 class ChunkWriterMerger implements ChunkWriterInterface {
 
+    /** @var ChunkWriterInterface[] */
     private $writers;
 
     public function __construct(ChunkWriterInterface ...$writers) {

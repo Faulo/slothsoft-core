@@ -7,6 +7,7 @@ use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 class StringWriterFromDOMWriter implements StringWriterInterface {
 
+    /** @var DOMWriterInterface */
     private $source;
 
     public function __construct(DOMWriterInterface $source) {

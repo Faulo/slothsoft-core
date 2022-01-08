@@ -9,6 +9,7 @@ use SplFileInfo;
 
 class FileWriterFromStringWriter implements FileWriterInterface {
 
+    /** @var StringWriterInterface */
     private $source;
 
     public function __construct(StringWriterInterface $source) {

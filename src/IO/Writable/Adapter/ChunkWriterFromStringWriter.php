@@ -8,6 +8,7 @@ use Generator;
 
 class ChunkWriterFromStringWriter implements ChunkWriterInterface {
 
+    /** @var StringWriterInterface */
     private $source;
 
     public function __construct(StringWriterInterface $source) {

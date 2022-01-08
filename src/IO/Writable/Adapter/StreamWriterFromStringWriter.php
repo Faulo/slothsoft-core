@@ -10,6 +10,7 @@ use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 class StreamWriterFromStringWriter implements StreamWriterInterface {
 
+    /** @var StringWriterInterface */
     private $source;
 
     public function __construct(StringWriterInterface $source) {

@@ -8,8 +8,10 @@ use DOMElement;
 
 class DOMWriterFromDOMWriterDelegate implements DOMWriterInterface {
 
+    /** @var callable */
     private $delegate;
 
+    /** @var DOMWriterInterface */
     private $result;
 
     public function __construct(callable $delegate) {

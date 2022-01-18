@@ -16,7 +16,7 @@ class FileSystemTest extends TestCase {
     }
 
     public function testRemoveDirIncludingRoot() {
-        $directory = temp_file(__NAMESPACE__);
+        $directory = temp_dir(__NAMESPACE__);
 
         mkdir("$directory/A", 0777, true);
         file_put_contents("$directory/A/B", 'test');
@@ -31,7 +31,7 @@ class FileSystemTest extends TestCase {
     }
 
     public function testRemoveDirExcludingRoot() {
-        $directory = temp_file(__NAMESPACE__);
+        $directory = temp_dir(__NAMESPACE__);
 
         mkdir("$directory/A", 0777, true);
         file_put_contents("$directory/A/B", 'test');

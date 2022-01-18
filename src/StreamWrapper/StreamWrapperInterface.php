@@ -49,8 +49,8 @@ interface StreamWrapperInterface {
      *
      * @param int $offset
      * @param int $whence
-     * @return "0"|"-1"
-     * @see @see http://php.net/manual/de/function.fseek.php
+     * @return int
+     * @see http://php.net/manual/de/function.fseek.php
      */
     public function stream_seek(int $offset, int $whence): int;
 

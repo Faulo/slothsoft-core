@@ -734,6 +734,7 @@ abstract class FileSystem {
         $fileName = base64_decode($fileName);
         return $fileName;
     }
+
     public static function removeDir(string $path, bool $keepRoot = false): void {
         if (! is_dir($path)) {
             return;

@@ -8,7 +8,7 @@ use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 use Generator;
 
 class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
-    
+
     /** @var StreamWriterInterface */
     private $source;
 

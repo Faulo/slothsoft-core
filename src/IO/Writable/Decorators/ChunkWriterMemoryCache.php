@@ -6,7 +6,7 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
 
 class ChunkWriterMemoryCache implements ChunkWriterInterface {
-    
+
     /** @var ChunkWriterInterface */
     private $source;
 

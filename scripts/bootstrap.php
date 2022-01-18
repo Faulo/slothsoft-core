@@ -16,8 +16,8 @@ function my_dump($var) {
     echo '________________________________________________________________________________' . PHP_EOL;
 }
 
-function temp_file($folder, $prefix = null) {
-    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $folder;
+function temp_file(string $folder, ?string $prefix = null): string {
+    $path = sys_get_temp_dir() . normalize_slashes($folder);
     if (! is_dir($path)) {
         mkdir($path, 0777, true);
     }
@@ -30,8 +30,8 @@ function temp_file($folder, $prefix = null) {
     throw new \Exception(sprintf('Could not create temporary file at "%s" D:', $path));
 }
 
-function temp_dir($folder, $prefix = null) {
-    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $folder;
+function temp_dir(string $folder, ?string $prefix = null): string {
+    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . normalize_slashes($folder);
     if (! is_dir($path)) {
         mkdir($path, 0777, true);
     }
@@ -44,17 +44,24 @@ function temp_dir($folder, $prefix = null) {
     throw new \Exception(sprintf('Could not create temporary directory at "%s" D:', $path));
 }
 
-function get_execution_time() {
+function normalize_slashes(string $path): string {
+    return str_replace([
+        '/',
+        '\\'
+    ], DIRECTORY_SEPARATOR, $path);
+}
+
+function get_execution_time(): int {
     static $microtime_start = null;
     if ($microtime_start === null) {
         $microtime_start = microtime(true);
-    } else {
-        return (int) (1000 * (microtime(true) - $microtime_start));
+        return 0;
     }
+    return (int) (1000 * (microtime(true) - $microtime_start));
 }
 get_execution_time();
 
-function log_execution_time($file, $line) {
+function log_execution_time(string $file, int $line): void {
     if (isset($_REQUEST['dev-time'])) {
         static $previousMemory = null;
         static $previousTime = null;
@@ -74,7 +81,7 @@ function log_execution_time($file, $line) {
 }
 log_execution_time(__FILE__, __LINE__);
 
-function print_execution_time($echo = true) {
+function print_execution_time(bool $echo = true): string {
     $ret = sprintf('Execution so far has taken %d ms and %.2f MB.%s', get_execution_time(), memory_get_peak_usage() / 1048576, PHP_EOL);
     if ($echo) {
         echo $ret;

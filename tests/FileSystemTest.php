@@ -14,5 +14,35 @@ class FileSystemTest extends TestCase {
         $this->assertInstanceOf(DOMDocument::class, $document);
         $this->assertInstanceOf(DOMElement::class, $document->documentElement);
     }
+
+    public function testRemoveDirIncludingRoot() {
+        $directory = temp_dir(__NAMESPACE__);
+
+        mkdir("$directory/A", 0777, true);
+        file_put_contents("$directory/A/B", 'test');
+
+        $this->assertFileExists("$directory/A/B");
+
+        FileSystem::removeDir($directory, false);
+
+        $this->assertFileNotExists("$directory/A/B");
+        $this->assertDirectoryNotExists("$directory/A");
+        $this->assertDirectoryNotExists($directory);
+    }
+
+    public function testRemoveDirExcludingRoot() {
+        $directory = temp_dir(__NAMESPACE__);
+
+        mkdir("$directory/A", 0777, true);
+        file_put_contents("$directory/A/B", 'test');
+
+        $this->assertFileExists("$directory/A/B");
+
+        FileSystem::removeDir($directory, true);
+
+        $this->assertFileNotExists("$directory/A/B");
+        $this->assertDirectoryNotExists("$directory/A");
+        $this->assertDirectoryExists($directory);
+    }
 }
 

@@ -12,32 +12,32 @@ class MimeTypeDictionaryTest extends TestCase {
                 'html',
                 'text/html',
                 'text/*',
-                false,
+                false
             ],
             [
                 'xhtml',
                 'application/xhtml+xml',
                 'application/*',
-                true,
+                true
             ],
             [
                 'svg',
                 'image/svg+xml',
                 'image/*',
-                true,
+                true
             ],
             [
                 'xml',
                 'application/xml',
                 'application/*',
-                true,
+                true
             ],
             [
                 'bin',
                 'application/octet-stream',
                 'application/*',
-                false,
-            ],
+                false
+            ]
         ];
     }
 
@@ -56,7 +56,7 @@ class MimeTypeDictionaryTest extends TestCase {
     public function testGuessMimeType(string $extension, string $mimeType, string $parentMimeType, bool $isXml) {
         $this->assertEquals($mimeType, MimeTypeDictionary::guessMime($extension));
     }
-    
+
     /**
      *
      * @dataProvider someMimeTypes
@@ -66,7 +66,7 @@ class MimeTypeDictionaryTest extends TestCase {
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, $parentMimeType));
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, '*/*'));
     }
-    
+
     /**
      *
      * @dataProvider someMimeTypes

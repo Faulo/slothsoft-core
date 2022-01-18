@@ -9,10 +9,10 @@ use DOMElement;
 
 class DOMWriterFromElementDelegate implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
-    
+
     /** @var callable */
     private $delegate;
-    
+
     /** @var DOMElement */
     private $result;
 
@@ -25,9 +25,7 @@ class DOMWriterFromElementDelegate implements DOMWriterInterface {
             $this->result = ($this->delegate)($targetDoc);
             assert($this->result instanceof DOMElement, "DOMWriterFromElementDelegate must return DOMElement!");
         }
-        return $this->result->ownerDocument === $targetDoc
-            ? $this->result
-            : $targetDoc->importNode($this->result, true);
+        return $this->result->ownerDocument === $targetDoc ? $this->result : $targetDoc->importNode($this->result, true);
     }
 }
 

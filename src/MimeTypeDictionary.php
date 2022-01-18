@@ -86,12 +86,12 @@ class MimeTypeDictionary {
 
         return ($testMime[0] === $extMime[0] and ($testMime[1] === '*' or $testMime[1] === $extMime[1]));
     }
-    
+
     public static function isXml(string $testMime): bool {
         if ($testMime === 'application/xml') {
             return true;
         }
-        if (substr($testMime, -4) === '+xml') {
+        if (substr($testMime, - 4) === '+xml') {
             return true;
         }
         return false;

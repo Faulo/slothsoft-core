@@ -9,7 +9,8 @@ use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 use Generator;
 
 class ChunkWriterFromFileWriter implements ChunkWriterInterface {
-
+    
+    /** @var FileWriterInterface */
     private $source;
 
     public function __construct(FileWriterInterface $source) {

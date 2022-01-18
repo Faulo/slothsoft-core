@@ -7,8 +7,10 @@ use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 
 class StreamWriterFromStreamDelegate implements StreamWriterInterface {
 
+    /** @var callable */
     private $delegate;
 
+    /** @var StreamInterface */
     private $result;
 
     public function __construct(callable $delegate) {

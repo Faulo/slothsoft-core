@@ -6,8 +6,10 @@ use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 class StringWriterMemoryCache implements StringWriterInterface {
 
+    /** @var StringWriterInterface */
     private $source;
 
+    /** @var string */
     private $result;
 
     public function __construct(StringWriterInterface $source) {

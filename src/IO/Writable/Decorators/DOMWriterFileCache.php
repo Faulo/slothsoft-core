@@ -12,12 +12,16 @@ use Slothsoft\Core\DOMHelper;
 class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
     use DOMWriterElementFromDocumentTrait;
 
+    /** @var DOMWriterInterface */
     private $sourceWriter;
 
+    /** @var SplFileInfo */
     private $cacheFile;
 
+    /** @var callable */
     private $shouldRefreshCacheDelegate;
 
+    /** @var DOMDocument */
     private $document;
 
     public function __construct(DOMWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {

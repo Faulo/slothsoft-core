@@ -7,8 +7,10 @@ use SplFileInfo;
 
 class FileWriterFromFileDelegate implements FileWriterInterface {
 
+    /** @var callable */
     private $delegate;
 
+    /** @var SplFileInfo */
     private $result;
 
     public function __construct(callable $delegate) {

@@ -1061,6 +1061,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_base64Decode"
         },                {
+            "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AremoveDir\u0028\u0029",
+            "name": "removeDir",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-FileSystem.html#method_removeDir"
+        },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AZIP_PATH",
             "name": "ZIP_PATH",
             "summary": "",
@@ -2551,6 +2556,26 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-IO-Sanitizer-StringSanitizer.html#method_getDefault"
         },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer",
+            "name": "TokenSanitizer",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html#method___construct"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer\u003A\u003Aapply\u0028\u0029",
+            "name": "apply",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html#method_apply"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer\u003A\u003AgetDefault\u0028\u0029",
+            "name": "getDefault",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html#method_getDefault"
+        },                {
             "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Adapter\\ChunkWriterFromFileWriter",
             "name": "ChunkWriterFromFileWriter",
             "summary": "",
@@ -2921,6 +2946,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromChunkWriterDelegate.html#method_toChunks"
         },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess",
+            "name": "ChunkWriterFromProcess",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html#method___construct"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess\u003A\u003AtoChunks\u0028\u0029",
+            "name": "toChunks",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html#method_toChunks"
+        },                {
             "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\DOMWriterFromDocumentDelegate",
             "name": "DOMWriterFromDocumentDelegate",
             "summary": "",
@@ -3130,6 +3170,11 @@ Search.appendIndex(
             "name": "matchesMime",
             "summary": "",
             "url": "classes/Slothsoft-Core-MimeTypeDictionary.html#method_matchesMime"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\MimeTypeDictionary\u003A\u003AisXml\u0028\u0029",
+            "name": "isXml",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-MimeTypeDictionary.html#method_isXml"
         },                {
             "fqsen": "\\Slothsoft\\Core\\MimeTypeDictionary\u003A\u003AFILE_MIME",
             "name": "FILE_MIME",
@@ -4720,41 +4765,6 @@ Search.appendIndex(
             "name": "PROCESSOR_SAXON9_ARGS",
             "summary": "",
             "url": "classes/Slothsoft-Core-XSLT-XsltFactory.html#constant_PROCESSOR_SAXON9_ARGS"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer",
-            "name": "TokenSanitizer",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html#method___construct"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer\u003A\u003Aapply\u0028\u0029",
-            "name": "apply",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html#method_apply"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Sanitizer\\TokenSanitizer\u003A\u003AgetDefault\u0028\u0029",
-            "name": "getDefault",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Sanitizer-TokenSanitizer.html#method_getDefault"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess",
-            "name": "ChunkWriterFromProcess",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html#method___construct"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess\u003A\u003AtoChunks\u0028\u0029",
-            "name": "toChunks",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html#method_toChunks"
         },                {
             "fqsen": "\\",
             "name": "\\",

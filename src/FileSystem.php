@@ -734,4 +734,19 @@ abstract class FileSystem {
         $fileName = base64_decode($fileName);
         return $fileName;
     }
+    public static function removeDir(string $path, bool $keepRoot = false): void {
+        if (! is_dir($path)) {
+            return;
+        }
+        foreach (self::scanDir($path, FileSystem::SCANDIR_REALPATH) as $file) {
+            if (is_dir($file)) {
+                self::removeDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        if (! $keepRoot) {
+            rmdir($path);
+        }
+    }
 }

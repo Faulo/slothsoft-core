@@ -7,12 +7,26 @@ use DOMDocument;
 use DOMElement;
 
 class FileSystemTest extends TestCase {
-
+    
     public function testAsNode() {
         $document = FileSystem::asNode(__DIR__);
-
+        
         $this->assertInstanceOf(DOMDocument::class, $document);
         $this->assertInstanceOf(DOMElement::class, $document->documentElement);
+    }
+    
+    /**
+     *
+     * @dataProvider createSanitizedFilenames
+     */
+    public function testFilenameSanitize($input, $output) {
+        $this->assertEquals($output, FileSystem::filenameSanitize($input));
+    }
+    public function createSanitizedFilenames(): iterable {
+        return [
+            ['A', 'A'],
+            ['/\\A?:B|<>', 'A - B'],
+        ];
     }
 
     public function testRemoveDirIncludingRoot() {

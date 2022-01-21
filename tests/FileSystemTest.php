@@ -25,7 +25,8 @@ class FileSystemTest extends TestCase {
     public function createSanitizedFilenames(): iterable {
         return [
             ['A', 'A'],
-            ['/\\A?:B|<>', 'A - B'],
+            ['/\\A?: !*B|<>', 'A - B'],
+            ['öäü ÖÄÜ', 'oau OAU'],
         ];
     }
 

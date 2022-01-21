@@ -15,6 +15,31 @@ class FileSystemTest extends TestCase {
         $this->assertInstanceOf(DOMElement::class, $document->documentElement);
     }
 
+    /**
+     *
+     * @dataProvider createSanitizedFilenames
+     */
+    public function testFilenameSanitize($input, $output) {
+        $this->assertEquals($output, FileSystem::filenameSanitize($input));
+    }
+
+    public function createSanitizedFilenames(): iterable {
+        return [
+            [
+                'A',
+                'A'
+            ],
+            [
+                '/\\A?: !*B|<>',
+                'A - B'
+            ],
+            [
+                'öäü ÖÄÜ',
+                'oau OAU'
+            ]
+        ];
+    }
+
     public function testRemoveDirIncludingRoot() {
         $directory = temp_dir(__NAMESPACE__);
 

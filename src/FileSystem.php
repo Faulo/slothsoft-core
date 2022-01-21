@@ -342,7 +342,7 @@ abstract class FileSystem {
         $filename = htmlentities($filename, ENT_QUOTES, 'UTF-8');
         $filename = preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~iu', '$1', $filename);
         $filename = html_entity_decode($filename, ENT_QUOTES, 'UTF-8');
-        $filename = iconv('UTF-8', 'ASCII//IGNORE', $filename);
+        $filename = mb_convert_encoding($filename, 'UTF-8', 'UTF-8');
         $filename = str_replace($notAllowed, $toReplace, $filename);
         $filename = preg_replace('~\s+~iu', ' ', $filename);
         $filename = trim($filename);

@@ -17,7 +17,7 @@ function my_dump($var) {
 }
 
 function temp_file(string $folder, ?string $prefix = null): string {
-    $path = sys_get_temp_dir() . normalize_slashes($folder);
+    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . normalize_slashes($folder);
     if (! is_dir($path)) {
         mkdir($path, 0777, true);
     }

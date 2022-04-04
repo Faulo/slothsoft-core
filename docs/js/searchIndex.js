@@ -4766,6 +4766,21 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-XSLT-XsltFactory.html#constant_PROCESSOR_SAXON9_ARGS"
         },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Adapter\\ChunkWriterFromGenerator",
+            "name": "ChunkWriterFromGenerator",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Adapter-ChunkWriterFromGenerator.html"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Adapter\\ChunkWriterFromGenerator\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Adapter-ChunkWriterFromGenerator.html#method___construct"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Adapter\\ChunkWriterFromGenerator\u003A\u003AtoChunks\u0028\u0029",
+            "name": "toChunks",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Adapter-ChunkWriterFromGenerator.html#method_toChunks"
+        },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",

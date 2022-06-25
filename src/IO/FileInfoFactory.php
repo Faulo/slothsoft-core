@@ -8,11 +8,7 @@ use InvalidArgumentException;
 class FileInfoFactory {
 
     public static function createTempFile(): FileInfo {
-        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . __CLASS__;
-        if (! is_dir($path)) {
-            mkdir($path, 0777, true);
-        }
-        return self::createFromPath($path . DIRECTORY_SEPARATOR . uniqid());
+        return self::createFromPath(temp_file(__CLASS));
     }
 
     public static function createFromPath(string $path): FileInfo {

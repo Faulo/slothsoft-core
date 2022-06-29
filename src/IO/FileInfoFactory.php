@@ -8,7 +8,7 @@ use InvalidArgumentException;
 class FileInfoFactory {
 
     public static function createTempFile(): FileInfo {
-        return self::createFromPath(temp_file(__CLASS));
+        return self::createFromPath(temp_file(__CLASS__));
     }
 
     public static function createFromPath(string $path): FileInfo {

@@ -4781,6 +4781,56 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-IO-Writable-Adapter-ChunkWriterFromGenerator.html#method_toChunks"
         },                {
+            "fqsen": "\\Slothsoft\\Core\\CascadingDictionary",
+            "name": "CascadingDictionary",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-CascadingDictionary.html"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\CascadingDictionary\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-CascadingDictionary.html#method___construct"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\CascadingDictionary\u003A\u003AoffsetExists\u0028\u0029",
+            "name": "offsetExists",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-CascadingDictionary.html#method_offsetExists"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\CascadingDictionary\u003A\u003AoffsetGet\u0028\u0029",
+            "name": "offsetGet",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-CascadingDictionary.html#method_offsetGet"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\CascadingDictionary\u003A\u003AoffsetSet\u0028\u0029",
+            "name": "offsetSet",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-CascadingDictionary.html#method_offsetSet"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\CascadingDictionary\u003A\u003AoffsetUnset\u0028\u0029",
+            "name": "offsetUnset",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-CascadingDictionary.html#method_offsetUnset"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\CascadingDictionary\u003A\u003AgetIterator\u0028\u0029",
+            "name": "getIterator",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-CascadingDictionary.html#method_getIterator"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromGenerator",
+            "name": "ChunkWriterFromGenerator",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromGenerator.html"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromGenerator\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromGenerator.html#method___construct"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromGenerator\u003A\u003AtoChunks\u0028\u0029",
+            "name": "toChunks",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromGenerator.html#method_toChunks"
+        },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",

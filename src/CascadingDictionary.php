@@ -1,0 +1,56 @@
+<?php
+namespace Slothsoft\Core;
+
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
+
+class CascadingDictionary implements ArrayAccess, IteratorAggregate {
+
+    private $values = [];
+
+    private $comparer;
+
+    public function __construct() {
+        $this->comparer = function (string $a, string $b) {
+            return strlen($b) - strlen($a);
+        };
+    }
+
+    public function offsetExists($offset) {
+        foreach (array_keys($this->values) as $key) {
+            if (strpos($offset, $key) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function &offsetGet($offset) {
+        foreach (array_keys($this->values) as $key) {
+            if (strpos($offset, $key) === 0) {
+                return $this->values[$key];
+            }
+        }
+        return $this->values[$offset];
+    }
+
+    public function offsetSet($offset, $value) {
+        if (! is_string($offset)) {
+            trigger_error('CascadingDictionary requires keys to be strings!', E_USER_WARNING);
+            return;
+        }
+        $this->values[$offset] = $value;
+
+        uksort($this->values, $this->comparer);
+    }
+
+    public function offsetUnset($offset) {
+        unset($this->values[$offset]);
+    }
+
+    public function getIterator() {
+        return new ArrayIterator($this->values);
+    }
+}
+

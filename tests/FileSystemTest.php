@@ -8,7 +8,7 @@ use DOMElement;
 
 class FileSystemTest extends TestCase {
 
-    public function testAsNode() {
+    public function testAsNode(): void {
         $document = FileSystem::asNode(__DIR__);
 
         $this->assertInstanceOf(DOMDocument::class, $document);
@@ -19,7 +19,7 @@ class FileSystemTest extends TestCase {
      *
      * @dataProvider createSanitizedFilenames
      */
-    public function testFilenameSanitize($input, $output) {
+    public function testFilenameSanitize($input, $output): void {
         $this->assertEquals($output, FileSystem::filenameSanitize($input));
     }
 
@@ -40,7 +40,7 @@ class FileSystemTest extends TestCase {
         ];
     }
 
-    public function testRemoveDirIncludingRoot() {
+    public function testRemoveDirIncludingRoot(): void {
         $directory = temp_dir(__NAMESPACE__);
 
         mkdir("$directory/A", 0777, true);
@@ -55,7 +55,7 @@ class FileSystemTest extends TestCase {
         $this->assertDirectoryNotExists($directory);
     }
 
-    public function testRemoveDirExcludingRoot() {
+    public function testRemoveDirExcludingRoot(): void {
         $directory = temp_dir(__NAMESPACE__);
 
         mkdir("$directory/A", 0777, true);
@@ -68,6 +68,27 @@ class FileSystemTest extends TestCase {
         $this->assertFileNotExists("$directory/A/B");
         $this->assertDirectoryNotExists("$directory/A");
         $this->assertDirectoryExists($directory);
+    }
+
+    /**
+     *
+     * @dataProvider commandExamples
+     */
+    public function testCommandExist(string $command, bool $expected): void {
+        $this->assertEquals($expected, FileSystem::commandExist($command));
+    }
+
+    public function commandExamples(): iterable {
+        return [
+            [
+                'php',
+                true
+            ],
+            [
+                'phpasdasdasd',
+                false
+            ]
+        ];
     }
 }
 

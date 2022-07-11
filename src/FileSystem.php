@@ -750,4 +750,9 @@ abstract class FileSystem {
             rmdir($path);
         }
     }
+
+    public static function commandExist(string $command): bool {
+        $which = PHP_OS === 'WINNT' ? 'where ' : 'command -v ';
+        return exec($which . $command) !== '';
+    }
 }

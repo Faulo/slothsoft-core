@@ -45,7 +45,7 @@ class CLITest extends TestCase {
     }
 
     public function testBasicExecute() {
-        $command = 'php --version';
+        $command = PHP_BINARY . ' --version';
         $out = tmpfile();
         $err = tmpfile();
         CLI::setStdOut($out);

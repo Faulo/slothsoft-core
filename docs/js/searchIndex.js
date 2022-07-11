@@ -1066,6 +1066,11 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_removeDir"
         },                {
+            "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AcommandExist\u0028\u0029",
+            "name": "commandExist",
+            "summary": "",
+            "url": "classes/Slothsoft-Core-FileSystem.html#method_commandExist"
+        },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AZIP_PATH",
             "name": "ZIP_PATH",
             "summary": "",

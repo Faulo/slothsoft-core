@@ -75,7 +75,7 @@ class FileSystemTest extends TestCase {
      * @dataProvider commandExamples
      */
     public function testCommandExist(string $command, bool $expected): void {
-        $this->assertEquals($expected, FileSystem::commandExist($command));
+        $this->assertEquals($expected, FileSystem::commandExists($command));
     }
 
     public function commandExamples(): iterable {

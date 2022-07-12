@@ -1066,10 +1066,10 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_removeDir"
         },                {
-            "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AcommandExist\u0028\u0029",
-            "name": "commandExist",
+            "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AcommandExists\u0028\u0029",
+            "name": "commandExists",
             "summary": "",
-            "url": "classes/Slothsoft-Core-FileSystem.html#method_commandExist"
+            "url": "classes/Slothsoft-Core-FileSystem.html#method_commandExists"
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AZIP_PATH",
             "name": "ZIP_PATH",

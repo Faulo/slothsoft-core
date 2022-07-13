@@ -19,7 +19,7 @@ class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
     public function toChunks(): Generator {
         $handle = $this->source->toStream();
         while (! $handle->eof()) {
-            yield $handle->fread(Memory::ONE_KILOBYTE);
+            yield $handle->read(Memory::ONE_KILOBYTE);
         }
         $handle->close();
     }

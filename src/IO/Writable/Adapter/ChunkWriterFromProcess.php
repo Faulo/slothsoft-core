@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace Slothsoft\Core\IO\Writable\Delegates;
+namespace Slothsoft\Core\IO\Writable\Adapter;
 
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Symfony\Component\Process\Process;

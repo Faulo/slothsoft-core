@@ -2951,21 +2951,6 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromChunkWriterDelegate.html#method_toChunks"
         },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess",
-            "name": "ChunkWriterFromProcess",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess\u003A\u003A__construct\u0028\u0029",
-            "name": "__construct",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html#method___construct"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromProcess\u003A\u003AtoChunks\u0028\u0029",
-            "name": "toChunks",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromProcess.html#method_toChunks"
-        },                {
             "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\DOMWriterFromDocumentDelegate",
             "name": "DOMWriterFromDocumentDelegate",
             "summary": "",
@@ -4821,20 +4806,20 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Slothsoft-Core-CascadingDictionary.html#method_getIterator"
         },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromGenerator",
-            "name": "ChunkWriterFromGenerator",
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Adapter\\ChunkWriterFromProcess",
+            "name": "ChunkWriterFromProcess",
             "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromGenerator.html"
+            "url": "classes/Slothsoft-Core-IO-Writable-Adapter-ChunkWriterFromProcess.html"
         },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromGenerator\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Adapter\\ChunkWriterFromProcess\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromGenerator.html#method___construct"
+            "url": "classes/Slothsoft-Core-IO-Writable-Adapter-ChunkWriterFromProcess.html#method___construct"
         },                {
-            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Delegates\\ChunkWriterFromGenerator\u003A\u003AtoChunks\u0028\u0029",
+            "fqsen": "\\Slothsoft\\Core\\IO\\Writable\\Adapter\\ChunkWriterFromProcess\u003A\u003AtoChunks\u0028\u0029",
             "name": "toChunks",
             "summary": "",
-            "url": "classes/Slothsoft-Core-IO-Writable-Delegates-ChunkWriterFromGenerator.html#method_toChunks"
+            "url": "classes/Slothsoft-Core-IO-Writable-Adapter-ChunkWriterFromProcess.html#method_toChunks"
         },                {
             "fqsen": "\\",
             "name": "\\",

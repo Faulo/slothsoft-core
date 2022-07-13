@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace Slothsoft\Core\IO\Writable\Delegates;
+namespace Slothsoft\Core\IO\Writable\Adapter;
 
 use PHPUnit\Framework\TestCase;
 
@@ -14,6 +14,6 @@ use PHPUnit\Framework\TestCase;
 class ChunkWriterFromProcessTest extends TestCase {
 
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(ChunkWriterFromProcess::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromProcess'!");
+        $this->assertTrue(class_exists(ChunkWriterFromProcess::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\ChunkWriterFromProcess'!");
     }
 }

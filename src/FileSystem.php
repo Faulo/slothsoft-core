@@ -752,7 +752,7 @@ abstract class FileSystem {
     }
 
     public static function commandExists(string $command): bool {
-        $which = PHP_OS === 'WINNT' ? 'where ' : 'command -v ';
-        return exec($which . $command) !== '';
+        $which = PHP_OS === 'WINNT' ? "where $command 2>NUL" : "command -v $command &> /dev/null";
+        return exec($which) !== '';
     }
 }

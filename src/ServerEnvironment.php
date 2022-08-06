@@ -4,7 +4,6 @@ namespace Slothsoft\Core;
 
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
-use Slothsoft\Core\IO\RecursiveFileIterator;
 
 class ServerEnvironment {
 
@@ -57,17 +56,7 @@ class ServerEnvironment {
     }
 
     public static function cleanCacheDirectory(): void {
-        include 'config.php';
-        foreach (RecursiveFileIterator::iterateFiles(self::getCacheDirectory()) as $file) {
-            unlink($file);
-        }
-        $directories = [];
-        foreach (RecursiveFileIterator::iterateDirectories(self::getCacheDirectory()) as $file) {
-            $directories[] = $file;
-        }
-        foreach (array_reverse($directories) as $file) {
-            rmdir($file);
-        }
+        FileSystem::removeDir(self::getCacheDirectory(), true);
     }
 
     private static function dataDirectory(): ConfigurationField {

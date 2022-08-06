@@ -1,0 +1,38 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types = 1);
+
+use Slothsoft\Core\ServerEnvironment;
+use Slothsoft\Core\FileSystem;
+
+array_shift($_SERVER['argv']);
+$_SERVER['argc'] --;
+
+include $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
+
+if ($_SERVER['argc'] < 1) {
+    echo <<<'EOT'
+    Run all tests inside a Unity project.
+        
+    Usage:
+    composer exec server-clean [data|logs|cache]+
+            
+EOT;
+    return;
+}
+
+$args = $_SERVER['argv'];
+
+foreach ($args as $mode) {
+    switch ($mode) {
+        case 'data':
+            FileSystem::removeDir(ServerEnvironment::getDataDirectory(), true);
+            break;
+        case 'logs':
+            FileSystem::removeDir(ServerEnvironment::getLogDirectory(), true);
+            break;
+        case 'cache':
+            FileSystem::removeDir(ServerEnvironment::getCacheDirectory(), true);
+            break;
+    }
+}

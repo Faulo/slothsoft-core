@@ -55,10 +55,6 @@ class ServerEnvironment {
         return self::cacheDirectory()->getValue();
     }
 
-    public static function cleanCacheDirectory(): void {
-        FileSystem::removeDir(self::getCacheDirectory(), true);
-    }
-
     private static function dataDirectory(): ConfigurationField {
         static $field;
         if ($field === null) {

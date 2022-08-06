@@ -36,6 +36,9 @@
 		"slothsoft",
 		"docs"
 	],
+	"bin" : [
+		"scripts/server-clean"
+	],
 	"autoload-dev" : {
 		"psr-4" : {
 			"Slothsoft\\Core\\" : "tests"

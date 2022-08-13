@@ -711,25 +711,37 @@ abstract class FileSystem {
         return $ret;
     }
 
-    protected static $base64Source = [
+    private static $base64Source = [
         '+',
         '/',
         '='
     ];
 
-    protected static $base64Target = [
+    private static $base64Target = [
         '-',
         '_',
         '~'
     ];
 
-    public static function base64Encode($fileName) {
+    /**
+     * Creates a filesystem-compatible name using base64.
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public static function base64Encode(string $fileName): string {
         $fileName = base64_encode($fileName);
         $fileName = str_replace(self::$base64Source, self::$base64Target, $fileName);
         return $fileName;
     }
 
-    public static function base64Decode($fileName) {
+    /**
+     * Decodes a name created by base64Encode.
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public static function base64Decode(string $fileName): string {
         $fileName = str_replace(self::$base64Target, self::$base64Source, $fileName);
         $fileName = base64_decode($fileName);
         return $fileName;
@@ -737,7 +749,7 @@ abstract class FileSystem {
 
     /**
      * Deletes the contents of a directory.
-     * 
+     *
      * @param string $path
      * @param bool $keepRoot
      */
@@ -759,7 +771,7 @@ abstract class FileSystem {
 
     /**
      * Copies files and directories.
-     * 
+     *
      * @param string $from
      * @param string $to
      */
@@ -786,7 +798,7 @@ abstract class FileSystem {
 
     /**
      * Determines whether or not a command is available on the command line.
-     * 
+     *
      * @param string $command
      * @return bool
      */

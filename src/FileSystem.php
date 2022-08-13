@@ -14,6 +14,7 @@ namespace Slothsoft\Core;
 use Slothsoft\Core\Calendar\DateTimeFormatter;
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use DOMXPath;
 use Exception;
 use SplFileInfo;
@@ -87,34 +88,34 @@ abstract class FileSystem {
         'ass'
     ];
 
-    public static function isVideo($fileName) {
+    public static function isVideo(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$videoExtensions);
     }
 
-    public static function isAudio($fileName) {
+    public static function isAudio(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$audioExtensions);
     }
 
-    public static function isSubttitle($fileName) {
+    public static function isSubttitle(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$subttitleExtensions);
     }
 
-    public static function drawBytes($size, $precision = 2) {
+    public static function drawBytes($size, int $precision = 2): string {
         for ($i = 0; $size > 1024; $i ++) {
             $size /= 1024.0;
         }
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
     }
 
-    public static function getStorage() {
-        $storage = null;
+    public static function getStorage(): Storage {
+        static $storage = null;
         if (! $storage) {
             $storage = new Storage('FileSystem');
         }
         return $storage;
     }
 
-    public static function generateStorageKey($path, $hash = '') {
+    public static function generateStorageKey(string $path, string $hash = ''): string {
         $key = realpath($path);
         if (! $key) {
             throw new Exception(sprintf('PATH NOT FOUND: "%s"', $path));
@@ -125,7 +126,7 @@ abstract class FileSystem {
         return sprintf('FileSystem://%s', $key);
     }
 
-    public static function asNode($path, DOMDocument $dataDoc = null) {
+    public static function asNode(string $path, DOMDocument $dataDoc = null): ?DOMNode {
         $retNode = null;
         $storage = null;
         $returnDocument = ! $dataDoc;
@@ -236,11 +237,11 @@ abstract class FileSystem {
         return $retNode;
     }
 
-    public static function webpath($fileName, $absolute = true) {
+    public static function webpath(string $fileName, bool $absolute = true): string {
         return $absolute ? str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen($_SERVER['DOCUMENT_ROOT']))) : str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen(dirname($_SERVER['SCRIPT_FILENAME']) . '/')));
     }
 
-    public static function size($fileName) {
+    public static function size(string $fileName): ?int {
         $size = null;
         if (is_readable($fileName)) {
             $size = filesize($fileName);
@@ -250,21 +251,22 @@ abstract class FileSystem {
         return $size;
     }
 
-    public static function free($fileName) {
-        return disk_free_space($fileName);
+    public static function free(string $fileName): ?float {
+        $space = disk_free_space($fileName);
+        return is_float($space) ? $space : null;
     }
 
-    public static function mime($fileName) {
+    public static function mime(string $fileName): ?string {
         $fInfo = new FInfo(FILEINFO_MIME_TYPE);
         @$ret = $fInfo->file($fileName);
-        return $ret;
+        return is_string($ret) ? $ret : null;
     }
 
-    public static function extension($fileName) {
+    public static function extension(string $fileName): string {
         return pathinfo($fileName, PATHINFO_EXTENSION);
     }
 
-    public static function changetime($fileName) {
+    public static function changetime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
         if (is_readable($fileName)) {
@@ -275,7 +277,7 @@ abstract class FileSystem {
         return $time;
     }
 
-    public static function maketime($fileName) {
+    public static function maketime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
         if (is_readable($fileName)) {
@@ -286,7 +288,7 @@ abstract class FileSystem {
         return $time;
     }
 
-    public static function lookupFile($fileName) {
+    public static function lookupFile(string $fileName) {
         if (is_readable($fileName)) {
             $com = new COM('Scripting.FileSystemObject');
             return is_file($fileName) ? $com->GetFile($fileName) : $com->GetFolder($fileName);
@@ -306,7 +308,7 @@ abstract class FileSystem {
         return null;
     }
 
-    public static function filenameEncode($filename, $removeRoot = false) {
+    public static function filenameEncode(string $filename, bool $removeRoot = false): string {
         if ($removeRoot) {
             if (strpos($filename, ServerEnvironment::getRootDirectory()) === 0) {
                 $filename = substr($filename, strlen(ServerEnvironment::getRootDirectory()));
@@ -320,7 +322,7 @@ abstract class FileSystem {
         ], '-', $filename);
     }
 
-    public static function filenameSanitize($filename) {
+    public static function filenameSanitize(string $filename): string {
         $notAllowed = [
             ':',
             '\\',
@@ -433,7 +435,15 @@ abstract class FileSystem {
         fclose($handle);
     }
 
-    public static function scanDir($relPath, $options = 0, $filter = null) {
+    /**
+     * List the contents of a directory.
+     *
+     * @param string $relPath
+     * @param int $options
+     * @param string $filter
+     * @return array
+     */
+    public static function scanDir(string $relPath, int $options = 0, ?string $filter = null): array {
         $dirPath = realpath((string) $relPath);
         if ($dirPath === false) {
             return [];
@@ -509,7 +519,7 @@ abstract class FileSystem {
         return $ret;
     }
 
-    public static function dirModifyTime($dirPath, $rootPath = null) {
+    public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);
             $rootPath = dirname($dirPath);
@@ -533,7 +543,7 @@ abstract class FileSystem {
         return false;
     }
 
-    public static function mediaInfo($filePath) {
+    public static function mediaInfo(string $filePath): array {
         $filePath = realpath($filePath);
         $ret = [
             'file' => $filePath,
@@ -699,7 +709,7 @@ abstract class FileSystem {
         return $ret;
     }
 
-    public static function loadCSV($path, $delimiter = ',', $enclosure = '"', $escape = '\\') {
+    public static function loadCSV(string $path, string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): ?array {
         $ret = null;
         if ($handle = fopen($path, 'r')) {
             $ret = [];
@@ -711,30 +721,48 @@ abstract class FileSystem {
         return $ret;
     }
 
-    protected static $base64Source = [
+    private static $base64Source = [
         '+',
         '/',
         '='
     ];
 
-    protected static $base64Target = [
+    private static $base64Target = [
         '-',
         '_',
         '~'
     ];
 
-    public static function base64Encode($fileName) {
+    /**
+     * Creates a filesystem-compatible name using base64.
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public static function base64Encode(string $fileName): string {
         $fileName = base64_encode($fileName);
         $fileName = str_replace(self::$base64Source, self::$base64Target, $fileName);
         return $fileName;
     }
 
-    public static function base64Decode($fileName) {
+    /**
+     * Decodes a name created by base64Encode.
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public static function base64Decode(string $fileName): string {
         $fileName = str_replace(self::$base64Target, self::$base64Source, $fileName);
         $fileName = base64_decode($fileName);
         return $fileName;
     }
 
+    /**
+     * Deletes the contents of a directory.
+     *
+     * @param string $path
+     * @param bool $keepRoot
+     */
     public static function removeDir(string $path, bool $keepRoot = false): void {
         if (! is_dir($path)) {
             return;
@@ -751,6 +779,39 @@ abstract class FileSystem {
         }
     }
 
+    /**
+     * Copies files and directories.
+     *
+     * @param string $from
+     * @param string $to
+     */
+    public static function copy(string $from, string $to): void {
+        assert(file_exists($from));
+
+        $from = realpath($from);
+
+        if (is_dir($from)) {
+            if (! file_exists($to)) {
+                mkdir($to, 0777, true);
+            }
+            $to = realpath($to);
+
+            assert(is_dir($to));
+
+            foreach (self::scanDir($from) as $file) {
+                self::copy($from . DIRECTORY_SEPARATOR . $file, $to . DIRECTORY_SEPARATOR . $file);
+            }
+        } else {
+            copy($from, $to);
+        }
+    }
+
+    /**
+     * Determines whether or not a command is available on the command line.
+     *
+     * @param string $command
+     * @return bool
+     */
     public static function commandExists(string $command): bool {
         $which = PHP_OS === 'WINNT' ? "where $command 2>NUL" : "command -v $command 2>/dev/null";
         return exec($which) !== '';

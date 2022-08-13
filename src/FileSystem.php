@@ -100,7 +100,7 @@ abstract class FileSystem {
         return in_array(strtolower(self::extension($fileName)), self::$subttitleExtensions);
     }
 
-    public static function drawBytes(int $size, int $precision = 2): string {
+    public static function drawBytes($size, int $precision = 2): string {
         for ($i = 0; $size > 1024; $i ++) {
             $size /= 1024.0;
         }

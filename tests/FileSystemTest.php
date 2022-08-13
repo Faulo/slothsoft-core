@@ -90,5 +90,18 @@ class FileSystemTest extends TestCase {
             ]
         ];
     }
+
+    public function testCopy(): void {
+        $file = DIRECTORY_SEPARATOR . 'test.txt';
+
+        $from = temp_dir(__NAMESPACE__);
+        file_put_contents($from . $file, 'hello world');
+
+        $to = temp_dir(__NAMESPACE__);
+
+        FileSystem::copy($from, $to);
+
+        $this->assertFileEquals($from . $file, $to . $file);
+    }
 }
 

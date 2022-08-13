@@ -751,6 +751,27 @@ abstract class FileSystem {
         }
     }
 
+    public static function copy(string $from, string $to): void {
+        assert(file_exists($from));
+
+        $from = realpath($from);
+
+        if (is_dir($from)) {
+            if (! file_exists($to)) {
+                mkdir($to, 0777, true);
+            }
+            $to = realpath($to);
+
+            assert(is_dir($to));
+
+            foreach (self::scanDir($from) as $file) {
+                self::copy($from . DIRECTORY_SEPARATOR . $file, $to . DIRECTORY_SEPARATOR . $file);
+            }
+        } else {
+            copy($from, $to);
+        }
+    }
+
     public static function commandExists(string $command): bool {
         $which = PHP_OS === 'WINNT' ? "where $command 2>NUL" : "command -v $command 2>/dev/null";
         return exec($which) !== '';

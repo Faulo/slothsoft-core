@@ -735,6 +735,12 @@ abstract class FileSystem {
         return $fileName;
     }
 
+    /**
+     * Deletes the contents of a directory.
+     * 
+     * @param string $path
+     * @param bool $keepRoot
+     */
     public static function removeDir(string $path, bool $keepRoot = false): void {
         if (! is_dir($path)) {
             return;
@@ -751,6 +757,12 @@ abstract class FileSystem {
         }
     }
 
+    /**
+     * Copies files and directories.
+     * 
+     * @param string $from
+     * @param string $to
+     */
     public static function copy(string $from, string $to): void {
         assert(file_exists($from));
 
@@ -772,6 +784,12 @@ abstract class FileSystem {
         }
     }
 
+    /**
+     * Determines whether or not a command is available on the command line.
+     * 
+     * @param string $command
+     * @return bool
+     */
     public static function commandExists(string $command): bool {
         $which = PHP_OS === 'WINNT' ? "where $command 2>NUL" : "command -v $command 2>/dev/null";
         return exec($which) !== '';

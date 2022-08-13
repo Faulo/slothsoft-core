@@ -1048,7 +1048,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AscanDir\u0028\u0029",
             "name": "scanDir",
-            "summary": "",
+            "summary": "List\u0020the\u0020contents\u0020of\u0020a\u0020directory.",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_scanDir"
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AdirModifyTime\u0028\u0029",
@@ -1088,22 +1088,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003Abase64Encode\u0028\u0029",
             "name": "base64Encode",
-            "summary": "",
+            "summary": "Creates\u0020a\u0020filesystem\u002Dcompatible\u0020name\u0020using\u0020base64.",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_base64Encode"
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003Abase64Decode\u0028\u0029",
             "name": "base64Decode",
-            "summary": "",
+            "summary": "Decodes\u0020a\u0020name\u0020created\u0020by\u0020base64Encode.",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_base64Decode"
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AremoveDir\u0028\u0029",
             "name": "removeDir",
-            "summary": "",
+            "summary": "Deletes\u0020the\u0020contents\u0020of\u0020a\u0020directory.",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_removeDir"
+        },                {
+            "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003Acopy\u0028\u0029",
+            "name": "copy",
+            "summary": "Copies\u0020files\u0020and\u0020directories.",
+            "url": "classes/Slothsoft-Core-FileSystem.html#method_copy"
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AcommandExists\u0028\u0029",
             "name": "commandExists",
-            "summary": "",
+            "summary": "Determines\u0020whether\u0020or\u0020not\u0020a\u0020command\u0020is\u0020available\u0020on\u0020the\u0020command\u0020line.",
             "url": "classes/Slothsoft-Core-FileSystem.html#method_commandExists"
         },                {
             "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003AZIP_PATH",
@@ -1190,16 +1195,6 @@ Search.appendIndex(
             "name": "subttitleExtensions",
             "summary": "",
             "url": "classes/Slothsoft-Core-FileSystem.html#property_subttitleExtensions"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003A\u0024base64Source",
-            "name": "base64Source",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-FileSystem.html#property_base64Source"
-        },                {
-            "fqsen": "\\Slothsoft\\Core\\FileSystem\u003A\u003A\u0024base64Target",
-            "name": "base64Target",
-            "summary": "",
-            "url": "classes/Slothsoft-Core-FileSystem.html#property_base64Target"
         },                {
             "fqsen": "\\Slothsoft\\Core\\Game\\Dice",
             "name": "Dice",

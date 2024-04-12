@@ -26,7 +26,7 @@ class ServerEnvironment {
     private static function logDirectory(): ConfigurationField {
         static $field;
         if ($field === null) {
-            $field = new DirectoryConfigurationField(sys_get_temp_dir());
+            $field = new DirectoryConfigurationField(sys_get_temp_dir() . DIRECTORY_SEPARATOR . '.farah-log');
         }
         return $field;
     }
@@ -42,7 +42,7 @@ class ServerEnvironment {
     private static function cacheDirectory(): ConfigurationField {
         static $field;
         if ($field === null) {
-            $field = new DirectoryConfigurationField(sys_get_temp_dir());
+            $field = new DirectoryConfigurationField(sys_get_temp_dir() . DIRECTORY_SEPARATOR . '.farah-cache');
         }
         return $field;
     }
@@ -58,7 +58,7 @@ class ServerEnvironment {
     private static function dataDirectory(): ConfigurationField {
         static $field;
         if ($field === null) {
-            $field = new DirectoryConfigurationField(sys_get_temp_dir());
+            $field = new DirectoryConfigurationField(sys_get_temp_dir() . DIRECTORY_SEPARATOR . '.farah-data');
         }
         return $field;
     }

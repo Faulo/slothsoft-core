@@ -12,14 +12,13 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use Slothsoft\Core\Calendar\DateTimeFormatter;
+use COM;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
 use DOMXPath;
 use Exception;
 use SplFileInfo;
-use com;
-use finfo;
 
 abstract class FileSystem {
 
@@ -257,7 +256,7 @@ abstract class FileSystem {
     }
 
     public static function mime(string $fileName): ?string {
-        $fInfo = new FInfo(FILEINFO_MIME_TYPE);
+        $fInfo = new \FInfo(FILEINFO_MIME_TYPE);
         @$ret = $fInfo->file($fileName);
         return is_string($ret) ? $ret : null;
     }
@@ -764,14 +763,18 @@ abstract class FileSystem {
      * @param bool $keepRoot
      */
     public static function removeDir(string $path, bool $keepRoot = false): void {
-        if (! is_dir($path)) {
+        if (! is_dir($path) or ! is_writable($path)) {
             return;
         }
         foreach (self::scanDir($path, FileSystem::SCANDIR_REALPATH) as $file) {
-            if (is_dir($file)) {
-                self::removeDir($file);
+            if (is_writable($file)) {
+                if (is_dir($file)) {
+                    self::removeDir($file);
+                } else {
+                    unlink($file);
+                }
             } else {
-                unlink($file);
+                $keepRoot = true;
             }
         }
         if (! $keepRoot) {

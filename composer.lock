@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d77d4377631c6e85ae9df66026d11b1e",
+    "content-hash": "a40e880dd19297eafc49dfa285cb441b",
     "packages": [
         {
             "name": "guzzlehttp/psr7",
@@ -265,16 +265,16 @@
         },
         {
             "name": "slothsoft/w3c",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Faulo/slothsoft-w3c.git",
-                "reference": "ebfe0b99ebf902163e744d42449f5bdbb12347b1"
+                "reference": "fa3b681214549f96d45c56eabd7460d30e9da752"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Faulo/slothsoft-w3c/zipball/ebfe0b99ebf902163e744d42449f5bdbb12347b1",
-                "reference": "ebfe0b99ebf902163e744d42449f5bdbb12347b1",
+                "url": "https://api.github.com/repos/Faulo/slothsoft-w3c/zipball/fa3b681214549f96d45c56eabd7460d30e9da752",
+                "reference": "fa3b681214549f96d45c56eabd7460d30e9da752",
                 "shasum": ""
             },
             "require": {
@@ -286,7 +286,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "1.2.x-dev"
+                    "dev-main": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -312,9 +312,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Faulo/slothsoft-w3c/issues",
-                "source": "https://github.com/Faulo/slothsoft-w3c/tree/1.2.2"
+                "source": "https://github.com/Faulo/slothsoft-w3c/tree/1.2.3"
             },
-            "time": "2024-03-31T23:20:32+00:00"
+            "time": "2024-09-23T11:09:19+00:00"
         },
         {
             "name": "symfony/polyfill-php80",

@@ -4,9 +4,8 @@ namespace Slothsoft\Core;
 
 use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
-use Serializable;
 
-class CloudFlareScraper implements Serializable {
+class CloudFlareScraper {
 
     protected $cookieFile;
 
@@ -126,15 +125,7 @@ class CloudFlareScraper implements Serializable {
         ];
     }
 
-    public function serialize() {
-        return serialize($this->__serialize());
-    }
-
     public function __unserialize(array $data) {
         $this->__construct($data['cookieFile'], $data['trySolving']);
-    }
-
-    public function unserialize($data) {
-        $this->__unserialize(unserialize($data));
     }
 }

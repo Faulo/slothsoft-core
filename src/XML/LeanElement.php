@@ -8,14 +8,13 @@ use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 use DOMDocument;
 use DOMElement;
 use DOMNodeList;
-use Serializable;
 
 /**
  *
  * @author Daniel Schulz
  *
  */
-class LeanElement implements DOMWriterInterface, Serializable {
+class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
 
     public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array {
@@ -161,10 +160,6 @@ class LeanElement implements DOMWriterInterface, Serializable {
         ];
     }
 
-    public function serialize() {
-        return serialize($this->__serialize());
-    }
-
     public function __unserialize(array $serialized): void {
         [
             $this->tag,
@@ -172,10 +167,6 @@ class LeanElement implements DOMWriterInterface, Serializable {
             $this->children
         ] = $serialized;
         $this->children = new Vector($this->children);
-    }
-
-    public function unserialize($serialized) {
-        $this->__unserialize(unserialize($serialized));
     }
 }
 

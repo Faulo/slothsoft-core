@@ -13,7 +13,7 @@ use Serializable;
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class LeanElement implements DOMWriterInterface, Serializable {
     use DOMWriterDocumentFromElementTrait;
@@ -153,29 +153,29 @@ class LeanElement implements DOMWriterInterface, Serializable {
         return $ret;
     }
 
-    public function __serialize() {
-        return $this->serialize();
-    }
-
-    public function serialize() {
-        return serialize([
+    public function __serialize(): array {
+        return [
             $this->tag,
             $this->attributes,
             $this->children->toArray()
-        ]);
+        ];
     }
 
-    public function __unserialize($serialized) {
-        $this->unserialize($serialized);
+    public function serialize() {
+        return serialize($this->__serialize());
     }
 
-    public function unserialize($serialized) {
+    public function __unserialize(array $serialized): void {
         [
             $this->tag,
             $this->attributes,
             $this->children
-        ] = unserialize($serialized);
+        ] = $serialized;
         $this->children = new Vector($this->children);
+    }
+
+    public function unserialize($serialized) {
+        $this->__unserialize(unserialize($serialized));
     }
 }
 

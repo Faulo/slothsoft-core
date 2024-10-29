@@ -14,11 +14,12 @@ abstract class StreamFilterBase extends \php_user_filter implements StreamFilter
 
     private $state;
 
-    public function onCreate() {
+    public function onCreate(): bool {
         $this->state = self::STATE_OPENING;
+        return true;
     }
 
-    public final function filter($in, $out, &$consumed, $closing) {
+    public final function filter($in, $out, &$consumed, $closing): int {
         if ($this->state === self::STATE_OPENING) {
             $this->opening = false;
             $data = $this->processHeader();

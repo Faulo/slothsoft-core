@@ -153,12 +153,20 @@ class LeanElement implements DOMWriterInterface, Serializable {
         return $ret;
     }
 
+    public function __serialize() {
+        return $this->serialize();
+    }
+
     public function serialize() {
         return serialize([
             $this->tag,
             $this->attributes,
             $this->children->toArray()
         ]);
+    }
+
+    public function __unserialize($serialized) {
+        $this->unserialize($serialized);
     }
 
     public function unserialize($serialized) {

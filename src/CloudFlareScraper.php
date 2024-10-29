@@ -119,11 +119,19 @@ class CloudFlareScraper implements Serializable {
         return DOMHelper::loadXPath($doc);
     }
 
+    public function __serialize() {
+        return $this->serialize();
+    }
+
     public function serialize() {
         return serialize([
             'cookieFile' => $this->cookieFile,
             'trySolving' => $this->trySolving
         ]);
+    }
+
+    public function __unserialize($data) {
+        $this->unserialize($data);
     }
 
     public function unserialize($data) {

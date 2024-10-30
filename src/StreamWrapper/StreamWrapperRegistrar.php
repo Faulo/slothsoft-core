@@ -29,6 +29,8 @@ class StreamWrapperRegistrar implements StreamWrapperInterface {
 
     private ?StreamWrapperInterface $stream = null;
 
+    public $context;
+
     public function stream_open(string $path, string $mode, int $options, &$opened_path) {
         $this->stream = self::getFactoryByUrl($path)->createStreamWrapper($path, $mode, $options);
 

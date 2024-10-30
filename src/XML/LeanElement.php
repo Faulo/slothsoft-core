@@ -12,7 +12,7 @@ use DOMNodeList;
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
@@ -48,11 +48,11 @@ class LeanElement implements DOMWriterInterface {
         return new LeanElement($tag, $attributes, $children instanceof Vector ? $children : new Vector($children));
     }
 
-    private $tag;
+    private string $tag;
 
-    private $attributes;
+    private array $attributes;
 
-    private $children;
+    private Vector $children;
 
     /**
      *
@@ -160,13 +160,10 @@ class LeanElement implements DOMWriterInterface {
         ];
     }
 
-    public function __unserialize(array $serialized): void {
-        [
-            $this->tag,
-            $this->attributes,
-            $this->children
-        ] = $serialized;
-        $this->children = new Vector($this->children);
+    public function __unserialize(array $data): void {
+        $this->tag = (string) $data[0] ?? '';
+        $this->attributes = (array) $data[1] ?? [];
+        $this->children = new Vector((array) $data[2] ?? []);
     }
 }
 

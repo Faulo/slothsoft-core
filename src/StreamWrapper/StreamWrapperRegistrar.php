@@ -10,11 +10,11 @@ class StreamWrapperRegistrar implements StreamWrapperInterface {
         self::$factories[$scheme] = $factory;
     }
 
-    private static function getFactoryByScheme(string $scheme): StreamWrapperFactoryInterface {
+    private static function getFactoryByScheme(string $scheme): ?StreamWrapperFactoryInterface {
         return self::$factories[$scheme] ?? null;
     }
 
-    private static function getFactoryByUrl(string $url): StreamWrapperFactoryInterface {
+    private static function getFactoryByUrl(string $url): ?StreamWrapperFactoryInterface {
         return self::getFactoryByScheme(parse_url($url, PHP_URL_SCHEME));
     }
 
@@ -26,6 +26,8 @@ class StreamWrapperRegistrar implements StreamWrapperInterface {
     public function url_stat(string $url, int $flags) {
         return self::getFactoryByUrl($url)->statUrl($url, $flags);
     }
+
+    private ?StreamWrapperFactoryInterface $stream = null;
 
     public function stream_open(string $path, string $mode, int $options, &$opened_path) {
         $this->stream = self::getFactoryByUrl($path)->createStreamWrapper($path, $mode, $options);

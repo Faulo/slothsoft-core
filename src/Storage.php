@@ -611,8 +611,8 @@ class Storage implements IEphemeralStorage {
 
         if ($this->dbmsTable) {
             $update = [];
-            $update['payload'] = (string) $payload;
-            $update['modify-time'] = (int) $modifyTime;
+            $update['payload'] = $payload;
+            $update['modify-time'] = $modifyTime;
             $update['access-time'] = $this->now;
 
             $insert = $update;

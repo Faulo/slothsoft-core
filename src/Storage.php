@@ -19,11 +19,12 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 use Slothsoft\Core\DBMS\DatabaseException;
 use Slothsoft\Core\DBMS\Manager;
+use Slothsoft\Core\DBMS\Table;
 use DOMDocument;
 use DOMNode;
 use Exception;
 
-class Storage {
+class Storage implements IEphemeralStorage {
 
     private static function logEnabled(): ConfigurationField {
         static $field;
@@ -73,7 +74,7 @@ class Storage {
         return self::logEnabled()->getValue();
     }
 
-    protected static $storageList = [];
+    protected static array $storageList = [];
 
     /**
      *
@@ -418,41 +419,38 @@ class Storage {
         return parse_url($uri, PHP_URL_SCHEME);
     }
 
-    protected static $hashList = [];
-
-    protected static function _hash($name) {
-        if (! isset(self::$hashList[$name])) {
-            self::$hashList[$name] = sha1($name);
-        }
-        return self::$hashList[$name];
+    protected static function _hash(string $name): string {
+        return sha1($name);
     }
 
     protected static function _name(array $options, $uri, $data) {
         return sprintf('%s %s?%s', $options['method'], $uri, serialize($data));
     }
 
-    protected static $dom;
+    protected static DOMHelper $dom;
 
     protected static function _DOMHelper() {
-        if (! self::$dom) {
+        if (! isset(self::$dom)) {
             self::$dom = new DOMHelper();
         }
         return self::$dom;
     }
 
-    protected $dbName = 'storage';
+    protected string $dbName = 'storage';
 
-    protected $tableName = 'default';
+    protected string $tableName = 'default';
 
-    protected $dbmsTable;
+    protected ?Table $dbmsTable = null;
 
-    protected $now;
+    protected int $now;
 
-    protected $touchList;
+    protected array $touchList;
 
-    protected $cleanseTime;
+    protected int $cleanseTime;
 
     public function __construct($storageName = null) {
+        $this->now = time();
+        $this->touchList = [];
         $this->cleanseTime = Seconds::MONTH;
 
         if ($storageName) {
@@ -466,15 +464,13 @@ class Storage {
         } catch (DatabaseException $e) {
             $this->dbmsTable = null;
         }
-        $this->now = time();
-        $this->touchList = [];
     }
 
     protected function getDBMSTable() {
         return Manager::getTable($this->dbName, $this->tableName);
     }
 
-    public function install() {
+    public function install(): void {
         if ($this->dbmsTable) {
             $sqlCols = [
                 // 'id' => 'int NOT NULL AUTO_INCREMENT',
@@ -504,13 +500,14 @@ class Storage {
      * @param int $modifyTime
      * @return boolean
      */
-    public function exists(string $name, int $modifyTime) {
+    public function exists(string $name, int $modifyTime): bool {
         $ret = false;
         if ($this->dbmsTable) {
             $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
             $ret = (bool) count($this->dbmsTable->select('id', $sql));
         }
         $this->_createLog('exists', $name, $ret);
+
         return $ret;
     }
 
@@ -520,7 +517,7 @@ class Storage {
      * @param int $modifyTime
      * @return NULL|mixed
      */
-    public function retrieve(string $name, int $modifyTime) {
+    public function retrieve(string $name, int $modifyTime): ?string {
         $ret = null;
         if ($this->dbmsTable) {
             $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
@@ -533,7 +530,7 @@ class Storage {
         return $ret;
     }
 
-    public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null) {
+    public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null): ?DOMNode {
         $ret = null;
         if ($data = $this->retrieve($name, $modifyTime)) {
             $dom = self::_DOMHelper();
@@ -548,7 +545,7 @@ class Storage {
      * @param int $modifyTime
      * @return NULL|DOMDocument
      */
-    public function retrieveDocument(string $name, int $modifyTime) {
+    public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument {
         $retDoc = null;
         $data = $this->retrieve($name, $modifyTime);
         if ($data !== null) {
@@ -592,7 +589,7 @@ class Storage {
      * @param string $name
      * @return boolean
      */
-    public function delete(string $name) {
+    public function delete(string $name): bool {
         $ret = false;
         if ($this->dbmsTable) {
             $ret = $this->dbmsTable->delete(self::_hash($name));
@@ -609,8 +606,8 @@ class Storage {
      * @param int $modifyTime
      * @return boolean
      */
-    public function store(string $name, string $payload, int $modifyTime) {
-        $ret = null;
+    public function store(string $name, string $payload, int $modifyTime): bool {
+        $ret = false;
 
         if ($this->dbmsTable) {
             $update = [];
@@ -640,7 +637,7 @@ class Storage {
      * @param int $modifyTime
      * @return boolean
      */
-    public function storeXML(string $name, DOMNode $dataNode, int $modifyTime) {
+    public function storeXML(string $name, DOMNode $dataNode, int $modifyTime): bool {
         $dom = self::_DOMHelper();
         return $this->store($name, $dom->stringify($dataNode), $modifyTime);
     }
@@ -652,7 +649,7 @@ class Storage {
      * @param int $modifyTime
      * @return boolean
      */
-    public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime) {
+    public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {
         return $dataDoc->documentElement ? $this->store($name, $dataDoc->saveXML(), $modifyTime) : false;
     }
 
@@ -663,7 +660,7 @@ class Storage {
      * @param int $modifyTime
      * @return boolean
      */
-    public function storeJSON(string $name, $dataObject, int $modifyTime) {
+    public function storeJSON(string $name, $dataObject, int $modifyTime): bool {
         return $this->store($name, json_encode($dataObject), $modifyTime);
     }
 

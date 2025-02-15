@@ -111,7 +111,7 @@ abstract class FileSystem {
     private static function storage(): ConfigurationField {
         static $field;
         if ($field === null) {
-            $field = new StorageConfigurationField(new Storage('FileSystem'));
+            $field = new StorageConfigurationField(new CacheDirectoryStorage());
         }
         return $field;
     }

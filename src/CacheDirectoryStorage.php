@@ -1,28 +1,9 @@
 <?php
 declare(strict_types = 1);
-/**
- * *********************************************************************
- * \Storage v1.01 01.09.2015 © Daniel Schulz
- *
- * Changelog:
- * v1.01 01.09.2015
- * $req->followRedirects = (int) (bool) $options['followRedirects'];
- * v1.00 25.07.2014
- * initial release
- * *********************************************************************
- */
 namespace Slothsoft\Core;
 
-use Slothsoft\Core\Calendar\DateTimeFormatter;
-use Slothsoft\Core\Calendar\Seconds;
-use Slothsoft\Core\Configuration\ConfigurationField;
-use Slothsoft\Core\Configuration\DirectoryConfigurationField;
-use Slothsoft\Core\DBMS\DatabaseException;
-use Slothsoft\Core\DBMS\Manager;
-use Slothsoft\Core\DBMS\Table;
 use DOMDocument;
 use DOMNode;
-use Exception;
 
 class CacheDirectoryStorage implements IEphemeralStorage {
 
@@ -92,23 +73,23 @@ class CacheDirectoryStorage implements IEphemeralStorage {
     }
 
     public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument {
-        $retDoc = null;
-        $data = $this->retrieve($name, $modifyTime);
-        if ($data !== null) {
-            $retDoc = new DOMDocument('1.0', 'UTF-8');
-            @$retDoc->loadXML($data, LIBXML_PARSEHUGE);
-            if (! $retDoc->documentElement) {
-                $retDoc = null;
-
-                $this->_createLog('retrieveDocument', $name, false);
-
-                $this->delete($name);
-                // echo sprintf('"%s" is not a valid Document!', $name) . PHP_EOL;
-                // $retDoc->loadXML($data);
-                // echo PHP_EOL . $data . PHP_EOL;
-            }
+        $path = $this->hashPath($name);
+        if (! is_file($path)) {
+            return null;
         }
-        return $retDoc;
+
+        if (FileSystem::changetime($path) < $modifyTime) {
+            return null;
+        }
+
+        $document = new DOMDocument('1.0', 'UTF-8');
+
+        if ($document->load($path, LIBXML_PARSEHUGE) and $document->documentElement) {
+            return $document;
+        } else {
+            $this->delete($name);
+            return null;
+        }
     }
 
     public function retrieveJSON(string $name, int $modifyTime) {
@@ -150,7 +131,18 @@ class CacheDirectoryStorage implements IEphemeralStorage {
     }
 
     public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {
-        return $dataDoc->documentElement ? $this->store($name, $dataDoc->saveXML(), $modifyTime) : false;
+        if (! $dataDoc->documentElement) {
+            return false;
+        }
+
+        $path = $this->hashPath($name);
+        if (! $dataDoc->save($path)) {
+            return false;
+        }
+
+        touch($path, $modifyTime);
+
+        return true;
     }
 
     public function storeJSON(string $name, $dataObject, int $modifyTime): bool {

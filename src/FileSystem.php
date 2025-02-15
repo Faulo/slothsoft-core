@@ -145,7 +145,7 @@ abstract class FileSystem {
                 @unlink($path);
             } else {
                 if (is_dir($path)) {
-                    $modifyTime = max(self::dirModifyTime($path));
+                    $modifyTime = self::changetime($path);
                     $storage = self::getStorage();
                     $storageKey = self::generateStorageKey($path);
                     if ($tmpNode = $storage->retrieveXML($storageKey, $modifyTime, $dataDoc)) {

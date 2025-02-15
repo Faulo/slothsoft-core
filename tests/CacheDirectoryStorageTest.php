@@ -3,6 +3,8 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use PHPUnit\Framework\TestCase;
+use DOMDocument;
+use DOMNode;
 
 class CacheDirectoryStorageTest extends TestCase {
 
@@ -27,6 +29,24 @@ class CacheDirectoryStorageTest extends TestCase {
         $sut->install();
 
         $this->assertDirectoryExists($directory);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function given_store_when_delete_then_doStopExisting(): void {
+        $storeKey = 'to-be-deleted';
+        $storeValue = 'oh no';
+        $storeTime = time();
+
+        $sut = new CacheDirectoryStorage();
+        $sut->install();
+
+        $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
+        $this->assertTrue($sut->delete($storeKey, $storeValue, $storeTime));
+        $this->assertFalse($sut->exists($storeKey, $storeTime));
+        $this->assertNull($sut->retrieve($storeKey, $storeTime));
     }
 
     /**
@@ -129,6 +149,7 @@ class CacheDirectoryStorageTest extends TestCase {
         if ($retrieveValue === null) {
             $this->assertNull($actual);
         } else {
+            $this->assertInstanceOf(DOMNode::class, $actual);
             $this->assertEquals($retrieveValue, $dom->stringify($actual));
         }
     }
@@ -146,6 +167,57 @@ class CacheDirectoryStorageTest extends TestCase {
         $sut->install();
 
         $this->assertTrue($sut->storeXML($storeKey, $storeValue, $storeTime));
+
+        if ($retrieveValue === null) {
+            $this->assertFalse($sut->exists($retrieveKey, $retrieveTime));
+        } else {
+            $this->assertTrue($sut->exists($retrieveKey, $retrieveTime));
+        }
+    }
+
+    /**
+     *
+     * @dataProvider xmlProvider
+     * @test
+     */
+    public function given_storeDocument_when_retrieveDocument_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
+        $document = new DOMDocument();
+        $document->loadXML($storeValue);
+        $storeValue = $document;
+
+        $sut = new CacheDirectoryStorage();
+        $sut->install();
+
+        $this->assertTrue($sut->storeDocument($storeKey, $storeValue, $storeTime));
+
+        $actual = $sut->retrieveDocument($retrieveKey, $retrieveTime);
+
+        if ($retrieveValue === null) {
+            $this->assertNull($actual);
+        } else {
+            $this->assertInstanceOf(DOMDocument::class, $actual);
+
+            $document = new DOMDocument();
+            $document->loadXML($retrieveValue);
+            $retrieveValue = $document->saveXML();
+            $this->assertEquals($retrieveValue, $actual->saveXML());
+        }
+    }
+
+    /**
+     *
+     * @dataProvider xmlProvider
+     * @test
+     */
+    public function given_storeDocument_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
+        $document = new DOMDocument();
+        $document->loadXML($storeValue);
+        $storeValue = $document;
+
+        $sut = new CacheDirectoryStorage();
+        $sut->install();
+
+        $this->assertTrue($sut->storeDocument($storeKey, $storeValue, $storeTime));
 
         if ($retrieveValue === null) {
             $this->assertFalse($sut->exists($retrieveKey, $retrieveTime));
@@ -191,6 +263,108 @@ class CacheDirectoryStorageTest extends TestCase {
             $now,
             $now,
             $xml,
+            null
+        ];
+    }
+
+    /**
+     *
+     * @dataProvider jsonProvider
+     * @test
+     */
+    public function given_storeJSON_when_retrieveJSON_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
+        $sut = new CacheDirectoryStorage();
+        $sut->install();
+
+        $this->assertTrue($sut->storeJSON($storeKey, $storeValue, $storeTime));
+
+        $actual = $sut->retrieveJSON($retrieveKey, $retrieveTime);
+
+        if ($retrieveValue === null) {
+            $this->assertNull($actual);
+        } else {
+            $this->assertJsonStringEqualsJsonString(json_encode($retrieveValue), json_encode($actual));
+        }
+    }
+
+    /**
+     *
+     * @dataProvider jsonProvider
+     * @test
+     */
+    public function given_storeJSON_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
+        $sut = new CacheDirectoryStorage();
+        $sut->install();
+
+        $this->assertTrue($sut->storeJSON($storeKey, $storeValue, $storeTime));
+
+        if ($retrieveValue === null) {
+            $this->assertFalse($sut->exists($retrieveKey, $retrieveTime));
+        } else {
+            $this->assertTrue($sut->exists($retrieveKey, $retrieveTime));
+        }
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function given_retrieveJSON_when_invalidJSON_then_delete(): void {
+        $storeKey = 'invalid-json';
+        $storeTime = time();
+
+        $sut = new CacheDirectoryStorage();
+        $sut->install();
+
+        $this->assertTrue($sut->store($storeKey, 'invalid json!?', $storeTime));
+        $this->assertNull($sut->retrieveJSON($storeKey, $storeTime));
+        $this->assertFalse($sut->exists($storeKey, $storeTime));
+    }
+
+    public function jsonProvider(): iterable {
+        $now = time();
+        $json = [
+            'hello' => 'world',
+            'a' => [
+                [],
+                0,
+                'abc'
+            ]
+        ];
+
+        yield 'same retrieve time works' => [
+            'test',
+            'test',
+            $now,
+            $now,
+            $json,
+            $json
+        ];
+
+        yield 'older retrieve time works' => [
+            'test',
+            'test',
+            1000,
+            100,
+            $json,
+            $json
+        ];
+
+        yield 'newer retrieve time is null' => [
+            'test',
+            'test',
+            100,
+            1000,
+            $json,
+            null
+        ];
+
+        yield 'unknown key is null' => [
+            'test',
+            'not-existing-key',
+            $now,
+            $now,
+            $json,
             null
         ];
     }

@@ -91,11 +91,44 @@ class CacheDirectoryStorage implements IEphemeralStorage {
         return $ret;
     }
 
-    public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument {}
+    public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument {
+        $retDoc = null;
+        $data = $this->retrieve($name, $modifyTime);
+        if ($data !== null) {
+            $retDoc = new DOMDocument('1.0', 'UTF-8');
+            @$retDoc->loadXML($data, LIBXML_PARSEHUGE);
+            if (! $retDoc->documentElement) {
+                $retDoc = null;
 
-    public function retrieveJSON(string $name, int $modifyTime) {}
+                $this->_createLog('retrieveDocument', $name, false);
 
-    public function delete(string $name): bool {}
+                $this->delete($name);
+                // echo sprintf('"%s" is not a valid Document!', $name) . PHP_EOL;
+                // $retDoc->loadXML($data);
+                // echo PHP_EOL . $data . PHP_EOL;
+            }
+        }
+        return $retDoc;
+    }
+
+    public function retrieveJSON(string $name, int $modifyTime) {
+        $retObject = null;
+        $data = $this->retrieve($name, $modifyTime);
+        if ($data !== null) {
+            @$retObject = json_decode($data, true);
+            if ($retObject === null) {
+                $this->delete($name);
+            }
+        }
+        return $retObject;
+    }
+
+    public function delete(string $name): bool {
+        $path = $this->hashPath($name);
+        $result = unlink($path);
+        clearstatcache(true, $path);
+        return $result;
+    }
 
     public function store(string $name, string $payload, int $modifyTime): bool {
         $path = $this->hashPath($name);
@@ -116,7 +149,11 @@ class CacheDirectoryStorage implements IEphemeralStorage {
         return $this->store($name, $dom->stringify($dataNode), $modifyTime);
     }
 
-    public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {}
+    public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {
+        return $dataDoc->documentElement ? $this->store($name, $dataDoc->saveXML(), $modifyTime) : false;
+    }
 
-    public function storeJSON(string $name, $dataObject, int $modifyTime): bool {}
+    public function storeJSON(string $name, $dataObject, int $modifyTime): bool {
+        return $this->store($name, json_encode($dataObject), $modifyTime);
+    }
 }

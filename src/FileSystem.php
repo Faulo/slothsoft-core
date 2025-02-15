@@ -48,7 +48,7 @@ abstract class FileSystem {
 
     const ARCHIVE_MAX_FILES = 1000;
 
-    public static $sizeUnits = [
+    public static array $sizeUnits = [
         'B',
         'kB',
         'MB',
@@ -56,7 +56,7 @@ abstract class FileSystem {
         'TB'
     ];
 
-    public static $videoExtensions = [
+    public static array $videoExtensions = [
         'avi',
         'mkv',
         'mp4',
@@ -70,7 +70,7 @@ abstract class FileSystem {
         'ogm'
     ];
 
-    public static $audioExtensions = [
+    public static array $audioExtensions = [
         'mp3',
         'wav',
         'ogg',
@@ -80,7 +80,7 @@ abstract class FileSystem {
         'm4a'
     ];
 
-    public static $subttitleExtensions = [
+    public static array $subttitleExtensions = [
         'vtt',
         'srt',
         'ssa',
@@ -106,12 +106,13 @@ abstract class FileSystem {
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
     }
 
-    public static function getStorage(): Storage {
-        static $storage = null;
-        if (! $storage) {
-            $storage = new Storage('FileSystem');
+    private static IEphemeralStorage $_storage;
+
+    public static function getStorage(): IEphemeralStorage {
+        if (! isset(self::$_storage)) {
+            self::$storage = new Storage('FileSystem');
         }
-        return $storage;
+        return self::$storage;
     }
 
     public static function generateStorageKey(string $path, string $hash = ''): string {
@@ -122,7 +123,7 @@ abstract class FileSystem {
         if (strlen($hash)) {
             $key .= '#' . $hash;
         }
-        return sprintf('FileSystem://%s', $key);
+        return sprintf('file:///%s', $key);
     }
 
     public static function asNode(string $path, DOMDocument $dataDoc = null): ?DOMNode {
@@ -720,13 +721,13 @@ abstract class FileSystem {
         return $ret;
     }
 
-    private static $base64Source = [
+    private static array $base64Source = [
         '+',
         '/',
         '='
     ];
 
-    private static $base64Target = [
+    private static array $base64Target = [
         '-',
         '_',
         '~'

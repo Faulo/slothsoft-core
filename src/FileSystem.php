@@ -12,6 +12,8 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use Slothsoft\Core\Calendar\DateTimeFormatter;
+use Slothsoft\Core\Configuration\ConfigurationField;
+use Slothsoft\Core\Configuration\StorageConfigurationField;
 use COM;
 use DOMDocument;
 use DOMElement;
@@ -106,13 +108,20 @@ abstract class FileSystem {
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
     }
 
-    private static IEphemeralStorage $_storage;
+    private static function storage(): ConfigurationField {
+        static $field;
+        if ($field === null) {
+            $field = new StorageConfigurationField(new Storage('FileSystem'));
+        }
+        return $field;
+    }
+
+    public static function setStorage(IEphemeralStorage $storage) {
+        self::storage()->setValue($storage);
+    }
 
     public static function getStorage(): IEphemeralStorage {
-        if (! isset(self::$_storage)) {
-            self::$storage = new Storage('FileSystem');
-        }
-        return self::$storage;
+        return self::storage()->getValue();
     }
 
     public static function generateStorageKey(string $path, string $hash = ''): string {

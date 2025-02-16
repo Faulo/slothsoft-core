@@ -89,6 +89,16 @@ abstract class FileSystem {
         'ass'
     ];
 
+    public static function ensureDirectory(string $directory): void {
+        if (is_file($directory)) {
+            unlink($directory);
+        }
+
+        if (! is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
+    }
+
     public static function isVideo(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$videoExtensions);
     }

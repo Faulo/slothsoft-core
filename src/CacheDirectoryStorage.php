@@ -28,9 +28,8 @@ class CacheDirectoryStorage implements IEphemeralStorage {
         $third = substr($hash, 4);
 
         $directory = $this->rootDirectory . DIRECTORY_SEPARATOR . $first . DIRECTORY_SEPARATOR . $second;
-        if (! is_dir($directory)) {
-            mkdir($directory, 0777, true);
-        }
+
+        FileSystem::ensureDirectory($directory);
 
         return $directory . DIRECTORY_SEPARATOR . $third;
     }
@@ -40,9 +39,7 @@ class CacheDirectoryStorage implements IEphemeralStorage {
     }
 
     public function install(): void {
-        if (! is_dir($this->rootDirectory)) {
-            mkdir($this->rootDirectory, 0777, true);
-        }
+        FileSystem::ensureDirectory($this->rootDirectory);
     }
 
     public function exists(string $name, int $modifyTime): bool {

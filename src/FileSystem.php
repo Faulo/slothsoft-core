@@ -89,6 +89,16 @@ abstract class FileSystem {
         'ass'
     ];
 
+    public static function ensureDirectory(string $directory): void {
+        if (is_file($directory)) {
+            unlink($directory);
+        }
+
+        if (! is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
+    }
+
     public static function isVideo(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$videoExtensions);
     }
@@ -145,7 +155,7 @@ abstract class FileSystem {
                 @unlink($path);
             } else {
                 if (is_dir($path)) {
-                    $modifyTime = max(self::dirModifyTime($path));
+                    $modifyTime = self::changetime($path);
                     $storage = self::getStorage();
                     $storageKey = self::generateStorageKey($path);
                     if ($tmpNode = $storage->retrieveXML($storageKey, $modifyTime, $dataDoc)) {

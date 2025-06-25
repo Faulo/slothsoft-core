@@ -7,11 +7,32 @@ use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
 class Client {
 
+    private static function getEnvWithDefault(string $envKey, string $defaultValue, ?string $envFileKey = null): string {
+        $value = getenv($envKey);
+        if ($value === false and $envFileKey and $file = self::getEnvWithDefault($envFileKey, '') and is_file($file)) {
+            $value = file_get_contents($file);
+        }
+        if ($value === false) {
+            $value = $defaultValue;
+        }
+        return $value;
+    }
+
     private static function defaultAuthority(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField();
         }
+
+        if (! $field->hasValue()) {
+            $server = self::getEnvWithDefault(self::ENV_CONNECTION_SERVER, self::CONNECTION_SERVER_DEFAULT);
+            $user = self::getEnvWithDefault(self::ENV_CONNECTION_USER, self::CONNECTION_SERVER_USER);
+            $password = self::getEnvWithDefault(self::ENV_CONNECTION_PASSWORD, '', self::ENV_CONNECTION_PASSWORD_FILE);
+            if ($server !== '' and $user !== '' and $password !== '') {
+                $field->setValue(new Authority($server, $user, $password));
+            }
+        }
+
         return $field;
     }
 
@@ -23,11 +44,27 @@ class Client {
         return self::defaultAuthority()->getValue();
     }
 
-    const CONNECTION_SERVER = 'localhost';
+    public static function clearDefaultAuthority(): void {
+        self::defaultAuthority()->setValue(null);
+    }
 
-    const CONNECTION_CHARSET = 'utf8mb4';
+    public const ENV_CONNECTION_SERVER = 'MYSQL_HOST';
 
-    const CONNECTION_COLLATION = 'utf8mb4_unicode_ci';
+    private const CONNECTION_SERVER_DEFAULT = 'localhost';
+
+    public const ENV_CONNECTION_USER = 'MYSQL_USER';
+
+    private const CONNECTION_SERVER_USER = 'root';
+
+    public const ENV_CONNECTION_PASSWORD = 'MYSQL_PASSWORD';
+
+    public const ENV_CONNECTION_PASSWORD_FILE = 'MYSQL_PASSWORD_FILE';
+
+    private const CONNECTION_CHARSET = 'utf8mb4';
+
+    private const CONNECTION_SERVER_PASSWORD = '';
+
+    private const CONNECTION_COLLATION = 'utf8mb4_unicode_ci';
 
     protected $sqli;
 

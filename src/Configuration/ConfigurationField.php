@@ -31,5 +31,9 @@ class ConfigurationField {
     public function setValue($newValue) {
         $this->value = $newValue;
     }
+
+    public function hasValue(): bool {
+        return $this->value !== null;
+    }
 }
 

@@ -21,6 +21,7 @@
 		"phpunit/phpunit" : "8.5.*"
 	},
 	"suggest" : {
+		"ext-mysqli" : "*",
 		"ext-curl" : "*",
 		"ext-com_dotnet" : "*"
 	},

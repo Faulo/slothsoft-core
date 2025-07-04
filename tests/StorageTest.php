@@ -18,6 +18,11 @@ class StorageTest extends TestCase {
     }
 
     public function testExists(): void {
+        if (! extension_loaded('mysqli')) {
+            $this->markTestSkipped('Storage requires the mysqli extension.');
+            return;
+        }
+
         $sut = new Storage('not-existing-storage');
 
         $actual = $sut->exists('not-existing-key', 0);

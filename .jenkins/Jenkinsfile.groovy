@@ -2,6 +2,10 @@ pipeline {
 	agent {
 		label 'docker'
 	}
+	options {
+		disableConcurrentBuilds()
+		disableResume()
+	}
 	stages {
 		stage('Init') {
 			steps {

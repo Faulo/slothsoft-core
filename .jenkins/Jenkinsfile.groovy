@@ -1,20 +1,25 @@
 pipeline {
 	agent {
 		docker {
-			image 'farah:8.0'
+			image 'faulo/farah:8.0'
 			label 'docker'
 		}
 	}
 	stages {
-		stage('Run Tests') {
+		stage('Install dependencies') {
 			steps {
-				callShell 'vendor/bin/phpunit --log-junit junit-report.xml'
+				callShell 'composer install'
 			}
 		}
-	}
-	post {
-		always {
-			junit 'junit-report.xml'
+		stage('Run Tests') {
+			steps {
+				callShell 'composer exec phpunit -- --log-junit report.xml'
+			}
+			post {
+				always {
+					junit 'report.xml'
+				}
+			}
 		}
 	}
 }

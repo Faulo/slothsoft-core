@@ -21,7 +21,6 @@ abstract class StreamFilterBase extends \php_user_filter implements StreamFilter
 
     public final function filter($in, $out, &$consumed, $closing): int {
         if ($this->state === self::STATE_OPENING) {
-            $this->opening = false;
             $data = $this->processHeader();
             if ($data !== '') {
                 stream_bucket_append($out, $this->createBucket($data));

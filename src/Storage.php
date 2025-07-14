@@ -23,6 +23,7 @@ use Slothsoft\Core\DBMS\Table;
 use DOMDocument;
 use DOMNode;
 use Exception;
+use mysqli_sql_exception;
 
 class Storage implements IEphemeralStorage {
 
@@ -462,6 +463,8 @@ class Storage implements IEphemeralStorage {
                 $this->install();
             }
         } catch (DatabaseException $e) {
+            $this->dbmsTable = null;
+        } catch (mysqli_sql_exception $e) {
             $this->dbmsTable = null;
         }
     }

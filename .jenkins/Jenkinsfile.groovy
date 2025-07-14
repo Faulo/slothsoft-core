@@ -11,13 +11,7 @@ pipeline {
 			}
 			steps {
 				script {
-					def versions = [
-						"7.4",
-						"8.0",
-						"8.1",
-						"8.2",
-						"8.3"
-					];
+					def versions = ["7.4", "8.0", "8.1", "8.2", "8.3"]
 
 					for (version in versions) {
 						def image = "faulo/farah:${version}"
@@ -26,16 +20,20 @@ pipeline {
 							callShell "docker pull ${image}"
 
 							docker.image(image).inside {
-								stage('Install dependencies') {
-									callShell 'composer install'
+								callShell 'composer install'
+
+								dir('.reports') {
+									deleteDir()
 								}
-								stage('Run Tests') {
-									catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE') {
-										callShell 'composer exec phpunit -- --log-junit report.xml'
-									}
-									if (fileExists('report.xml')) {
-										junit 'report.xml'
-									}
+
+								def report = ".reports/${version}.xml"
+
+								catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE') {
+									callShell "composer exec phpunit -- --log-junit ${report}"
+								}
+
+								if (fileExists(report)) {
+									junit report
 								}
 							}
 						}
@@ -49,13 +47,7 @@ pipeline {
 			}
 			steps {
 				script {
-					def versions = [
-						"7.4",
-						"8.0",
-						"8.1",
-						"8.2",
-						"8.3"
-					];
+					def versions = ["7.4", "8.0", "8.1", "8.2", "8.3"]
 
 					for (version in versions) {
 						def image = "faulo/farah:${version}"
@@ -64,16 +56,20 @@ pipeline {
 							callShell "docker pull ${image}"
 
 							docker.image(image).inside {
-								stage('Install dependencies') {
-									callShell 'composer install'
+								callShell 'composer install'
+
+								dir('.reports') {
+									deleteDir()
 								}
-								stage('Run Tests') {
-									catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE') {
-										callShell 'composer exec phpunit -- --log-junit report.xml'
-									}
-									if (fileExists('report.xml')) {
-										junit 'report.xml'
-									}
+
+								def report = ".reports/${version}.xml"
+
+								catchError(stageResult: 'UNSTABLE', buildResult: 'UNSTABLE') {
+									callShell "composer exec phpunit -- --log-junit ${report}"
+								}
+
+								if (fileExists(report)) {
+									junit report
 								}
 							}
 						}

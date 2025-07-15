@@ -66,7 +66,7 @@ class FileSystemTest extends TestCase {
         FileSystem::removeDir($directory, true);
 
         $this->assertFileDoesNotExist("$directory/A/B");
-        $this->assertDirectoryNotExists("$directory/A");
+        $this->assertDirectoryDoesNotExist("$directory/A");
         $this->assertDirectoryExists($directory);
     }
 

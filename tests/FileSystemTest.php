@@ -50,9 +50,9 @@ class FileSystemTest extends TestCase {
 
         FileSystem::removeDir($directory, false);
 
-        $this->assertFileNotExists("$directory/A/B");
-        $this->assertDirectoryNotExists("$directory/A");
-        $this->assertDirectoryNotExists($directory);
+        $this->assertFileDoesNotExist("$directory/A/B");
+        $this->assertDirectoryDoesNotExist("$directory/A");
+        $this->assertDirectoryDoesNotExist($directory);
     }
 
     public function testRemoveDirExcludingRoot(): void {
@@ -65,8 +65,8 @@ class FileSystemTest extends TestCase {
 
         FileSystem::removeDir($directory, true);
 
-        $this->assertFileNotExists("$directory/A/B");
-        $this->assertDirectoryNotExists("$directory/A");
+        $this->assertFileDoesNotExist("$directory/A/B");
+        $this->assertDirectoryDoesNotExist("$directory/A");
         $this->assertDirectoryExists($directory);
     }
 

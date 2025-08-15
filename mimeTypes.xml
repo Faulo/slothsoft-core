@@ -15,7 +15,7 @@
 		<sub name="vnd.unity" ext="unity3d" />
 		<sub name="vnd.microsoft.portable-executable" ext="exe" />
 		<sub name="zip" ext="zip" />
-		<sub name="wasm" ext="wasm" compressions="gzip,deflate"/>
+		<sub name="wasm" ext="wasm" compressions="gzip,deflate" />
 		<sub name="x-7z-compressed" ext="7z" />
 		<sub name="x-lzh-compressed" ext="lha" />
 		<sub name="x-nbt" ext="dat" />
@@ -42,8 +42,9 @@
 		<sub name="png" ext="png" spec="http://tools.ietf.org/html/rfc2083" />
 		<sub name="jpeg" ext="jpg" />
 		<sub name="gif" ext="gif" />
-		<sub name="x-tga" ext="tga" spec="http://www.gamers.org/dEngine/quake3/TGA.txt"/>
+		<sub name="x-tga" ext="tga" spec="http://www.gamers.org/dEngine/quake3/TGA.txt" />
 		<sub name="x-icon" ext="ico" />
+		<sub name="webp" ext="webp" />
 	</type>
 	<type name="video">
 		<sub name="webm" ext="webm" />

@@ -34,11 +34,17 @@ class CacheDirectoryStorage implements IEphemeralStorage {
         return $directory . DIRECTORY_SEPARATOR . $third;
     }
 
-    public function __construct() {
+    public function __construct(string $name = '') {
         $this->rootDirectory = ServerEnvironment::getCacheDirectory() . DIRECTORY_SEPARATOR . self::ROOT;
+
+        if (strlen($name)) {
+            $this->rootDirectory .= DIRECTORY_SEPARATOR . FileSystem::filenameSanitize($name);
+        }
+
+        $this->install();
     }
 
-    public function install(): void {
+    private function install(): void {
         FileSystem::ensureDirectory($this->rootDirectory);
     }
 

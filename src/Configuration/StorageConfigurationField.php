@@ -9,7 +9,6 @@ class StorageConfigurationField extends ConfigurationField {
 
     public function setValue($newValue) {
         if ($newValue instanceof IEphemeralStorage) {
-            $newValue->install();
             parent::setValue($newValue);
         } else {
             throw new BadMethodCallException("Value must be of type IEphemeralStorage!");

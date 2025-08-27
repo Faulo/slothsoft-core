@@ -24,9 +24,20 @@ class CacheDirectoryStorageTest extends TestCase {
         $directory = ServerEnvironment::getCacheDirectory() . DIRECTORY_SEPARATOR . 'storage';
         FileSystem::removeDir($directory, false);
 
-        $sut = new CacheDirectoryStorage();
+        new CacheDirectoryStorage();
 
-        $sut->install();
+        $this->assertDirectoryExists($directory);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function when_install_with_name_then_createDirectory(): void {
+        $directory = ServerEnvironment::getCacheDirectory() . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'test';
+        FileSystem::removeDir($directory, false);
+
+        new CacheDirectoryStorage('test');
 
         $this->assertDirectoryExists($directory);
     }
@@ -41,7 +52,6 @@ class CacheDirectoryStorageTest extends TestCase {
         $storeTime = time();
 
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
         $this->assertTrue($sut->delete($storeKey, $storeValue, $storeTime));
@@ -56,7 +66,6 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_store_when_retrieve_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
 
@@ -70,7 +79,6 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_store_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
 
@@ -140,7 +148,6 @@ class CacheDirectoryStorageTest extends TestCase {
         $storeValue = $dom->parse($storeValue);
 
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->storeXML($storeKey, $storeValue, $storeTime));
 
@@ -164,7 +171,6 @@ class CacheDirectoryStorageTest extends TestCase {
         $storeValue = $dom->parse($storeValue);
 
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->storeXML($storeKey, $storeValue, $storeTime));
 
@@ -186,7 +192,6 @@ class CacheDirectoryStorageTest extends TestCase {
         $storeValue = $document;
 
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->storeDocument($storeKey, $storeValue, $storeTime));
 
@@ -215,7 +220,6 @@ class CacheDirectoryStorageTest extends TestCase {
         $storeValue = $document;
 
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->storeDocument($storeKey, $storeValue, $storeTime));
 
@@ -274,7 +278,6 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_storeJSON_when_retrieveJSON_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->storeJSON($storeKey, $storeValue, $storeTime));
 
@@ -294,7 +297,6 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_storeJSON_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->storeJSON($storeKey, $storeValue, $storeTime));
 
@@ -314,7 +316,6 @@ class CacheDirectoryStorageTest extends TestCase {
         $storeTime = time();
 
         $sut = new CacheDirectoryStorage();
-        $sut->install();
 
         $this->assertTrue($sut->store($storeKey, 'invalid json!?', $storeTime));
         $this->assertNull($sut->retrieveJSON($storeKey, $storeTime));

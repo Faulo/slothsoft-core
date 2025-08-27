@@ -13,8 +13,6 @@ use DOMNode;
  */
 interface IEphemeralStorage {
 
-    public function install(): void;
-
     public function exists(string $name, int $modifyTime): bool;
 
     public function retrieve(string $name, int $modifyTime): ?string;

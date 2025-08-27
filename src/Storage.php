@@ -80,11 +80,14 @@ class Storage implements IEphemeralStorage {
     /**
      *
      * @param string $name
-     * @return Storage
+     * @return IEphemeralStorage
      */
-    public static function loadStorage(string $name) {
+    public static function loadStorage(string $name): IEphemeralStorage {
         if (! isset(self::$storageList[$name])) {
             self::$storageList[$name] = new Storage($name);
+            if (! self::$storageList[$name]->dbmsTable) {
+                self::$storageList[$name] = new CacheDirectoryStorage($name);
+            }
         }
         return self::$storageList[$name];
     }

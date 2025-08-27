@@ -12,7 +12,7 @@ use DOMNodeList;
 /**
  *
  * @author Daniel Schulz
- *
+ *        
  */
 class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;

@@ -35,13 +35,13 @@ class DOMHelperTest extends TestCase {
         $dataDoc->loadXML('<input/>');
 
         $templateXml = <<<EOT
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:param name="foo"/>
-    <xsl:template match="input">
-        <output foo="{\$foo}"/>
-    </xsl:template>
-</xsl:stylesheet>
-EOT;
+        <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+            <xsl:param name="foo"/>
+            <xsl:template match="input">
+                <output foo="{\$foo}"/>
+            </xsl:template>
+        </xsl:stylesheet>
+        EOT;
         $templateDoc = new DOMDocument();
         $templateDoc->loadXML($templateXml);
 

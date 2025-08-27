@@ -9,7 +9,7 @@ use DOMNode;
  * Defines a data repository with built-in decay.
  *
  * @author Daniel
- *
+ *        
  */
 interface IEphemeralStorage {
 

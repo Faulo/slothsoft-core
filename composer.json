@@ -21,9 +21,11 @@
 		"phpunit/phpunit" : "~9.6.23"
 	},
 	"suggest" : {
-		"ext-mysqli" : "*",
-		"ext-curl" : "*",
-		"ext-com_dotnet" : "*"
+		"ext-mysqli" : "Needed for databasing",
+		"ext-curl" : "Needed for networking",
+		"ext-com_dotnet" : "Needed for when FileSystem processes files >2GB under Windows",
+		"ext-imagick" : "Needed for ImageHelper",
+		"ext-gd" : "Needed for ImageHelper"
 	},
 	"autoload" : {
 		"files" : [

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class IEphemeralStorageTest extends TestCase {
 
-    public function testClassExists(): void {
-        $this->assertTrue(class_exists(IEphemeralStorage::class), "Failed to load class 'Slothsoft\Core\IEphemeralStorage'!");
+    public function testInterfaceExists(): void {
+        $this->assertTrue(interface_exists(IEphemeralStorage::class), "Failed to load interface 'Slothsoft\Core\IEphemeralStorage'!");
     }
 }

@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
  * StorageTest
  *
  * @see Storage
- *
- * @todo auto-generated
  */
 class StorageTest extends TestCase {
 

@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
  * LeanElementTest
  *
  * @see LeanElement
- *
- * @todo auto-generated
  */
 class LeanElementTest extends TestCase {
 

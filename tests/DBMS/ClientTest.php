@@ -9,8 +9,6 @@ use Slothsoft\Core\Configuration\ConfigurationRequiredException;
  * ClientTest
  *
  * @see Client
- *
- * @todo auto-generated
  */
 class ClientTest extends TestCase {
 

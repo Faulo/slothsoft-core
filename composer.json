@@ -18,6 +18,10 @@
 		"symfony/process" : "^5.4.45"
 	},
 	"require-dev" : {
+		"ext-curl" : "*",
+		"ext-gd" : "*",
+		"ext-imagick" : "*",
+		"ext-mysqli" : "*",
 		"phpunit/phpunit" : "~9.6.23"
 	},
 	"suggest" : {

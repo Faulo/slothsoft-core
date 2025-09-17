@@ -6,17 +6,17 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
 class FileWriterMemoryCache implements FileWriterInterface {
-
+    
     /** @var FileWriterInterface */
     private $source;
-
+    
     /** @var SplFileInfo */
     private $result;
-
+    
     public function __construct(FileWriterInterface $source) {
         $this->source = $source;
     }
-
+    
     public function toFile(): SplFileInfo {
         if ($this->result === null) {
             $this->result = $this->source->toFile();

@@ -12,18 +12,18 @@ use Slothsoft\Core\IO\FileInfoFactory;
  *        
  */
 class CliAdapter extends GenericAdapter {
-
+    
     private $path;
-
+    
     private $args;
-
+    
     /**
      */
     public function __construct(string $path, string $args) {
         $this->path = $path;
         $this->args = $args;
     }
-
+    
     /**
      * (non-PHPdoc)
      *
@@ -34,7 +34,7 @@ class CliAdapter extends GenericAdapter {
         if (! $outputFile) {
             $outputFile = FileInfoFactory::createTempFile();
         }
-
+        
         $command = escapeshellarg($this->path) . ' ' . sprintf($this->args, escapeshellarg((string) $this->source->toFile()), escapeshellarg((string) $this->template->toFile()), escapeshellarg((string) $outputFile));
         $output = [];
         $result = 0;
@@ -44,7 +44,7 @@ class CliAdapter extends GenericAdapter {
         }
         return $outputFile;
     }
-
+    
     /**
      * (non-PHPdoc)
      *

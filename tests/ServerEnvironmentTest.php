@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class ServerEnvironmentTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ServerEnvironment::class), "Failed to load class 'Slothsoft\Core\ServerEnvironment'!");
     }

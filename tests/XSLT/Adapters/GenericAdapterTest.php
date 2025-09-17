@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class GenericAdapterTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(GenericAdapter::class), "Failed to load class 'Slothsoft\Core\XSLT\Adapters\GenericAdapter'!");
     }

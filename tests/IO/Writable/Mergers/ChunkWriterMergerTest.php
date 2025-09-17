@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class ChunkWriterMergerTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ChunkWriterMerger::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Mergers\ChunkWriterMerger'!");
     }

@@ -8,14 +8,14 @@ use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use SplFileInfo;
 
 class FileWriterFromStringWriter implements FileWriterInterface {
-
+    
     /** @var StringWriterInterface */
     private $source;
-
+    
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
-
+    
     public function toFile(): SplFileInfo {
         return FileInfoFactory::createFromString($this->source->toString());
     }

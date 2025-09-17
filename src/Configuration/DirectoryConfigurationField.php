@@ -6,7 +6,7 @@ use BadMethodCallException;
 use RuntimeException;
 
 class DirectoryConfigurationField extends ConfigurationField {
-
+    
     public function setValue($newValue) {
         $newValue = (string) $newValue;
         if ($newValue === '') {

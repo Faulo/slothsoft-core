@@ -7,14 +7,14 @@ use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use Generator;
 
 class ChunkWriterFromStringWriter implements ChunkWriterInterface {
-
+    
     /** @var StringWriterInterface */
     private $source;
-
+    
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
-
+    
     public function toChunks(): Generator {
         yield $this->source->toString();
     }

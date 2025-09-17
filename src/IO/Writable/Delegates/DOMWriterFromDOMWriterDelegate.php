@@ -7,25 +7,25 @@ use DOMDocument;
 use DOMElement;
 
 class DOMWriterFromDOMWriterDelegate implements DOMWriterInterface {
-
+    
     /** @var callable */
     private $delegate;
-
+    
     /** @var DOMWriterInterface */
     private $result;
-
+    
     public function __construct(callable $delegate) {
         $this->delegate = $delegate;
     }
-
+    
     public function toDocument(): DOMDocument {
         return $this->getWriter()->toDocument();
     }
-
+    
     public function toElement(DOMDocument $targetDoc): DOMElement {
         return $this->getWriter()->toElement($targetDoc);
     }
-
+    
     private function getWriter(): DOMWriterInterface {
         if ($this->result === null) {
             $this->result = ($this->delegate)();

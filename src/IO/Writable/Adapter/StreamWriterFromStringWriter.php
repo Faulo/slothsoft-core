@@ -9,14 +9,14 @@ use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 class StreamWriterFromStringWriter implements StreamWriterInterface {
-
+    
     /** @var StringWriterInterface */
     private $source;
-
+    
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
-
+    
     public function toStream(): StreamInterface {
         $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
         fwrite($handle, $this->source->toString());

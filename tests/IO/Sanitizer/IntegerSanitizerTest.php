@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class IntegerSanitizerTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(IntegerSanitizer::class), "Failed to load class 'Slothsoft\Core\IO\Sanitizer\IntegerSanitizer'!");
     }

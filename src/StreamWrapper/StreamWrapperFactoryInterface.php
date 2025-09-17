@@ -3,7 +3,7 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\StreamWrapper;
 
 interface StreamWrapperFactoryInterface {
-
+    
     /**
      *
      * @param string $url
@@ -12,7 +12,7 @@ interface StreamWrapperFactoryInterface {
      * @return StreamWrapperInterface|null
      */
     public function createStreamWrapper(string $url, string $mode, int $options);
-
+    
     /**
      *
      * @param string $url

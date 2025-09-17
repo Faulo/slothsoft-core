@@ -5,7 +5,7 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
 
 class MimeTypeDictionaryTest extends TestCase {
-
+    
     public function someMimeTypes(): array {
         return [
             [
@@ -40,7 +40,7 @@ class MimeTypeDictionaryTest extends TestCase {
             ]
         ];
     }
-
+    
     /**
      *
      * @dataProvider someMimeTypes
@@ -48,7 +48,7 @@ class MimeTypeDictionaryTest extends TestCase {
     public function testGuessExtensions(string $extension, string $mimeType, string $parentMimeType, bool $isXml) {
         $this->assertEquals($extension, MimeTypeDictionary::guessExtension($mimeType));
     }
-
+    
     /**
      *
      * @dataProvider someMimeTypes
@@ -56,7 +56,7 @@ class MimeTypeDictionaryTest extends TestCase {
     public function testGuessMimeType(string $extension, string $mimeType, string $parentMimeType, bool $isXml) {
         $this->assertEquals($mimeType, MimeTypeDictionary::guessMime($extension));
     }
-
+    
     /**
      *
      * @dataProvider someMimeTypes
@@ -66,7 +66,7 @@ class MimeTypeDictionaryTest extends TestCase {
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, $parentMimeType));
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, '*/*'));
     }
-
+    
     /**
      *
      * @dataProvider someMimeTypes

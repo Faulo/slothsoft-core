@@ -7,7 +7,7 @@ use DOMDocument;
 use DOMNode;
 
 class CacheDirectoryStorageTest extends TestCase {
-
+    
     /**
      *
      * @test
@@ -15,7 +15,7 @@ class CacheDirectoryStorageTest extends TestCase {
     public function testClassExists(): void {
         $this->assertTrue(class_exists(CacheDirectoryStorage::class), "Failed to load class 'Slothsoft\Core\CacheDirectoryStorage'!");
     }
-
+    
     /**
      *
      * @test
@@ -23,12 +23,12 @@ class CacheDirectoryStorageTest extends TestCase {
     public function when_install_then_createDirectory(): void {
         $directory = ServerEnvironment::getCacheDirectory() . DIRECTORY_SEPARATOR . 'storage';
         FileSystem::removeDir($directory, false);
-
+        
         new CacheDirectoryStorage();
-
+        
         $this->assertDirectoryExists($directory);
     }
-
+    
     /**
      *
      * @test
@@ -36,12 +36,12 @@ class CacheDirectoryStorageTest extends TestCase {
     public function when_install_with_name_then_createDirectory(): void {
         $directory = ServerEnvironment::getCacheDirectory() . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'test';
         FileSystem::removeDir($directory, false);
-
+        
         new CacheDirectoryStorage('test');
-
+        
         $this->assertDirectoryExists($directory);
     }
-
+    
     /**
      *
      * @test
@@ -50,15 +50,15 @@ class CacheDirectoryStorageTest extends TestCase {
         $storeKey = 'to-be-deleted';
         $storeValue = 'oh no';
         $storeTime = time();
-
+        
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
         $this->assertTrue($sut->delete($storeKey, $storeValue, $storeTime));
         $this->assertFalse($sut->exists($storeKey, $storeTime));
         $this->assertNull($sut->retrieve($storeKey, $storeTime));
     }
-
+    
     /**
      *
      * @dataProvider storageProvider
@@ -66,12 +66,12 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_store_when_retrieve_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
-
+        
         $this->assertEquals($retrieveValue, $sut->retrieve($retrieveKey, $retrieveTime));
     }
-
+    
     /**
      *
      * @dataProvider storageProvider
@@ -79,19 +79,19 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_store_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
-
+        
         if ($retrieveValue === null) {
             $this->assertFalse($sut->exists($retrieveKey, $retrieveTime));
         } else {
             $this->assertTrue($sut->exists($retrieveKey, $retrieveTime));
         }
     }
-
+    
     public function storageProvider(): iterable {
         $now = time();
-
+        
         yield 'same retrieve time works' => [
             'test',
             'test',
@@ -100,7 +100,7 @@ class CacheDirectoryStorageTest extends TestCase {
             'hello world',
             'hello world'
         ];
-
+        
         yield 'older retrieve time works' => [
             'test',
             'test',
@@ -109,7 +109,7 @@ class CacheDirectoryStorageTest extends TestCase {
             'hello world',
             'hello world'
         ];
-
+        
         yield 'newer retrieve time is null' => [
             'test',
             'test',
@@ -118,7 +118,7 @@ class CacheDirectoryStorageTest extends TestCase {
             'hello world',
             null
         ];
-
+        
         yield 'unknown key is null' => [
             'test',
             'not-existing-key',
@@ -127,7 +127,7 @@ class CacheDirectoryStorageTest extends TestCase {
             'hello world',
             null
         ];
-
+        
         yield 'can store empty string' => [
             'empty-string',
             'empty-string',
@@ -137,7 +137,7 @@ class CacheDirectoryStorageTest extends TestCase {
             ''
         ];
     }
-
+    
     /**
      *
      * @dataProvider xmlProvider
@@ -146,13 +146,13 @@ class CacheDirectoryStorageTest extends TestCase {
     public function given_storeXML_when_retrieveXML_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
         $dom = new DOMHelper();
         $storeValue = $dom->parse($storeValue);
-
+        
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->storeXML($storeKey, $storeValue, $storeTime));
-
+        
         $actual = $sut->retrieveXML($retrieveKey, $retrieveTime);
-
+        
         if ($retrieveValue === null) {
             $this->assertNull($actual);
         } else {
@@ -160,7 +160,7 @@ class CacheDirectoryStorageTest extends TestCase {
             $this->assertEquals($retrieveValue, $dom->stringify($actual));
         }
     }
-
+    
     /**
      *
      * @dataProvider xmlProvider
@@ -169,18 +169,18 @@ class CacheDirectoryStorageTest extends TestCase {
     public function given_storeXML_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, string $storeValue, ?string $retrieveValue): void {
         $dom = new DOMHelper();
         $storeValue = $dom->parse($storeValue);
-
+        
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->storeXML($storeKey, $storeValue, $storeTime));
-
+        
         if ($retrieveValue === null) {
             $this->assertFalse($sut->exists($retrieveKey, $retrieveTime));
         } else {
             $this->assertTrue($sut->exists($retrieveKey, $retrieveTime));
         }
     }
-
+    
     /**
      *
      * @dataProvider xmlProvider
@@ -190,25 +190,25 @@ class CacheDirectoryStorageTest extends TestCase {
         $document = new DOMDocument();
         $document->loadXML($storeValue);
         $storeValue = $document;
-
+        
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->storeDocument($storeKey, $storeValue, $storeTime));
-
+        
         $actual = $sut->retrieveDocument($retrieveKey, $retrieveTime);
-
+        
         if ($retrieveValue === null) {
             $this->assertNull($actual);
         } else {
             $this->assertInstanceOf(DOMDocument::class, $actual);
-
+            
             $document = new DOMDocument();
             $document->loadXML($retrieveValue);
             $retrieveValue = $document->saveXML();
             $this->assertEquals($retrieveValue, $actual->saveXML());
         }
     }
-
+    
     /**
      *
      * @dataProvider xmlProvider
@@ -218,22 +218,22 @@ class CacheDirectoryStorageTest extends TestCase {
         $document = new DOMDocument();
         $document->loadXML($storeValue);
         $storeValue = $document;
-
+        
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->storeDocument($storeKey, $storeValue, $storeTime));
-
+        
         if ($retrieveValue === null) {
             $this->assertFalse($sut->exists($retrieveKey, $retrieveTime));
         } else {
             $this->assertTrue($sut->exists($retrieveKey, $retrieveTime));
         }
     }
-
+    
     public function xmlProvider(): iterable {
         $now = time();
         $xml = '<hello>world</hello>';
-
+        
         yield 'same retrieve time works' => [
             'test',
             'test',
@@ -242,7 +242,7 @@ class CacheDirectoryStorageTest extends TestCase {
             $xml,
             $xml
         ];
-
+        
         yield 'older retrieve time works' => [
             'test',
             'test',
@@ -251,7 +251,7 @@ class CacheDirectoryStorageTest extends TestCase {
             $xml,
             $xml
         ];
-
+        
         yield 'newer retrieve time is null' => [
             'test',
             'test',
@@ -260,7 +260,7 @@ class CacheDirectoryStorageTest extends TestCase {
             $xml,
             null
         ];
-
+        
         yield 'unknown key is null' => [
             'test',
             'not-existing-key',
@@ -270,7 +270,7 @@ class CacheDirectoryStorageTest extends TestCase {
             null
         ];
     }
-
+    
     /**
      *
      * @dataProvider jsonProvider
@@ -278,18 +278,18 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_storeJSON_when_retrieveJSON_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->storeJSON($storeKey, $storeValue, $storeTime));
-
+        
         $actual = $sut->retrieveJSON($retrieveKey, $retrieveTime);
-
+        
         if ($retrieveValue === null) {
             $this->assertNull($actual);
         } else {
             $this->assertJsonStringEqualsJsonString(json_encode($retrieveValue), json_encode($actual));
         }
     }
-
+    
     /**
      *
      * @dataProvider jsonProvider
@@ -297,16 +297,16 @@ class CacheDirectoryStorageTest extends TestCase {
      */
     public function given_storeJSON_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->storeJSON($storeKey, $storeValue, $storeTime));
-
+        
         if ($retrieveValue === null) {
             $this->assertFalse($sut->exists($retrieveKey, $retrieveTime));
         } else {
             $this->assertTrue($sut->exists($retrieveKey, $retrieveTime));
         }
     }
-
+    
     /**
      *
      * @test
@@ -314,14 +314,14 @@ class CacheDirectoryStorageTest extends TestCase {
     public function given_retrieveJSON_when_invalidJSON_then_delete(): void {
         $storeKey = 'invalid-json';
         $storeTime = time();
-
+        
         $sut = new CacheDirectoryStorage();
-
+        
         $this->assertTrue($sut->store($storeKey, 'invalid json!?', $storeTime));
         $this->assertNull($sut->retrieveJSON($storeKey, $storeTime));
         $this->assertFalse($sut->exists($storeKey, $storeTime));
     }
-
+    
     public function jsonProvider(): iterable {
         $now = time();
         $json = [
@@ -332,7 +332,7 @@ class CacheDirectoryStorageTest extends TestCase {
                 'abc'
             ]
         ];
-
+        
         yield 'same retrieve time works' => [
             'test',
             'test',
@@ -341,7 +341,7 @@ class CacheDirectoryStorageTest extends TestCase {
             $json,
             $json
         ];
-
+        
         yield 'older retrieve time works' => [
             'test',
             'test',
@@ -350,7 +350,7 @@ class CacheDirectoryStorageTest extends TestCase {
             $json,
             $json
         ];
-
+        
         yield 'newer retrieve time is null' => [
             'test',
             'test',
@@ -359,7 +359,7 @@ class CacheDirectoryStorageTest extends TestCase {
             $json,
             null
         ];
-
+        
         yield 'unknown key is null' => [
             'test',
             'not-existing-key',

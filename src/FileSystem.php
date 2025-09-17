@@ -23,33 +23,33 @@ use Exception;
 use SplFileInfo;
 
 abstract class FileSystem {
-
+    
     const ZIP_PATH = 'C:/Program Files/7-Zip/7z.exe';
-
+    
     const ZIP_QUERY_EXTRACT = 'e "%1$s" -y -o"%2$s"';
-
+    
     const ZIP_QUERY_CREATE = 'a -t7z "%1$s" "%2$s" -mx0 -ms=off -mmt -y';
-
+    
     const ZIP_QUERY_UPDATE = 'u -t7z "%1$s" "%2$s" -mx0 -ms=off -mmt -y';
-
+    
     const FFMPEG_PATH = 'C:/NetzwerkDaten/Dropbox/Tools/ffmpeg/ffmpeg.exe';
-
+    
     const SCANDIR_EXCLUDE_DIRS = 1;
-
+    
     const SCANDIR_EXCLUDE_FILES = 2;
-
+    
     const SCANDIR_EXCLUDE_HIDDEN = 16;
-
+    
     const SCANDIR_REALPATH = 4;
-
+    
     const SCANDIR_WEBPATH = 8;
-
+    
     const SCANDIR_SORT = 32;
-
+    
     const SCANDIR_FILEINFO = 64;
-
+    
     const ARCHIVE_MAX_FILES = 1000;
-
+    
     public static array $sizeUnits = [
         'B',
         'kB',
@@ -57,7 +57,7 @@ abstract class FileSystem {
         'GB',
         'TB'
     ];
-
+    
     public static array $videoExtensions = [
         'avi',
         'mkv',
@@ -71,7 +71,7 @@ abstract class FileSystem {
         'flv',
         'ogm'
     ];
-
+    
     public static array $audioExtensions = [
         'mp3',
         'wav',
@@ -81,43 +81,43 @@ abstract class FileSystem {
         'mid',
         'm4a'
     ];
-
+    
     public static array $subttitleExtensions = [
         'vtt',
         'srt',
         'ssa',
         'ass'
     ];
-
+    
     public static function ensureDirectory(string $directory): void {
         if (is_file($directory)) {
             unlink($directory);
         }
-
+        
         if (! is_dir($directory)) {
             mkdir($directory, 0777, true);
         }
     }
-
+    
     public static function isVideo(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$videoExtensions);
     }
-
+    
     public static function isAudio(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$audioExtensions);
     }
-
+    
     public static function isSubttitle(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$subttitleExtensions);
     }
-
+    
     public static function drawBytes($size, int $precision = 2): string {
         for ($i = 0; $size > 1024; $i ++) {
             $size /= 1024.0;
         }
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
     }
-
+    
     private static function storage(): ConfigurationField {
         static $field;
         if ($field === null) {
@@ -125,15 +125,15 @@ abstract class FileSystem {
         }
         return $field;
     }
-
+    
     public static function setStorage(EphemeralStorageInterface $storage) {
         self::storage()->setValue($storage);
     }
-
+    
     public static function getStorage(): EphemeralStorageInterface {
         return self::storage()->getValue();
     }
-
+    
     public static function generateStorageKey(string $path, string $hash = ''): string {
         $key = realpath($path);
         if (! $key) {
@@ -144,7 +144,7 @@ abstract class FileSystem {
         }
         return sprintf('file:///%s', $key);
     }
-
+    
     public static function asNode(string $path, DOMDocument $dataDoc = null): ?DOMNode {
         $retNode = null;
         $storage = null;
@@ -182,7 +182,7 @@ abstract class FileSystem {
                         $attr['ext'] = self::extension($path);
                         if (self::isVideo($path)) {
                             $attr['isVideo'] = '';
-
+                            
                             /*
                              * $mediaInfo = self::mediaInfo($path);
                              * $mediaTypes = ['video', 'audio', 'subtitle'];
@@ -259,11 +259,11 @@ abstract class FileSystem {
         }
         return $retNode;
     }
-
+    
     public static function webpath(string $fileName, bool $absolute = true): string {
         return $absolute ? str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen($_SERVER['DOCUMENT_ROOT']))) : str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen(dirname($_SERVER['SCRIPT_FILENAME']) . '/')));
     }
-
+    
     public static function size(string $fileName): ?int {
         $size = null;
         if (is_readable($fileName)) {
@@ -273,22 +273,22 @@ abstract class FileSystem {
         }
         return $size;
     }
-
+    
     public static function free(string $fileName): ?float {
         $space = disk_free_space($fileName);
         return is_float($space) ? $space : null;
     }
-
+    
     public static function mime(string $fileName): ?string {
         $fInfo = new \FInfo(FILEINFO_MIME_TYPE);
         @$ret = $fInfo->file($fileName);
         return is_string($ret) ? $ret : null;
     }
-
+    
     public static function extension(string $fileName): string {
         return pathinfo($fileName, PATHINFO_EXTENSION);
     }
-
+    
     public static function changetime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
@@ -299,7 +299,7 @@ abstract class FileSystem {
         }
         return $time;
     }
-
+    
     public static function maketime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
@@ -310,7 +310,7 @@ abstract class FileSystem {
         }
         return $time;
     }
-
+    
     public static function lookupFile(string $fileName) {
         if (is_readable($fileName)) {
             $com = new COM('Scripting.FileSystemObject');
@@ -330,7 +330,7 @@ abstract class FileSystem {
         }
         return null;
     }
-
+    
     public static function filenameEncode(string $filename, bool $removeRoot = false): string {
         if ($removeRoot) {
             if (strpos($filename, ServerEnvironment::getRootDirectory()) === 0) {
@@ -344,7 +344,7 @@ abstract class FileSystem {
             ' '
         ], '-', $filename);
     }
-
+    
     public static function filenameSanitize(string $filename): string {
         $notAllowed = [
             ':',
@@ -373,7 +373,7 @@ abstract class FileSystem {
         $filename = trim($filename);
         return $filename;
     }
-
+    
     public static function download($filePath, $downloadName) {
         // error_reporting(0);
         $size = (float) self::size($filePath);
@@ -413,7 +413,7 @@ abstract class FileSystem {
         }
         self::outputChunk($filePath, $start, $length);
     }
-
+    
     public static function outputChunk($filePath, $start, $length) {
         set_time_limit(0);
         // how many bytes per chunk
@@ -457,7 +457,7 @@ abstract class FileSystem {
         // fpassthru($handle);
         fclose($handle);
     }
-
+    
     /**
      * List the contents of a directory.
      *
@@ -541,7 +541,7 @@ abstract class FileSystem {
         }
         return $ret;
     }
-
+    
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);
@@ -565,7 +565,7 @@ abstract class FileSystem {
         }
         return false;
     }
-
+    
     public static function mediaInfo(string $filePath): array {
         $filePath = realpath($filePath);
         $ret = [
@@ -619,7 +619,7 @@ abstract class FileSystem {
         }
         return $ret;
     }
-
+    
     public static function extractArchive($archivePath, $targetDirectory) {
         if (! is_readable(self::ZIP_PATH)) {
             throw new Exception('7-Zip not found @ ' . self::ZIP_PATH);
@@ -632,12 +632,12 @@ abstract class FileSystem {
         exec($command);
         return true;
     }
-
+    
     public static function archivePath($directoryPath, $archiveName, $checkUpdate = false) {
         $directoryPath = realpath($directoryPath);
         // $rootPath = realpath($directoryPath . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR;
         // $dirPath = substr($directoryPath, strlen($rootPath));
-
+        
         if (! is_readable(self::ZIP_PATH)) {
             throw new Exception('7-Zip not found @ ' . self::ZIP_PATH);
         }
@@ -649,7 +649,7 @@ abstract class FileSystem {
         exec($command);
         return true;
     }
-
+    
     private static function add2archive($path, $archive, $rootPath, &$fileCount = 0) {
         $ret = true;
         if (is_dir($rootPath . $path)) {
@@ -672,14 +672,14 @@ abstract class FileSystem {
         }
         return $ret;
     }
-
+    
     public static function downloadByURI($destPath, $sourceURI, array $options = []) {
         $ret = 'ERROR';
         $downloadCommand = isset($options['download-cmd']) ? $options['download-cmd'] : 'curl %s -o %s';
         $copyCommand = isset($options['copy-cmd']) ? $options['copy-cmd'] : 'copy %s %s /y';
         $successCommand = isset($options['success-cmd']) ? $options['success-cmd'] : null;
         $successPHP = isset($options['success-php']) ? $options['success-php'] : null;
-
+        
         // $tempPath = tempnam(sys_get_temp_dir(), 'FS');
         $tempPath = temp_file(__CLASS__);
         $downloadExec = sprintf($downloadCommand, escapeshellarg($sourceURI), escapeshellarg($tempPath));
@@ -712,7 +712,7 @@ abstract class FileSystem {
         }
         return $ret;
     }
-
+    
     public static function getLinkByXPath($sourceURI, $linkQuery) {
         $ret = false;
         $sourceParam = parse_url($sourceURI);
@@ -731,7 +731,7 @@ abstract class FileSystem {
         }
         return $ret;
     }
-
+    
     public static function loadCSV(string $path, string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): ?array {
         $ret = null;
         if ($handle = fopen($path, 'r')) {
@@ -743,19 +743,19 @@ abstract class FileSystem {
         }
         return $ret;
     }
-
+    
     private static array $base64Source = [
         '+',
         '/',
         '='
     ];
-
+    
     private static array $base64Target = [
         '-',
         '_',
         '~'
     ];
-
+    
     /**
      * Creates a filesystem-compatible name using base64.
      *
@@ -767,7 +767,7 @@ abstract class FileSystem {
         $fileName = str_replace(self::$base64Source, self::$base64Target, $fileName);
         return $fileName;
     }
-
+    
     /**
      * Decodes a name created by base64Encode.
      *
@@ -779,7 +779,7 @@ abstract class FileSystem {
         $fileName = base64_decode($fileName);
         return $fileName;
     }
-
+    
     /**
      * Deletes the contents of a directory.
      *
@@ -805,7 +805,7 @@ abstract class FileSystem {
             rmdir($path);
         }
     }
-
+    
     /**
      * Copies files and directories.
      *
@@ -814,17 +814,17 @@ abstract class FileSystem {
      */
     public static function copy(string $from, string $to): void {
         assert(file_exists($from));
-
+        
         $from = realpath($from);
-
+        
         if (is_dir($from)) {
             if (! file_exists($to)) {
                 mkdir($to, 0777, true);
             }
             $to = realpath($to);
-
+            
             assert(is_dir($to));
-
+            
             foreach (self::scanDir($from) as $file) {
                 self::copy($from . DIRECTORY_SEPARATOR . $file, $to . DIRECTORY_SEPARATOR . $file);
             }
@@ -832,7 +832,7 @@ abstract class FileSystem {
             copy($from, $to);
         }
     }
-
+    
     /**
      * Determines whether or not a command is available on the command line.
      *

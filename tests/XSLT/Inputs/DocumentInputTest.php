@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class DocumentInputTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(DocumentInput::class), "Failed to load class 'Slothsoft\Core\XSLT\Inputs\DocumentInput'!");
     }

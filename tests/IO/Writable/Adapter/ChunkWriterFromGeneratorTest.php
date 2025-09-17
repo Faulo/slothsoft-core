@@ -10,11 +10,11 @@ use PHPUnit\Framework\TestCase;
  * @see ChunkWriterFromGenerator
  */
 class ChunkWriterFromGeneratorTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ChunkWriterFromGenerator::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\ChunkWriterFromGenerator'!");
     }
-
+    
     /**
      *
      * @testWith [1]
@@ -26,13 +26,13 @@ class ChunkWriterFromGeneratorTest extends TestCase {
                 yield $i;
             }
         };
-
+        
         $generator = $range($size);
-
+        
         $writer = new ChunkWriterFromGenerator($generator);
-
+        
         $this->assertEquals($generator, $writer->toChunks());
-
+        
         $this->assertEquals(iterator_to_array($range($size)), iterator_to_array($writer->toChunks()));
     }
 }

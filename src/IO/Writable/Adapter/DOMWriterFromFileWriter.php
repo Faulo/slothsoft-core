@@ -10,18 +10,18 @@ use DOMDocument;
 
 class DOMWriterFromFileWriter implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
-
+    
     /** @var FileWriterInterface */
     private $source;
-
+    
     /** @var string */
     private $documentURI;
-
+    
     public function __construct(FileWriterInterface $source, ?string $documentURI = null) {
         $this->source = $source;
         $this->documentURI = $documentURI;
     }
-
+    
     public function toDocument(): DOMDocument {
         $document = DOMHelper::loadDocument((string) $this->source->toFile());
         if ($this->documentURI !== null) {

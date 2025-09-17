@@ -8,14 +8,14 @@ use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 use Generator;
 
 class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
-
+    
     /** @var StreamWriterInterface */
     private $source;
-
+    
     public function __construct(StreamWriterInterface $source) {
         $this->source = $source;
     }
-
+    
     public function toChunks(): Generator {
         $handle = $this->source->toStream();
         while (! $handle->eof()) {

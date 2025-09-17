@@ -30,10 +30,10 @@ use DOMDocument;
 use Exception;
 
 class XMLHttpRequest implements \w3c\XMLHttpRequest {
-
+    
     const NEWLINE = "
 ";
-
+    
     /*
      * public $onloadstart;
      * public $onprogress;
@@ -45,82 +45,82 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
      * public $onreadystatechange;
      */
     public $readyState = self::UNSENT;
-
+    
     public $timeout = 0;
-
+    
     public $withCredentials;
-
+    
     public $upload;
-
+    
     public $status = 0;
-
+    
     public $statusText = '';
-
+    
     public $responseType;
-
+    
     public $response;
-
+    
     public $responseText;
-
+    
     public $responseXML;
-
+    
     public $httpVersion = CURL_HTTP_VERSION_1_1;
-
+    
     public $followRedirects = 1;
-
+    
     public $maxRedirects = 10;
-
+    
     public $connectTimeout = 300;
-
+    
     public $transferTimeout = Seconds::HOUR;
-
+    
     public $globalDNS = 0;
-
+    
     public $keepAliveActive = 1;
-
+    
     public $keepAliveTimeout = 10;
-
+    
     public $keepAliveInterval = 10;
-
+    
     protected $method;
-
+    
     protected $ssl;
-
+    
     protected $url;
-
+    
     protected $urlParam;
-
+    
     protected $async;
-
+    
     protected $user;
-
+    
     protected $password;
-
+    
     protected $requestHeaders;
-
+    
     protected $responseHeaders;
-
+    
     protected $eventListeners;
-
+    
     protected $responseHead;
-
+    
     protected $_responseType = null;
-
+    
     protected $_responseCharset = null;
-
+    
     protected $utf8BOM;
-
+    
     protected $cookieFile;
-
+    
     public static $cookies = array();
-
+    
     public static $useCookies = false;
-
+    
     protected $_env = [
         'SERVER_NAME' => 'localhost',
         'SERVER_SOFTWARE' => 'PHP'
     ];
-
+    
     public function __construct() {
         if (isset($_SERVER)) {
             foreach ($this->_env as $key => &$val) {
@@ -131,7 +131,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             unset($val);
         }
     }
-
+    
     // request
     public function open(string $method, string $url, bool $async = true, string $user = null, string $password = null): void {
         $this->method = $method;
@@ -142,9 +142,9 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         $this->requestHeaders = array();
         $this->responseHeaders = array();
         $this->eventListeners = array();
-
+        
         $this->utf8BOM = pack('CCC', 239, 187, 191);
-
+        
         $host = null;
         $this->urlParam = array(
             'scheme' => 'http',
@@ -162,13 +162,13 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                 $this->urlParam[$key] = $arr[$key];
             }
         }
-
+        
         $this->ssl = $this->urlParam['scheme'] === 'https';
-
+        
         if (! $this->urlParam['port']) {
             $this->urlParam['port'] = $this->ssl ? 443 : 80;
         }
-
+        
         /*
          * if (preg_match('/^(.+):\/\/(.+)$/', $url, $match)) {
          * $this->ssl = ($match[1] === 'https');
@@ -192,19 +192,19 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
          */
         $this->readyState = self::OPENED;
     }
-
+    
     public function setRequestHeader(string $header, string $value): void {
         if ($this->readyState !== self::OPENED) {
             throw new Exception('InvalidStateError');
         }
         $this->requestHeaders[strtolower($header)] = $value;
     }
-
+    
     public function getRequestHeader($header) {
         $header = strtolower($header);
         return isset($this->requestHeaders[$header]) ? $this->requestHeaders[$header] : null;
     }
-
+    
     public function send($data = null): void {
         $type = null;
         if ($data !== null) {
@@ -224,7 +224,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         if ($tmp = $this->getRequestHeader('Content-Type')) {
             $type = $tmp;
         }
-
+        
         $this->setRequestHeader('User-Agent', sprintf('Mozilla/5.0 (%s) %s (KHTML, like Gecko) %s', $this->_env['SERVER_NAME'], $this->_env['SERVER_SOFTWARE'], 'XMLHttpRequest/2.0'));
         $this->setRequestHeader('Connection', 'close');
         if ($type) {
@@ -238,26 +238,26 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             }
             $this->setRequestHeader('Cookie', implode('; ', $cookies));
         }
-
+        
         $header = array();
         foreach ($this->requestHeaders as $key => $value) {
             $header[] .= $key . ': ' . $value;
         }
         // my_dump($this->requestHeaders);
         // my_dump($data);
-
+        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->url);
-
+        
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
+        
         curl_setopt($ch, CURLOPT_HEADER, true);
-
+        
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-
+        
         // curl_setopt($ch, CURLOPT_HTTP_VERSION, $this->httpVersion);
-
+        
         switch ($this->method) {
             case 'HEAD':
                 curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -284,12 +284,12 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         curl_setopt($ch, CURLOPT_TCP_KEEPALIVE, $this->keepAliveActive);
         curl_setopt($ch, CURLOPT_TCP_KEEPIDLE, $this->keepAliveTimeout);
         curl_setopt($ch, CURLOPT_TCP_KEEPINTVL, $this->keepAliveInterval);
-
+        
         if ($this->cookieFile) {
             curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookieFile);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookieFile);
         }
-
+        
         // Get the response and close the channel.
         $res = curl_exec($ch);
         if ($err = curl_error($ch)) {
@@ -297,7 +297,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
         $bodyPos = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         curl_close($ch);
-
+        
         if ($res !== false) {
             // $bodyPos = strpos($res, self::NEWLINE . self::NEWLINE);
             $this->responseHead = (string) substr($res, 0, $bodyPos - strlen(self::NEWLINE . self::NEWLINE));
@@ -322,7 +322,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                     $this->responseHeaders[$key] = $val;
                 }
             }
-
+            
             if (isset($this->responseHeaders['location'])) {
                 /*
                  * //implemented by curl, followRedirects
@@ -341,7 +341,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                  * //
                  */
             }
-
+            
             // http://tools.ietf.org/html/rfc2616
             if (isset($this->responseHeaders['transfer-encoding'])) {
                 /*
@@ -378,18 +378,18 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                     }
                 }
             }
-
+            
             $toCharset = 'UTF-8';
             $fromCharset = $this->_responseCharset ? $this->_responseCharset : strtoupper(mb_detect_encoding($this->responseText)); // 'ISO-8859-1'
-
+            
             if (strlen($fromCharset) and $toCharset !== $fromCharset) {
                 $this->responseText = mb_convert_encoding($this->responseText, $toCharset, $fromCharset);
             }
-
+            
             if (substr($this->responseText, 0, 3) === $this->utf8BOM) {
                 $this->responseText = substr($this->responseText, 3);
             }
-
+            
             // parse HTML/XML response body
             try {
                 $isXML = false;
@@ -438,24 +438,24 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             }
         }
     }
-
+    
     public function abort(): void {}
-
+    
     public function overrideMimeType(string $mime): void {
         if ($this->readyState === self::OPENED or $this->readyState === self::DONE) {
             throw new Exception('InvalidStateError');
         }
     }
-
+    
     public function getResponseHeader(string $header): string {
         $header = strtolower($header);
         return isset($this->responseHeaders[$header]) ? $this->responseHeaders[$header] : null;
     }
-
+    
     public function getAllResponseHeaders(): array {
         return $this->responseHead;
     }
-
+    
     // EventTarget
     public function addEventListener(string $type, callable $listener, bool $capture = false): void {
         if (! isset($this->eventListeners[$type])) {
@@ -465,7 +465,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             $this->eventListeners[$type][] = $listener;
         }
     }
-
+    
     public function removeEventListener(string $type, callable $listener, bool $capture = false): void {
         if (! isset($this->eventListeners[$type])) {
             $this->eventListeners[$type] = array();
@@ -477,18 +477,18 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             }
         }
     }
-
+    
     public function dispatchEvent($event): bool {}
-
+    
     // proprietary
     public function setCookieFile($file) {
         $this->cookieFile = $file;
     }
-
+    
     public function getCookieFile() {
         return $this->cookieFile;
     }
-
+    
     // protected
     protected function fireEventListener($type) {
         if (isset($this->eventListeners[$type])) {
@@ -499,17 +499,17 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             }
         }
     }
-
+    
     protected static function addCookie($line) {
         $cookie = explode(';', $line, 2);
         $cookie = explode('=', $cookie[0], 2);
         self::$cookies[trim($cookie[0])] = $cookie[1];
     }
-
+    
     public static function setCookie($key, $val) {
         self::$cookies[$key] = $val;
     }
-
+    
     public static function parseHeaderList($head) {
         $ret = [];
         $headList = explode("\n", str_replace("\r", "\n", $head));

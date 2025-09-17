@@ -16,7 +16,7 @@ use DOMNodeList;
  */
 class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
-
+    
     public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array {
         $ret = [];
         foreach ($domNodeList as $domNode) {
@@ -26,15 +26,15 @@ class LeanElement implements DOMWriterInterface {
         }
         return $ret;
     }
-
+    
     public static function createTreeFromDOMDocument(DOMDocument $domDocument): LeanElement {
         return self::createTreeFromDOMElement($domDocument->documentElement);
     }
-
+    
     public static function createTreeFromDOMElement(DOMElement $domElement): LeanElement {
         return self::createOneFromDOMElement($domElement, self::createTreeListFromDOMNodeList($domElement->childNodes));
     }
-
+    
     public static function createOneFromDOMElement(DOMElement $element, array $children = []): LeanElement {
         $tag = $element->localName;
         $attributes = [];
@@ -43,17 +43,17 @@ class LeanElement implements DOMWriterInterface {
         }
         return self::createOneFromArray($tag, $attributes, $children);
     }
-
+    
     public static function createOneFromArray(string $tag, array $attributes, iterable $children = []): LeanElement {
         return new LeanElement($tag, $attributes, $children instanceof Vector ? $children : new Vector($children));
     }
-
+    
     private string $tag;
-
+    
     private array $attributes;
-
+    
     private Vector $children;
-
+    
     /**
      *
      * @param string $$tag
@@ -65,7 +65,7 @@ class LeanElement implements DOMWriterInterface {
         $this->attributes = $attributes;
         $this->children = $children;
     }
-
+    
     /**
      *
      * @return string
@@ -73,7 +73,7 @@ class LeanElement implements DOMWriterInterface {
     public function getTag(): string {
         return $this->tag;
     }
-
+    
     /**
      *
      * @param string $key
@@ -82,7 +82,7 @@ class LeanElement implements DOMWriterInterface {
     public function hasAttribute(string $key): bool {
         return isset($this->attributes[$key]);
     }
-
+    
     /**
      *
      * @param string $key
@@ -91,7 +91,7 @@ class LeanElement implements DOMWriterInterface {
     public function getAttribute(string $key, $default = null) {
         return $this->attributes[$key] ?? $default;
     }
-
+    
     /**
      *
      * @param string $key
@@ -100,7 +100,7 @@ class LeanElement implements DOMWriterInterface {
     public function setAttribute(string $key, $val): void {
         $this->attributes[$key] = $val;
     }
-
+    
     /**
      *
      * @return array
@@ -108,7 +108,7 @@ class LeanElement implements DOMWriterInterface {
     public function getAttributes(): array {
         return $this->attributes;
     }
-
+    
     /**
      *
      * @param LeanElement $child
@@ -116,7 +116,7 @@ class LeanElement implements DOMWriterInterface {
     public function appendChild(LeanElement $child): void {
         $this->children[] = $child;
     }
-
+    
     /**
      *
      * @return LeanElement[]
@@ -124,7 +124,7 @@ class LeanElement implements DOMWriterInterface {
     public function getChildren(): iterable {
         return $this->children;
     }
-
+    
     public function getChildByTag(string $tag): ?LeanElement {
         foreach ($this->children as $child) {
             if ($child->getTag() === $tag) {
@@ -132,7 +132,7 @@ class LeanElement implements DOMWriterInterface {
             }
         }
     }
-
+    
     public function toElement(DOMDocument $targetDoc): DOMElement {
         $element = $targetDoc->createElement($this->tag);
         foreach ($this->attributes as $key => $val) {
@@ -143,7 +143,7 @@ class LeanElement implements DOMWriterInterface {
         }
         return $element;
     }
-
+    
     public function withAttributes(array $attributes): LeanElement {
         $ret = clone $this;
         foreach ($attributes as $key => $val) {
@@ -151,7 +151,7 @@ class LeanElement implements DOMWriterInterface {
         }
         return $ret;
     }
-
+    
     public function __serialize(): array {
         return [
             $this->tag,
@@ -159,7 +159,7 @@ class LeanElement implements DOMWriterInterface {
             $this->children->toArray()
         ];
     }
-
+    
     public function __unserialize(array $data): void {
         $this->tag = (string) $data[0] ?? '';
         $this->attributes = (array) $data[1] ?? [];

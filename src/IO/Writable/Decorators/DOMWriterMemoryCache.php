@@ -8,17 +8,17 @@ use DOMDocument;
 
 class DOMWriterMemoryCache implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
-
+    
     /** @var DOMWriterInterface */
     private $source;
-
+    
     /** @var DOMDocument */
     private $result;
-
+    
     public function __construct(DOMWriterInterface $source) {
         $this->source = $source;
     }
-
+    
     public function toDocument(): DOMDocument {
         if ($this->result === null) {
             $this->result = $this->source->toDocument();

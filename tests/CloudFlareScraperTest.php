@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class CloudFlareScraperTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(CloudFlareScraper::class), "Failed to load class 'Slothsoft\Core\CloudFlareScraper'!");
     }

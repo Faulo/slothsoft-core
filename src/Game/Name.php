@@ -5,15 +5,15 @@ namespace Slothsoft\Core\Game;
 use Slothsoft\Core\Storage;
 
 class Name {
-
+    
     const GENERATE_URI = 'http://listofrandomnames.com/index.cfm';
-
+    
     const GENERATE_CONFIG_ALLITERATION = 'allit';
-
+    
     const GENERATE_CONFIG_FIRSTNAMEONLY = 'fnameonly';
-
+    
     const GENERATE_CONFIG_COUNT = 'numberof';
-
+    
     protected static $generateConfig = [
         'generated' => '',
         'action' => 'main.generate',
@@ -22,7 +22,7 @@ class Name {
         'fnameonly' => 1,
         'numberof' => 1
     ];
-
+    
     public static function generate(array $config = []) {
         $ret = null;
         $param = self::$generateConfig;
@@ -33,7 +33,7 @@ class Name {
             }
         }
         unset($val);
-
+        
         if ($xpath = Storage::loadExternalXPath(self::GENERATE_URI, 0, $param, [
             'method' => 'POST'
         ])) {

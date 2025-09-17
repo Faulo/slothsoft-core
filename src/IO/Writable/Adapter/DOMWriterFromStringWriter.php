@@ -8,20 +8,20 @@ use DOMDocument;
 use DOMElement;
 
 class DOMWriterFromStringWriter implements DOMWriterInterface {
-
+    
     /** @var StringWriterInterface */
     private $source;
-
+    
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
-
+    
     public function toDocument(): DOMDocument {
         $document = new DOMDocument();
         $document->loadXML($this->source->toString());
         return $document;
     }
-
+    
     public function toElement(DOMDocument $targetDoc): DOMElement {
         $fragment = $targetDoc->createDocumentFragment();
         $fragment->appendXML($this->source->toString());

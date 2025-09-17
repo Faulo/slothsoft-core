@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class DOMWriterDocumentFromElementTraitTest extends TestCase {
-
+    
     public function testTraitExists(): void {
         $this->assertTrue(trait_exists(DOMWriterDocumentFromElementTrait::class), "Failed to load trait 'Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait'!");
     }

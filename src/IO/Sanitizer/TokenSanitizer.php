@@ -3,13 +3,13 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Sanitizer;
 
 class TokenSanitizer implements SanitizerInterface {
-
+    
     private $default;
-
+    
     public function __construct(array $default = []) {
         $this->default = $default;
     }
-
+    
     public function apply($value) {
         if (is_string($value)) {
             $result = [];
@@ -26,7 +26,7 @@ class TokenSanitizer implements SanitizerInterface {
         }
         return $this->getDefault();
     }
-
+    
     public function getDefault() {
         return $this->default;
     }

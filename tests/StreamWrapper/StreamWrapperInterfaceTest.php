@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class StreamWrapperInterfaceTest extends TestCase {
-
+    
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(StreamWrapperInterface::class), "Failed to load interface 'Slothsoft\Core\StreamWrapper\StreamWrapperInterface'!");
     }

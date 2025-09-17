@@ -10,9 +10,9 @@ use SplFileInfo;
  *        
  */
 interface FileReaderInterface {
-
+    
     public function fromFile(SplFileInfo $sourceFile): void;
-
+    
     public function fromString(string $sourceString): void;
 }
 

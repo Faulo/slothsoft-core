@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class ChunkReaderInterfaceTest extends TestCase {
-
+    
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(ChunkReaderInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Readable\ChunkReaderInterface'!");
     }

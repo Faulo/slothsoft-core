@@ -9,17 +9,17 @@ use DOMElement;
 
 class DOMWriterFromElementDelegate implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
-
+    
     /** @var callable */
     private $delegate;
-
+    
     /** @var DOMElement */
     private $result;
-
+    
     public function __construct(callable $delegate) {
         $this->delegate = $delegate;
     }
-
+    
     public function toElement(DOMDocument $targetDoc): DOMElement {
         if ($this->result === null) {
             $this->result = ($this->delegate)($targetDoc);

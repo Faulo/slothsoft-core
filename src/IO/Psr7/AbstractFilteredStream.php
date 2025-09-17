@@ -11,24 +11,24 @@ use RuntimeException;
 
 abstract class AbstractFilteredStream implements StreamInterface {
     use StreamDecoratorTrait;
-
+    
     const STATE_OPENING = 1;
-
+    
     const STATE_PROCESSING = 2;
-
+    
     const STATE_CLOSING = 3;
-
+    
     const STATE_CLOSED = 4;
-
+    
     private $stream;
-
+    
     private $state;
-
+    
     public function __construct(StreamInterface $stream) {
         $this->stream = new CachingStream($stream);
         $this->state = static::STATE_OPENING;
     }
-
+    
     public function read($length) {
         switch ($this->state) {
             case static::STATE_OPENING:
@@ -47,7 +47,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
                 throw new RuntimeException('The stream has been closed.');
         }
     }
-
+    
     public function getContents() {
         $buffer = '';
         while (! $this->eof()) {
@@ -55,15 +55,15 @@ abstract class AbstractFilteredStream implements StreamInterface {
         }
         return $buffer;
     }
-
+    
     public function eof() {
         return $this->state === static::STATE_CLOSED;
     }
-
+    
     public function isSeekable() {
         return $this->stream->isSeekable();
     }
-
+    
     public function getSize() {
         if ($this->isSeekable()) {
             $ret = strlen($this->getContents());
@@ -73,7 +73,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
             return null;
         }
     }
-
+    
     public function seek($offset, $whence = SEEK_SET) {
         if ($offset === 0 and $whence === SEEK_SET) {
             $this->stream->rewind();
@@ -82,11 +82,11 @@ abstract class AbstractFilteredStream implements StreamInterface {
             throw new BadMethodCallException('FilteredStreams only support full rewind.');
         }
     }
-
+    
     abstract protected function processHeader(): string;
-
+    
     abstract protected function processPayload(string $data): string;
-
+    
     abstract protected function processFooter(): string;
 }
 

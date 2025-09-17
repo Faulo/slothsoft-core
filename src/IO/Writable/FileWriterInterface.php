@@ -10,7 +10,7 @@ use SplFileInfo;
  *        
  */
 interface FileWriterInterface {
-
+    
     public function toFile(): SplFileInfo;
 }
 

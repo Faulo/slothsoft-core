@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class DOMWriterFromElementDelegateTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(DOMWriterFromElementDelegate::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Delegates\DOMWriterFromElementDelegate'!");
     }

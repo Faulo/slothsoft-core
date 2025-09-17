@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class FileWriterFileCacheTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(FileWriterFileCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\FileWriterFileCache'!");
     }

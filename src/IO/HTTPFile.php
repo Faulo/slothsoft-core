@@ -19,13 +19,13 @@ use DOMDocument;
 use SplFileInfo;
 
 class HTTPFile implements FileWriterInterface {
-
+    
     const STATUS_BAD_REQUEST = 400;
-
+    
     const CURL_ENABLED = true;
-
+    
     const CURL_COMMAND = 'curl %s --output %s --header %s --connect-timeout 300 --retry 3 --http1.1 --silent --fail --insecure --location';
-
+    
     /**
      *
      * @return string
@@ -36,7 +36,7 @@ class HTTPFile implements FileWriterInterface {
         // my_dump($ret);
         return $ret;
     }
-
+    
     /**
      *
      * @param string $filePath
@@ -46,11 +46,11 @@ class HTTPFile implements FileWriterInterface {
     public static function createFromPath(string $filePath, string $fileName = '') {
         return new HTTPFile($filePath, $fileName);
     }
-
+    
     public static function createFromTemp(string $fileName = '') {
         return self::createFromPath(self::getTempFile(), $fileName);
     }
-
+    
     /**
      *
      * @param DOMDocument $doc
@@ -65,7 +65,7 @@ class HTTPFile implements FileWriterInterface {
         $file->setDocument($doc);
         return $file;
     }
-
+    
     /**
      *
      * @param string $content
@@ -81,7 +81,7 @@ class HTTPFile implements FileWriterInterface {
         $file->setContents($content);
         return $file;
     }
-
+    
     /**
      *
      * @param array $content
@@ -99,7 +99,7 @@ class HTTPFile implements FileWriterInterface {
         }
         return self::createFromString($content, $fileName);
     }
-
+    
     /**
      *
      * @param resource $resource
@@ -115,7 +115,7 @@ class HTTPFile implements FileWriterInterface {
         $file->setStream($resource);
         return $file;
     }
-
+    
     /**
      *
      * @param mixed $object
@@ -129,7 +129,7 @@ class HTTPFile implements FileWriterInterface {
         }
         return self::createFromString(json_encode($object), $fileName);
     }
-
+    
     /**
      *
      * @param string $phpCommand
@@ -148,7 +148,7 @@ class HTTPFile implements FileWriterInterface {
         exec($exec);
         return $file;
     }
-
+    
     /**
      *
      * @param string $url
@@ -166,7 +166,7 @@ class HTTPFile implements FileWriterInterface {
         if (! isset($param['host'])) {
             $url = 'http://slothsoft.net' . $url;
         }
-
+        
         if (self::CURL_ENABLED) {
             $refererURI = sprintf('Referer: %s://%s%s', $param['scheme'], $param['host'], $param['path']);
             $filePath = self::getTempFile();
@@ -179,7 +179,7 @@ class HTTPFile implements FileWriterInterface {
         }
         return $ret;
     }
-
+    
     /**
      *
      * @param string $filePath
@@ -196,7 +196,7 @@ class HTTPFile implements FileWriterInterface {
         }
         return $ret ? self::createFromPath($filePath) : null;
     }
-
+    
     /**
      *
      * @param string $url
@@ -216,7 +216,7 @@ class HTTPFile implements FileWriterInterface {
         }
         return $ret;
     }
-
+    
     /**
      *
      * @param string $filePath
@@ -240,11 +240,11 @@ class HTTPFile implements FileWriterInterface {
         }
         return $ret;
     }
-
+    
     protected $path;
-
+    
     protected $name;
-
+    
     protected function __construct(string $filePath, string $fileName = '') {
         if ($fileName === '') {
             $fileName = basename($filePath);
@@ -252,35 +252,35 @@ class HTTPFile implements FileWriterInterface {
         $this->path = $filePath;
         $this->name = $fileName;
     }
-
+    
     public function getPath() {
         return $this->path;
     }
-
+    
     public function getName() {
         return $this->name;
     }
-
+    
     public function getContents(): string {
         return file_get_contents($this->getPath());
     }
-
+    
     public function setContents(string $content) {
         return file_put_contents($this->getPath(), $content);
     }
-
+    
     public function setStream($content) {
         return file_put_contents($this->getPath(), $content);
     }
-
+    
     public function getDocument() {
         return DOMHelper::loadDocument($this->getPath());
     }
-
+    
     public function setDocument(DOMDocument $content) {
         return $content->save($this->getPath());
     }
-
+    
     public function copyTo($dir, $name = null, $copyClosure = null) {
         $ret = false;
         if ($dir = realpath($dir)) {
@@ -303,23 +303,23 @@ class HTTPFile implements FileWriterInterface {
         }
         return $ret;
     }
-
+    
     public function delete() {
         return unlink($this->getPath());
     }
-
+    
     public function exists(): bool {
         return is_file($this->path);
     }
-
+    
     public function toFile(): SplFileInfo {
         return FileInfoFactory::createFromPath($this->path);
     }
-
+    
     public function toString(): string {
         return $this->getContents();
     }
-
+    
     public function toFileName(): string {
         return $this->getName();
     }

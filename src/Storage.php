@@ -26,7 +26,7 @@ use Exception;
 use mysqli_sql_exception;
 
 class Storage implements EphemeralStorageInterface {
-
+    
     private static function logEnabled(): ConfigurationField {
         static $field;
         if ($field === null) {
@@ -34,15 +34,15 @@ class Storage implements EphemeralStorageInterface {
         }
         return $field;
     }
-
+    
     public static function setLogEnabled(bool $value) {
         self::logEnabled()->setValue($value);
     }
-
+    
     public static function getLogEnabled(): bool {
         return self::logEnabled()->getValue();
     }
-
+    
     private static function logDirectory(): ConfigurationField {
         static $field;
         if ($field === null) {
@@ -50,15 +50,15 @@ class Storage implements EphemeralStorageInterface {
         }
         return $field;
     }
-
+    
     public static function setLogDirectory(string $directory) {
         self::logDirectory()->setValue($directory);
     }
-
+    
     public static function getLogDirectory(): string {
         return self::logDirectory()->getValue();
     }
-
+    
     private static function touchOnExit(): ConfigurationField {
         static $field;
         if ($field === null) {
@@ -66,17 +66,17 @@ class Storage implements EphemeralStorageInterface {
         }
         return $field;
     }
-
+    
     public static function setTouchOnExit(bool $value) {
         self::logEnabled()->setValue($value);
     }
-
+    
     public static function getTouchOnExit(): bool {
         return self::logEnabled()->getValue();
     }
-
+    
     protected static array $storageList = [];
-
+    
     /**
      *
      * @param string $name
@@ -91,7 +91,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return self::$storageList[$name];
     }
-
+    
     /**
      *
      * @param string $uri
@@ -118,7 +118,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return $storage->retrieveDocument($name, $storageTime);
     }
-
+    
     /**
      *
      * @param string $uri
@@ -134,7 +134,7 @@ class Storage implements EphemeralStorageInterface {
         $name = self::_name($options, $uri, $data);
         return $storage->delete($name);
     }
-
+    
     /**
      *
      * @param string $uri
@@ -150,7 +150,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return $ret;
     }
-
+    
     /**
      *
      * @param string $uri
@@ -174,7 +174,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return $storage->retrieveJSON($name, $storageTime);
     }
-
+    
     /**
      *
      * @param string $uri
@@ -186,16 +186,16 @@ class Storage implements EphemeralStorageInterface {
     public static function loadExternalFile(string $uri, int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
-
+        
         if ($options['nocache']) {
             return self::_httpRequest($options, $uri, $data)->responseText;
         }
-
+        
         $storage = self::_getStorageByURI($uri);
         $name = self::_name($options, $uri, $data);
         $nowTime = time();
         $storageTime = $nowTime - $cacheTime;
-
+        
         $ret = $storage->retrieve($name, $storageTime);
         if ($ret === null) {
             $req = self::_httpRequest($options, $uri, $data);
@@ -204,10 +204,10 @@ class Storage implements EphemeralStorageInterface {
                 $ret = $req->responseText;
             }
         }
-
+        
         return $ret;
     }
-
+    
     /**
      *
      * @param string $uri
@@ -224,7 +224,7 @@ class Storage implements EphemeralStorageInterface {
         $name = self::_name($options, $uri, $data);
         $nowTime = time();
         $storageTime = $nowTime - $cacheTime;
-
+        
         $ret = self::_randomCheck() ? null : $storage->retrieveJSON($name, $storageTime);
         if ($ret === null) {
             $req = self::_httpRequest($options, $uri, $data);
@@ -232,10 +232,10 @@ class Storage implements EphemeralStorageInterface {
             $ret['status'] = $req->status;
             $storage->storeJSON($name, $ret, $nowTime);
         }
-
+        
         return $ret;
     }
-
+    
     /**
      * randomly force-download an already existing resource
      *
@@ -244,24 +244,24 @@ class Storage implements EphemeralStorageInterface {
     protected static function _randomCheck() {
         return ! rand(0, 999);
     }
-
+    
     protected static function _httpRequest(array $options, $uri, $data) {
         // echo sprintf('XMLHttpRequest %s "%s"...%s', $options['method'], $uri, PHP_EOL);
         $req = new XMLHttpRequest();
         $req->open($options['method'], $uri);
-
+        
         if (isset($options['followRedirects'])) {
             $req->followRedirects = (int) (bool) $options['followRedirects'];
         }
-
+        
         if (isset($options['oauth'])) {
             $options['header']['authorization'] = self::_httpOAuth($options, $uri);
         }
-
+        
         if (isset($options['cookieFile'])) {
             $req->setCookieFile($options['cookieFile']);
         }
-
+        
         if (! isset($options['header']['referer'])) {
             $refererURI = $uri;
             $refererParam = parse_url($refererURI);
@@ -280,18 +280,18 @@ class Storage implements EphemeralStorageInterface {
         if ($options['header']['referer'] === false) {
             unset($options['header']['referer']);
         }
-
+        
         foreach ($options['header'] as $key => $val) {
             $req->setRequestHeader($key, $val);
         }
-
+        
         if (! defined('PHPUNIT_COMPOSER_INSTALL')) {
             // TODO/HACK: only run requests if not doing tests
             $req->send($data);
         }
         return $req;
     }
-
+    
     /**
      *
      * @param mixed $options
@@ -315,7 +315,7 @@ class Storage implements EphemeralStorageInterface {
             $options['nocache'] = false;
         }
     }
-
+    
     protected static function _httpOAuth(array $options, string $uri) {
         $params = [];
         $params['realm'] = $uri;
@@ -325,7 +325,7 @@ class Storage implements EphemeralStorageInterface {
         $params['oauth_timestamp'] = time();
         $params['oauth_signature_method'] = 'HMAC-SHA1';
         $params['oauth_version'] = '1.0';
-
+        
         $values = [];
         foreach ($params as $key => $val) {
             if ($key !== 'realm') {
@@ -335,32 +335,32 @@ class Storage implements EphemeralStorageInterface {
             }
         }
         ksort($values);
-
+        
         $baseString = [];
         $baseString[] = $options['method'];
         $baseString[] = $uri;
         $baseString[] = implode('&', $values);
-
+        
         foreach ($baseString as &$val) {
             $val = rawurlencode($val);
         }
         unset($val);
         $baseString = implode('&', $baseString);
-
+        
         $signatureKey = rawurlencode($options['oauth']['appSecret']) . '&' . rawurlencode($options['oauth']['accessSecret']);
         $rawSignature = hash_hmac('sha1', $baseString, $signatureKey, true);
         $oAuthSignature = base64_encode($rawSignature);
-
+        
         $params['oauth_signature'] = $oAuthSignature;
-
+        
         $arr = [];
         foreach ($params as $key => $val) {
             $arr[] = sprintf('%s="%s"', $key, $val);
         }
-
+        
         return sprintf('OAuth %s', implode(', ', $arr));
     }
-
+    
     /**
      *
      * @param string $uri
@@ -376,7 +376,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return self::loadStorage($storageName);
     }
-
+    
     public static function _getStorageNameFromURI($uri) {
         $arr = parse_url(strtolower($uri));
         if (! isset($arr['scheme'])) {
@@ -398,7 +398,7 @@ class Storage implements EphemeralStorageInterface {
         $host[] = $arr['scheme'];
         return implode('.', $host);
     }
-
+    
     protected static function _getHostFromURI($uri) {
         $host = parse_url($uri, PHP_URL_HOST);
         $host = strtolower($host);
@@ -418,45 +418,45 @@ class Storage implements EphemeralStorageInterface {
         }
         return $host;
     }
-
+    
     protected static function _getSchemeFromURI($uri) {
         return parse_url($uri, PHP_URL_SCHEME);
     }
-
+    
     protected static function _hash(string $name): string {
         return sha1($name);
     }
-
+    
     protected static function _name(array $options, $uri, $data) {
         return sprintf('%s %s?%s', $options['method'], $uri, serialize($data));
     }
-
+    
     protected static DOMHelper $dom;
-
+    
     protected static function _DOMHelper() {
         if (! isset(self::$dom)) {
             self::$dom = new DOMHelper();
         }
         return self::$dom;
     }
-
+    
     protected string $dbName = 'storage';
-
+    
     protected string $tableName = 'default';
-
+    
     protected ?Table $dbmsTable = null;
-
+    
     protected int $now;
-
+    
     protected array $touchList;
-
+    
     protected int $cleanseTime;
-
+    
     public function __construct($storageName = null) {
         $this->now = time();
         $this->touchList = [];
         $this->cleanseTime = Seconds::MONTH;
-
+        
         if ($storageName) {
             $this->tableName = $storageName;
         }
@@ -471,11 +471,11 @@ class Storage implements EphemeralStorageInterface {
             $this->dbmsTable = null;
         }
     }
-
+    
     protected function getDBMSTable() {
         return Manager::getTable($this->dbName, $this->tableName);
     }
-
+    
     public function install(): void {
         if ($this->dbmsTable) {
             $sqlCols = [
@@ -499,7 +499,7 @@ class Storage implements EphemeralStorageInterface {
             $this->dbmsTable->createTable($sqlCols, $sqlKeys, $options);
         }
     }
-
+    
     /**
      *
      * @param string $name
@@ -513,10 +513,10 @@ class Storage implements EphemeralStorageInterface {
             $ret = (bool) count($this->dbmsTable->select('id', $sql));
         }
         $this->_createLog('exists', $name, $ret);
-
+        
         return $ret;
     }
-
+    
     /**
      *
      * @param string $name
@@ -532,10 +532,10 @@ class Storage implements EphemeralStorageInterface {
             }
         }
         $this->_createLog('retrieve', $name, $ret);
-
+        
         return $ret;
     }
-
+    
     public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null): ?DOMNode {
         $ret = null;
         if ($data = $this->retrieve($name, $modifyTime)) {
@@ -544,7 +544,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return $ret;
     }
-
+    
     /**
      *
      * @param string $name
@@ -559,9 +559,9 @@ class Storage implements EphemeralStorageInterface {
             @$retDoc->loadXML($data, LIBXML_PARSEHUGE);
             if (! $retDoc->documentElement) {
                 $retDoc = null;
-
+                
                 $this->_createLog('retrieveDocument', $name, false);
-
+                
                 $this->delete($name);
                 // echo sprintf('"%s" is not a valid Document!', $name) . PHP_EOL;
                 // $retDoc->loadXML($data);
@@ -570,7 +570,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return $retDoc;
     }
-
+    
     /**
      *
      * @param string $name
@@ -589,7 +589,7 @@ class Storage implements EphemeralStorageInterface {
         }
         return $retObject;
     }
-
+    
     /**
      *
      * @param string $name
@@ -601,10 +601,10 @@ class Storage implements EphemeralStorageInterface {
             $ret = $this->dbmsTable->delete(self::_hash($name));
         }
         $this->_createLog('delete', $name, $ret);
-
+        
         return $ret;
     }
-
+    
     /**
      *
      * @param string $name
@@ -614,17 +614,17 @@ class Storage implements EphemeralStorageInterface {
      */
     public function store(string $name, string $payload, int $modifyTime): bool {
         $ret = false;
-
+        
         if ($this->dbmsTable) {
             $update = [];
             $update['payload'] = $payload;
             $update['modify-time'] = $modifyTime;
             $update['access-time'] = $this->now;
-
+            
             $insert = $update;
             $insert['id'] = self::_hash($name);
             $insert['create-time'] = $this->now;
-
+            
             try {
                 $ret = (bool) $this->dbmsTable->insert($insert, $update);
             } catch (DatabaseException $e) {
@@ -632,10 +632,10 @@ class Storage implements EphemeralStorageInterface {
             }
             $this->_createLog('store', $name, $ret);
         }
-
+        
         return $ret;
     }
-
+    
     /**
      *
      * @param string $name
@@ -647,7 +647,7 @@ class Storage implements EphemeralStorageInterface {
         $dom = self::_DOMHelper();
         return $this->store($name, $dom->stringify($dataNode), $modifyTime);
     }
-
+    
     /**
      *
      * @param string $name
@@ -658,7 +658,7 @@ class Storage implements EphemeralStorageInterface {
     public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {
         return $dataDoc->documentElement ? $this->store($name, $dataDoc->saveXML(), $modifyTime) : false;
     }
-
+    
     /**
      *
      * @param string $name
@@ -669,7 +669,7 @@ class Storage implements EphemeralStorageInterface {
     public function storeJSON(string $name, $dataObject, int $modifyTime): bool {
         return $this->store($name, json_encode($dataObject), $modifyTime);
     }
-
+    
     protected function touch(int $id) {
         if ($id = (int) $id) {
             $this->touchList[$id] = $id;
@@ -678,7 +678,7 @@ class Storage implements EphemeralStorageInterface {
             // $this->dbmsTable->update($arr, $id);
         }
     }
-
+    
     public function sendTouch() {
         if ($this->touchList) {
             $arr = [];
@@ -688,24 +688,24 @@ class Storage implements EphemeralStorageInterface {
             $this->touchList = [];
         }
     }
-
+    
     public function cleanse() {
         if ($this->dbmsTable) {
             $this->dbmsTable->optimize();
         }
     }
-
+    
     public function cron() {
         $this->cleanse();
         return true;
     }
-
+    
     public function __destruct() {
         if (self::getTouchOnExit()) {
             $this->sendTouch();
         }
     }
-
+    
     protected function _createLog($method, $name, $ret) {
         if (self::getLogEnabled()) {
             $logFile = sprintf('%s%s.log', self::getLogDirectory(), FileSystem::filenameSanitize($this->tableName));

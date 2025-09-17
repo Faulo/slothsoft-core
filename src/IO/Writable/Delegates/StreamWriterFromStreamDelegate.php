@@ -6,17 +6,17 @@ use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 
 class StreamWriterFromStreamDelegate implements StreamWriterInterface {
-
+    
     /** @var callable */
     private $delegate;
-
+    
     /** @var StreamInterface */
     private $result;
-
+    
     public function __construct(callable $delegate) {
         $this->delegate = $delegate;
     }
-
+    
     public function toStream(): StreamInterface {
         if ($this->result === null) {
             $this->result = ($this->delegate)();

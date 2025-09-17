@@ -6,33 +6,33 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
 class FileWriterFileCache implements FileWriterInterface {
-
+    
     /** @var FileWriterInterface */
     private $sourceWriter;
-
+    
     /** @var SplFileInfo */
     private $cacheFile;
-
+    
     /** @var callable */
     private $shouldRefreshCacheDelegate;
-
+    
     public function __construct(FileWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
         $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate;
     }
-
+    
     public function toFile(): SplFileInfo {
         $this->refreshCacheFile();
         return $this->cacheFile;
     }
-
+    
     private function refreshCacheFile(): void {
         if ($this->shouldRefreshCache()) {
             copy((string) $this->sourceWriter->toFile(), (string) $this->cacheFile);
         }
     }
-
+    
     private function shouldRefreshCache(): bool {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {

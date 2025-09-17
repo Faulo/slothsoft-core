@@ -11,30 +11,30 @@ use Slothsoft\Core\DOMHelper;
 
 class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
     use DOMWriterElementFromDocumentTrait;
-
+    
     /** @var DOMWriterInterface */
     private $sourceWriter;
-
+    
     /** @var SplFileInfo */
     private $cacheFile;
-
+    
     /** @var callable */
     private $shouldRefreshCacheDelegate;
-
+    
     /** @var DOMDocument */
     private $document;
-
+    
     public function __construct(DOMWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
         $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate;
     }
-
+    
     public function toFile(): SplFileInfo {
         $this->refreshCacheFile();
         return $this->cacheFile;
     }
-
+    
     public function toDocument(): DOMDocument {
         $this->refreshCacheFile();
         if ($this->document === null) {
@@ -42,14 +42,14 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
         }
         return $this->document;
     }
-
+    
     private function refreshCacheFile(): void {
         if ($this->shouldRefreshCache()) {
             $this->document = $this->sourceWriter->toDocument();
             $this->document->save((string) $this->cacheFile);
         }
     }
-
+    
     private function shouldRefreshCache(): bool {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {

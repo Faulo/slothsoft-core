@@ -6,14 +6,14 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
 
 class ChunkWriterMerger implements ChunkWriterInterface {
-
+    
     /** @var ChunkWriterInterface[] */
     private $writers;
-
+    
     public function __construct(ChunkWriterInterface ...$writers) {
         $this->writers = $writers;
     }
-
+    
     public function toChunks(): Generator {
         foreach ($this->writers as $writer) {
             yield from $writer->toChunks();

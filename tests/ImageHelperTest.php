@@ -11,11 +11,11 @@ use Slothsoft\Core\IO\FileInfoFactory;
  * @see ImageHelper
  */
 class ImageHelperTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ImageHelper::class), "Failed to load class 'Slothsoft\Core\ImageHelper'!");
     }
-
+    
     /**
      *
      * @dataProvider imageProvider
@@ -23,12 +23,12 @@ class ImageHelperTest extends TestCase {
      */
     public function testConvertToPng(string $inFile, string $expectedFile, ?int $alphaColorIndex) {
         $actualFile = FileInfoFactory::createTempFile();
-
+        
         ImageHelper::convertToPng(FileInfoFactory::createFromPath($inFile), $actualFile, $alphaColorIndex);
-
+        
         $this->assertFileEquals($expectedFile, (string) $actualFile);
     }
-
+    
     public static function imageProvider(): array {
         return [
             'TGA to PNG' => [

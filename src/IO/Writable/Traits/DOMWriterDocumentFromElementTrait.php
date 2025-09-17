@@ -10,7 +10,7 @@ use DOMDocument;
  *        
  */
 trait DOMWriterDocumentFromElementTrait {
-
+    
     public function toDocument(): DOMDocument {
         $targetDoc = new DOMDocument();
         $targetDoc->appendChild($this->toElement($targetDoc));

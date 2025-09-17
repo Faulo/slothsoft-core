@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class ConfigurationRequiredExceptionTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ConfigurationRequiredException::class), "Failed to load class 'Slothsoft\Core\Configuration\ConfigurationRequiredException'!");
     }

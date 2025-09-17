@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class WaitingStreamTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(WaitingStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\WaitingStream'!");
     }

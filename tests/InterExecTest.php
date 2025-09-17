@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class InterExecTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(InterExec::class), "Failed to load class 'Slothsoft\Core\InterExec'!");
     }

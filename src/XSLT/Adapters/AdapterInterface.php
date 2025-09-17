@@ -12,15 +12,15 @@ use DOMDocument;
  *        
  */
 interface AdapterInterface {
-
+    
     public function setSource(InputInterface $input);
-
+    
     public function setTemplate(InputInterface $input);
-
+    
     public function setParameters(array $param);
-
+    
     public function writeFile(SplFileInfo $outputFile = null): SplFileInfo;
-
+    
     public function writeDocument(): DOMDocument;
 }
 

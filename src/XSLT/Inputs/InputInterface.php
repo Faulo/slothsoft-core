@@ -11,9 +11,9 @@ use SplFileInfo;
  *        
  */
 interface InputInterface {
-
+    
     public function toFile(): SplFileInfo;
-
+    
     public function toDocument(): DOMDocument;
 }
 

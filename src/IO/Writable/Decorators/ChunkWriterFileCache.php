@@ -10,22 +10,22 @@ use Generator;
 use SplFileInfo;
 
 class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface {
-
+    
     /** @var ChunkWriterInterface */
     private $sourceWriter;
-
+    
     /** @var SplFileInfo */
     private $cacheFile;
-
+    
     /** @var callable */
     private $shouldRefreshCacheDelegate;
-
+    
     public function __construct(ChunkWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
         $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate;
     }
-
+    
     public function toChunks(): Generator {
         if ($this->shouldRefreshCache()) {
             $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
@@ -44,7 +44,7 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface 
             unset($handle);
         }
     }
-
+    
     public function toFile(): SplFileInfo {
         if ($this->shouldRefreshCache()) {
             $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
@@ -57,7 +57,7 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface 
         }
         return $this->cacheFile;
     }
-
+    
     private function shouldRefreshCache(): bool {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {

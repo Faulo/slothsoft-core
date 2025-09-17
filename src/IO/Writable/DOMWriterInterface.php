@@ -11,9 +11,9 @@ use DOMElement;
  *        
  */
 interface DOMWriterInterface {
-
+    
     public function toElement(DOMDocument $targetDoc): DOMElement;
-
+    
     public function toDocument(): DOMDocument;
 }
 

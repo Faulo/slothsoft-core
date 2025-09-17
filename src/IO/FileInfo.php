@@ -7,11 +7,11 @@ use SplFileInfo;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 class FileInfo extends SplFileInfo implements FileWriterInterface, StringWriterInterface {
-
+    
     public function toFile(): SplFileInfo {
         return $this;
     }
-
+    
     public function toString(): string {
         return file_get_contents((string) $this);
     }

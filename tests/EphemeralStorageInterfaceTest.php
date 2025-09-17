@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class EphemeralStorageInterfaceTest extends TestCase {
-
+    
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(EphemeralStorageInterface::class), "Failed to load interface 'Slothsoft\Core\EphemeralStorageInterface'!");
     }

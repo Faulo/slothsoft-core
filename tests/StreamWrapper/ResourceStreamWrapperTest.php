@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class ResourceStreamWrapperTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ResourceStreamWrapper::class), "Failed to load class 'Slothsoft\Core\StreamWrapper\ResourceStreamWrapper'!");
     }

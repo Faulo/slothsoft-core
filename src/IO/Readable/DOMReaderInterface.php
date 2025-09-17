@@ -11,9 +11,9 @@ use DOMElement;
  *        
  */
 interface DOMReaderInterface {
-
+    
     public function fromDocument(DOMDocument $sourceDoc): void;
-
+    
     public function fromElement(DOMElement $sourceElement): void;
 }
 

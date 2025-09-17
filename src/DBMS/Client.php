@@ -6,7 +6,7 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
 class Client {
-
+    
     private static function getEnvWithDefault(string $envKey, string $defaultValue, ?string $envFileKey = null): string {
         $value = getenv($envKey);
         if ($value === false and $envFileKey and $file = self::getEnvWithDefault($envFileKey, '') and is_file($file)) {
@@ -17,13 +17,13 @@ class Client {
         }
         return $value;
     }
-
+    
     private static function defaultAuthority(): ConfigurationField {
         static $field;
         if ($field === null) {
             $field = new ConfigurationField();
         }
-
+        
         if (! $field->hasValue()) {
             $server = self::getEnvWithDefault(self::ENV_CONNECTION_SERVER, self::CONNECTION_SERVER_DEFAULT);
             $user = self::getEnvWithDefault(self::ENV_CONNECTION_USER, self::CONNECTION_SERVER_USER);
@@ -32,48 +32,48 @@ class Client {
                 $field->setValue(new Authority($server, $user, $password));
             }
         }
-
+        
         return $field;
     }
-
+    
     public static function setDefaultAuthority(Authority $authority) {
         self::defaultAuthority()->setValue($authority);
     }
-
+    
     public static function getDefaultAuthority(): Authority {
         return self::defaultAuthority()->getValue();
     }
-
+    
     public static function clearDefaultAuthority(): void {
         self::defaultAuthority()->setValue(null);
     }
-
+    
     public const ENV_CONNECTION_SERVER = 'MYSQL_HOST';
-
+    
     private const CONNECTION_SERVER_DEFAULT = 'localhost';
-
+    
     public const ENV_CONNECTION_USER = 'MYSQL_USER';
-
+    
     private const CONNECTION_SERVER_USER = 'root';
-
+    
     public const ENV_CONNECTION_PASSWORD = 'MYSQL_PASSWORD';
-
+    
     public const ENV_CONNECTION_PASSWORD_FILE = 'MYSQL_PASSWORD_FILE';
-
+    
     private const CONNECTION_CHARSET = 'utf8mb4';
-
+    
     private const CONNECTION_SERVER_PASSWORD = '';
-
+    
     private const CONNECTION_COLLATION = 'utf8mb4_unicode_ci';
-
+    
     protected $sqli;
-
+    
     protected $connected = false;
-
+    
     protected $dbName = null;
-
+    
     public function __construct() {}
-
+    
     public function reconnect() {
         try {
             $authority = self::getDefaultAuthority();
@@ -93,18 +93,18 @@ class Client {
         }
         return true;
     }
-
+    
     public function disconnect() {
         if ($this->connected) {
             $this->connected = false;
             $this->sqli->close();
         }
     }
-
+    
     protected function connect() {
         return ($this->connected and $this->sqli->ping()) or ($this->reconnect() and $this->connected = true);
     }
-
+    
     public function setDatabase($dbName) {
         $ret = null;
         $this->dbName = null;
@@ -114,7 +114,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     public function tableExists($dbName, $tableName) {
         $ret = null;
         if ($this->connect()) {
@@ -123,14 +123,14 @@ class Client {
         }
         return $ret;
     }
-
+    
     public function tableMove($oldDbName, $oldTableName, $newDbName, $newTableName) {
         $oldHandle = $this->get_handle($oldDbName, $oldTableName);
         $newHandle = $this->get_handle($newDbName, $newTableName);
         $sql = sprintf('RENAME TABLE %s TO %s', $oldHandle, $newHandle);
         return $this->execute($sql);
     }
-
+    
     public function databaseExists($dbName) {
         $ret = null;
         if ($this->connect()) {
@@ -139,7 +139,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     public function getDatabaseList() {
         $ret = null;
         if ($this->connect()) {
@@ -147,7 +147,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     public function getTableList($dbName) {
         $ret = null;
         if ($this->connect()) {
@@ -155,7 +155,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     public function createDatabase($dbName) {
         $dbHandle = $this->get_handle($dbName);
         $sql = sprintf('CREATE DATABASE IF NOT EXISTS %s', $dbHandle);
@@ -163,7 +163,7 @@ class Client {
             $this->error($sql);
         }
     }
-
+    
     public function deleteDatabase($dbName) {
         $dbHandle = $this->get_handle($dbName);
         $sql = sprintf('DROP DATABASE IF EXISTS %s', $dbHandle);
@@ -171,7 +171,7 @@ class Client {
             $this->error($sql);
         }
     }
-
+    
     public function createTable($dbName, $tableName, array $cols, array $keys, array $options = []) {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $colStr = [];
@@ -205,7 +205,7 @@ class Client {
             $this->error($sql);
         }
     }
-
+    
     public function addIndex($dbName, $tableName, $index) {
         if (! is_array($index)) {
             $index = [
@@ -221,7 +221,7 @@ class Client {
         echo $sql . PHP_EOL;
         $this->execute($sql);
     }
-
+    
     // SELECT $cols FROM $table WHERE ($string)
     // $cols: true => ['*'], 'col' => 'col', ['c1', 'c2'] => 'c1, c2'
     public function select($dbName, $tableName, $cols = true, $sqlString = '', $sqlSuffix = '') {
@@ -303,7 +303,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
     public function insert($dbName, $tableName, $insertData = [], $onDuplicateData = []) {
         $ret = null;
@@ -337,7 +337,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
     public function update($dbName, $tableName, $arr = [], $id = false) {
         $ret = null;
@@ -352,7 +352,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     // DELETE FROM $table WHERE id = $id
     public function delete($dbName, $tableName, $id = false) {
         $ret = null;
@@ -367,7 +367,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     // führt alles Mögliche aus, möglichst vermeiden ^^
     public function execute($sqlString) {
         if ($this->connect()) {
@@ -375,13 +375,13 @@ class Client {
             return $this->sqli->query($sqlString);
         }
     }
-
+    
     public function executeFile($file) {
         if ($sql = file_get_contents($file)) {
             return $this->sqli->multi_query($sql);
         }
     }
-
+    
     public function getColumns($dbName, $tableName) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -400,7 +400,7 @@ class Client {
         }
         return $ret;
     }
-
+    
     public function optimize($dbName, $tableName) {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $sql = sprintf('OPTIMIZE TABLE %s', $dbHandle);
@@ -424,7 +424,7 @@ class Client {
         }
         throw new DatabaseException(implode(PHP_EOL, $err));
     }
-
+    
     public function resetCharset($dbName, $tableName = null) {
         // ALTER DATABASE <database_name> CHARACTER SET utf8 COLLATE utf8_unicode_ci;
         // ALTER TABLE <table_name> DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -449,14 +449,14 @@ class Client {
                 break;
         }
     }
-
+    
     public function escape($string) {
         if ($this->connect()) {
             return $this->sqli->real_escape_string((string) $string);
         }
         return $string;
     }
-
+    
     // gibt id-string zurück
     protected function get_ids($id) {
         if (is_array($id)) {
@@ -488,7 +488,7 @@ class Client {
          * //
          */
     }
-
+    
     // gibt update-string zurück
     protected function _get_update_data(array $arr) {
         $ret = [];
@@ -509,7 +509,7 @@ class Client {
         }
         return implode(',', $ret);
     }
-
+    
     // gibt db-handle zurück
     protected function get_handle($dbName, $tableName = null) {
         if ($dbName === null) {
@@ -518,7 +518,7 @@ class Client {
         }
         return $tableName === null ? sprintf('`%s`', $dbName) : sprintf('`%s`.`%s`', $dbName, $tableName);
     }
-
+    
     protected function error($sql = null) {
         $err = '';
         if ($sql) {

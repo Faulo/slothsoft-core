@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class StreamWriterInterfaceTest extends TestCase {
-
+    
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(StreamWriterInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Writable\StreamWriterInterface'!");
     }

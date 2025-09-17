@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class HTTPStreamTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(HTTPStream::class), "Failed to load class 'Slothsoft\Core\IO\HTTPStream'!");
     }

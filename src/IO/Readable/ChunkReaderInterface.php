@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Readable;
 use Generator;
 
 interface ChunkReaderInterface {
-
+    
     public function fromChunks(Generator $chunks);
 }
 

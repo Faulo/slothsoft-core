@@ -8,7 +8,7 @@ use Slothsoft\Core\IO\Memory;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 class StreamHelper {
-
+    
     public static function cacheStream(StreamInterface $input, $chunkSize = Memory::ONE_KILOBYTE): StreamInterface {
         $cache = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
         while (! $input->eof()) {
@@ -17,7 +17,7 @@ class StreamHelper {
         rewind($cache);
         return new Stream($cache);
     }
-
+    
     public static function sliceStream(StreamInterface $input, int $offset, int $length): StreamInterface {
         $input = self::cacheStream($input);
         $cache = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);

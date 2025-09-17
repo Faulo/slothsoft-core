@@ -12,22 +12,22 @@ use SplFileInfo;
  *        
  */
 class DocumentInput implements InputInterface {
-
+    
     private $content;
-
+    
     private $contentFile;
-
+    
     public function __construct(DOMDocument $input) {
         $this->content = $input;
     }
-
+    
     public function toFile(): SplFileInfo {
         if ($this->contentFile === null) {
             $this->contentFile = FileInfoFactory::createFromDocument($this->content);
         }
         return $this->contentFile;
     }
-
+    
     public function toDocument(): DOMDocument {
         return $this->content;
     }

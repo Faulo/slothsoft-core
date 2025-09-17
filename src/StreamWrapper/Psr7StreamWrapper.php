@@ -6,21 +6,21 @@ use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
 class Psr7StreamWrapper implements StreamWrapperInterface {
-
+    
     private $stream;
-
+    
     public function __construct(StreamInterface $stream) {
         $this->stream = $stream;
     }
-
+    
     public function stream_stat(): array {
         return [];
     }
-
+    
     public function stream_eof(): bool {
         return $this->stream->eof();
     }
-
+    
     public function stream_seek(int $offset, int $whence = SEEK_SET): int {
         try {
             $this->stream->seek($offset, $whence);
@@ -29,7 +29,7 @@ class Psr7StreamWrapper implements StreamWrapperInterface {
             return - 1;
         }
     }
-
+    
     public function stream_read(int $count) {
         try {
             return $this->stream->read($count);
@@ -37,7 +37,7 @@ class Psr7StreamWrapper implements StreamWrapperInterface {
             return false;
         }
     }
-
+    
     public function stream_write(string $data) {
         try {
             return $this->stream->write($data);
@@ -45,7 +45,7 @@ class Psr7StreamWrapper implements StreamWrapperInterface {
             return false;
         }
     }
-
+    
     public function stream_tell() {
         try {
             $this->stream->tell();
@@ -53,7 +53,7 @@ class Psr7StreamWrapper implements StreamWrapperInterface {
             return false;
         }
     }
-
+    
     public function stream_close(): bool {
         try {
             $this->stream->close();

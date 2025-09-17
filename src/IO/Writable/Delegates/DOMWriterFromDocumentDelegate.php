@@ -8,17 +8,17 @@ use DOMDocument;
 
 class DOMWriterFromDocumentDelegate implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
-
+    
     /** @var callable */
     private $delegate;
-
+    
     /** @var DOMDocument */
     private $result;
-
+    
     public function __construct(callable $delegate) {
         $this->delegate = $delegate;
     }
-
+    
     public function toDocument(): DOMDocument {
         if ($this->result === null) {
             $this->result = ($this->delegate)();

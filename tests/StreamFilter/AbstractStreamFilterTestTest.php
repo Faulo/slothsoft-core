@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @todo auto-generated
  */
 class AbstractStreamFilterTestTest extends TestCase {
-
+    
     public function testClassExists(): void {
         $this->assertTrue(class_exists(AbstractStreamFilterTest::class), "Failed to load class 'Slothsoft\Core\StreamFilter\AbstractStreamFilterTest'!");
     }

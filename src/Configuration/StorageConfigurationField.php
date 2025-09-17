@@ -6,7 +6,7 @@ use Slothsoft\Core\EphemeralStorageInterface;
 use BadMethodCallException;
 
 class StorageConfigurationField extends ConfigurationField {
-
+    
     public function setValue($newValue) {
         if ($newValue instanceof EphemeralStorageInterface) {
             parent::setValue($newValue);

@@ -25,7 +25,7 @@ use DOMNode;
 use Exception;
 use mysqli_sql_exception;
 
-class Storage implements IEphemeralStorage {
+class Storage implements EphemeralStorageInterface {
 
     private static function logEnabled(): ConfigurationField {
         static $field;
@@ -80,9 +80,9 @@ class Storage implements IEphemeralStorage {
     /**
      *
      * @param string $name
-     * @return IEphemeralStorage
+     * @return EphemeralStorageInterface
      */
-    public static function loadStorage(string $name): IEphemeralStorage {
+    public static function loadStorage(string $name): EphemeralStorageInterface {
         if (! isset(self::$storageList[$name])) {
             self::$storageList[$name] = new Storage($name);
             if (! self::$storageList[$name]->dbmsTable) {

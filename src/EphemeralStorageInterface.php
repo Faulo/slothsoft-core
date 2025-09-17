@@ -11,7 +11,7 @@ use DOMNode;
  * @author Daniel
  *        
  */
-interface IEphemeralStorage {
+interface EphemeralStorageInterface {
 
     public function exists(string $name, int $modifyTime): bool;
 

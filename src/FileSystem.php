@@ -126,11 +126,11 @@ abstract class FileSystem {
         return $field;
     }
 
-    public static function setStorage(IEphemeralStorage $storage) {
+    public static function setStorage(EphemeralStorageInterface $storage) {
         self::storage()->setValue($storage);
     }
 
-    public static function getStorage(): IEphemeralStorage {
+    public static function getStorage(): EphemeralStorageInterface {
         return self::storage()->getValue();
     }
 

@@ -5,7 +5,7 @@ namespace Slothsoft\Core;
 use DOMDocument;
 use DOMNode;
 
-class CacheDirectoryStorage implements IEphemeralStorage {
+class CacheDirectoryStorage implements EphemeralStorageInterface {
 
     protected static DOMHelper $dom;
 

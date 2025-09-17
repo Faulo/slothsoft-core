@@ -28,8 +28,7 @@ class CascadingDictionary implements ArrayAccess, IteratorAggregate {
         return false;
     }
 
-    #[\ReturnTypeWillChange]
-    public function &offsetGet($offset) {
+    public function offsetGet($offset) {
         foreach (array_keys($this->values) as $key) {
             if (strpos($offset, $key) === 0) {
                 return $this->values[$key];

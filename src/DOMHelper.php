@@ -26,19 +26,19 @@ use SplFileInfo;
 
 class DOMHelper {
 
-    const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
+    public const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
 
-    const NS_CRON_INSTRUCTIONS = 'http://schema.slothsoft.net/cron/instructions';
+    public const NS_CRON_INSTRUCTIONS = 'http://schema.slothsoft.net/cron/instructions';
 
-    const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
+    public const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
 
-    const NS_FARAH_MODULE = 'http://schema.slothsoft.net/farah/module';
+    public const NS_FARAH_MODULE = 'http://schema.slothsoft.net/farah/module';
 
-    const NS_FARAH_SITES = 'http://schema.slothsoft.net/farah/sitemap';
+    public const NS_FARAH_SITES = 'http://schema.slothsoft.net/farah/sitemap';
 
-    const NS_SAVEGAME_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
+    public const NS_SAVEGAME_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
 
-    const NS_SCHEMA_VERSIONING = 'http://schema.slothsoft.net/schema/versioning';
+    public const NS_SCHEMA_VERSIONING = 'http://schema.slothsoft.net/schema/versioning';
 
     private const SLOTHSOFT_NAMESPACES = [
         'saa' => self::NS_AMBER_AMBERDATA,
@@ -50,19 +50,21 @@ class DOMHelper {
         'ssv' => self::NS_SCHEMA_VERSIONING
     ];
 
-    const NS_XML = 'http://www.w3.org/XML/1998/namespace';
+    public const NS_XML = 'http://www.w3.org/XML/1998/namespace';
 
-    const NS_HTML = 'http://www.w3.org/1999/xhtml';
+    public const NS_HTML = 'http://www.w3.org/1999/xhtml';
 
-    const NS_XSL = 'http://www.w3.org/1999/XSL/Transform';
+    public const NS_XSL = 'http://www.w3.org/1999/XSL/Transform';
 
-    const NS_XSD = 'http://www.w3.org/2001/XMLSchema';
+    public const NS_XSD = 'http://www.w3.org/2001/XMLSchema';
 
-    const NS_SVG = 'http://www.w3.org/2000/svg';
+    public const NS_SVG = 'http://www.w3.org/2000/svg';
 
-    const NS_XLINK = 'http://www.w3.org/1999/xlink';
+    public const NS_XLINK = 'http://www.w3.org/1999/xlink';
 
-    const NS_ATOM = 'http://www.w3.org/2005/Atom';
+    public const NS_ATOM = 'http://www.w3.org/2005/Atom';
+
+    public const NS_XINCLUDE = 'http://www.w3.org/2001/XInclude';
 
     private const W3C_NAMESPACES = [
         'html' => self::NS_HTML,
@@ -71,26 +73,27 @@ class DOMHelper {
         'xsd' => self::NS_XSD,
         'svg' => self::NS_SVG,
         'xlink' => self::NS_XLINK,
-        'atom' => self::NS_ATOM
+        'atom' => self::NS_ATOM,
+        'xi' => self::NS_XINCLUDE
     ];
 
     private const HTML_NAMESPACES = [
         'html' => self::NS_HTML
     ];
 
-    const NS_PHP = 'http://php.net/xpath';
+    public const NS_PHP = 'http://php.net/xpath';
 
     private const PHP_NAMESPACES = [
         'php' => self::NS_PHP
     ];
 
-    const NS_EM = 'http://www.mozilla.org/2004/em-rdf#';
+    public const NS_EM = 'http://www.mozilla.org/2004/em-rdf#';
 
-    const NS_GD = 'http://schemas.google.com/g/2005';
+    public const NS_GD = 'http://schemas.google.com/g/2005';
 
-    const NS_MEDIA = 'http://search.yahoo.com/mrss/';
+    public const NS_MEDIA = 'http://search.yahoo.com/mrss/';
 
-    const NS_SITEMAP = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+    public const NS_SITEMAP = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 
     private const MISC_NAMESPACES = [
         'em' => self::NS_EM,
@@ -99,20 +102,19 @@ class DOMHelper {
         'sitemap' => self::NS_SITEMAP
     ];
 
-    const XPATH_NS_ALL = - 1;
+    public const XPATH_NS_ALL = - 1;
 
-    const XPATH_SLOTHSOFT = 1;
+    public const XPATH_SLOTHSOFT = 1;
 
-    const XPATH_W3C = 2;
+    public const XPATH_W3C = 2;
 
-    const XPATH_HTML = 4;
+    public const XPATH_HTML = 4;
 
-    const XPATH_PHP = 8;
+    public const XPATH_PHP = 8;
 
-    const XPATH_MISC = 16;
+    public const XPATH_MISC = 16;
 
-    // loadXPath loads Slothsoft namespaces
-    public static function loadDocument($filePath, $asHTML = false): DOMDocument {
+    public static function loadDocument(string $filePath, bool $asHTML = false): DOMDocument {
         $document = self::dom()->createDocument();
         if ($asHTML) {
             $document->loadHTMLFile($filePath, LIBXML_PARSEHUGE);
@@ -162,15 +164,15 @@ class DOMHelper {
 
     private const HTML_FRAME = '<?xml version="1.0" encoding="UTF-8"?><html><body>%s</body></html>';
 
-    private static function dom() {
-        static $implementation;
+    private static function dom(): DOMImplementation {
+        static $implementation = null;
         if ($implementation === null) {
             $implementation = new DOMImplementation();
         }
         return $implementation;
     }
 
-    public function parse($xmlCode, DOMDocument $targetDoc = null, $asHTML = false): DOMDocumentFragment {
+    public function parse(string $xmlCode, DOMDocument $targetDoc = null, bool $asHTML = false): DOMDocumentFragment {
         if ($asHTML) {
             $parseDoc = self::dom()->createDocument();
 
@@ -237,7 +239,7 @@ class DOMHelper {
         return $sourceNode->ownerDocument->saveXML($sourceNode);
     }
 
-    public function load($url, $asHTML = false): DOMDocument {
+    public function load($url, bool $asHTML = false): DOMDocument {
         $doc = self::dom()->createDocument();
         if ($asHTML) {
             $doc->loadHTMLFile((string) $url);
@@ -293,7 +295,7 @@ class DOMHelper {
         return $retNode;
     }
 
-    public function normalizeDocument(DOMDocument $dataDoc) {
+    public function normalizeDocument(DOMDocument $dataDoc): DOMDocument {
         try {
             $retDoc = self::dom()->createDocument();
 
@@ -311,7 +313,7 @@ class DOMHelper {
         return $retDoc;
     }
 
-    private function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList) {
+    private function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList): DOMNode {
         $retNode = null;
         switch ($sourceNode->nodeType) {
             case XML_DOCUMENT_NODE:

@@ -11,7 +11,7 @@ class CascadingDictionary implements ArrayAccess, IteratorAggregate {
     
     private array $values = [];
     
-    private callable $comparer;
+    private $comparer;
     
     public function __construct() {
         $this->comparer = function (string $a, string $b): int {

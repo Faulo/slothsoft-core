@@ -9,12 +9,12 @@ use Traversable;
 
 class CascadingDictionary implements ArrayAccess, IteratorAggregate {
     
-    private $values = [];
+    private array $values = [];
     
-    private $comparer;
+    private callable $comparer;
     
     public function __construct() {
-        $this->comparer = function (string $a, string $b) {
+        $this->comparer = function (string $a, string $b): int {
             return strlen($b) - strlen($a);
         };
     }

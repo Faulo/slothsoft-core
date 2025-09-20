@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
+namespace Slothsoft\Core;
 
 use Slothsoft\Core\IO\Memory;
-
 require_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('bootstrap-%s.php', PHP_SAPI);
 
 function my_dump($var) {
@@ -65,16 +65,16 @@ function log_execution_time(string $file, int $line): void {
     if (isset($_REQUEST['dev-time'])) {
         static $previousMemory = null;
         static $previousTime = null;
-
+        
         $nowMemory = memory_get_usage();
         $nowTime = get_execution_time();
-
+        
         $diffMemory = $previousMemory === null ? 0 : $nowMemory - $previousMemory;
         $diffTime = $previousTime === null ? 0 : $nowTime - $previousTime;
-
+        
         $previousMemory = $nowMemory;
         $previousTime = $nowTime;
-
+        
         printf('Took %5dMB (+%5dMB) and %6dms (+%4dms) to get to line %4d in file "%s"%s', $nowMemory / Memory::ONE_MEGABYTE, $diffMemory / Memory::ONE_MEGABYTE, $nowTime, $diffTime, $line, basename($file), PHP_EOL);
         flush();
     }

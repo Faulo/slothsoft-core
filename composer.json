@@ -33,7 +33,7 @@
 	},
 	"autoload" : {
 		"files" : [
-			"scripts/bootstrap.php"
+			"src/bootstrap.php"
 		],
 		"psr-4" : {
 			"Slothsoft\\Core\\" : "src"

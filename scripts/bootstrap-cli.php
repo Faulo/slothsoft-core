@@ -1,6 +1,7 @@
 <?php
 declare(strict_types = 1);
-namespace Slothsoft\Core;
+
+use Slothsoft\Core\ServerEnvironment;
 
 foreach ([
     'SERVER_PROTOCOL' => 'HTTP/1.0',

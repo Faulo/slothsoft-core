@@ -3,18 +3,17 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
+use Closure;
 use Generator;
 
 class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
     
-    /** @var callable */
-    private $delegate;
+    private Closure $delegate;
     
-    /** @var Generator */
-    private $result;
+    private ?Generator $result = null;
     
     public function __construct(callable $delegate) {
-        $this->delegate = $delegate;
+        $this->delegate = Closure::fromCallable($delegate);
     }
     
     public function toChunks(): Generator {

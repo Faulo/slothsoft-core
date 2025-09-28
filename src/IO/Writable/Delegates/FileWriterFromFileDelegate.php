@@ -3,18 +3,17 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
+use Closure;
 use SplFileInfo;
 
 class FileWriterFromFileDelegate implements FileWriterInterface {
     
-    /** @var callable */
-    private $delegate;
+    private Closure $delegate;
     
-    /** @var SplFileInfo */
-    private $result;
+    private ?SplFileInfo $result = null;
     
     public function __construct(callable $delegate) {
-        $this->delegate = $delegate;
+        $this->delegate = Closure::fromCallable($delegate);
     }
     
     public function toFile(): SplFileInfo {

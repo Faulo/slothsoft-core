@@ -4,20 +4,19 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
+use Closure;
 use DOMDocument;
 use DOMElement;
 
 class DOMWriterFromElementDelegate implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
     
-    /** @var callable */
-    private $delegate;
+    private Closure $delegate;
     
-    /** @var DOMElement */
-    private $result;
+    private ?DOMElement $result = null;
     
     public function __construct(callable $delegate) {
-        $this->delegate = $delegate;
+        $this->delegate = Closure::fromCallable($delegate);
     }
     
     public function toElement(DOMDocument $targetDoc): DOMElement {

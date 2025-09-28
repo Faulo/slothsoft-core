@@ -3,17 +3,16 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
+use Closure;
 
 class StringWriterFromStringDelegate implements StringWriterInterface {
     
-    /** @var callable */
-    private $delegate;
+    private Closure $delegate;
     
-    /** @var string */
-    private $result;
+    private ?string $result = null;
     
     public function __construct(callable $delegate) {
-        $this->delegate = $delegate;
+        $this->delegate = Closure::fromCallable($delegate);
     }
     
     public function toString(): string {

@@ -4,17 +4,16 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 
 use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
+use Closure;
 
 class StreamWriterFromStreamDelegate implements StreamWriterInterface {
     
-    /** @var callable */
-    private $delegate;
+    private Closure $delegate;
     
-    /** @var StreamInterface */
-    private $result;
+    private ?StreamInterface $result = null;
     
     public function __construct(callable $delegate) {
-        $this->delegate = $delegate;
+        $this->delegate = Closure::fromCallable($delegate);
     }
     
     public function toStream(): StreamInterface {

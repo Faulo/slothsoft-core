@@ -3,19 +3,18 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
+use Closure;
 use DOMDocument;
 use DOMElement;
 
 class DOMWriterFromDOMWriterDelegate implements DOMWriterInterface {
     
-    /** @var callable */
-    private $delegate;
+    private Closure $delegate;
     
-    /** @var DOMWriterInterface */
-    private $result;
+    private ?DOMWriterInterface $result = null;
     
     public function __construct(callable $delegate) {
-        $this->delegate = $delegate;
+        $this->delegate = Closure::fromCallable($delegate);
     }
     
     public function toDocument(): DOMDocument {

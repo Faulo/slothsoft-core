@@ -87,14 +87,16 @@ class MimeTypeDictionary {
         return ($testMime[0] === $extMime[0] and ($testMime[1] === '*' or $testMime[1] === $extMime[1]));
     }
     
-    public static function isXml(string $testMime): bool {
-        if ($testMime === 'application/xml') {
-            return true;
-        }
-        if (substr($testMime, - 4) === '+xml') {
-            return true;
-        }
-        return false;
+    public static function isXml(string $type): bool {
+        return $type === 'application/xml' or substr($type, - 4) === '+xml';
+    }
+    
+    public static function isHtml(string $type): bool {
+        return $type === 'text/html';
+    }
+    
+    public static function isText(string $type): bool {
+        return $type === 'application/javascript' or $type === 'application/json' or substr($type, 0, 5) === 'text/' or self::isXml($type);
     }
 }
 

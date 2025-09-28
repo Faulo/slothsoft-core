@@ -7,11 +7,9 @@ use SplFileInfo;
 
 class FileWriterMemoryCache implements FileWriterInterface {
     
-    /** @var FileWriterInterface */
-    private $source;
+    private FileWriterInterface $source;
     
-    /** @var SplFileInfo */
-    private $result;
+    private ?SplFileInfo $result = null;
     
     public function __construct(FileWriterInterface $source) {
         $this->source = $source;

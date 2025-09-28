@@ -6,24 +6,22 @@ use Slothsoft\Core\IO\Memory;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
+use Closure;
 use Generator;
 use SplFileInfo;
 
 class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface {
     
-    /** @var ChunkWriterInterface */
-    private $sourceWriter;
+    private ChunkWriterInterface $sourceWriter;
     
-    /** @var SplFileInfo */
-    private $cacheFile;
+    private SplFileInfo $cacheFile;
     
-    /** @var callable */
-    private $shouldRefreshCacheDelegate;
+    private Closure $shouldRefreshCacheDelegate;
     
     public function __construct(ChunkWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
-        $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate;
+        $this->shouldRefreshCacheDelegate = Closure::fromCallable($shouldRefreshCacheDelegate);
     }
     
     public function toChunks(): Generator {

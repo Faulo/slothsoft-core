@@ -7,11 +7,9 @@ use Generator;
 
 class ChunkWriterMemoryCache implements ChunkWriterInterface {
     
-    /** @var ChunkWriterInterface */
-    private $source;
+    private ChunkWriterInterface $source;
     
-    /** @var Generator */
-    private $result;
+    private ?Generator $result = null;
     
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;

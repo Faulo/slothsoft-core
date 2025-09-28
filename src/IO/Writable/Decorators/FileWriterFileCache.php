@@ -3,23 +3,21 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
+use Closure;
 use SplFileInfo;
 
 class FileWriterFileCache implements FileWriterInterface {
     
-    /** @var FileWriterInterface */
-    private $sourceWriter;
+    private FileWriterInterface $sourceWriter;
     
-    /** @var SplFileInfo */
-    private $cacheFile;
+    private SplFileInfo $cacheFile;
     
-    /** @var callable */
-    private $shouldRefreshCacheDelegate;
+    private Closure $shouldRefreshCacheDelegate;
     
     public function __construct(FileWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
-        $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate;
+        $this->shouldRefreshCacheDelegate = Closure::fromClosure($shouldRefreshCacheDelegate);
     }
     
     public function toFile(): SplFileInfo {

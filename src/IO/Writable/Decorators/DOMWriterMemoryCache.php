@@ -9,11 +9,9 @@ use DOMDocument;
 class DOMWriterMemoryCache implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
     
-    /** @var DOMWriterInterface */
-    private $source;
+    private DOMWriterInterface $source;
     
-    /** @var DOMDocument */
-    private $result;
+    private ?DOMDocument $result = null;
     
     public function __construct(DOMWriterInterface $source) {
         $this->source = $source;

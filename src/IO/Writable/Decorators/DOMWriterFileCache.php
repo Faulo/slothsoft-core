@@ -5,6 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Decorators;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
+use Closure;
 use DOMDocument;
 use SplFileInfo;
 use Slothsoft\Core\DOMHelper;
@@ -12,22 +13,18 @@ use Slothsoft\Core\DOMHelper;
 class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
     use DOMWriterElementFromDocumentTrait;
     
-    /** @var DOMWriterInterface */
-    private $sourceWriter;
+    private DOMWriterInterface $sourceWriter;
     
-    /** @var SplFileInfo */
-    private $cacheFile;
+    private SplFileInfo $cacheFile;
     
-    /** @var callable */
-    private $shouldRefreshCacheDelegate;
+    private Closure $shouldRefreshCacheDelegate;
     
-    /** @var DOMDocument */
-    private $document;
+    private ?DOMDocument $document = null;
     
     public function __construct(DOMWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
-        $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate;
+        $this->shouldRefreshCacheDelegate = Closure::fromCallable($shouldRefreshCacheDelegate);
     }
     
     public function toFile(): SplFileInfo {

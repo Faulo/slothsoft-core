@@ -9,8 +9,7 @@ use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 
 class StreamWriterFromChunkWriter implements StreamWriterInterface {
     
-    /** @var ChunkWriterInterface */
-    private $source;
+    private ChunkWriterInterface $source;
     
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;

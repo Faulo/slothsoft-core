@@ -8,8 +8,7 @@ use Generator;
 
 class ChunkWriterFromProcess implements ChunkWriterInterface {
     
-    /** @var Process */
-    private $process;
+    private Process $process;
     
     public function __construct(Process $process) {
         $this->process = $process;

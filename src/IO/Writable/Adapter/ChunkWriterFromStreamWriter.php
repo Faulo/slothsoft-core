@@ -9,8 +9,7 @@ use Generator;
 
 class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
     
-    /** @var StreamWriterInterface */
-    private $source;
+    private StreamWriterInterface $source;
     
     public function __construct(StreamWriterInterface $source) {
         $this->source = $source;

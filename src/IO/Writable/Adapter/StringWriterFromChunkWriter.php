@@ -8,8 +8,7 @@ use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 class StringWriterFromChunkWriter implements StringWriterInterface {
     
-    /** @var ChunkWriterInterface */
-    private $source;
+    private ChunkWriterInterface $source;
     
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;

@@ -7,8 +7,7 @@ use Generator;
 
 class ChunkWriterFromGenerator implements ChunkWriterInterface {
     
-    /** @var Generator */
-    private $generator;
+    private Generator $generator;
     
     public function __construct(Generator $generator) {
         $this->generator = $generator;

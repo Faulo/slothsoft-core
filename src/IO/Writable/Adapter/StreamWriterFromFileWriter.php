@@ -10,8 +10,7 @@ use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 class StreamWriterFromFileWriter implements StreamWriterInterface {
     
-    /** @var FileWriterInterface */
-    private $source;
+    private FileWriterInterface $source;
     
     public function __construct(FileWriterInterface $source) {
         $this->source = $source;

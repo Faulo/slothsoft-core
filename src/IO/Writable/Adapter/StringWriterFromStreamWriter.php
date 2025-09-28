@@ -7,8 +7,7 @@ use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 class StringWriterFromStreamWriter implements StringWriterInterface {
     
-    /** @var StreamWriterInterface */
-    private $source;
+    private StreamWriterInterface $source;
     
     public function __construct(StreamWriterInterface $source) {
         $this->source = $source;

@@ -791,7 +791,12 @@ abstract class FileSystem {
             return;
         }
         
-        if (! is_link($path)) {
+        if (is_link($path)) {
+            // never delete contents of symlink targets
+            if (! $keepRoot) {
+                unlink($path);
+            }
+        } else {
             foreach (self::scanDir($path, FileSystem::SCANDIR_REALPATH) as $file) {
                 if (is_writable($file)) {
                     if (is_dir($file)) {
@@ -803,10 +808,10 @@ abstract class FileSystem {
                     $keepRoot = true;
                 }
             }
-        }
-        
-        if (! $keepRoot) {
-            rmdir($path);
+            
+            if (! $keepRoot) {
+                rmdir($path);
+            }
         }
     }
     

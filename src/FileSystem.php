@@ -451,7 +451,7 @@ abstract class FileSystem {
             $length -= $chunksize;
         }
         echo "0
-
+            
 ";
         // */
         // fpassthru($handle);
@@ -467,7 +467,7 @@ abstract class FileSystem {
      * @return array
      */
     public static function scanDir(string $relPath, int $options = 0, ?string $filter = null): array {
-        $dirPath = realpath((string) $relPath);
+        $dirPath = realpath($relPath);
         if ($dirPath === false) {
             return [];
         }
@@ -787,20 +787,24 @@ abstract class FileSystem {
      * @param bool $keepRoot
      */
     public static function removeDir(string $path, bool $keepRoot = false): void {
-        if (! is_dir($path) or ! is_writable($path)) {
+        if ($path === '' or ! is_dir($path) or ! is_writable($path) or ! realpath($path)) {
             return;
         }
-        foreach (self::scanDir($path, FileSystem::SCANDIR_REALPATH) as $file) {
-            if (is_writable($file)) {
-                if (is_dir($file)) {
-                    self::removeDir($file);
+        
+        if (! is_link($path)) {
+            foreach (self::scanDir($path, FileSystem::SCANDIR_REALPATH) as $file) {
+                if (is_writable($file)) {
+                    if (is_dir($file)) {
+                        self::removeDir($file);
+                    } else {
+                        unlink($file);
+                    }
                 } else {
-                    unlink($file);
+                    $keepRoot = true;
                 }
-            } else {
-                $keepRoot = true;
             }
         }
+        
         if (! $keepRoot) {
             rmdir($path);
         }

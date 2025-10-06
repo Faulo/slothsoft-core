@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO;
 
+use Slothsoft\Core\FileSystem;
 use DOMDocument;
 use InvalidArgumentException;
 
@@ -13,6 +14,11 @@ class FileInfoFactory {
     
     public static function createFromPath(string $path): FileInfo {
         return new FileInfo($path);
+    }
+    
+    public static function createDirectoryFromPath(string $path): FileInfo {
+        FileSystem::ensureDirectory($path);
+        return self::createFromPath($path);
     }
     
     public static function createFromString(string $data): FileInfo {

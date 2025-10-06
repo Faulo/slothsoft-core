@@ -2,7 +2,6 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core;
 
-use Slothsoft\Core\IO\FileInfoFactory;
 use Imagick;
 use ImagickDraw;
 use SplFileInfo;
@@ -10,10 +9,7 @@ use SplFileInfo;
 class ImageHelper {
     
     public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = - 1): void {
-        $targetDirectory = FileInfoFactory::createFromPath($targetFile->getPath());
-        if (! $targetDirectory->isDir()) {
-            mkdir((string) $targetDirectory, 0777, true);
-        }
+        FileSystem::ensureDirectory($targetFile->getPath());
         
         $image = new Imagick((string) $sourceFile);
         $image->setImageFormat('png');
@@ -27,10 +23,7 @@ class ImageHelper {
     }
     
     public static function createSpriteSheet(SplFileInfo $targetFile, int $spriteWidth, int $spriteHeight, int $columns = 1, int $rows = 1, SplFileInfo ...$sprites): void {
-        $targetDirectory = FileInfoFactory::createFromPath($targetFile->getPath());
-        if (! $targetDirectory->isDir()) {
-            mkdir((string) $targetDirectory, 0777, true);
-        }
+        FileSystem::ensureDirectory($targetFile->getPath());
         
         $stack = new Imagick();
         foreach ($sprites as $sprite) {

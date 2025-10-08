@@ -15,7 +15,7 @@ final class DOMNodeEqualTo extends Constraint {
     
     public function __construct(DOMNode $expected) {
         $this->expected = $expected;
-        $this->expectedText = self::normalizeNodeAsText($expected);
+        $this->expectedText = self::stringify($expected);
     }
     
     public function toString(): string {
@@ -27,7 +27,7 @@ final class DOMNodeEqualTo extends Constraint {
             return false;
         }
         
-        $otherText = self::normalizeNodeAsText($other);
+        $otherText = self::stringify($other);
         
         return $this->expectedText === $otherText;
     }
@@ -37,27 +37,27 @@ final class DOMNodeEqualTo extends Constraint {
     }
     
     protected function additionalFailureDescription($other): string {
-        $otherText = self::normalizeNodeAsText($other);
+        $otherText = self::stringify($other);
         
         return (new Differ(new UnifiedDiffOutputBuilder("--- Expected\n+++ Actual\n")))->diff($this->expectedText, $otherText);
     }
     
-    private static function normalizeNodeAsText(DOMNode $node): string {
+    public static function stringify(DOMNode $node): string {
         return implode(PHP_EOL, [
-            ...self::normalizeNode($node)
+            ...self::stringifyIterator($node)
         ]);
     }
     
-    private static function normalizeNode(DOMNode $node, int $depth = 0): iterable {
+    private static function stringifyIterator(DOMNode $node, int $depth = 0): iterable {
         switch ($node->nodeType) {
             case XML_DOCUMENT_NODE:
                 if ($node->documentElement) {
-                    yield from self::normalizeNode($node->documentElement, $depth);
+                    yield from self::stringifyIterator($node->documentElement, $depth);
                 }
                 break;
             case XML_DOCUMENT_FRAG_NODE:
                 foreach ($node->childNodes as $child) {
-                    yield from self::normalizeNode($child, $depth);
+                    yield from self::stringifyIterator($child, $depth);
                 }
                 break;
             case XML_ELEMENT_NODE:
@@ -70,13 +70,13 @@ final class DOMNodeEqualTo extends Constraint {
                 }
                 ksort($attributes);
                 foreach ($attributes as $child) {
-                    yield from self::normalizeNode($child, $depth);
+                    yield from self::stringifyIterator($child, $depth);
                 }
                 
                 yield sprintf('%s>', self::printDepth($depth));
                 
                 foreach ($node->childNodes as $child) {
-                    yield from self::normalizeNode($child, $depth);
+                    yield from self::stringifyIterator($child, $depth);
                 }
                 break;
             case XML_ATTRIBUTE_NODE:

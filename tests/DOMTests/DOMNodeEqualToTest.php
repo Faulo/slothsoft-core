@@ -5,6 +5,8 @@ namespace Slothsoft\Core\DOMTests;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
+use PHPUnit\Framework\Constraint\IsEqual;
+use Slothsoft\Core\DOMHelper;
 
 /**
  * DOMNodeEqualToTest
@@ -15,9 +17,45 @@ final class DOMNodeEqualToTest extends TestCase {
     
     /**
      *
+     * @dataProvider provideStringifiedXml
+     */
+    public function test_stringify(string $xml, string $expected): void {
+        $dom = new DOMHelper();
+        $node = $dom->parse($xml);
+        
+        $actual = DOMNodeEqualTo::stringify($node);
+        
+        self::assertThat($actual, new IsEqual($expected));
+    }
+    
+    public static function provideStringifiedXml(): iterable {
+        yield 'simple element' => [
+            '<data a="b"><child c="d"/></data>',
+            <<<EOT
+<data
+ a="b"
+ >
+ <child
+  c="d"
+  >
+EOT
+        ];
+        
+        yield 'namespaced element' => [
+            '<x:data y:a="b" xmlns:x="urn:foo" xmlns:y="urn:bar"/>',
+            <<<EOT
+<urn:foo data
+ urn:bar a="b"
+ >
+EOT
+        ];
+    }
+    
+    /**
+     *
      * @dataProvider provideXmlComparisons
      */
-    public function testCompareXml(string $expectedXml, string $actualXml, ?string $expectedFailure = null): void {
+    public function test_matches(string $expectedXml, string $actualXml, ?string $expectedFailure = null): void {
         $expectedDoc = new DOMDocument();
         $expectedDoc->loadXML($expectedXml);
         $actualDoc = new DOMDocument();

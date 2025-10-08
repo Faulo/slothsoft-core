@@ -75,6 +75,28 @@ EOT,
  "abc d e f ghi"
 EOT
         ];
+        
+        yield 'processing-instruction' => [
+            <<<EOT
+<?xml-stylesheet href="test.css"?>
+<data><?php echo 'hello'; ?></data>
+EOT,
+            <<<EOT
+<?xml-stylesheet href="test.css"?>
+<data
+ >
+ <?php echo 'hello'; ?>
+EOT
+        ];
+        
+        yield 'entity content' => [
+            '<data>&lt;&amp;&#x20;&amp;&gt;</data>',
+            <<<EOT
+<data
+ >
+ "<& &>"
+EOT
+        ];
     }
     
     /**

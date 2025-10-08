@@ -51,6 +51,7 @@ final class DOMNodeEqualTo extends Constraint {
     private static function stringifyIterator(DOMNode $node, int $depth = 0): iterable {
         switch ($node->nodeType) {
             case XML_DOCUMENT_NODE:
+            case XML_HTML_DOCUMENT_NODE:
                 if ($node->documentElement) {
                     yield from self::stringifyIterator($node->documentElement, $depth);
                 }
@@ -81,6 +82,7 @@ final class DOMNodeEqualTo extends Constraint {
                     switch ($child->nodeType) {
                         case XML_TEXT_NODE:
                         case XML_CDATA_SECTION_NODE:
+                        case XML_ENTITY_REF_NODE:
                             $buffer .= $child->nodeValue;
                             break;
                         default:
@@ -104,13 +106,22 @@ final class DOMNodeEqualTo extends Constraint {
                 break;
             case XML_TEXT_NODE:
             case XML_CDATA_SECTION_NODE:
+            case XML_ENTITY_REF_NODE:
                 $text = self::normalizeSpace($node->nodeValue);
                 if ($text !== '') {
                     yield sprintf('%s%s', self::printDepth($depth), json_encode($text));
                 }
                 break;
+            case XML_PI_NODE:
+                yield sprintf('%s<?%s %s?>', self::printDepth($depth), $node->target, $node->data);
+                break;
+            case XML_COMMENT_NODE:
+            case XML_DOCUMENT_TYPE_NODE:
+            case XML_NOTATION_NODE:
+            case XML_ENTITY_DECL_NODE:
+            case XML_ENTITY_NODE:
             default:
-                throw new \Exception("Unknown node type: $node->nodeType");
+                break;
         }
     }
     

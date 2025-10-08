@@ -75,8 +75,28 @@ final class DOMNodeEqualTo extends Constraint {
                 
                 yield sprintf('%s>', self::printDepth($depth));
                 
+                $buffer = '';
+                
                 foreach ($node->childNodes as $child) {
-                    yield from self::stringifyIterator($child, $depth);
+                    switch ($child->nodeType) {
+                        case XML_TEXT_NODE:
+                        case XML_CDATA_SECTION_NODE:
+                            $buffer .= $child->nodeValue;
+                            break;
+                        default:
+                            $buffer = self::normalizeSpace($buffer);
+                            if ($buffer !== '') {
+                                yield sprintf('%s%s', self::printDepth($depth), json_encode($buffer));
+                                $buffer = '';
+                            }
+                            
+                            yield from self::stringifyIterator($child, $depth);
+                    }
+                }
+                
+                $buffer = self::normalizeSpace($buffer);
+                if ($buffer !== '') {
+                    yield sprintf('%s%s', self::printDepth($depth), json_encode($buffer));
                 }
                 break;
             case XML_ATTRIBUTE_NODE:
@@ -89,6 +109,8 @@ final class DOMNodeEqualTo extends Constraint {
                     yield sprintf('%s%s', self::printDepth($depth), json_encode($text));
                 }
                 break;
+            default:
+                throw new \Exception("Unknown node type: $node->nodeType");
         }
     }
     

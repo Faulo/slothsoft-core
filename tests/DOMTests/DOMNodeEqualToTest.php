@@ -49,6 +49,32 @@ EOT
  >
 EOT
         ];
+        
+        yield 'text content' => [
+            '<data>  a  b  c </data>',
+            <<<EOT
+<data
+ >
+ "a b c"
+EOT
+        ];
+        
+        yield 'multiple text nodes' => [
+            <<<EOT
+<data>
+    abc
+    <![CDATA[
+d  e  f
+]]>
+    ghi
+</data>
+EOT,
+            <<<EOT
+<data
+ >
+ "abc d e f ghi"
+EOT
+        ];
     }
     
     /**

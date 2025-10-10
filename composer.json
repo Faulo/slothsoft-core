@@ -15,8 +15,7 @@
 		"slothsoft/w3c" : "^1.1",
 		"psr/http-message" : "^1.0",
 		"guzzlehttp/psr7" : "^2.7",
-		"symfony/process" : "^5.4.45",
-		"slothsoft/farah": "^1.21.14"
+		"symfony/process" : "^5.4.45"
 	},
 	"require-dev" : {
 		"ext-curl" : "*",

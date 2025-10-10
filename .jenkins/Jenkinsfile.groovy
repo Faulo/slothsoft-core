@@ -5,7 +5,7 @@ def runTests(def versions) {
 		stage("PHP: ${version}") {
 			callShell "docker pull ${image}"
 
-			docker.image(image).inside {
+			withDockerContainer(image: image, toolName: 'Default') {
 				callShell 'composer update --prefer-lowest'
 
 				dir('.reports') {
@@ -18,9 +18,7 @@ def runTests(def versions) {
 					callShell "composer exec phpunit -- --log-junit ${report}"
 				}
 
-				if (fileExists(report)) {
-					junit report
-				}
+				junit report
 			}
 		}
 	}

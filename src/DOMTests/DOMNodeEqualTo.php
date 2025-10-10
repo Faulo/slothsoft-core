@@ -43,7 +43,7 @@ final class DOMNodeEqualTo extends Constraint {
     }
     
     public static function stringify(DOMNode $node): string {
-        return implode(PHP_EOL, [
+        return implode("\n", [
             ...self::stringifyIterator($node)
         ]);
     }

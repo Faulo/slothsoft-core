@@ -6,6 +6,8 @@ use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\Constraint\Constraint;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\ScalarComparator;
+use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use DOMNode;
 
 final class DOMNodeEqualTo extends Constraint {
@@ -39,7 +41,7 @@ final class DOMNodeEqualTo extends Constraint {
                 return false;
             }
             
-            throw new ExpectationFailedException(trim($description . "\n" . sprintf('Failed asserting that %s.', $this->failureDescription($other))), $f);
+            throw new ExpectationFailedException(trim($description . "\n" . sprintf('Failed asserting that %s.%s%s', $this->failureDescription($other), "\n", $this->additionalFailureDescription($other))), $f);
         }
         
         return true;
@@ -47,6 +49,12 @@ final class DOMNodeEqualTo extends Constraint {
     
     protected function failureDescription($other): string {
         return 'the provided DOMNode ' . $this->toString();
+    }
+    
+    protected function additionalFailureDescription($other): string {
+        $otherText = self::stringify($other);
+        
+        return (new Differ(new UnifiedDiffOutputBuilder("--- Expected\n+++ Actual\n")))->diff($this->expectedText, $otherText);
     }
     
     public static function stringify(DOMNode $node): string {

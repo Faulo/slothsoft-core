@@ -6,12 +6,17 @@ use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMElement;
 
-class DOMHelperTest extends TestCase {
+/**
+ * DOMHelperTest
+ *
+ * @see DOMHelper
+ */
+final class DOMHelperTest extends TestCase {
     
-    private $dom;
+    private DOMHelper $sut;
     
     public function setUp(): void {
-        $this->dom = new DOMHelper();
+        $this->sut = new DOMHelper();
     }
     
     /**
@@ -20,7 +25,7 @@ class DOMHelperTest extends TestCase {
      */
     public function testParseFragment() {
         $xml = '<xml/>';
-        $fragment = $this->dom->parse($xml);
+        $fragment = $this->sut->parse($xml);
         
         $this->assertInstanceOf(DOMElement::class, $fragment->firstChild);
         $this->assertEquals('xml', $fragment->firstChild->tagName);
@@ -45,7 +50,7 @@ class DOMHelperTest extends TestCase {
         $templateDoc = new DOMDocument();
         $templateDoc->loadXML($templateXml);
         
-        $resultDoc = $this->dom->transformToDocument($dataDoc, $templateDoc, [
+        $resultDoc = $this->sut->transformToDocument($dataDoc, $templateDoc, [
             'foo' => 'bar'
         ]);
         

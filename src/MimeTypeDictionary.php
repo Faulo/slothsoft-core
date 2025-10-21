@@ -13,21 +13,17 @@ class MimeTypeDictionary {
     
     const FILE_MIME = __DIR__ . '/../mimeTypes.xml';
     
-    private static $initialized = false;
+    private static bool $initialized = false;
     
-    private static $mimeExtensionList;
+    private static array $mimeExtensionList = [];
     
-    private static $mimeCompressionsList;
+    private static array $mimeCompressionsList = [];
     
-    private static $extensionMimeList;
+    private static array $extensionMimeList = [];
     
-    private static function init() {
+    private static function init(): void {
         if (! self::$initialized) {
             self::$initialized = true;
-            
-            self::$mimeExtensionList = [];
-            self::$extensionMimeList = [];
-            self::$mimeCompressionsList = [];
             
             $mimeDoc = new DOMDocument();
             $mimeDoc->load(self::FILE_MIME);

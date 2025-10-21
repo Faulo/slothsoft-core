@@ -58,6 +58,8 @@ class DOMHelper {
     
     public const NS_XSD = 'http://www.w3.org/2001/XMLSchema';
     
+    public const NS_XSI = 'http://www.w3.org/2001/XMLSchema-instance';
+    
     public const NS_SVG = 'http://www.w3.org/2000/svg';
     
     public const NS_XLINK = 'http://www.w3.org/1999/xlink';

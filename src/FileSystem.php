@@ -11,6 +11,7 @@ declare(strict_types = 1);
  */
 namespace Slothsoft\Core;
 
+use SebastianBergmann\CodeCoverage\Util\DirectoryCouldNotBeCreatedException;
 use Slothsoft\Core\Calendar\DateTimeFormatter;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\StorageConfigurationField;
@@ -20,6 +21,7 @@ use DOMElement;
 use DOMNode;
 use DOMXPath;
 use Exception;
+use InvalidArgumentException;
 use SplFileInfo;
 
 abstract class FileSystem {
@@ -822,32 +824,36 @@ abstract class FileSystem {
      * @param string $to
      */
     public static function copy(string $from, string $to): void {
-        assert(file_exists($from));
-        
         if (realpath($from) === false) {
-            throw new Exception("Failed to process realpath('$from')");
+            throw new InvalidArgumentException("Source '$from' does not exist.");
         }
         
         $from = realpath($from);
         
         if (is_dir($from)) {
+            if (is_file($to)) {
+                throw new InvalidArgumentException("Target '$to' is not a directory, but source '$from' is.");
+            }
+            
             if (! file_exists($to)) {
                 mkdir($to, 0777, true);
             }
             
             if (realpath($to) === false) {
-                throw new Exception("Failed to process realpath('$to')");
+                throw new DirectoryCouldNotBeCreatedException("Target directory '$to' could not be created.");
             }
             
             $to = realpath($to);
-            
-            assert(is_dir($to));
             
             foreach (self::scanDir($from) as $file) {
                 self::copy($from . DIRECTORY_SEPARATOR . $file, $to . DIRECTORY_SEPARATOR . $file);
             }
         } else {
             copy($from, $to);
+            
+            if (PHP_OS_FAMILY === 'Linux') {
+                chmod($to, 0777);
+            }
         }
     }
     

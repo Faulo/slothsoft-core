@@ -824,12 +824,21 @@ abstract class FileSystem {
     public static function copy(string $from, string $to): void {
         assert(file_exists($from));
         
+        if (realpath($from) === false) {
+            throw new Exception("Failed to process realpath('$from')");
+        }
+        
         $from = realpath($from);
         
         if (is_dir($from)) {
             if (! file_exists($to)) {
                 mkdir($to, 0777, true);
             }
+            
+            if (realpath($to) === false) {
+                throw new Exception("Failed to process realpath('$to')");
+            }
+            
             $to = realpath($to);
             
             assert(is_dir($to));

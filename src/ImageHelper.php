@@ -22,14 +22,13 @@ class ImageHelper {
         }
     }
     
-    public static function createSpriteSheet(SplFileInfo $targetFile, int $spriteWidth, int $spriteHeight, int $columns = 1, int $rows = 1, SplFileInfo ...$sprites): void {
+    public static function createSpriteSheetFromImages(SplFileInfo $targetFile, int $spriteWidth, int $spriteHeight, int $columns = 1, int $rows = 1, Imagick ...$sprites): void {
         FileSystem::ensureDirectory($targetFile->getPath());
         
         $stack = new Imagick();
         foreach ($sprites as $sprite) {
-            $image = new Imagick((string) $sprite);
-            $image->setImageExtent($spriteWidth, $spriteHeight);
-            $stack->addImage($image);
+            $sprite->setImageExtent($spriteWidth, $spriteHeight);
+            $stack->addImage($sprite);
         }
         $stack->resetIterator();
         
@@ -42,6 +41,15 @@ class ImageHelper {
         }
         $sheet->setImageFormat('png');
         $sheet->writeImage((string) $targetFile);
+    }
+    
+    public static function createSpriteSheet(SplFileInfo $targetFile, int $spriteWidth, int $spriteHeight, int $columns = 1, int $rows = 1, SplFileInfo ...$spriteFiles): void {
+        $sprites = [];
+        foreach ($spriteFiles as $spriteFile) {
+            $sprites[] = new Imagick((string) $spriteFile);
+        }
+        
+        self::createSpriteSheetFromImages($targetFile, $spriteWidth, $spriteHeight, $columns, $rows, ...$sprites);
     }
 }
 

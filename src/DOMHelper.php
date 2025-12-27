@@ -159,6 +159,10 @@ class DOMHelper {
                 return 'xhtml';
             case self::NS_SVG:
                 return 'svg';
+            case self::NS_XSL:
+                return 'xsl';
+            case self::NS_XSD:
+                return 'xsd';
             default:
                 return 'xml';
         }

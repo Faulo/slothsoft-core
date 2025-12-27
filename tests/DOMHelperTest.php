@@ -5,6 +5,7 @@ namespace Slothsoft\Core;
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMElement;
+use PHPUnit\Framework\Constraint\IsEqual;
 
 /**
  * DOMHelperTest
@@ -57,5 +58,42 @@ final class DOMHelperTest extends TestCase {
         $this->assertInstanceOf(DOMElement::class, $resultDoc->documentElement);
         $this->assertEquals('output', $resultDoc->documentElement->tagName);
         $this->assertEquals('bar', $resultDoc->documentElement->getAttribute('foo'));
+    }
+    
+    /**
+     *
+     * @dataProvider namespaceExamples
+     */
+    public function test_guessExtension(string $namespaceURI, string $expected) {
+        $actual = DOMHelper::guessExtension($namespaceURI);
+        
+        $this->assertThat($actual, new IsEqual($expected));
+    }
+    
+    public function namespaceExamples(): iterable {
+        yield 'xml' => [
+            '',
+            'xml'
+        ];
+        yield 'sfm' => [
+            DOMHelper::NS_FARAH_MODULE,
+            'xml'
+        ];
+        yield 'html' => [
+            DOMHelper::NS_HTML,
+            'xhtml'
+        ];
+        yield 'svg' => [
+            DOMHelper::NS_SVG,
+            'svg'
+        ];
+        yield 'xslt' => [
+            DOMHelper::NS_XSL,
+            'xsl'
+        ];
+        yield 'xsd' => [
+            DOMHelper::NS_XSD,
+            'xsd'
+        ];
     }
 }

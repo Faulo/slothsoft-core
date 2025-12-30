@@ -5,8 +5,9 @@ namespace Slothsoft\Core\IO\Psr7;
 use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use BadMethodCallException;
+use Generator;
 
-class GeneratorStream implements StreamInterface {
+final class GeneratorStream implements StreamInterface {
     
     private const NEW = 1;
     
@@ -16,27 +17,35 @@ class GeneratorStream implements StreamInterface {
     
     private const END = 4;
     
-    private $writer;
+    private const ABORTED = 8;
     
-    private $generator;
+    private ?ChunkWriterInterface $writer;
     
-    private $state;
+    private ?Generator $generator;
+    
+    private int $state;
     
     public function __construct(ChunkWriterInterface $writer) {
         $this->writer = $writer;
+        $this->generator = null;
         $this->state = self::NEW;
     }
     
     private function init() {
+        if ($this->state === self::ABORTED) {
+            throw new BadMethodCallException('The GeneratorStream was closed before it could finish reading its data.');
+        }
+        
         if ($this->state === self::NEW) {
             $this->generator = $this->writer->toChunks();
-            $this->state = self::START;
+            $this->state = $this->generator->valid() ? self::START : self::END;
         }
     }
     
     public function eof() {
         $this->init();
-        return ! $this->generator->valid();
+        
+        return $this->state === self::END and $this->bufferIndex >= $this->bufferSize;
     }
     
     public function rewind() {
@@ -46,13 +55,13 @@ class GeneratorStream implements StreamInterface {
     public function close() {
         $this->writer = null;
         $this->generator = null;
-        $this->state = self::END;
+        if ($this->state !== self::END) {
+            $this->state = self::ABORTED;
+        }
     }
     
     public function detach() {
-        $this->writer = null;
-        $this->generator = null;
-        $this->state = self::END;
+        $this->close();
     }
     
     public function getMetadata($key = null) {
@@ -60,11 +69,12 @@ class GeneratorStream implements StreamInterface {
     }
     
     public function getContents() {
-        $ret = '';
-        while (! $this->eof()) {
-            $ret .= $this->read(PHP_INT_MAX);
+        $this->init();
+        
+        while ($this->state !== self::END) {
+            $this->read(PHP_INT_MAX);
         }
-        return $ret;
+        return $this->buffer;
     }
     
     public function __toString() {
@@ -72,37 +82,72 @@ class GeneratorStream implements StreamInterface {
     }
     
     public function getSize() {
-        return null;
+        $this->init();
+        
+        if ($this->state !== self::END) {
+            $this->read(PHP_INT_MAX);
+        }
+        
+        return $this->bufferSize;
     }
     
     public function tell() {
-        throw new BadMethodCallException('Cannot tell a GeneratorStream.');
+        return $this->bufferIndex;
     }
     
     public function isReadable() {
         return true;
     }
     
+    private string $buffer = '';
+    
+    private int $bufferIndex = 0;
+    
+    private int $bufferSize = 0;
+    
     public function read($length) {
         $this->init();
-        if ($this->state === self::START) {
-            $this->state = self::MIDDLE;
-        } else {
-            $this->generator->next();
+        
+        if ($this->state !== self::END) {
+            while ($this->bufferSize - $this->bufferIndex < $length) {
+                if ($this->state === self::START) {
+                    $this->state = self::MIDDLE;
+                } else {
+                    $this->generator->next();
+                }
+                
+                $this->buffer .= (string) $this->generator->current();
+                $this->bufferSize = strlen($this->buffer);
+                
+                if (! $this->generator->valid()) {
+                    $this->state = self::END;
+                    $this->close();
+                    break;
+                }
+            }
         }
-        return $this->generator->valid() ? (string) $this->generator->current() : '';
+        
+        if ($length > $this->bufferSize) {
+            $length = $this->bufferSize;
+        }
+        
+        $result = substr($this->buffer, $this->bufferIndex, $length);
+        $this->bufferIndex = min($this->bufferIndex + $length, $this->bufferSize);
+        
+        return $result;
     }
     
     public function isSeekable() {
-        return false;
+        return true;
     }
     
     public function seek($offset, $whence = SEEK_SET) {
-        if ($offset === 0 and $whence === SEEK_SET) {
-            if ($this->state === self::MIDDLE) {
-                $this->generator->rewind();
-                $this->state = self::START;
+        if ($whence === SEEK_SET) {
+            while ($this->state === self::MIDDLE) {
+                $this->read(PHP_INT_MAX);
             }
+            
+            $this->bufferIndex = (int) $offset;
         } else {
             throw new BadMethodCallException('Cannot seek a GeneratorStream.');
         }

@@ -2,8 +2,10 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Psr7;
 
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Constraint\IsEqual;
+use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
 abstract class AbstractFilteredStreamTestCase extends TestCase {
@@ -14,25 +16,25 @@ abstract class AbstractFilteredStreamTestCase extends TestCase {
     
     abstract protected function getFilterFactory(): FilteredStreamWriterInterface;
     
-    private $inputStream;
+    private StreamInterface $inputStream;
     
-    private $expectedResult;
+    private string $expectedResult;
     
-    private $factory;
+    private FilteredStreamWriterInterface $factory;
     
     public function setUp(): void {
         $input = $this->getInput();
-        $this->inputStream = stream_for($input);
+        $this->inputStream = Utils::streamFor($input);
         $this->expectedResult = $this->calculateExpectedResult($input);
         $this->factory = $this->getFilterFactory();
     }
     
-    public function testReadStream() {
+    public function testReadStream(): void {
         $stream = $this->factory->toFilteredStream($this->inputStream);
         
-        $actualResult = $stream->getContents();
+        $actual = $stream->getContents();
         
-        $this->assertEquals($this->expectedResult, $actualResult);
+        $this->assertThat($actual, new IsEqual($this->expectedResult));
     }
 }
 

@@ -20,12 +20,17 @@ class DOMWriterFromFileWriter implements DOMWriterInterface {
         $this->documentURI = $documentURI;
     }
     
+    private ?DOMDocument $document = null;
+    
     public function toDocument(): DOMDocument {
-        $document = DOMHelper::loadDocument((string) $this->source->toFile());
-        if ($this->documentURI !== null) {
-            $document->documentURI = $this->documentURI;
+        if ($this->document === null) {
+            $this->document = DOMHelper::loadDocument((string) $this->source->toFile());
+            if ($this->documentURI !== null) {
+                $this->document->documentURI = $this->documentURI;
+            }
         }
-        return $document;
+        
+        return $this->document;
     }
 }
 

@@ -15,10 +15,15 @@ class DOMWriterFromStringWriter implements DOMWriterInterface {
         $this->source = $source;
     }
     
+    private ?DOMDocument $document = null;
+    
     public function toDocument(): DOMDocument {
-        $document = new DOMDocument();
-        $document->loadXML($this->source->toString());
-        return $document;
+        if ($this->document === null) {
+            $this->document = new DOMDocument();
+            $this->document->loadXML($this->source->toString());
+        }
+        
+        return $this->document;
     }
     
     public function toElement(DOMDocument $targetDoc): DOMElement {

@@ -6,6 +6,12 @@ use Generator;
 
 interface ChunkWriterInterface {
     
+    /**
+     * Converts the object's held data to a Generator.
+     * Subsequent calls are expected to create a new Generator object each time.
+     *
+     * @return Generator
+     */
     public function toChunks(): Generator;
 }
 

@@ -11,6 +11,12 @@ use SplFileInfo;
  */
 interface FileWriterInterface {
     
+    /**
+     * Converts the object's data to a file on disk.
+     * Subsequent calls are expected to return the same file object each time.
+     *
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo;
 }
 

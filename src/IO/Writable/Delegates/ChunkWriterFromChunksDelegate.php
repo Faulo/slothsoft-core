@@ -6,7 +6,7 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Closure;
 use Generator;
 
-class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
+final class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
     
     private Closure $delegate;
     
@@ -17,7 +17,7 @@ class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
     }
     
     public function toChunks(): Generator {
-        if ($this->result === null) {
+        if ($this->result === null or ! $this->result->valid()) {
             $this->result = ($this->delegate)();
             assert($this->result instanceof Generator, "ChunkWriterFromChunksDelegate must return Generator!");
         }

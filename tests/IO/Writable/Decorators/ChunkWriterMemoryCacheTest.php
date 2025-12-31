@@ -31,27 +31,21 @@ final class ChunkWriterMemoryCacheTest extends TestCase implements ChunkWriterIn
         yield from self::$values;
     }
     
-    public function test_values() {
+    /**
+     *
+     * @testWith [1]
+     *           [2]
+     *           [3]
+     */
+    public function test_values(int $count) {
         $sut = new ChunkWriterMemoryCache($this);
         
         $expected = self::$values;
-        $actual = [
-            ...$sut->toChunks()
-        ];
-        
-        $this->assertThat($actual, new IsIdentical($expected));
-    }
-    
-    public function test_values_twice() {
-        $sut = new ChunkWriterMemoryCache($this);
-        
-        $expected = self::$values;
-        $actual = [
-            ...$sut->toChunks()
-        ];
-        $actual = [
-            ...$sut->toChunks()
-        ];
+        for ($i = 0; $i < $count; $i ++) {
+            $actual = [
+                ...$sut->toChunks()
+            ];
+        }
         
         $this->assertThat($actual, new IsIdentical($expected));
     }

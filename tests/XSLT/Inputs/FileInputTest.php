@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class FileInputTest extends TestCase {
+final class FileInputTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(FileInput::class), "Failed to load class 'Slothsoft\Core\XSLT\Inputs\FileInput'!");

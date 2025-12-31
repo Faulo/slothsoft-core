@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class StringWriterMemoryCacheTest extends TestCase {
+final class StringWriterMemoryCacheTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(StringWriterMemoryCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\StringWriterMemoryCache'!");

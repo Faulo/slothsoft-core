@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class MemoryTest extends TestCase {
+final class MemoryTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(Memory::class), "Failed to load class 'Slothsoft\Core\IO\Memory'!");

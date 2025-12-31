@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class TableTest extends TestCase {
+final class TableTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(Table::class), "Failed to load class 'Slothsoft\Core\DBMS\Table'!");

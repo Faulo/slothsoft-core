@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class ConfigurationFieldTest extends TestCase {
+final class ConfigurationFieldTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ConfigurationField::class), "Failed to load class 'Slothsoft\Core\Configuration\ConfigurationField'!");

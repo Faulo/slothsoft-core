@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class TokenSanitizerTest extends TestCase {
+final class TokenSanitizerTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(TokenSanitizer::class), "Failed to load class 'Slothsoft\Core\IO\Sanitizer\TokenSanitizer'!");

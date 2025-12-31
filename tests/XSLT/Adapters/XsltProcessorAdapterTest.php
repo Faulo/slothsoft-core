@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class XsltProcessorAdapterTest extends TestCase {
+final class XsltProcessorAdapterTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(XsltProcessorAdapter::class), "Failed to load class 'Slothsoft\Core\XSLT\Adapters\XsltProcessorAdapter'!");

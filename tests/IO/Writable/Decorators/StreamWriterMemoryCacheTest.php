@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class StreamWriterMemoryCacheTest extends TestCase {
+final class StreamWriterMemoryCacheTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(StreamWriterMemoryCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\StreamWriterMemoryCache'!");

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @see ChunkWriterFromGenerator
  */
-class ChunkWriterFromGeneratorTest extends TestCase {
+final class ChunkWriterFromGeneratorTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ChunkWriterFromGenerator::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\ChunkWriterFromGenerator'!");

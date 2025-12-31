@@ -4,9 +4,8 @@ namespace Slothsoft\Core\IO\Writable\Adapter;
 
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
-use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
-class StringWriterFromChunkWriter implements StringWriterInterface {
+final class StringWriterFromChunkWriter implements StringWriterInterface {
     
     private ChunkWriterInterface $source;
     
@@ -14,13 +13,17 @@ class StringWriterFromChunkWriter implements StringWriterInterface {
         $this->source = $source;
     }
     
+    private ?string $result = null;
+    
     public function toString(): string {
-        $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
-        foreach ($this->source->toChunks() as $data) {
-            fwrite($handle, $data);
+        if ($this->result === null) {
+            $this->result = '';
+            foreach ($this->source->toChunks() as $data) {
+                $this->result .= $data;
+            }
         }
-        rewind($handle);
-        return stream_get_contents($handle);
+        
+        return $this->result;
     }
 }
 

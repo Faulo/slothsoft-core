@@ -5,21 +5,26 @@ namespace Slothsoft\Core\IO\Writable\Decorators;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
 
-class ChunkWriterMemoryCache implements ChunkWriterInterface {
+final class ChunkWriterMemoryCache implements ChunkWriterInterface {
     
     private ChunkWriterInterface $source;
     
-    private ?Generator $result = null;
+    private ?array $chunks = null;
     
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;
     }
     
     public function toChunks(): Generator {
-        if ($this->result === null or ! $this->result->valid()) {
-            $this->result = $this->source->toChunks();
+        if ($this->chunks === null) {
+            $this->chunks = [];
+            foreach ($this->source->toChunks() as $chunk) {
+                $this->chunks[] = $chunk;
+                yield $chunk;
+            }
+        } else {
+            yield from $this->chunks;
         }
-        return $this->result;
     }
 }
 

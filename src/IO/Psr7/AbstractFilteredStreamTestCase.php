@@ -6,7 +6,7 @@ use function GuzzleHttp\Psr7\stream_for;
 use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
-abstract class AbstractFilteredStreamTest extends TestCase {
+abstract class AbstractFilteredStreamTestCase extends TestCase {
     
     abstract protected function getInput(): string;
     

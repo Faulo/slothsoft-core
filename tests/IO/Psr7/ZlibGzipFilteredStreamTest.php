@@ -4,7 +4,7 @@ namespace Slothsoft\Core\IO\Psr7;
 
 use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
-class ZlibGzipFilteredStreamTest extends AbstractFilteredStreamTest {
+final class ZlibGzipFilteredStreamTest extends AbstractFilteredStreamTestCase {
     
     protected function getInput(): string {
         return 'hello world';

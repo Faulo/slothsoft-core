@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class AbstractFilteredStreamTestTest extends TestCase {
+final class AbstractFilteredStreamTestCaseTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(AbstractFilteredStreamTest::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\AbstractFilteredStreamTest'!");

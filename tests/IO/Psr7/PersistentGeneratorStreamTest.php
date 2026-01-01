@@ -3,20 +3,20 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Psr7;
 
 use PHPUnit\Framework\TestCase;
-use BadMethodCallException;
-use Generator;
 use PHPUnit\Framework\Constraint\IsEqual;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
+use BadMethodCallException;
+use Generator;
 
 /**
- * GeneratorStreamTest
+ * PersistentGeneratorStreamTest
  *
- * @see GeneratorStream
+ * @see PersistentGeneratorStream
  */
-final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface {
+final class PersistentGeneratorStreamTest extends TestCase implements ChunkWriterInterface {
     
     public function testClassExists(): void {
-        $this->assertTrue(class_exists(GeneratorStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\GeneratorStream'!");
+        $this->assertTrue(class_exists(PersistentGeneratorStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\PersistentGeneratorStream'!");
     }
     
     private array $values;
@@ -32,7 +32,7 @@ final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface
     public function test_read(string ...$values) {
         $this->values = $values;
         
-        $sut = new GeneratorStream($this);
+        $sut = new PersistentGeneratorStream($this);
         
         $expected = implode('', $values);
         $actual = $sut->read(PHP_INT_MAX);
@@ -47,7 +47,7 @@ final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface
     public function test_seek(string ...$values) {
         $this->values = $values;
         
-        $sut = new GeneratorStream($this);
+        $sut = new PersistentGeneratorStream($this);
         $sut->seek(2);
         
         $expected = implode('', $values);
@@ -63,7 +63,7 @@ final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface
     public function test_eof(string ...$values) {
         $this->values = $values;
         
-        $sut = new GeneratorStream($this);
+        $sut = new PersistentGeneratorStream($this);
         
         $sut->read(PHP_INT_MAX);
         
@@ -79,7 +79,7 @@ final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface
     public function test_rewind(string ...$values) {
         $this->values = $values;
         
-        $sut = new GeneratorStream($this);
+        $sut = new PersistentGeneratorStream($this);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->rewind();
@@ -95,7 +95,7 @@ final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface
     public function test_that_can_rewind_iff_read_first(string ...$values) {
         $this->values = $values;
         
-        $sut = new GeneratorStream($this);
+        $sut = new PersistentGeneratorStream($this);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->close();
@@ -112,7 +112,7 @@ final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface
     public function test_that_can_seek_iff_read_first(string ...$values) {
         $this->values = $values;
         
-        $sut = new GeneratorStream($this);
+        $sut = new PersistentGeneratorStream($this);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->close();
@@ -129,7 +129,7 @@ final class GeneratorStreamTest extends TestCase implements ChunkWriterInterface
     public function test_that_reading_after_closing_throws(string ...$values) {
         $this->values = $values;
         
-        $sut = new GeneratorStream($this);
+        $sut = new PersistentGeneratorStream($this);
         
         $sut->close();
         

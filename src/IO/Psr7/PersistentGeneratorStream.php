@@ -7,7 +7,7 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use BadMethodCallException;
 use Generator;
 
-final class GeneratorStream implements StreamInterface {
+final class PersistentGeneratorStream implements StreamInterface {
     
     private const NEW = 1;
     
@@ -33,7 +33,7 @@ final class GeneratorStream implements StreamInterface {
     
     private function init() {
         if ($this->state === self::ABORTED) {
-            throw new BadMethodCallException('The GeneratorStream was closed before it could finish reading its data.');
+            throw new BadMethodCallException('The PersistentGeneratorStream was closed before it could finish reading its data.');
         }
         
         if ($this->state === self::NEW) {
@@ -149,7 +149,7 @@ final class GeneratorStream implements StreamInterface {
             
             $this->bufferIndex = (int) $offset;
         } else {
-            throw new BadMethodCallException('Cannot seek a GeneratorStream.');
+            throw new BadMethodCallException('Cannot seek a PersistentGeneratorStream.');
         }
     }
     
@@ -158,6 +158,6 @@ final class GeneratorStream implements StreamInterface {
     }
     
     public function write($string) {
-        throw new BadMethodCallException('Cannot write a GeneratorStream.');
+        throw new BadMethodCallException('Cannot write a PersistentGeneratorStream.');
     }
 }

@@ -69,7 +69,7 @@ final class OneTimeGeneratorStream implements StreamInterface {
     }
     
     public function getSize() {
-        throw new BadMethodCallException('Cannot getSize a OneTimeGeneratorStream.');
+        return null;
     }
     
     public function tell() {

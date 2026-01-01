@@ -4,6 +4,7 @@ namespace Slothsoft\Core\IO\Psr7;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsEqual;
+use PHPUnit\Framework\Constraint\IsNull;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use BadMethodCallException;
 use Generator;
@@ -23,6 +24,20 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
     
     public function toChunks(): Generator {
         yield from $this->values;
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_getSize(string ...$values) {
+        $this->values = $values;
+        
+        $sut = new OneTimeGeneratorStream($this);
+        
+        $actual = $sut->getSize();
+        
+        $this->assertThat($actual, new IsNull());
     }
     
     /**

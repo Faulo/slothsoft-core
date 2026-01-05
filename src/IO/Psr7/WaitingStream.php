@@ -6,14 +6,14 @@ use GuzzleHttp\Psr7\StreamDecoratorTrait;
 use Psr\Http\Message\StreamInterface;
 use BadMethodCallException;
 
-class WaitingStream implements StreamInterface {
+final class WaitingStream implements StreamInterface {
     use StreamDecoratorTrait;
     
-    private $stream;
+    private StreamInterface $stream;
     
-    private $usleep;
+    private int $usleep;
     
-    private $heartbeat;
+    private ?array $heartbeat;
     
     public function __construct(StreamInterface $stream, int $waitInMicroseconds, array $heartbeat = null) {
         $this->stream = $stream;

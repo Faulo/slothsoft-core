@@ -6,9 +6,9 @@ use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 use BadMethodCallException;
 
-class ProcessStream implements StreamInterface {
+final class ProcessStream implements StreamInterface {
     
-    private $command;
+    private string $command;
     
     private $handle;
     
@@ -16,7 +16,7 @@ class ProcessStream implements StreamInterface {
         $this->command = $command;
     }
     
-    private function init() {
+    private function init(): void {
         $this->handle = popen($this->command, StreamWrapperInterface::MODE_OPEN_READONLY);
     }
     

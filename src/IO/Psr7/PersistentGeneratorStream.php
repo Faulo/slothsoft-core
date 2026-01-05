@@ -31,7 +31,7 @@ final class PersistentGeneratorStream implements StreamInterface {
         $this->state = self::NEW;
     }
     
-    private function init() {
+    private function init(): void {
         if ($this->state === self::ABORTED) {
             throw new BadMethodCallException('The PersistentGeneratorStream was closed before it could finish reading its data.');
         }
@@ -62,6 +62,7 @@ final class PersistentGeneratorStream implements StreamInterface {
     
     public function detach() {
         $this->close();
+        return null;
     }
     
     public function getMetadata($key = null) {
@@ -78,6 +79,7 @@ final class PersistentGeneratorStream implements StreamInterface {
     }
     
     public function __toString() {
+        $this->rewind();
         return $this->getContents();
     }
     

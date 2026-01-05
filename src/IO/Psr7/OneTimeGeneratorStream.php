@@ -29,7 +29,7 @@ final class OneTimeGeneratorStream implements StreamInterface {
         $this->state = self::NEW;
     }
     
-    private function init() {
+    private function init(): void {
         if ($this->state === self::NEW) {
             $this->generator = $this->writer->toChunks();
             $this->state = $this->generator->valid() ? self::START : self::END;

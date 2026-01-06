@@ -73,7 +73,9 @@ final class PersistentGeneratorStream implements StreamInterface {
         $this->init();
         
         if ($this->state === self::END) {
-            return $this->bufferIndex === 0 ? $this->buffer : substr($this->buffer, $this->bufferIndex);
+            $index = $this->bufferIndex;
+            $this->bufferIndex = $this->bufferSize;
+            return $index === 0 ? $this->buffer : substr($this->buffer, $index);
         }
         
         return $this->read(PHP_INT_MAX);

@@ -92,6 +92,40 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
+    public function test_getContents_twice(string ...$values): void {
+        $this->values = $values;
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        $sut->getContents();
+        
+        $actual = $sut->getContents();
+        
+        $this->assertThat($actual, new IsEqual(''));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_getContents_thrice(string ...$values): void {
+        $this->values = $values;
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        $sut->getContents();
+        $sut->rewind();
+        $sut->getContents();
+        
+        $actual = $sut->getContents();
+        
+        $this->assertThat($actual, new IsEqual(''));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
     public function test_toString_is_whole(string ...$values): void {
         $this->values = $values;
         $expected = implode('', $values);

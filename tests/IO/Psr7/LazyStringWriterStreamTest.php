@@ -97,6 +97,40 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      *
      * @dataProvider valuesProvider
      */
+    public function test_getContents_twice(string $expected): void {
+        $this->value = $expected;
+        
+        $sut = new LazyStringWriterStream($this);
+        
+        $sut->getContents();
+        
+        $actual = $sut->getContents();
+        
+        $this->assertThat($actual, new IsEqual(''));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_getContents_thrice(string $expected): void {
+        $this->value = $expected;
+        
+        $sut = new LazyStringWriterStream($this);
+        
+        $sut->getContents();
+        $sut->rewind();
+        $sut->getContents();
+        
+        $actual = $sut->getContents();
+        
+        $this->assertThat($actual, new IsEqual(''));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
     public function test_toString_is_whole(string $expected): void {
         $this->value = $expected;
         

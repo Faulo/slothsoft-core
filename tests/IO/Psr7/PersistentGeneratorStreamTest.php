@@ -29,7 +29,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
-    public function test_read(string ...$values) {
+    public function test_read(string ...$values): void {
         $this->values = $values;
         
         $sut = new PersistentGeneratorStream($this);
@@ -44,7 +44,103 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
-    public function test_seek(string ...$values) {
+    public function test_getContents_is_whole(string ...$values): void {
+        $this->values = $values;
+        $expected = implode('', $values);
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        $actual = $sut->getContents();
+        
+        $this->assertThat($actual, new IsEqual($expected));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_getContents_is_remaining_part(string ...$values): void {
+        $this->values = $values;
+        $expected = implode('', $values);
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        $sut->read(2);
+        $actual = $sut->getContents();
+        
+        $this->assertThat($actual, new IsEqual(substr($expected, 2)));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_getContents_seeks(string ...$values): void {
+        $this->values = $values;
+        $expected = implode('', $values);
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        $sut->getContents();
+        
+        $actual = $sut->tell();
+        
+        $this->assertThat($actual, new IsEqual(strlen($expected)));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_toString_is_whole(string ...$values): void {
+        $this->values = $values;
+        $expected = implode('', $values);
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        $actual = (string) $sut;
+        
+        $this->assertThat($actual, new IsEqual($expected));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_toString_is_always_whole(string ...$values): void {
+        $this->values = $values;
+        $expected = implode('', $values);
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        $sut->read(2);
+        $actual = (string) $sut;
+        
+        $this->assertThat($actual, new IsEqual($expected));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_toString_seeks(string ...$values): void {
+        $this->values = $values;
+        $expected = implode('', $values);
+        
+        $sut = new PersistentGeneratorStream($this);
+        
+        (string) $sut;
+        
+        $actual = $sut->tell();
+        
+        $this->assertThat($actual, new IsEqual(strlen($expected)));
+    }
+    
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_seek(string ...$values): void {
         $this->values = $values;
         
         $sut = new PersistentGeneratorStream($this);
@@ -60,7 +156,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
-    public function test_eof(string ...$values) {
+    public function test_eof(string ...$values): void {
         $this->values = $values;
         
         $sut = new PersistentGeneratorStream($this);
@@ -76,7 +172,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
-    public function test_rewind(string ...$values) {
+    public function test_rewind(string ...$values): void {
         $this->values = $values;
         
         $sut = new PersistentGeneratorStream($this);
@@ -92,7 +188,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
-    public function test_that_can_rewind_iff_read_first(string ...$values) {
+    public function test_that_can_rewind_iff_read_first(string ...$values): void {
         $this->values = $values;
         
         $sut = new PersistentGeneratorStream($this);
@@ -109,7 +205,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
-    public function test_that_can_seek_iff_read_first(string ...$values) {
+    public function test_that_can_seek_iff_read_first(string ...$values): void {
         $this->values = $values;
         
         $sut = new PersistentGeneratorStream($this);
@@ -126,7 +222,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      *
      * @dataProvider valuesProvider
      */
-    public function test_that_reading_after_closing_throws(string ...$values) {
+    public function test_that_reading_after_closing_throws(string ...$values): void {
         $this->values = $values;
         
         $sut = new PersistentGeneratorStream($this);

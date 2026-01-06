@@ -2,11 +2,10 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
-use GuzzleHttp\Psr7\LazyOpenStream;
 use Psr\Http\Message\StreamInterface;
+use Slothsoft\Core\IO\Psr7\LazyFileWriterStream;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
-use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 final class StreamWriterFromFileWriter implements StreamWriterInterface {
     
@@ -17,7 +16,7 @@ final class StreamWriterFromFileWriter implements StreamWriterInterface {
     }
     
     public function toStream(): StreamInterface {
-        return new LazyOpenStream((string) $this->source->toFile(), StreamWrapperInterface::MODE_OPEN_READONLY);
+        return new LazyFileWriterStream($this->source);
     }
 }
 

@@ -23,18 +23,14 @@ final class DOMWriterFromStringWriter implements DOMWriterInterface {
         $this->isHtml = $isHtml;
     }
     
-    private ?DOMDocument $document = null;
-    
     public function toDocument(): DOMDocument {
-        if ($this->document === null) {
-            $this->document = DOMHelper::parseDocument($this->source->toString(), $this->isHtml);
-            
-            if ($this->documentURI !== null) {
-                $this->document->documentURI = $this->documentURI;
-            }
+        $document = DOMHelper::parseDocument($this->source->toString(), $this->isHtml);
+        
+        if ($this->documentURI !== null) {
+            $document->documentURI = $this->documentURI;
         }
         
-        return $this->document;
+        return $document;
     }
 }
 

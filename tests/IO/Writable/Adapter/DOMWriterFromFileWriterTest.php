@@ -3,11 +3,12 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
 use PHPUnit\Framework\TestCase;
-use Slothsoft\Core\IO\Writable\FileWriterInterface;
-use SplFileInfo;
-use Slothsoft\Core\IO\FileInfoFactory;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\Constraint\IsIdentical;
+use PHPUnit\Framework\Constraint\LogicalNot;
+use Slothsoft\Core\IO\FileInfoFactory;
+use Slothsoft\Core\IO\Writable\FileWriterInterface;
+use SplFileInfo;
 
 /**
  * DOMWriterFromFileWriterTest
@@ -32,12 +33,12 @@ final class DOMWriterFromFileWriterTest extends TestCase implements FileWriterIn
         $this->assertThat($actual->documentElement->tagName, new IsEqual('xml'));
     }
     
-    public function test_cacheDocument() {
+    public function test_toDocument_doesNotCache() {
         $sut = new DOMWriterFromFileWriter($this);
         
         $expected = $sut->toDocument();
         $actual = $sut->toDocument();
         
-        $this->assertThat($actual, new IsIdentical($expected));
+        $this->assertThat($actual, new LogicalNot(new IsIdentical($expected)));
     }
 }

@@ -5,6 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Adapter;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\Constraint\IsIdentical;
+use PHPUnit\Framework\Constraint\LogicalNot;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 /**
@@ -30,12 +31,12 @@ final class DOMWriterFromStringWriterTest extends TestCase implements StringWrit
         $this->assertThat($actual->documentElement->tagName, new IsEqual('xml'));
     }
     
-    public function test_cacheDocument() {
+    public function test_toDocument_doesNotCache() {
         $sut = new DOMWriterFromStringWriter($this);
         
         $expected = $sut->toDocument();
         $actual = $sut->toDocument();
         
-        $this->assertThat($actual, new IsIdentical($expected));
+        $this->assertThat($actual, new LogicalNot(new IsIdentical($expected)));
     }
 }

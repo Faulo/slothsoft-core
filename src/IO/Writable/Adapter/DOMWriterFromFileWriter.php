@@ -23,18 +23,14 @@ final class DOMWriterFromFileWriter implements DOMWriterInterface {
         $this->isHtml = $isHtml;
     }
     
-    private ?DOMDocument $document = null;
-    
     public function toDocument(): DOMDocument {
-        if ($this->document === null) {
-            $this->document = DOMHelper::loadDocument((string) $this->source->toFile(), $this->isHtml);
-            
-            if ($this->documentURI !== null) {
-                $this->document->documentURI = $this->documentURI;
-            }
+        $document = DOMHelper::loadDocument((string) $this->source->toFile(), $this->isHtml);
+        
+        if ($this->documentURI !== null) {
+            $document->documentURI = $this->documentURI;
         }
         
-        return $this->document;
+        return $document;
     }
 }
 

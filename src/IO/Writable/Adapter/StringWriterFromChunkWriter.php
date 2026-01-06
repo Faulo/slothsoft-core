@@ -13,17 +13,13 @@ final class StringWriterFromChunkWriter implements StringWriterInterface {
         $this->source = $source;
     }
     
-    private ?string $result = null;
-    
     public function toString(): string {
-        if ($this->result === null) {
-            $this->result = '';
-            foreach ($this->source->toChunks() as $data) {
-                $this->result .= $data;
-            }
+        $result = '';
+        foreach ($this->source->toChunks() as $data) {
+            $result .= $data;
         }
         
-        return $this->result;
+        return $result;
     }
 }
 

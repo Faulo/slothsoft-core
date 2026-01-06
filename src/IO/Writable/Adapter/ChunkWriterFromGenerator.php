@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Adapter;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
 
-class ChunkWriterFromGenerator implements ChunkWriterInterface {
+final class ChunkWriterFromGenerator implements ChunkWriterInterface {
     
     private Generator $generator;
     

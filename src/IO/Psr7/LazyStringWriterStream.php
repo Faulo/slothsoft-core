@@ -71,10 +71,9 @@ final class LazyStringWriterStream implements StreamInterface {
             return '';
         }
         
-        $result = substr($this->buffer, $this->bufferIndex);
+        $index = $this->bufferIndex;
         $this->bufferIndex = $this->bufferSize;
-        
-        return $result;
+        return $index === 0 ? $this->buffer : substr($this->buffer, $index);
     }
     
     public function getSize() {

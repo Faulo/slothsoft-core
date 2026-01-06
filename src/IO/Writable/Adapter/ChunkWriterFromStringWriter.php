@@ -6,7 +6,7 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use Generator;
 
-class ChunkWriterFromStringWriter implements ChunkWriterInterface {
+final class ChunkWriterFromStringWriter implements ChunkWriterInterface {
     
     private StringWriterInterface $source;
     

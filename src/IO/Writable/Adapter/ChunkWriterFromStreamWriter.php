@@ -7,18 +7,21 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 use Generator;
 
-class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
+final class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
     
     private StreamWriterInterface $source;
     
-    public function __construct(StreamWriterInterface $source) {
+    private int $chunkSize;
+    
+    public function __construct(StreamWriterInterface $source, int $chunkSize = Memory::ONE_KILOBYTE) {
         $this->source = $source;
+        $this->chunkSize = $chunkSize;
     }
     
     public function toChunks(): Generator {
         $handle = $this->source->toStream();
         while (! $handle->eof()) {
-            yield $handle->read(Memory::ONE_KILOBYTE);
+            yield $handle->read($this->chunkSize);
         }
         $handle->close();
     }

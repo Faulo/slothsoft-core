@@ -8,7 +8,7 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
-class StreamWriterFromFileWriter implements StreamWriterInterface {
+final class StreamWriterFromFileWriter implements StreamWriterInterface {
     
     private FileWriterInterface $source;
     

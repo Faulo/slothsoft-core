@@ -7,7 +7,7 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use SplFileInfo;
 
-class FileWriterFromStringWriter implements FileWriterInterface {
+final class FileWriterFromStringWriter implements FileWriterInterface {
     
     private StringWriterInterface $source;
     

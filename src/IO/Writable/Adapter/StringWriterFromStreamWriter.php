@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Adapter;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
-class StringWriterFromStreamWriter implements StringWriterInterface {
+final class StringWriterFromStreamWriter implements StringWriterInterface {
     
     private StreamWriterInterface $source;
     
@@ -14,7 +14,7 @@ class StringWriterFromStreamWriter implements StringWriterInterface {
     }
     
     public function toString(): string {
-        return $this->source->toStream()->getContents();
+        return (string) $this->source->toStream();
     }
 }
 

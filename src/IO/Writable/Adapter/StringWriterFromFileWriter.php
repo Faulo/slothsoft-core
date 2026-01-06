@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Adapter;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
-class StringWriterFromFileWriter implements StringWriterInterface {
+final class StringWriterFromFileWriter implements StringWriterInterface {
     
     private FileWriterInterface $source;
     

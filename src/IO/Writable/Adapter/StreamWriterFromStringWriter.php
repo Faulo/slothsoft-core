@@ -2,11 +2,10 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
-use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
+use Slothsoft\Core\IO\Psr7\LazyStringWriterStream;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
-use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 final class StreamWriterFromStringWriter implements StreamWriterInterface {
     
@@ -17,10 +16,7 @@ final class StreamWriterFromStringWriter implements StreamWriterInterface {
     }
     
     public function toStream(): StreamInterface {
-        $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
-        fwrite($handle, $this->source->toString());
-        rewind($handle);
-        return new Stream($handle);
+        return new LazyStringWriterStream($this->source);
     }
 }
 

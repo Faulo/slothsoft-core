@@ -24,7 +24,7 @@ use Exception;
 use RuntimeException;
 use SplFileInfo;
 
-class DOMHelper {
+final class DOMHelper {
     
     public const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
     
@@ -122,6 +122,16 @@ class DOMHelper {
             $document->loadHTMLFile($filePath, LIBXML_PARSEHUGE);
         } else {
             $document->load($filePath, LIBXML_PARSEHUGE);
+        }
+        return $document;
+    }
+    
+    public static function parseDocument(string $fileContents, bool $asHTML = false): DOMDocument {
+        $document = self::dom()->createDocument();
+        if ($asHTML) {
+            $document->loadHTML($fileContents, LIBXML_PARSEHUGE);
+        } else {
+            $document->loadXML($fileContents, LIBXML_PARSEHUGE);
         }
         return $document;
     }

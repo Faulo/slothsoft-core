@@ -6,7 +6,7 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Symfony\Component\Process\Process;
 use Generator;
 
-class ChunkWriterFromProcess implements ChunkWriterInterface {
+final class ChunkWriterFromProcess implements ChunkWriterInterface {
     
     private Process $process;
     

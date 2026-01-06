@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Adapter;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
-class StringWriterFromDOMWriter implements StringWriterInterface {
+final class StringWriterFromDOMWriter implements StringWriterInterface {
     
     private DOMWriterInterface $source;
     

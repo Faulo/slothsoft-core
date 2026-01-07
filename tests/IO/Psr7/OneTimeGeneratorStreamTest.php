@@ -3,9 +3,10 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Psr7;
 
 use PHPUnit\Framework\TestCase;
+use function PHPUnit\Framework\Assert\assertThat as substr;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\Constraint\IsNull;
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
+use Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromChunksDelegate;
 use BadMethodCallException;
 use Generator;
 
@@ -14,16 +15,31 @@ use Generator;
  *
  * @see OneTimeGeneratorStream
  */
-final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterInterface {
+final class OneTimeGeneratorStreamTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(OneTimeGeneratorStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\OneTimeGeneratorStream'!");
     }
     
-    private array $values;
+    private function createSuT(array $values): OneTimeGeneratorStream {
+        $writer = new ChunkWriterFromChunksDelegate(function () use ($values): Generator {
+            yield from $values;
+        });
+        
+        return new OneTimeGeneratorStream($writer);
+    }
     
-    public function toChunks(): Generator {
-        yield from $this->values;
+    public function valuesProvider(): iterable {
+        yield '1-2-3' => [
+            'one',
+            'two',
+            'three'
+        ];
+        
+        yield 'hello world' => [
+            'hello',
+            'world'
+        ];
     }
     
     /**
@@ -31,9 +47,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_getSize(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $actual = $sut->getSize();
         
@@ -45,9 +59,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_read_first(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = $values[0];
         $actual = $sut->read(PHP_INT_MAX);
@@ -60,9 +72,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_read_second(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = $values[1];
         $actual = $sut->read(PHP_INT_MAX);
@@ -76,9 +86,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_read_part_of_first(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = substr($values[0], 0, 2);
         $actual = $sut->read(2);
@@ -91,9 +99,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_read_part_of_first_twice(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = [
             substr($values[0], 0, 2),
@@ -114,9 +120,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_seek(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $this->expectException(BadMethodCallException::class);
         $sut->seek(2);
@@ -127,9 +131,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_eof(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $sut->read(PHP_INT_MAX);
         
@@ -143,9 +145,7 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_rewind(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $this->expectException(BadMethodCallException::class);
         $sut->rewind();
@@ -156,26 +156,11 @@ final class OneTimeGeneratorStreamTest extends TestCase implements ChunkWriterIn
      * @dataProvider valuesProvider
      */
     public function test_that_reading_after_closing_throws(string ...$values) {
-        $this->values = $values;
-        
-        $sut = new OneTimeGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $sut->close();
         
         $this->expectException(BadMethodCallException::class);
         $sut->read(PHP_INT_MAX);
-    }
-    
-    public function valuesProvider(): iterable {
-        yield '1-2-3' => [
-            'one',
-            'two',
-            'three'
-        ];
-        
-        yield 'hello world' => [
-            'hello',
-            'world'
-        ];
     }
 }

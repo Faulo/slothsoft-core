@@ -4,7 +4,7 @@ namespace Slothsoft\Core\IO\Psr7;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsEqual;
-use Slothsoft\Core\IO\Writable\StringWriterInterface;
+use Slothsoft\Core\IO\Writable\Delegates\StringWriterFromStringDelegate;
 use BadMethodCallException;
 
 /**
@@ -12,13 +12,19 @@ use BadMethodCallException;
  *
  * @see LazyStringWriterStream
  */
-final class LazyStringWriterStreamTest extends TestCase implements StringWriterInterface {
+final class LazyStringWriterStreamTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(LazyStringWriterStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\LazyStringWriterStream'!");
     }
     
-    private string $value = '';
+    private function createSuT(string $expected): LazyStringWriterStream {
+        $writer = new StringWriterFromStringDelegate(function () use ($expected): string {
+            return $expected;
+        });
+        
+        return new LazyStringWriterStream($writer);
+    }
     
     public function valuesProvider(): iterable {
         yield '1-2-3' => [
@@ -30,18 +36,12 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
         ];
     }
     
-    public function toString(): string {
-        return $this->value;
-    }
-    
     /**
      *
      * @dataProvider valuesProvider
      */
     public function test_read(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $actual = $sut->read(PHP_INT_MAX);
         
@@ -53,9 +53,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_getContents_is_whole(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $actual = $sut->getContents();
         
@@ -67,9 +65,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_getContents_is_remaining_part(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $sut->read(2);
         $actual = $sut->getContents();
@@ -82,9 +78,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_getContents_seeks(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $sut->getContents();
         
@@ -98,9 +92,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_getContents_twice(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $sut->getContents();
         
@@ -114,9 +106,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_getContents_thrice(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $sut->getContents();
         $sut->rewind();
@@ -132,9 +122,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_toString_is_whole(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $actual = (string) $sut;
         
@@ -146,9 +134,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_toString_is_always_whole(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $sut->read(2);
         $actual = (string) $sut;
@@ -161,9 +147,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_toString_seeks(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         (string) $sut;
         
@@ -177,9 +161,8 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_seek(string $expected): void {
-        $this->value = $expected;
+        $sut = $this->createSuT($expected);
         
-        $sut = new LazyStringWriterStream($this);
         $sut->seek(2);
         
         $actual = $sut->read(PHP_INT_MAX);
@@ -192,9 +175,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_eof(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $sut->read(PHP_INT_MAX);
         
@@ -208,9 +189,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_rewind(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->rewind();
@@ -224,9 +203,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_that_can_rewind_iff_read_first(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->close();
@@ -241,9 +218,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_that_can_seek_iff_read_first(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->close();
@@ -258,9 +233,7 @@ final class LazyStringWriterStreamTest extends TestCase implements StringWriterI
      * @dataProvider valuesProvider
      */
     public function test_that_reading_after_closing_throws(string $expected): void {
-        $this->value = $expected;
-        
-        $sut = new LazyStringWriterStream($this);
+        $sut = $this->createSuT($expected);
         
         $sut->close();
         

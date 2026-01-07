@@ -4,7 +4,7 @@ namespace Slothsoft\Core\IO\Psr7;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsEqual;
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
+use Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromChunksDelegate;
 use BadMethodCallException;
 use Generator;
 
@@ -13,16 +13,31 @@ use Generator;
  *
  * @see PersistentGeneratorStream
  */
-final class PersistentGeneratorStreamTest extends TestCase implements ChunkWriterInterface {
+final class PersistentGeneratorStreamTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(PersistentGeneratorStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\PersistentGeneratorStream'!");
     }
     
-    private array $values;
+    private function createSuT(array $values): PersistentGeneratorStream {
+        $writer = new ChunkWriterFromChunksDelegate(function () use ($values): Generator {
+            yield from $values;
+        });
+        
+        return new PersistentGeneratorStream($writer);
+    }
     
-    public function toChunks(): Generator {
-        yield from $this->values;
+    public function valuesProvider(): iterable {
+        yield '1-2-3' => [
+            'one',
+            'two',
+            'three'
+        ];
+        
+        yield 'hello world' => [
+            'hello',
+            'world'
+        ];
     }
     
     /**
@@ -30,9 +45,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_read(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = implode('', $values);
         $actual = $sut->read(PHP_INT_MAX);
@@ -45,10 +58,9 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_getContents_is_whole(string ...$values): void {
-        $this->values = $values;
-        $expected = implode('', $values);
+        $sut = $this->createSuT($values);
         
-        $sut = new PersistentGeneratorStream($this);
+        $expected = implode('', $values);
         
         $actual = $sut->getContents();
         
@@ -60,10 +72,9 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_getContents_is_remaining_part(string ...$values): void {
-        $this->values = $values;
-        $expected = implode('', $values);
+        $sut = $this->createSuT($values);
         
-        $sut = new PersistentGeneratorStream($this);
+        $expected = implode('', $values);
         
         $sut->read(2);
         $actual = $sut->getContents();
@@ -76,10 +87,9 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_getContents_seeks(string ...$values): void {
-        $this->values = $values;
-        $expected = implode('', $values);
+        $sut = $this->createSuT($values);
         
-        $sut = new PersistentGeneratorStream($this);
+        $expected = implode('', $values);
         
         $sut->getContents();
         
@@ -93,9 +103,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_getContents_twice(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $sut->getContents();
         
@@ -109,9 +117,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_getContents_thrice(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $sut->getContents();
         $sut->rewind();
@@ -127,10 +133,9 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_toString_is_whole(string ...$values): void {
-        $this->values = $values;
-        $expected = implode('', $values);
+        $sut = $this->createSuT($values);
         
-        $sut = new PersistentGeneratorStream($this);
+        $expected = implode('', $values);
         
         $actual = (string) $sut;
         
@@ -142,10 +147,9 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_toString_is_always_whole(string ...$values): void {
-        $this->values = $values;
-        $expected = implode('', $values);
+        $sut = $this->createSuT($values);
         
-        $sut = new PersistentGeneratorStream($this);
+        $expected = implode('', $values);
         
         $sut->read(2);
         $actual = (string) $sut;
@@ -158,10 +162,9 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_toString_seeks(string ...$values): void {
-        $this->values = $values;
-        $expected = implode('', $values);
+        $sut = $this->createSuT($values);
         
-        $sut = new PersistentGeneratorStream($this);
+        $expected = implode('', $values);
         
         (string) $sut;
         
@@ -175,9 +178,8 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_seek(string ...$values): void {
-        $this->values = $values;
+        $sut = $this->createSuT($values);
         
-        $sut = new PersistentGeneratorStream($this);
         $sut->seek(2);
         
         $expected = implode('', $values);
@@ -191,9 +193,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_eof(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $sut->read(PHP_INT_MAX);
         
@@ -207,9 +207,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_rewind(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->rewind();
@@ -223,9 +221,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_that_can_rewind_iff_read_first(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->close();
@@ -240,9 +236,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_that_can_seek_iff_read_first(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $expected = $sut->read(PHP_INT_MAX);
         $sut->close();
@@ -257,9 +251,7 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
      * @dataProvider valuesProvider
      */
     public function test_that_reading_after_closing_throws(string ...$values): void {
-        $this->values = $values;
-        
-        $sut = new PersistentGeneratorStream($this);
+        $sut = $this->createSuT($values);
         
         $sut->close();
         
@@ -267,16 +259,18 @@ final class PersistentGeneratorStreamTest extends TestCase implements ChunkWrite
         $sut->read(PHP_INT_MAX);
     }
     
-    public function valuesProvider(): iterable {
-        yield '1-2-3' => [
-            'one',
-            'two',
-            'three'
-        ];
+    /**
+     *
+     * @dataProvider valuesProvider
+     */
+    public function test_that_reading_after_getSize_works(string ...$values): void {
+        $sut = $this->createSuT($values);
         
-        yield 'hello world' => [
-            'hello',
-            'world'
-        ];
+        $expected = implode('', $values);
+        
+        $sut->getSize();
+        $actual = $sut->getContents();
+        
+        $this->assertThat($actual, new IsEqual($expected));
     }
 }

@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Psr7;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsEqual;
 use Slothsoft\Core\IO\FileInfoFactory;
-use Slothsoft\Core\IO\Writable\FileWriterInterface;
+use Slothsoft\Core\IO\Writable\Delegates\FileWriterFromFileDelegate;
 use BadMethodCallException;
 use SplFileInfo;
 
@@ -14,13 +14,20 @@ use SplFileInfo;
  *
  * @see LazyFileWriterStream
  */
-final class LazyFileWriterStreamTest extends TestCase implements FileWriterInterface {
+final class LazyFileWriterStreamTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(LazyFileWriterStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\LazyFileWriterStream'!");
     }
     
-    private SplFileInfo $value;
+    private function createSuT(string $expected): LazyFileWriterStream {
+        $file = FileInfoFactory::createFromString($expected);
+        $writer = new FileWriterFromFileDelegate(function () use ($file): SplFileInfo {
+            return $file;
+        });
+        
+        return new LazyFileWriterStream($writer);
+    }
     
     public function valuesProvider(): iterable {
         yield '1-2-3' => [
@@ -30,16 +37,6 @@ final class LazyFileWriterStreamTest extends TestCase implements FileWriterInter
         yield 'hello world' => [
             'hello-world'
         ];
-    }
-    
-    private function createSuT(string $expected): LazyFileWriterStream {
-        $this->value = FileInfoFactory::createFromString($expected);
-        
-        return new LazyFileWriterStream($this);
-    }
-    
-    public function toFile(): SplFileInfo {
-        return $this->value;
     }
     
     /**

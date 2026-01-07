@@ -3,7 +3,6 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Psr7;
 
 use PHPUnit\Framework\TestCase;
-use function PHPUnit\Framework\Assert\assertThat as substr;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\Constraint\IsNull;
 use Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromChunksDelegate;

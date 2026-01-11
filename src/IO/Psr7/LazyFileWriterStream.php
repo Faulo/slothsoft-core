@@ -11,11 +11,11 @@ use SplFileObject;
 
 final class LazyFileWriterStream implements StreamInterface {
     
+    private ?FileWriterInterface $writer;
+    
     public function __construct(FileWriterInterface $writer) {
         $this->writer = $writer;
     }
-    
-    private ?FileWriterInterface $writer;
     
     private function getWriter(): FileWriterInterface {
         if ($this->writer === null) {

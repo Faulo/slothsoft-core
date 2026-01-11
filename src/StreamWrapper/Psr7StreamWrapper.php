@@ -5,9 +5,9 @@ namespace Slothsoft\Core\StreamWrapper;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-class Psr7StreamWrapper implements StreamWrapperInterface {
+final class Psr7StreamWrapper implements StreamWrapperInterface {
     
-    private $stream;
+    private StreamInterface $stream;
     
     public function __construct(StreamInterface $stream) {
         $this->stream = $stream;

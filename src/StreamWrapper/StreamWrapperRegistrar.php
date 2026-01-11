@@ -2,9 +2,11 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\StreamWrapper;
 
-class StreamWrapperRegistrar implements StreamWrapperInterface {
+use LogicException;
+
+final class StreamWrapperRegistrar implements StreamWrapperInterface {
     
-    private static $factories = [];
+    private static array $factories = [];
     
     private static function addFactory(string $scheme, StreamWrapperFactoryInterface $factory) {
         self::$factories[$scheme] = $factory;
@@ -20,6 +22,10 @@ class StreamWrapperRegistrar implements StreamWrapperInterface {
     }
     
     public static function registerStreamWrapper(string $scheme, StreamWrapperFactoryInterface $factory) {
+        if (isset(self::$factories[$scheme])) {
+            throw new LogicException("Scheme '$scheme' has already been registered to a factory.");
+        }
+        
         self::addFactory($scheme, $factory);
         stream_wrapper_register($scheme, self::class);
     }

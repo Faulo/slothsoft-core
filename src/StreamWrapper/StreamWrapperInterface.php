@@ -19,7 +19,7 @@ interface StreamWrapperInterface {
     /**
      *
      * @return array
-     * @see http://php.net/manual/de/function.fstat.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-stat.php
      */
     public function stream_stat(): array;
     
@@ -27,21 +27,21 @@ interface StreamWrapperInterface {
      *
      * @param int $count
      * @return string|false
-     * @see http://php.net/manual/de/function.fread.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-read.php
      */
     public function stream_read(int $count);
     
     /**
      *
      * @return int|false
-     * @see http://php.net/manual/de/function.ftell.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-tell.php
      */
     public function stream_tell();
     
     /**
      *
      * @return bool
-     * @see http://php.net/manual/de/function.feof.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-eof.php
      */
     public function stream_eof(): bool;
     
@@ -50,7 +50,7 @@ interface StreamWrapperInterface {
      * @param int $offset
      * @param int $whence
      * @return int
-     * @see http://php.net/manual/de/function.fseek.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-seek.php
      */
     public function stream_seek(int $offset, int $whence): int;
     
@@ -58,14 +58,14 @@ interface StreamWrapperInterface {
      *
      * @param string $data
      * @return int|false
-     * @see http://php.net/manual/de/function.fwrite.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-write.php
      */
     public function stream_write(string $data);
     
     /**
      *
      * @return bool
-     * @see http://php.net/manual/de/function.fclose.php
+     * @see https://www.php.net/manual/en/streamwrapper.stream-close.php
      */
     public function stream_close(): bool;
 }

@@ -16,9 +16,11 @@ interface StreamWrapperFactoryInterface {
     /**
      *
      * @param string $url
+     *            The file path or URL to stat. Note that in the case of a URL, it must be a :// delimited URL. Other URL forms are not supported.
      * @param int $flags
+     *            Holds additional flags set by the streams API. It can hold one or both of STREAM_URL_STAT_LINK and STREAM_URL_STAT_QUIET.
      * @return array|false
-     * @see http://php.net/manual/de/function.stat.php
+     * @see https://www.php.net/manual/de/streamwrapper.url-stat.php
      */
     public function statUrl(string $url, int $flags);
 }

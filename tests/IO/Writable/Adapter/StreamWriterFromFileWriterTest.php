@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class StreamWriterFromFileWriterTest extends TestCase {
+class StreamWriterFromFileWriterTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(StreamWriterFromFileWriter::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\StreamWriterFromFileWriter'!");

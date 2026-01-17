@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class RecursiveFileIteratorTest extends TestCase {
+class RecursiveFileIteratorTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(RecursiveFileIterator::class), "Failed to load class 'Slothsoft\Core\IO\RecursiveFileIterator'!");

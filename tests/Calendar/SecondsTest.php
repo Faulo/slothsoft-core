@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class SecondsTest extends TestCase {
+class SecondsTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(Seconds::class), "Failed to load class 'Slothsoft\Core\Calendar\Seconds'!");

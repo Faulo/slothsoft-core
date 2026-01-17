@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class ImageTest extends TestCase {
+class ImageTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(Image::class), "Failed to load class 'Slothsoft\Core\Image'!");

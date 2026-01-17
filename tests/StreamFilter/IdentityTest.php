@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class IdentityTest extends TestCase {
+class IdentityTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(Identity::class), "Failed to load class 'Slothsoft\Core\StreamFilter\Identity'!");

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class StreamWrapperFactoryInterfaceTest extends TestCase {
+class StreamWrapperFactoryInterfaceTest extends TestCase {
     
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(StreamWrapperFactoryInterface::class), "Failed to load interface 'Slothsoft\Core\StreamWrapper\StreamWrapperFactoryInterface'!");

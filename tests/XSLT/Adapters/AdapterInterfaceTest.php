@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class AdapterInterfaceTest extends TestCase {
+class AdapterInterfaceTest extends TestCase {
     
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(AdapterInterface::class), "Failed to load interface 'Slothsoft\Core\XSLT\Adapters\AdapterInterface'!");

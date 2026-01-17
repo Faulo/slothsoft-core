@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class StreamReaderInterfaceTest extends TestCase {
+class StreamReaderInterfaceTest extends TestCase {
     
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(StreamReaderInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Readable\StreamReaderInterface'!");

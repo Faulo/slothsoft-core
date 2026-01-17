@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class DOMReaderInterfaceTest extends TestCase {
+class DOMReaderInterfaceTest extends TestCase {
     
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(DOMReaderInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Readable\DOMReaderInterface'!");

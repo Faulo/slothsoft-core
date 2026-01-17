@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class ChunkWriterInterfaceTest extends TestCase {
+class ChunkWriterInterfaceTest extends TestCase {
     
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(ChunkWriterInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Writable\ChunkWriterInterface'!");

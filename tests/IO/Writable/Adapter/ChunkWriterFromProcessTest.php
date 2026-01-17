@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class ChunkWriterFromProcessTest extends TestCase {
+class ChunkWriterFromProcessTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ChunkWriterFromProcess::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\ChunkWriterFromProcess'!");

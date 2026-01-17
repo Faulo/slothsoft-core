@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class ChunkWriterFileCacheTest extends TestCase {
+class ChunkWriterFileCacheTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ChunkWriterFileCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\ChunkWriterFileCache'!");

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class StringWriterInterfaceTest extends TestCase {
+class StringWriterInterfaceTest extends TestCase {
     
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(StringWriterInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Writable\StringWriterInterface'!");

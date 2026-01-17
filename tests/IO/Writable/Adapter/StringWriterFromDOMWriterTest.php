@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class StringWriterFromDOMWriterTest extends TestCase {
+class StringWriterFromDOMWriterTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(StringWriterFromDOMWriter::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\StringWriterFromDOMWriter'!");

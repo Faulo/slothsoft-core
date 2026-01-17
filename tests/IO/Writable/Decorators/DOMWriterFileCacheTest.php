@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class DOMWriterFileCacheTest extends TestCase {
+class DOMWriterFileCacheTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(DOMWriterFileCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\DOMWriterFileCache'!");

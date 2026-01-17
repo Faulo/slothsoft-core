@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class WebCrawlerTest extends TestCase {
+class WebCrawlerTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(WebCrawler::class), "Failed to load class 'Slothsoft\Core\WebCrawler'!");

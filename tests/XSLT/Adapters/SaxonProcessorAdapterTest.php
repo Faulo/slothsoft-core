@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class SaxonProcessorAdapterTest extends TestCase {
+class SaxonProcessorAdapterTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(SaxonProcessorAdapter::class), "Failed to load class 'Slothsoft\Core\XSLT\Adapters\SaxonProcessorAdapter'!");

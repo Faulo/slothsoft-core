@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-final class DiceTest extends TestCase {
+class DiceTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(Dice::class), "Failed to load class 'Slothsoft\Core\Game\Dice'!");

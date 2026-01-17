@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class FileStreamWrapperTest extends TestCase {
+final class FileStreamWrapperTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(FileStreamWrapper::class), "Failed to load class 'Slothsoft\Core\StreamWrapper\FileStreamWrapper'!");

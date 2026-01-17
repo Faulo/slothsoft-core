@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class ProcessStreamTest extends TestCase {
+final class ProcessStreamTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ProcessStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\ProcessStream'!");

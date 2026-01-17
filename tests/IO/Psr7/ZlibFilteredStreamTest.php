@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class ZlibFilteredStreamTest extends TestCase {
+final class ZlibFilteredStreamTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(ZlibFilteredStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\ZlibFilteredStream'!");

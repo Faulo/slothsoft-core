@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @todo auto-generated
  */
-class FileInfoFactoryTest extends TestCase {
+final class FileInfoFactoryTest extends TestCase {
     
     public function testClassExists(): void {
         $this->assertTrue(class_exists(FileInfoFactory::class), "Failed to load class 'Slothsoft\Core\IO\FileInfoFactory'!");

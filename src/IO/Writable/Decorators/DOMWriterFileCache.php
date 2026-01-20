@@ -2,13 +2,13 @@
 declare(strict_types = 1);
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
+use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
 use Closure;
 use DOMDocument;
 use SplFileInfo;
-use Slothsoft\Core\DOMHelper;
 
 class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
     use DOMWriterElementFromDocumentTrait;
@@ -17,14 +17,14 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
     
     private SplFileInfo $cacheFile;
     
-    private Closure $shouldRefreshCacheDelegate;
+    private ?Closure $shouldRefreshCacheDelegate;
     
     private ?DOMDocument $document = null;
     
-    public function __construct(DOMWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
+    public function __construct(DOMWriterInterface $sourceWriter, SplFileInfo $cacheFile, ?callable $shouldRefreshCacheDelegate = null) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
-        $this->shouldRefreshCacheDelegate = Closure::fromCallable($shouldRefreshCacheDelegate);
+        $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate === null ? null : Closure::fromCallable($shouldRefreshCacheDelegate);
     }
     
     public function toFile(): SplFileInfo {
@@ -51,7 +51,7 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {
             if ($this->cacheFile->isFile() and $this->cacheFile->getSize() > 0) {
-                $shouldRefreshCache = ($this->shouldRefreshCacheDelegate)($this->cacheFile);
+                $shouldRefreshCache = $this->shouldRefreshCacheDelegate === null ? false : ($this->shouldRefreshCacheDelegate)($this->cacheFile);
             }
         } else {
             mkdir($this->cacheFile->getPath(), 0777, true);

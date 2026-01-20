@@ -16,12 +16,12 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface 
     
     private SplFileInfo $cacheFile;
     
-    private Closure $shouldRefreshCacheDelegate;
+    private ?Closure $shouldRefreshCacheDelegate;
     
-    public function __construct(ChunkWriterInterface $sourceWriter, SplFileInfo $cacheFile, callable $shouldRefreshCacheDelegate) {
+    public function __construct(ChunkWriterInterface $sourceWriter, SplFileInfo $cacheFile, ?callable $shouldRefreshCacheDelegate = null) {
         $this->sourceWriter = $sourceWriter;
         $this->cacheFile = $cacheFile;
-        $this->shouldRefreshCacheDelegate = Closure::fromCallable($shouldRefreshCacheDelegate);
+        $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate === null ? null : Closure::fromCallable($shouldRefreshCacheDelegate);
     }
     
     public function toChunks(): Generator {
@@ -60,7 +60,7 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface 
         $shouldRefreshCache = true;
         if (is_dir($this->cacheFile->getPath())) {
             if ($this->cacheFile->isFile() and $this->cacheFile->getSize() > 0) {
-                $shouldRefreshCache = ($this->shouldRefreshCacheDelegate)($this->cacheFile);
+                $shouldRefreshCache = $this->shouldRefreshCacheDelegate === null ? false : ($this->shouldRefreshCacheDelegate)($this->cacheFile);
             }
         } else {
             mkdir($this->cacheFile->getPath(), 0777, true);

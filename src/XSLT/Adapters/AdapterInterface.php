@@ -19,7 +19,7 @@ interface AdapterInterface {
     
     public function setParameters(array $param);
     
-    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo;
+    public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo;
     
     public function writeDocument(): DOMDocument;
 }

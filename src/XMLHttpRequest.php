@@ -133,7 +133,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     // request
-    public function open(string $method, string $url, bool $async = true, string $user = null, string $password = null): void {
+    public function open(string $method, string $url, bool $async = true, ?string $user = null, ?string $password = null): void {
         $this->method = $method;
         $this->url = $url;
         $this->async = $async;

@@ -100,7 +100,7 @@ class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return null|DOMDocument
      */
-    public static function loadExternalDocument(string $uri, int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -127,7 +127,7 @@ class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return boolean
      */
-    public static function clearExternalDocument(string $uri, int $cacheTime = null, $data = null, $options = null) {
+    public static function clearExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -143,7 +143,7 @@ class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return NULL|\DOMXPath
      */
-    public static function loadExternalXPath(string $uri, int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalXPath(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $ret = null;
         if ($doc = self::loadExternalDocument($uri, $cacheTime, $data, $options)) {
             $ret = DOMHelper::loadXPath($doc);
@@ -159,7 +159,7 @@ class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return NULL|mixed
      */
-    public static function loadExternalJSON(string $uri, int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalJSON(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -183,7 +183,7 @@ class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return NULL|string
      */
-    public static function loadExternalFile(string $uri, int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalFile(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         
@@ -216,7 +216,7 @@ class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return NULL|array
      */
-    public static function loadExternalHeader(string $uri, int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalHeader(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $options['method'] = 'HEAD';
@@ -536,7 +536,7 @@ class Storage implements EphemeralStorageInterface {
         return $ret;
     }
     
-    public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null): ?DOMNode {
+    public function retrieveXML(string $name, int $modifyTime, ?DOMDocument $targetDoc = null): ?DOMNode {
         $ret = null;
         if ($data = $this->retrieve($name, $modifyTime)) {
             $dom = self::_DOMHelper();

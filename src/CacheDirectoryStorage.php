@@ -66,7 +66,7 @@ class CacheDirectoryStorage implements EphemeralStorageInterface {
         return file_get_contents($path);
     }
     
-    public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null): ?DOMNode {
+    public function retrieveXML(string $name, int $modifyTime, ?DOMDocument $targetDoc = null): ?DOMNode {
         $ret = null;
         if ($data = $this->retrieve($name, $modifyTime)) {
             $dom = self::_DOMHelper();

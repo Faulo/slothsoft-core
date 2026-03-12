@@ -147,7 +147,7 @@ abstract class FileSystem {
         return sprintf('file:///%s', $key);
     }
     
-    public static function asNode(string $path, DOMDocument $dataDoc = null): ?DOMNode {
+    public static function asNode(string $path, ?DOMDocument $dataDoc = null): ?DOMNode {
         $retNode = null;
         $storage = null;
         $returnDocument = ! $dataDoc;

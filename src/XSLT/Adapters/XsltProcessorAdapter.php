@@ -14,7 +14,7 @@ use XSLTProcessor;
  */
 class XsltProcessorAdapter extends GenericAdapter {
     
-    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo {
+    public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo {
         if (! $outputFile) {
             $outputFile = FileInfoFactory::createTempFile();
         }

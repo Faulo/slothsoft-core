@@ -17,7 +17,7 @@ interface EphemeralStorageInterface {
     
     public function retrieve(string $name, int $modifyTime): ?string;
     
-    public function retrieveXML(string $name, int $modifyTime, DOMDocument $targetDoc = null): ?DOMNode;
+    public function retrieveXML(string $name, int $modifyTime, ?DOMDocument $targetDoc = null): ?DOMNode;
     
     public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument;
     

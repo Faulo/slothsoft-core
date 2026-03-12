@@ -15,7 +15,7 @@ final class WaitingStream implements StreamInterface {
     
     private ?array $heartbeat;
     
-    public function __construct(StreamInterface $stream, int $waitInMicroseconds, array $heartbeat = null) {
+    public function __construct(StreamInterface $stream, int $waitInMicroseconds, ?array $heartbeat = null) {
         $this->stream = $stream;
         $this->usleep = $waitInMicroseconds;
         $this->heartbeat = $heartbeat;

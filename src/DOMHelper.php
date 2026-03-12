@@ -188,7 +188,7 @@ final class DOMHelper {
         return $implementation;
     }
     
-    public function parse(string $xmlCode, DOMDocument $targetDoc = null, bool $asHTML = false): DOMDocumentFragment {
+    public function parse(string $xmlCode, ?DOMDocument $targetDoc = null, bool $asHTML = false): DOMDocumentFragment {
         if ($asHTML) {
             $parseDoc = self::dom()->createDocument();
             
@@ -288,7 +288,7 @@ final class DOMHelper {
         return $this->transformToAdapter($source, $template, $param)->writeDocument();
     }
     
-    public function transformToFile($source, $template, array $param = [], SplFileInfo $output = null): SplFileInfo {
+    public function transformToFile($source, $template, array $param = [], ?SplFileInfo $output = null): SplFileInfo {
         if (! $output) {
             $output = FileInfoFactory::createFromTemp();
         }
@@ -298,7 +298,7 @@ final class DOMHelper {
         return $output;
     }
     
-    public function transformToFragment($source, $template, array $param = [], DOMDocument $targetDoc = null): DOMDocumentFragment {
+    public function transformToFragment($source, $template, array $param = [], ?DOMDocument $targetDoc = null): DOMDocumentFragment {
         $finalDoc = $this->transformToDocument($source, $template, $param);
         
         if ($targetDoc === null) {

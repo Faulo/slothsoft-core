@@ -72,7 +72,7 @@ class CLI {
         return self::stdErr()->getValue();
     }
     
-    public static function execute(string $command, string $workingDirectory = null): int {
+    public static function execute(string $command, ?string $workingDirectory = null): int {
         fwrite(self::getStdOut(), PHP_EOL . PHP_EOL . sprintf('[%s]> %s', date('d.m.y H:i:s'), $command) . PHP_EOL);
         $process = Process::fromShellCommandline($command);
         if ($workingDirectory) {

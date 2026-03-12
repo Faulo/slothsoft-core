@@ -23,7 +23,7 @@ class SaxonProcessorAdapter extends GenericAdapter {
      * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toFile()
      *
      */
-    public function writeFile(SplFileInfo $outputFile = null): SplFileInfo {
+    public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo {
         if (! $outputFile) {
             $outputFile = FileInfoFactory::createTempFile();
         }

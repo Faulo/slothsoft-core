@@ -171,7 +171,7 @@ class HTTPFile implements FileWriterInterface {
             $refererURI = sprintf('Referer: %s://%s%s', $param['scheme'], $param['host'], $param['path']);
             $filePath = self::getTempFile();
             $downloadExec = sprintf(self::CURL_COMMAND, escapeshellarg(urldecode($url)), escapeshellarg($filePath), escapeshellarg($refererURI));
-            `$downloadExec`;
+            shell_exec($downloadExec);
             $ret = file_exists($filePath) ? self::createFromPath($filePath, $fileName) : null;
         } else {
             @$data = file_get_contents($url);

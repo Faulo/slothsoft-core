@@ -13,12 +13,10 @@ def runComposerTest(def version, def variant) {
 
 def installFirefox() {
 	unstable {
-		if (env.FARAH_INSTALL_FIREFOX == '1') {
-			if (isUnix()) {
-				// already part of the farah image
-			} else {
-				callShell "choco install Firefox --no-progress --yes --skip-checksums --params='/NoTaskbarShortcut /NoDesktopShortcut /NoStartMenuShortcut /NoAutoUpdate'"
-			}
+		if (isUnix()) {
+			// already part of the farah image
+		} else {
+			callShell "choco install Firefox --no-progress --yes --skip-checksums --params='/NoTaskbarShortcut /NoDesktopShortcut /NoStartMenuShortcut /NoAutoUpdate'"
 		}
 	}
 }
@@ -45,9 +43,12 @@ pipeline {
 
 					def branches = [:]
 
-					for (def platform in platforms) {
-						for (def version in versions) {
-							for (def variant in variants) {
+					for (def p in platforms) {
+						def platform = p
+						for (def v in versions) {
+							def version = v
+							for (def v in variants) {
+								def variant = v
 								def name = "${platform} php-${version} ${variant}"
 								def label = "${platform} && docker"
 								def workspace = "php-${version}-${variant}"
@@ -63,6 +64,10 @@ pipeline {
 												}
 
 												docker.image("faulo/farah:${version}").inside {
+													if (env.FARAH_INSTALL_FIREFOX == '1') {
+														installFirefox()
+													}
+
 													runComposerTest(version, variant)
 												}
 

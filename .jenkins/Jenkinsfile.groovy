@@ -4,7 +4,7 @@ def unstable(def body) {
 	}
 }
 
-def runComposerTest(def version, def variant, def updateCommand) {
+def runComposerTest(def version, def variant) {
 	unstable {
 		callShell "composer update --prefer-${variant}"
 		callShell "composer exec phpunit -- --log-junit .reports/${version}-${variant}.xml"
@@ -48,7 +48,7 @@ pipeline {
 					for (def platform in platforms) {
 						for (def version in versions) {
 							for (def variant in variants) {
-								def name = "${platform} php-${version} prefer-${variant}"
+								def name = "${platform} php-${version} ${variant}"
 								def label = "${platform} && docker"
 								def workspace = "php-${version}-${variant}"
 

@@ -47,7 +47,7 @@ pipeline {
 						def platform = p
 						for (def v in versions) {
 							def version = v
-							for (def v in variants) {
+							for (def a in variants) {
 								def variant = v
 								def name = "${platform} php-${version} ${variant}"
 								def label = "${platform} && docker"

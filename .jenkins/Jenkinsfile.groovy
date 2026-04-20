@@ -6,7 +6,7 @@ def unstable(def body) {
 
 def runComposerTest(def version, def variant, def updateCommand) {
 	unstable {
-		callShell updateCommand
+		callShell "composer update --prefer-${variant}"
 		callShell "composer exec phpunit -- --log-junit .reports/${version}-${variant}.xml"
 	}
 }
@@ -41,35 +41,34 @@ pipeline {
 				script {
 					def platforms = ['linux', 'windows']
 					def versions = ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
+					def variants = ['lowest', 'stable']
 
 					def branches = [:]
 
 					for (def platform in platforms) {
 						for (def version in versions) {
-							def name = "${platform}\nphp-${version}"
-							def label = "${platform} && docker"
-							def workspace = "php-${version}"
+							for (def variant in variants) {
+								def name = "${platform} php-${version} prefer-${variant}"
+								def label = "${platform} && docker"
+								def workspace = "php-${version}-${variant}"
 
-							branches[name] = {
-								stage(name) {
-									node(label) {
-										ws("${WORKSPACE}@${workspace}") {
-											checkout scm
+								branches[name] = {
+									stage(name) {
+										node(label) {
+											ws("${WORKSPACE}@${workspace}") {
+												checkout scm
 
-											dir('.reports') {
-												deleteDir()
-											}
+												dir('.reports') {
+													deleteDir()
+												}
 
-											docker.image("faulo/farah:${version}").inside {
-												installFirefox()
+												docker.image("faulo/farah:${version}").inside {
+													runComposerTest(version, variant)
+												}
 
-												runComposerTest(version, 'lowest', 'composer update --prefer-lowest')
-
-												runComposerTest(version, 'stable', 'composer update --prefer-stable')
-											}
-
-											dir('.reports') {
-												junit "*.xml"
+												dir('.reports') {
+													junit "*.xml"
+												}
 											}
 										}
 									}

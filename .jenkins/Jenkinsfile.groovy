@@ -29,6 +29,7 @@ pipeline {
 		disableConcurrentBuilds()
 		disableResume()
 		disableRestartFromStage()
+		skipDefaultCheckout()
 	}
 	environment {
 		COMPOSER_PROCESS_TIMEOUT = '3600'
@@ -47,24 +48,29 @@ pipeline {
 						for (def version in versions) {
 							def name = "${platform}\nphp-${version}"
 							def label = "${platform} && docker"
+							def workspace = "php-${version}"
 
 							branches[name] = {
 								stage(name) {
 									node(label) {
-										dir('.reports') {
-											deleteDir()
-										}
+										ws("${WORKSPACE}@${workspace}") {
+											checkout scm
 
-										docker.image("faulo/farah:${version}").inside {
-											installFirefox()
+											dir('.reports') {
+												deleteDir()
+											}
 
-											runComposerTest(version, 'lowest', 'composer update --prefer-lowest')
+											docker.image("faulo/farah:${version}").inside {
+												installFirefox()
 
-											runComposerTest(version, 'stable', 'composer update --prefer-stable')
-										}
+												runComposerTest(version, 'lowest', 'composer update --prefer-lowest')
 
-										dir('.reports') {
-											junit "*.xml"
+												runComposerTest(version, 'stable', 'composer update --prefer-stable')
+											}
+
+											dir('.reports') {
+												junit "*.xml"
+											}
 										}
 									}
 								}

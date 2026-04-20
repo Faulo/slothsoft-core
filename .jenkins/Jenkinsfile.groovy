@@ -31,16 +31,15 @@ pipeline {
 	}
 	environment {
 		COMPOSER_PROCESS_TIMEOUT = '3600'
+		FARAH_INSTALL_FIREFOX = '0'
 	}
 	stages {
 		stage('Setup') {
 			steps {
 				script {
-					def config = readProperties file: '.jenkins/phpProject.properties'
-
-					def platforms = config.PLATFORMS.split(' ')
-					def versions = config.PHP_VERSIONS.split(' ')
-					def variants = config.COMPOSER_VARIANTS.split(' ')
+					def platforms = ['linux', 'windows']
+					def versions = ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
+					def variants = ['lowest', 'stable']
 
 					def branches = [:]
 
@@ -66,7 +65,7 @@ pipeline {
 												}
 
 												docker.image("faulo/farah:${version}").inside {
-													if (config.FARAH_INSTALL_FIREFOX == '1') {
+													if (env.FARAH_INSTALL_FIREFOX == '1') {
 														installFirefox()
 													}
 

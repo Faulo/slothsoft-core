@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
+use Generator;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
-use Generator;
 
 final class ChunkWriterFromStringWriter implements ChunkWriterInterface {
     

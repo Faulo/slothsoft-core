@@ -1,12 +1,13 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
+use DOMDocument;
 use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
-use DOMDocument;
 
 final class DOMWriterFromFileWriter implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;

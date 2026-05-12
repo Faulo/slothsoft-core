@@ -1,12 +1,13 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\Game;
 
 class Prime {
     
     public static function getPrimeList($size) {
         $ret = [];
-        for ($i = 1; $i > 0; $i ++) {
+        for ($i = 1; $i > 0; $i++) {
             if (self::isPrime($i)) {
                 $ret[] = $i;
             }

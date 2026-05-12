@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
-use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use Closure;
+use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 class StringWriterFromStringDelegate implements StringWriterInterface {
     

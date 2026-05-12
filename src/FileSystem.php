@@ -9,19 +9,21 @@ declare(strict_types = 1);
  * initial release
  * *********************************************************************
  */
+
 namespace Slothsoft\Core;
 
-use SebastianBergmann\CodeCoverage\Util\DirectoryCouldNotBeCreatedException;
-use Slothsoft\Core\Calendar\DateTimeFormatter;
-use Slothsoft\Core\Configuration\ConfigurationField;
-use Slothsoft\Core\Configuration\StorageConfigurationField;
 use COM;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
 use DOMXPath;
 use Exception;
+use FInfo;
 use InvalidArgumentException;
+use SebastianBergmann\CodeCoverage\Util\DirectoryCouldNotBeCreatedException;
+use Slothsoft\Core\Calendar\DateTimeFormatter;
+use Slothsoft\Core\Configuration\ConfigurationField;
+use Slothsoft\Core\Configuration\StorageConfigurationField;
 use SplFileInfo;
 
 abstract class FileSystem {
@@ -114,7 +116,7 @@ abstract class FileSystem {
     }
     
     public static function drawBytes($size, int $precision = 2): string {
-        for ($i = 0; $size > 1024; $i ++) {
+        for ($i = 0; $size > 1024; $i++) {
             $size /= 1024.0;
         }
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
@@ -184,7 +186,6 @@ abstract class FileSystem {
                         $attr['ext'] = self::extension($path);
                         if (self::isVideo($path)) {
                             $attr['isVideo'] = '';
-                            
                             /*
                              * $mediaInfo = self::mediaInfo($path);
                              * $mediaTypes = ['video', 'audio', 'subtitle'];
@@ -236,7 +237,7 @@ abstract class FileSystem {
                         $attr['path'] = $path;
                         $attr['id'] = 'id-' . md5($path);
                         $attr['name'] = $name;
-                        $attr['title'] = isset($attr['ext']) ? substr($attr['name'], 0, - (1 + strlen($attr['ext']))) : $attr['name'];
+                        $attr['title'] = isset($attr['ext']) ? substr($attr['name'], 0, -(1 + strlen($attr['ext']))) : $attr['name'];
                         foreach ($attr as $key => $val) {
                             $val = (string) $val;
                             if (! mb_check_encoding($val, 'UTF-8')) {
@@ -282,7 +283,7 @@ abstract class FileSystem {
     }
     
     public static function mime(string $fileName): ?string {
-        $fInfo = new \FInfo(FILEINFO_MIME_TYPE);
+        $fInfo = new FInfo(FILEINFO_MIME_TYPE);
         @$ret = $fInfo->file($fileName);
         return is_string($ret) ? $ret : null;
     }
@@ -662,7 +663,7 @@ abstract class FileSystem {
             }
         }
         if (is_file($rootPath . $path)) {
-            $fileCount ++;
+            $fileCount++;
             if ($fileCount > self::ARCHIVE_MAX_FILES) {
                 $fileCount = 0;
                 $name = $archive->filename;

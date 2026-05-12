@@ -1,15 +1,17 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use SplFileInfo;
 use DOMDocument;
+use RuntimeException;
 use Slothsoft\Core\IO\FileInfoFactory;
+use SplFileInfo;
 
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class CliAdapter extends GenericAdapter {
     
@@ -40,7 +42,7 @@ class CliAdapter extends GenericAdapter {
         $result = 0;
         exec($command, $output, $result);
         if ($result !== 0) {
-            throw new \RuntimeException($command, $result);
+            throw new RuntimeException($command, $result);
         }
         return $outputFile;
     }

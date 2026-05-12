@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable;
 
 use PHPUnit\Framework\TestCase;
@@ -13,6 +14,10 @@ use PHPUnit\Framework\TestCase;
  */
 final class FilteredStreamWriterInterfaceTest extends TestCase {
     
+    /**
+     *
+     * @test
+     */
     public function testInterfaceExists(): void {
         $this->assertTrue(interface_exists(FilteredStreamWriterInterface::class), "Failed to load interface 'Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface'!");
     }

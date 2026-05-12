@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
-use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Closure;
+use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
 class FileWriterFileCache implements FileWriterInterface {

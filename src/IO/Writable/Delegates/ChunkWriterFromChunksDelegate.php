@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Closure;
 use Generator;
+use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 final class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
     

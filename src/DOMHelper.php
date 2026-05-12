@@ -9,19 +9,20 @@ declare(strict_types = 1);
  * initial release
  * *********************************************************************
  */
+
 namespace Slothsoft\Core;
 
-use Slothsoft\Core\IO\FileInfoFactory;
-use Slothsoft\Core\XSLT\XsltFactory;
-use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
+use DomainException;
 use DOMDocument;
 use DOMDocumentFragment;
 use DOMImplementation;
 use DOMNode;
 use DOMXPath;
-use DomainException;
 use Exception;
 use RuntimeException;
+use Slothsoft\Core\IO\FileInfoFactory;
+use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
+use Slothsoft\Core\XSLT\XsltFactory;
 use SplFileInfo;
 
 final class DOMHelper {
@@ -104,7 +105,7 @@ final class DOMHelper {
         'sitemap' => self::NS_SITEMAP
     ];
     
-    public const XPATH_NS_ALL = - 1;
+    public const XPATH_NS_ALL = -1;
     
     public const XPATH_SLOTHSOFT = 1;
     

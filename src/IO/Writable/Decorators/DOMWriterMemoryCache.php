@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
+use DOMDocument;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
-use DOMDocument;
 
 class DOMWriterMemoryCache implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;

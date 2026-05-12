@@ -1,15 +1,16 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use SplFileInfo;
-use Slothsoft\Core\XSLT\Inputs\InputInterface;
 use DOMDocument;
+use Slothsoft\Core\XSLT\Inputs\InputInterface;
+use SplFileInfo;
 
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 interface AdapterInterface {
     

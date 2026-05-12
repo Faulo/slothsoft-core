@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
 use DOMDocument;
@@ -7,7 +8,7 @@ use DOMDocument;
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class MimeTypeDictionary {
     
@@ -84,7 +85,7 @@ class MimeTypeDictionary {
     }
     
     public static function isXml(string $type): bool {
-        return $type === 'application/xml' or substr($type, - 4) === '+xml';
+        return $type === 'application/xml' or substr($type, -4) === '+xml';
     }
     
     public static function isHtml(string $type): bool {

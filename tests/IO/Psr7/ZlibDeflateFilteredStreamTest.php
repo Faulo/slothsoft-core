@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Psr7;
 
 use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
@@ -11,7 +12,7 @@ final class ZlibDeflateFilteredStreamTest extends AbstractFilteredStreamTestCase
     }
     
     protected function calculateExpectedResult(string $input): string {
-        return gzencode($input, - 1, FORCE_DEFLATE);
+        return gzencode($input, -1, FORCE_DEFLATE);
     }
     
     protected function getFilterFactory(): FilteredStreamWriterInterface {

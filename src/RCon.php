@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
 use Exception;
@@ -65,7 +66,7 @@ class RCon {
     }
     
     public function send($commandId, $messageBody) {
-        $this->requestId ++;
+        $this->requestId++;
         $sendData = [];
         $sendData['requestId'] = $this->requestId;
         $sendData['commandId'] = $commandId;
@@ -101,7 +102,7 @@ class RCon {
             switch ($responseData['commandId']) {
                 case self::SERVERDATA_RESPONSE_VALUE:
                 case self::SERVERDATA_AUTH_RESPONSE:
-                    if ($responseData['requestId'] === - 1) {
+                    if ($responseData['requestId'] === -1) {
                         $this->throwError(self::ERR_RESPONSE_CODE_AUTH, $responseData);
                     }
                     break;

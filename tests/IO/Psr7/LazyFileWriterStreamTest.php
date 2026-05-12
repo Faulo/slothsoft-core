@@ -1,12 +1,13 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Psr7;
 
-use PHPUnit\Framework\TestCase;
+use BadMethodCallException;
 use PHPUnit\Framework\Constraint\IsEqual;
+use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\IO\FileInfoFactory;
 use Slothsoft\Core\IO\Writable\Delegates\FileWriterFromFileDelegate;
-use BadMethodCallException;
 use SplFileInfo;
 
 /**

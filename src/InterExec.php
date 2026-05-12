@@ -198,10 +198,10 @@ class InterExec {
      * Basically, if we're on windows and the first command part is double quoted, we CD into the
      * directory and execute the command from there.
      *
-     * @example : '"C:\a test\b.exe" -h' -> 'cd "C:\a test\" && b.exe -h'
      * @param string $commandPath
      *            The command to fix.
      * @return string The command with the path fixed.
+     * @example : '"C:\a test\b.exe" -h' -> 'cd "C:\a test\" && b.exe -h'
      */
     protected function fix_windows_command_path($commandPath) {
         return trim(preg_replace('/^\s*"([^"]+?)\\\\([^\\\\]+)"\s?(.*)/s', 'cd "$1" && "$2" $3', $commandPath));
@@ -243,7 +243,6 @@ class InterExec {
     protected function run_mainloop() {
         // wait for process to finish
         while (true) {
-            
             $this->fire('tick');
             
             // if process quit, break main loop
@@ -263,7 +262,6 @@ class InterExec {
             
             // handle any pending I/O
             if (stream_select($r, $w, $e, null /* , 25000 */) > 0) {
-                
                 // handle STDOUT, STDERR
                 foreach ($r as $h) {
                     // clear the buffer
@@ -271,7 +269,7 @@ class InterExec {
                     
                     // read data into buffer
                     $t = array_search($h, $this->pipes);
-                    if ($t !== false /*TEST->*/&& $t != self::STDERR/*<-TEST*/){
+                    if ($t !== false /*TEST->*/ && $t != self::STDERR/*<-TEST*/) {
                         if ($this->stream_has_content($h)) {
                             $buf .= fread($h, $this->data_buffer_size);
                         }

@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
-use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMElement;
 use PHPUnit\Framework\Constraint\IsEqual;
+use PHPUnit\Framework\TestCase;
 
 /**
  * DOMHelperTest

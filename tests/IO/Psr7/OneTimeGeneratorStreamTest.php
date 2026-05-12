@@ -1,13 +1,14 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Psr7;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Constraint\IsEqual;
-use PHPUnit\Framework\Constraint\IsNull;
-use Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromChunksDelegate;
 use BadMethodCallException;
 use Generator;
+use PHPUnit\Framework\Constraint\IsEqual;
+use PHPUnit\Framework\Constraint\IsNull;
+use PHPUnit\Framework\TestCase;
+use Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromChunksDelegate;
 
 /**
  * OneTimeGeneratorStreamTest

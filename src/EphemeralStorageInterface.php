@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
 use DOMDocument;
@@ -9,7 +10,7 @@ use DOMNode;
  * Defines a data repository with built-in decay.
  *
  * @author Daniel
- *        
+ *
  */
 interface EphemeralStorageInterface {
     

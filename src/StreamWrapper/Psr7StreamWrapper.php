@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\StreamWrapper;
 
 use Psr\Http\Message\StreamInterface;
@@ -26,7 +27,7 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
             $this->stream->seek($offset, $whence);
             return 0;
         } catch (RuntimeException $e) {
-            return - 1;
+            return -1;
         }
     }
     

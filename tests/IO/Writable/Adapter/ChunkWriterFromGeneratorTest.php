@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
 use PHPUnit\Framework\TestCase;
@@ -22,7 +23,7 @@ final class ChunkWriterFromGeneratorTest extends TestCase {
      */
     public function testToChunks(int $size): void {
         $range = function (int $n) {
-            for ($i = 0; $i < $n; $i ++) {
+            for ($i = 0; $i < $n; $i++) {
                 yield $i;
             }
         };

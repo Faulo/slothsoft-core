@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Psr7;
 
+use BadMethodCallException;
 use GuzzleHttp\Psr7\StreamDecoratorTrait;
 use Psr\Http\Message\StreamInterface;
-use BadMethodCallException;
 
 final class WaitingStream implements StreamInterface {
     use StreamDecoratorTrait;

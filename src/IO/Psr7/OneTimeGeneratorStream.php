@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Psr7;
 
-use Psr\Http\Message\StreamInterface;
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use BadMethodCallException;
 use Generator;
+use Psr\Http\Message\StreamInterface;
+use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 final class OneTimeGeneratorStream implements StreamInterface {
     

@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\Configuration;
 
-use Slothsoft\Core\EphemeralStorageInterface;
 use BadMethodCallException;
+use Slothsoft\Core\EphemeralStorageInterface;
 
 class StorageConfigurationField extends ConfigurationField {
     

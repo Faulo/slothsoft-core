@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
+use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 final class ChunkWriterMemoryCache implements ChunkWriterInterface {
     

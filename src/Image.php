@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
 use DomainException;
@@ -112,7 +113,7 @@ class Image {
             'blue' => 255
         );
         
-        if ($transparencyIndex > - 1) {
+        if ($transparencyIndex > -1) {
             $transparencyColor = imagecolorsforindex($image_source, $transparencyIndex);
         }
         
@@ -126,11 +127,11 @@ class Image {
         $new_image = imagecreatetruecolor($new_width, $new_height);
         self::setTransparency($pic, $new_image);
         $originaltransparentcolor = imagecolortransparent($pic);
-        if ($originaltransparentcolor > - 1) {
+        if ($originaltransparentcolor > -1) {
             $transparentcolor = imagecolorsforindex($pic, $originaltransparentcolor);
         }
         imagecopyresized($new_image, $pic, 0, 0, $x, $y, $new_width, $new_height, $new_width, $new_height);
-        if ($originaltransparentcolor > - 1) {
+        if ($originaltransparentcolor > -1) {
             $newtransparentcolor = imagecolorallocate($new_image, $transparentcolor['red'], $transparentcolor['green'], $transparentcolor['blue']);
             imagecolortransparent($new_image, $newtransparentcolor);
         }
@@ -185,7 +186,8 @@ class Image {
         return $ret;
     }
     
-    public static function cropFile($sourceFile, $destFile, $width, $height) {}
+    public static function cropFile($sourceFile, $destFile, $width, $height) {
+    }
     
     public static function mergeFile($sourceFile, $appendFile, $targetFile = null) {
         if ($targetFile === null) {
@@ -264,7 +266,8 @@ class Image {
                         imagecopyresized($new_image, $pic, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
                         imagedestroy($pic);
                         imagejpeg($new_image, $destFile);
-                    } catch (Exception $e) {}
+                    } catch (Exception $e) {
+                    }
                 }
             }
             if (file_exists($destFile)) {

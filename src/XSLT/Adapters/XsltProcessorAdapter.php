@@ -1,16 +1,17 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
+use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 use XSLTProcessor;
 
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class XsltProcessorAdapter extends GenericAdapter {
     

@@ -1,7 +1,9 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\Configuration;
 
+use ReflectionParameter;
 class ConfigurationField {
     
     private $value;
@@ -19,7 +21,7 @@ class ConfigurationField {
             $type = $traceList[1]['type'];
             $function = $traceList[1]['function'];
             $function[0] = 's';
-            $param = new \ReflectionParameter([
+            $param = new ReflectionParameter([
                 $class,
                 $function
             ], 0);

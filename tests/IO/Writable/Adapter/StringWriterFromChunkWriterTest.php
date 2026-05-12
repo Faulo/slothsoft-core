@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Adapter;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Constraint\IsIdentical;
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
+use PHPUnit\Framework\Constraint\IsIdentical;
+use PHPUnit\Framework\TestCase;
+use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 /**
  * StringWriterFromChunkWriterTest
@@ -39,7 +40,7 @@ final class StringWriterFromChunkWriterTest extends TestCase implements ChunkWri
     public function test_string() {
         $sut = new StringWriterFromChunkWriter($this);
         
-        for ($i = 0; $i < self::ITERATIONS; $i ++) {
+        for ($i = 0; $i < self::ITERATIONS; $i++) {
             $actual = $sut->toString();
             $this->assertThat($actual, new IsIdentical(self::$expected));
         }

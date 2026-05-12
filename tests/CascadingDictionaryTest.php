@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
 use PHPUnit\Framework\TestCase;
@@ -118,7 +119,7 @@ class CascadingDictionaryTest extends TestCase {
         foreach ($dict as $key => $value) {
             $this->assertEquals($expectedKeys[$i], $key);
             $this->assertEquals($expectedValues[$i], $value);
-            $i ++;
+            $i++;
         }
         $this->assertEquals(3, $i);
     }

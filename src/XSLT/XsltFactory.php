@@ -1,7 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XSLT;
 
+use DomainException;
+use DOMDocument;
 use Slothsoft\Core\IO\FileInfoFactory;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
@@ -12,14 +15,12 @@ use Slothsoft\Core\XSLT\Adapters\XsltProcessorAdapter;
 use Slothsoft\Core\XSLT\Inputs\DocumentInput;
 use Slothsoft\Core\XSLT\Inputs\FileInput;
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
-use DOMDocument;
-use DomainException;
 use SplFileInfo;
 
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class XsltFactory {
     

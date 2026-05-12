@@ -1,12 +1,13 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
-use Slothsoft\Core\IO\Writable\DOMWriterInterface;
-use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 use Closure;
 use DOMDocument;
 use DOMElement;
+use Slothsoft\Core\IO\Writable\DOMWriterInterface;
+use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 
 class DOMWriterFromElementDelegate implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;

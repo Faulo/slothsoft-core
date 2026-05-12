@@ -1,7 +1,9 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
+use DOMXPath;
 class WebCrawler {
     
     public $maxDepth = 0;
@@ -76,7 +78,7 @@ class WebCrawler {
                                 $this->linkList[$url] = sprintf('OK	document	%s', $url);
                                 // my_dump($this->linkList);die();
                                 
-                                $xpath = new \DOMXPath($doc);
+                                $xpath = new DOMXPath($doc);
                                 $nodeList = $xpath->evaluate('//@href');
                                 foreach ($nodeList as $node) {
                                     $href = $xpath->evaluate('string(.)', $node);

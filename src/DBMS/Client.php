@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\DBMS;
 
 use Slothsoft\Core\Configuration\ConfigurationField;
@@ -72,7 +73,8 @@ class Client {
     
     protected $dbName = null;
     
-    public function __construct() {}
+    public function __construct() {
+    }
     
     public function reconnect() {
         try {
@@ -313,7 +315,8 @@ class Client {
             foreach ($insertData as &$val) {
                 if ($val === null) {
                     $val = 'NULL';
-                } elseif (is_int($val)) {} else {
+                } elseif (is_int($val)) {
+                } else {
                     $val = sprintf('"%s"', $this->escape($val));
                 }
                 /*

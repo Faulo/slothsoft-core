@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XSLT\Adapters;
 
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
@@ -7,7 +8,7 @@ use Slothsoft\Core\XSLT\Inputs\InputInterface;
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 abstract class GenericAdapter implements AdapterInterface {
     

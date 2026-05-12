@@ -11,8 +11,14 @@ declare(strict_types = 1);
  * initial release
  * *********************************************************************
  */
+
 namespace Slothsoft\Core;
 
+use DOMDocument;
+use DOMNode;
+use DOMXPath;
+use Exception;
+use mysqli_sql_exception;
 use Slothsoft\Core\Calendar\DateTimeFormatter;
 use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\Core\Configuration\ConfigurationField;
@@ -20,10 +26,6 @@ use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 use Slothsoft\Core\DBMS\DatabaseException;
 use Slothsoft\Core\DBMS\Manager;
 use Slothsoft\Core\DBMS\Table;
-use DOMDocument;
-use DOMNode;
-use Exception;
-use mysqli_sql_exception;
 
 class Storage implements EphemeralStorageInterface {
     
@@ -141,7 +143,7 @@ class Storage implements EphemeralStorageInterface {
      * @param int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return NULL|\DOMXPath
+     * @return NULL|DOMXPath
      */
     public static function loadExternalXPath(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $ret = null;
@@ -364,8 +366,8 @@ class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @throws Exception
      * @return Storage
+     * @throws Exception
      */
     protected static function _getStorageByURI(string $uri) {
         $scheme = self::_getSchemeFromURI($uri);
@@ -575,8 +577,8 @@ class Storage implements EphemeralStorageInterface {
      *
      * @param string $name
      * @param int $modifyTime
-     * @throws Exception
      * @return mixed
+     * @throws Exception
      */
     public function retrieveJSON(string $name, int $modifyTime) {
         $retObject = null;

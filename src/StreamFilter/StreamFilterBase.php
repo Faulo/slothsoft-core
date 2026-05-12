@@ -1,8 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\StreamFilter;
 
-abstract class StreamFilterBase extends \php_user_filter implements StreamFilterInterface {
+use php_user_filter;
+abstract class StreamFilterBase extends php_user_filter implements StreamFilterInterface {
     
     const STATE_OPENING = 1;
     

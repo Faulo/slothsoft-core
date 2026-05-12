@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
+use Closure;
 use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
-use Closure;
 
 class StreamWriterFromStreamDelegate implements StreamWriterInterface {
     

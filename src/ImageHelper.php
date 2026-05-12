@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
 use Imagick;
@@ -8,14 +9,14 @@ use SplFileInfo;
 
 class ImageHelper {
     
-    public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = - 1): void {
+    public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = -1): void {
         FileSystem::ensureDirectory($targetFile->getPath());
         
         $image = new Imagick((string) $sourceFile);
         $image->setImageFormat('png');
         $image->writeImage((string) $targetFile);
         
-        if ($alphaColorIndex !== - 1) {
+        if ($alphaColorIndex !== -1) {
             $image = imagecreatefrompng((string) $targetFile);
             imagecolortransparent($image, 0);
             imagepng($image, (string) $targetFile);

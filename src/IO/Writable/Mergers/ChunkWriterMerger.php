@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Mergers;
 
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
+use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 class ChunkWriterMerger implements ChunkWriterInterface {
     

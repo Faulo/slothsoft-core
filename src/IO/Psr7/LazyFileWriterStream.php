@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Psr7;
 
+use BadMethodCallException;
 use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
-use BadMethodCallException;
 use SplFileInfo;
 use SplFileObject;
 

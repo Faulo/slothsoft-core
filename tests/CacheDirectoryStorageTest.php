@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
-use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMNode;
+use PHPUnit\Framework\TestCase;
 
 class CacheDirectoryStorageTest extends TestCase {
     

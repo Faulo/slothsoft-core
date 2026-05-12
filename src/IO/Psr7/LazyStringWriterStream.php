@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Psr7;
 
-use Psr\Http\Message\StreamInterface;
-use Slothsoft\Core\IO\Writable\StringWriterInterface;
 use BadMethodCallException;
 use OutOfBoundsException;
+use Psr\Http\Message\StreamInterface;
+use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
 final class LazyStringWriterStream implements StreamInterface {
     

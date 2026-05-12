@@ -1,18 +1,19 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XML;
 
-use Ds\Vector;
-use Slothsoft\Core\IO\Writable\DOMWriterInterface;
-use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 use DOMDocument;
 use DOMElement;
 use DOMNodeList;
+use Ds\Vector;
+use Slothsoft\Core\IO\Writable\DOMWriterInterface;
+use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;

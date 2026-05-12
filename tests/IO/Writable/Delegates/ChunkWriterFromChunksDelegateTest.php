@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Delegates;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Constraint\IsIdentical;
 use Generator;
+use PHPUnit\Framework\Constraint\IsIdentical;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ChunkWriterFromChunksDelegateTest
@@ -42,7 +43,7 @@ final class ChunkWriterFromChunksDelegateTest extends TestCase {
         $sut = new ChunkWriterFromChunksDelegate(self::$delegate);
         
         $expected = self::$values;
-        for ($i = 0; $i < $count; $i ++) {
+        for ($i = 0; $i < $count; $i++) {
             $actual = [
                 ...$sut->toChunks()
             ];

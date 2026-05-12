@@ -1,10 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use ReturnTypeWillChange;
 use Traversable;
 
 class CascadingDictionary implements ArrayAccess, IteratorAggregate {
@@ -28,7 +30,7 @@ class CascadingDictionary implements ArrayAccess, IteratorAggregate {
         return false;
     }
     
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function &offsetGet($offset) {
         foreach (array_keys($this->values) as $key) {
             if (strpos($offset, $key) === 0) {

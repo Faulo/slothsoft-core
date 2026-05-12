@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
-use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
+use Slothsoft\Core\IO\FileInfoFactory;
 
 class CloudFlareScraper {
     

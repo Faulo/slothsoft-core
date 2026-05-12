@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO;
 
-use Slothsoft\Core\FileSystem;
 use DOMDocument;
 use InvalidArgumentException;
+use Slothsoft\Core\FileSystem;
 
 class FileInfoFactory {
     

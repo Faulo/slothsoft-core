@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\StreamWrapper;
 
 use LogicException;
@@ -82,7 +83,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @see \Slothsoft\Core\StreamWrapper\StreamWrapperInterface::stream_stat()
+     * @see StreamWrapperInterface::stream_stat
      */
     public function stream_stat(): array {
         return $this->stream->stream_stat();
@@ -91,7 +92,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @see \Slothsoft\Core\StreamWrapper\StreamWrapperInterface::stream_eof()
+     * @see StreamWrapperInterface::stream_eof
      */
     public function stream_eof(): bool {
         return $this->stream->stream_eof();
@@ -100,7 +101,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @see \Slothsoft\Core\StreamWrapper\StreamWrapperInterface::stream_seek()
+     * @see StreamWrapperInterface::stream_seek
      */
     public function stream_seek(int $offset, int $whence): int {
         return $this->stream->stream_seek($offset, $whence);
@@ -109,7 +110,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @see \Slothsoft\Core\StreamWrapper\StreamWrapperInterface::stream_read()
+     * @see StreamWrapperInterface::stream_read
      */
     public function stream_read(int $count) {
         return $this->stream->stream_read($count);
@@ -118,7 +119,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @see \Slothsoft\Core\StreamWrapper\StreamWrapperInterface::stream_write()
+     * @see StreamWrapperInterface::stream_write
      */
     public function stream_write(string $data) {
         return $this->stream->stream_write($data);
@@ -127,7 +128,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @see \Slothsoft\Core\StreamWrapper\StreamWrapperInterface::stream_tell()
+     * @see StreamWrapperInterface::stream_tell
      */
     public function stream_tell() {
         return $this->stream->stream_tell();
@@ -136,7 +137,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @see \Slothsoft\Core\StreamWrapper\StreamWrapperInterface::stream_close()
+     * @see StreamWrapperInterface::stream_close
      */
     public function stream_close(): bool {
         return $this->stream->stream_close();

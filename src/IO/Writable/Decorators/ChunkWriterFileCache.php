@@ -1,13 +1,14 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
+use Closure;
+use Generator;
 use Slothsoft\Core\IO\Memory;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
-use Closure;
-use Generator;
 use SplFileInfo;
 
 class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface {

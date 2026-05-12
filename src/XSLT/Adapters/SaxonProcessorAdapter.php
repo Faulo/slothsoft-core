@@ -1,20 +1,22 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
+use Saxon\SaxonProcessor;
+use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class SaxonProcessorAdapter extends GenericAdapter {
     
     private function newSaxonProcessor() {
-        return new \Saxon\SaxonProcessor();
+        return new SaxonProcessor();
     }
     
     /**

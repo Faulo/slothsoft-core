@@ -9,13 +9,14 @@ declare(strict_types = 1);
  * initial release
  * *********************************************************************
  */
+
 namespace Slothsoft\Core\IO;
 
-use Slothsoft\Core\DOMHelper;
-use Slothsoft\Core\Storage;
-use Slothsoft\Core\Calendar\Seconds;
-use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use DOMDocument;
+use Slothsoft\Core\Calendar\Seconds;
+use Slothsoft\Core\DOMHelper;
+use Slothsoft\Core\IO\Writable\FileWriterInterface;
+use Slothsoft\Core\Storage;
 use SplFileInfo;
 
 class HTTPFile implements FileWriterInterface {
@@ -227,7 +228,7 @@ class HTTPFile implements FileWriterInterface {
     public static function verifyDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR) {
         $ret = false;
         if (file_exists($filePath)) {
-            if ($headerCache === - 1) {
+            if ($headerCache === -1) {
                 $ret = true;
             } else {
                 $res = Storage::loadExternalHeader($url, $headerCache);

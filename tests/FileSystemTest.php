@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core;
 
-use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMElement;
+use PHPUnit\Framework\TestCase;
 
 class FileSystemTest extends TestCase {
     

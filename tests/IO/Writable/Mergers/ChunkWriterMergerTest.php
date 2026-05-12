@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Mergers;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Constraint\IsIdentical;
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
+use PHPUnit\Framework\Constraint\IsIdentical;
+use PHPUnit\Framework\TestCase;
+use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 /**
  * ChunkWriterMergerTest
@@ -46,7 +47,7 @@ final class ChunkWriterMergerTest extends TestCase implements ChunkWriterInterfa
             ...self::$values
         ];
         
-        for ($i = 0; $i < $count; $i ++) {
+        for ($i = 0; $i < $count; $i++) {
             $actual = [
                 ...$sut->toChunks()
             ];

@@ -9,6 +9,7 @@ declare(strict_types = 1);
  * initial release
  * ****************************************************************************
  */
+
 namespace Slothsoft\Core\Game;
 
 class Dice {
@@ -32,7 +33,7 @@ class Dice {
     
     public function getAverage() {
         $ret = $this->sidesCount;
-        $ret ++;
+        $ret++;
         $ret *= $this->diceCount;
         $ret /= 2;
         return $ret;
@@ -44,7 +45,7 @@ class Dice {
     
     public function roll() {
         $ret = 0;
-        for ($i = 0; $i < $this->diceCount; $i ++) {
+        for ($i = 0; $i < $this->diceCount; $i++) {
             $ret += $this->rand(1, $this->sidesCount);
         }
         return $ret;

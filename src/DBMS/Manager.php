@@ -1,5 +1,6 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\DBMS;
 
 use Slothsoft\Core\Calendar\DateTimeFormatter;
@@ -60,7 +61,6 @@ class Manager {
     public static function getDatabase($dbName) {
         $dbName = mb_strtolower(trim($dbName));
         if (! isset(self::$databaseList[$dbName])) {
-            
             self::_createLog(sprintf('Manager: creating Database %s...', $dbName));
             
             self::$databaseList[$dbName] = new Database(self::getClient(), $dbName);
@@ -75,7 +75,6 @@ class Manager {
             self::$tableList[$dbName] = [];
         }
         if (! isset(self::$tableList[$dbName][$tableName])) {
-            
             self::_createLog(sprintf('Manager: creating Table %s.%s...', $dbName, $tableName));
             
             self::$tableList[$dbName][$tableName] = new Table(self::getDatabase($dbName), $tableName);

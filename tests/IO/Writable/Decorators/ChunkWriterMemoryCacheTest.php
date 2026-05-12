@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Constraint\IsIdentical;
-use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 use Generator;
+use PHPUnit\Framework\Constraint\IsIdentical;
+use PHPUnit\Framework\TestCase;
+use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 /**
  * ChunkWriterMemoryCacheTest
@@ -41,7 +42,7 @@ final class ChunkWriterMemoryCacheTest extends TestCase implements ChunkWriterIn
         $sut = new ChunkWriterMemoryCache($this);
         
         $expected = self::$values;
-        for ($i = 0; $i < $count; $i ++) {
+        for ($i = 0; $i < $count; $i++) {
             $actual = [
                 ...$sut->toChunks()
             ];

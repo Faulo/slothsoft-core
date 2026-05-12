@@ -23,11 +23,12 @@ declare(strict_types = 1);
  * $req->responseText;
  * *********************************************************************
  */
+
 namespace Slothsoft\Core;
 
-use Slothsoft\Core\Calendar\Seconds;
 use DOMDocument;
 use Exception;
+use Slothsoft\Core\Calendar\Seconds;
 
 class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
@@ -439,7 +440,8 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
     
-    public function abort(): void {}
+    public function abort(): void {
+    }
     
     public function overrideMimeType(string $mime): void {
         if ($this->readyState === self::OPENED or $this->readyState === self::DONE) {
@@ -478,7 +480,8 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
     
-    public function dispatchEvent($event): bool {}
+    public function dispatchEvent($event): bool {
+    }
     
     // proprietary
     public function setCookieFile($file) {

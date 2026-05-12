@@ -1,15 +1,16 @@
 <?php
 declare(strict_types = 1);
+
 namespace Slothsoft\Core\XSLT\Inputs;
 
-use Slothsoft\Core\IO\FileInfoFactory;
 use DOMDocument;
+use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
 /**
  *
  * @author Daniel Schulz
- *        
+ *
  */
 class DocumentInput implements InputInterface {
     

@@ -61,11 +61,11 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     public string $responseType;
     
-    public $response;
+    public $response = null;
     
-    public string $responseText;
+    public ?string $responseText = null;
     
-    public ?DOMDocument $responseXML;
+    public ?DOMDocument $responseXML = null;
     
     public int $httpVersion = CURL_HTTP_VERSION_1_1;
     

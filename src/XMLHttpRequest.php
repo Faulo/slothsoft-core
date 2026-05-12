@@ -26,9 +26,11 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core;
 
+use BadMethodCallException;
 use DOMDocument;
 use Exception;
 use Slothsoft\Core\Calendar\Seconds;
+use w3c\XMLHttpRequestEventTarget;
 
 class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
@@ -45,79 +47,79 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
      * public $onloadend;
      * public $onreadystatechange;
      */
-    public $readyState = self::UNSENT;
+    public int $readyState = self::UNSENT;
     
-    public $timeout = 0;
+    public int $timeout = 0;
     
-    public $withCredentials;
+    public bool $withCredentials;
     
-    public $upload;
+    public ?XMLHttpRequestEventTarget $upload;
     
-    public $status = 0;
+    public int $status = 0;
     
-    public $statusText = '';
+    public string $statusText = '';
     
-    public $responseType;
+    public string $responseType;
     
     public $response;
     
-    public $responseText;
+    public string $responseText;
     
-    public $responseXML;
+    public ?DOMDocument $responseXML;
     
-    public $httpVersion = CURL_HTTP_VERSION_1_1;
+    public int $httpVersion = CURL_HTTP_VERSION_1_1;
     
-    public $followRedirects = 1;
+    public int $followRedirects = 1;
     
-    public $maxRedirects = 10;
+    public int $maxRedirects = 10;
     
-    public $connectTimeout = 300;
+    public int $connectTimeout = 300;
     
-    public $transferTimeout = Seconds::HOUR;
+    public int $transferTimeout = Seconds::HOUR;
     
-    public $globalDNS = 0;
+    public int $globalDNS = 0;
     
-    public $keepAliveActive = 1;
+    public int $keepAliveActive = 1;
     
-    public $keepAliveTimeout = 10;
+    public int $keepAliveTimeout = 10;
     
-    public $keepAliveInterval = 10;
+    public int $keepAliveInterval = 10;
     
-    protected $method;
+    protected string $method;
     
-    protected $ssl;
+    protected bool $ssl;
     
-    protected $url;
+    protected string $url;
     
-    protected $urlParam;
+    protected array $urlParam;
     
-    protected $async;
+    protected bool $async;
     
-    protected $user;
+    protected ?string $user;
     
-    protected $password;
+    protected ?string $password;
     
-    protected $requestHeaders;
+    protected array $requestHeaders;
     
-    protected $responseHeaders;
+    protected array $responseHeaders;
     
-    protected $eventListeners;
+    protected array $eventListeners;
     
-    protected $responseHead;
+    protected string $responseHead;
     
-    protected $_responseType = null;
+    protected ?string $_responseType = null;
     
-    protected $_responseCharset = null;
+    protected ?string $_responseCharset = null;
     
-    protected $utf8BOM;
+    protected string $utf8BOM;
     
-    protected $cookieFile;
+    protected string $cookieFile = '';
     
-    public static $cookies = array();
+    public static array $cookies = array();
     
-    public static $useCookies = false;
+    public static bool $useCookies = false;
     
-    protected $_env = [
+    protected array $_env = [
         'SERVER_NAME' => 'localhost',
         'SERVER_SOFTWARE' => 'PHP'
     ];
@@ -230,7 +232,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
         $this->setRequestHeader('Connection', 'close');
         if ($type) {
             $this->setRequestHeader('Content-Type', $type);
-            $this->setRequestHeader('Content-length', strlen($data));
+            $this->setRequestHeader('Content-length', (string) strlen($data));
         }
         if (self::$useCookies and self::$cookies) {
             $cookies = array();
@@ -438,6 +440,8 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                 $this->responseXML = null;
             }
         }
+        
+        $this->readyState = self::DONE;
     }
     
     public function abort(): void {
@@ -451,11 +455,11 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     public function getResponseHeader(string $header): string {
         $header = strtolower($header);
-        return isset($this->responseHeaders[$header]) ? $this->responseHeaders[$header] : null;
+        return $this->responseHeaders[$header] ?? '';
     }
     
     public function getAllResponseHeaders(): array {
-        return $this->responseHead;
+        return $this->responseHeaders;
     }
     
     // EventTarget
@@ -481,14 +485,15 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     public function dispatchEvent($event): bool {
+        throw new BadMethodCallException("dispatchEvent is not implemented.");
     }
     
     // proprietary
-    public function setCookieFile($file) {
+    public function setCookieFile(string $file): void {
         $this->cookieFile = $file;
     }
     
-    public function getCookieFile() {
+    public function getCookieFile(): string {
         return $this->cookieFile;
     }
     

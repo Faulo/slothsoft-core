@@ -5,6 +5,7 @@ namespace Slothsoft\Core;
 
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 final class XMLHttpRequestTest extends TestCase {
     
@@ -20,7 +21,7 @@ final class XMLHttpRequestTest extends TestCase {
      * @test
      */
     
-    public function testConstructor() {
+    public function whenConstructed_thenStateIsUnsent() {
         $sut = new XMLHttpRequest();
         
         $this->assertThat($sut->readyState, new IsEqual(XMLHttpRequest::UNSENT));
@@ -29,10 +30,25 @@ final class XMLHttpRequestTest extends TestCase {
     /**
      * @test
      */
-    public function testDownload() {
+    public function whenOpened_thenStateIsOpened() {
         $sut = new XMLHttpRequest();
         $sut->open('GET', 'https://www.w3.org', false);
         
         $this->assertThat($sut->readyState, new IsEqual(XMLHttpRequest::OPENED));
+    }
+    
+    /**
+     * @test
+     */
+    public function whenSent_thenStateIsDone() {
+        $sut = new XMLHttpRequest();
+        $sut->open('GET', 'https://www.w3.org', false);
+        try {
+            $sut->send();
+        } catch (Throwable $e) {
+            $this->fail((string) $e);
+        }
+        
+        $this->assertThat($sut->readyState, new IsEqual(XMLHttpRequest::DONE));
     }
 }

@@ -299,7 +299,10 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
             throw new Exception(__CLASS__ . 'Exception:' . PHP_EOL . $err . PHP_EOL . print_r(curl_getinfo($ch), true));
         }
         $bodyPos = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        curl_close($ch);
+        if (PHP_VERSION_ID < 80000) {
+            // Note: This function has no effect. Prior to PHP 8.0.0, this function was used to close the resource. 
+            curl_close($ch);
+        }
         
         if ($res !== false) {
             // $bodyPos = strpos($res, self::NEWLINE . self::NEWLINE);

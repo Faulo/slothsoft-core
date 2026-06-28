@@ -6,6 +6,9 @@ namespace Slothsoft\Core;
 use DOMDocument;
 use Slothsoft\Core\IO\FileInfoFactory;
 
+/**
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 class CloudFlareScraper {
     
     protected $cookieFile;

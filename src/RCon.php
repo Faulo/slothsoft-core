@@ -5,6 +5,9 @@ namespace Slothsoft\Core;
 
 use Exception;
 
+/**
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 class RCon {
     
     const PACKET_SIZE = 1400;
@@ -155,4 +158,3 @@ class RCon {
         return $ret;
     }
 }
-

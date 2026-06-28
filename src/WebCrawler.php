@@ -4,6 +4,9 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use DOMXPath;
+/**
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 class WebCrawler {
     
     public $maxDepth = 0;

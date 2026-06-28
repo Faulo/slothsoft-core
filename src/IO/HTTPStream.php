@@ -1,19 +1,17 @@
 <?php
 declare(strict_types = 1);
-/**
- * *********************************************************************
- * Slothsoft\Farah\HTTPStream v1.00 28.05.2014 � Daniel Schulz
- *
- * Changelog:
- * v1.00 28.05.2014
- * initial release
- * *********************************************************************
- */
 
 namespace Slothsoft\Core\IO;
 
 use Slothsoft\Core\Calendar\Seconds;
 
+/**
+ * Legacy HTTP-backed stream helper.
+ *
+ * @author Daniel Schulz
+ * @since 2014-05-28
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 abstract class HTTPStream {
     
     const STATUS_ERROR = 0;

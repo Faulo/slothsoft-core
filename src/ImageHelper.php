@@ -7,6 +7,9 @@ use Imagick;
 use ImagickDraw;
 use SplFileInfo;
 
+/**
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 class ImageHelper {
     
     public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = -1): void {
@@ -53,4 +56,3 @@ class ImageHelper {
         self::createSpriteSheetFromImages($targetFile, $spriteWidth, $spriteHeight, $columns, $rows, ...$sprites);
     }
 }
-

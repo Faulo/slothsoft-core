@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\DBMS;
 
+/**
+ * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
+ */
 class Database {
     
     protected $client;
@@ -44,16 +47,16 @@ class Database {
     
     // CREATE DATABASE
     public function createDatabase() {
-        return $this->client->createDatabase($this->name);
+        $this->client->createDatabase($this->name);
     }
     
     public function deleteDatabase() {
-        return $this->client->deleteDatabase($this->name);
+        $this->client->deleteDatabase($this->name);
     }
     
     // CREATE TABLE
     public function createTable($tableName, array $cols, array $keys, array $options = []) {
-        return $this->client->createTable($this->name, $tableName, $cols, $keys, $options);
+        $this->client->createTable($this->name, $tableName, $cols, $keys, $options);
     }
     
     // SELECT $cols FROM $table WHERE ($string)
@@ -91,6 +94,7 @@ class Database {
                 $this->client->optimize($this->name, $tableName);
             }
         }
+        return null;
     }
     
     public function escape($string) {
@@ -98,7 +102,7 @@ class Database {
     }
     
     public function addIndex($tableName, $index) {
-        return $this->client->addIndex($this->name, $tableName, $index);
+        $this->client->addIndex($this->name, $tableName, $index);
     }
     
     public function resetCharset() {

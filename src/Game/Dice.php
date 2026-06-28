@@ -1,17 +1,15 @@
 <?php
 declare(strict_types = 1);
-/**
- * *****************************************************************************
- * \Game\Dice v1.00 20.09.2013 © Daniel Schulz
- *
- * Changelog:
- * v1.00 20.09.2013
- * initial release
- * ****************************************************************************
- */
 
 namespace Slothsoft\Core\Game;
 
+/**
+ * Dice rolling helper.
+ *
+ * @author Daniel Schulz
+ * @since 2013-09-20
+ * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
+ */
 class Dice {
     
     protected $sidesCount;

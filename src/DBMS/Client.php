@@ -6,6 +6,9 @@ namespace Slothsoft\Core\DBMS;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
+/**
+ * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
+ */
 class Client {
     
     private static function getEnvWithDefault(string $envKey, string $defaultValue, ?string $envFileKey = null): string {
@@ -87,7 +90,6 @@ class Client {
         @$this->sqli->real_connect($authority->server, $authority->user, $authority->password);
         if ($this->sqli->connect_error) {
             $this->error();
-            return false;
         }
         $this->sqli->set_charset(self::CONNECTION_CHARSET);
         if ($this->dbName) {
@@ -315,8 +317,7 @@ class Client {
             foreach ($insertData as &$val) {
                 if ($val === null) {
                     $val = 'NULL';
-                } elseif (is_int($val)) {
-                } else {
+                } elseif (! is_int($val)) {
                     $val = sprintf('"%s"', $this->escape($val));
                 }
                 /*
@@ -377,12 +378,14 @@ class Client {
             Manager::_createLog($sqlString);
             return $this->sqli->query($sqlString);
         }
+        return null;
     }
     
     public function executeFile($file) {
         if ($sql = file_get_contents($file)) {
             return $this->sqli->multi_query($sql);
         }
+        return null;
     }
     
     public function getColumns($dbName, $tableName) {

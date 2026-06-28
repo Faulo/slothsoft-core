@@ -8,6 +8,9 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 use Slothsoft\Core\ServerEnvironment;
 
+/**
+ * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
+ */
 class Manager {
     
     private static function logEnabled(): ConfigurationField {

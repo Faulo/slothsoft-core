@@ -5,6 +5,9 @@ namespace Slothsoft\Core\Game;
 
 use Slothsoft\Core\Storage;
 
+/**
+ * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
+ */
 class Name {
     
     const GENERATE_URI = 'http://listofrandomnames.com/index.cfm';

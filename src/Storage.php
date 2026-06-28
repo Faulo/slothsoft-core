@@ -1,16 +1,5 @@
 <?php
 declare(strict_types = 1);
-/**
- * *********************************************************************
- * \Storage v1.01 01.09.2015 © Daniel Schulz
- *
- * Changelog:
- * v1.01 01.09.2015
- * $req->followRedirects = (int) (bool) $options['followRedirects'];
- * v1.00 25.07.2014
- * initial release
- * *********************************************************************
- */
 
 namespace Slothsoft\Core;
 
@@ -27,6 +16,13 @@ use Slothsoft\Core\DBMS\DatabaseException;
 use Slothsoft\Core\DBMS\Manager;
 use Slothsoft\Core\DBMS\Table;
 
+/**
+ * Legacy cache and remote loading facade.
+ *
+ * @author Daniel Schulz
+ * @since 2014-07-25
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 class Storage implements EphemeralStorageInterface {
     
     private static function logEnabled(): ConfigurationField {
@@ -366,7 +362,7 @@ class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @return Storage
+     * @return EphemeralStorageInterface
      * @throws Exception
      */
     protected static function _getStorageByURI(string $uri) {

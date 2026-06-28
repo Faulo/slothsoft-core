@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\DBMS;
 
+/**
+ * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
+ */
 class Authority {
     
     public $server;
@@ -17,4 +20,3 @@ class Authority {
         $this->password = $password;
     }
 }
-

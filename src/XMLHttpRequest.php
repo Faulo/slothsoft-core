@@ -1,28 +1,5 @@
 <?php
 declare(strict_types = 1);
-/**
- * *********************************************************************
- * \XMLHttpRequest v1.01 25.07.2014 © Daniel Schulz
- *
- * Changelog:
- * v1.01 25.07.2014
- * requires PHP 5.5
- * public $followRedirects = true;
- * public $maxRedirects = 10;
- * public $connectTimeout = 30;
- * public $transferTimeout = 60;
- * public $globalDNS = false;
- * public $keepAliveActive = true;
- * public $keepAliveTimeout = 60;
- * public $keepAliveInterval = 30;
- * v1.00 19.10.2012
- * initial release
- * $req = new \XMLHttpRequest();
- * $req->open($method, $uri);
- * $req->send($data);
- * $req->responseText;
- * *********************************************************************
- */
 
 namespace Slothsoft\Core;
 
@@ -32,6 +9,22 @@ use Exception;
 use Slothsoft\Core\Calendar\Seconds;
 use w3c\XMLHttpRequestEventTarget;
 
+/**
+ * Browser-style HTTP client abstraction over cURL.
+ *
+ * Example:
+ *
+ * <code>
+ * $req = new XMLHttpRequest();
+ * $req->open($method, $uri);
+ * $req->send($data);
+ * $req->responseText;
+ * </code>
+ *
+ * @author Daniel Schulz
+ * @since 2012-10-19
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     const NEWLINE = "
@@ -329,47 +322,16 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                 }
             }
             
-            if (isset($this->responseHeaders['location'])) {
-                /*
-                 * //implemented by curl, followRedirects
-                 * $url = $this->responseHeaders['location'];
-                 * if (strpos($url, 'http://') !== 0) {
-                 * $url = sprintf('%s://%s%s', $this->urlParam['scheme'], $this->urlParam['host'], $url);
-                 * }
-                 * //echo sprintf('Redirecting from "%s" to "%s" ...%s', $this->url, $url, PHP_EOL);
-                 * if ($this->url !== $url) {
-                 * $this->abort();
-                 * $this->url = $url;
-                 * $this->open($this->method, $this->url, $this->async, $this->user, $this->password);
-                 * $this->send($originalData);
-                 * return;
-                 * }
-                 * //
-                 */
-            }
+            /*
+             * Redirects are implemented by curl via followRedirects.
+             * Legacy manual redirect handling removed from execution path.
+             */
             
             // http://tools.ietf.org/html/rfc2616
-            if (isset($this->responseHeaders['transfer-encoding'])) {
-                /*
-                 * switch ($this->responseHeaders['transfer-encoding']) {
-                 * case 'chunked':
-                 * $text = '';
-                 * $oldText = $this->responseText;
-                 * do {
-                 * $endLength = strpos($this->responseText, self::NEWLINE);
-                 * $chunkLength = substr($this->responseText, 0, $endLength);
-                 * $chunkLength = hexdec($chunkLength);
-                 * $text .= substr($this->responseText, $endLength + strlen(self::NEWLINE), $chunkLength);
-                 * $this->responseText = substr($this->responseText, $endLength + strlen(self::NEWLINE) + $chunkLength + strlen(self::NEWLINE));
-                 * } while ($chunkLength and strpos($this->responseText, self::NEWLINE) !== false);
-                 * $this->responseText = strlen($text)
-                 * ? $text
-                 * : $oldText;
-                 * break;
-                 * }
-                 * //
-                 */
-            }
+            /*
+             * Chunked transfer decoding is intentionally left to the HTTP layer.
+             * Legacy manual decoding removed from execution path.
+             */
             if (isset($this->responseHeaders['content-type'])) {
                 $type = explode(';', $this->responseHeaders['content-type'], 2);
                 $this->_responseType = trim(strtolower($type[0]));
@@ -419,7 +381,7 @@ class XMLHttpRequest implements \w3c\XMLHttpRequest {
                             // $html = preg_replace('/\<!--+.*?-+-\>/s', '', $html); //kommentare rausnehmen, wer braucht die schon
                             // nicht-konforme "--" aus kommentaren entfernen
                             $matchList = [];
-                            if (preg_match_all('/\<!--+(.*?)-+-\>/s', $html, $matchList)) {
+                            if (preg_match_all('/<!--+(.*?)-+->/s', $html, $matchList)) {
                                 foreach ($matchList[0] as $i => $key) {
                                     $html = str_replace($key, sprintf('<!--%s-->', str_replace('--', '', $matchList[1][$i])), $html);
                                 }

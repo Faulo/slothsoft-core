@@ -28,9 +28,21 @@ If the user says `ping`, reply with `pong` and nothing else.
 
 The PHPUnit config is `phpunit.xml`.
 
+Run tests with:
+
+```bash
+vendor/bin/phpunit
+```
+
 ## Documentation
 
 The PHPDoc config is `phpdoc.xml`.
+
+Generate documentation with:
+
+```bash
+vendor/bin/phpdoc
+```
 
 ## MCP Servers
 

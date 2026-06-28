@@ -1,14 +1,5 @@
 <?php
 declare(strict_types = 1);
-/**
- * *********************************************************************
- * Slothsoft\Farah\HTTPFile v1.00 28.05.2014 � Daniel Schulz
- *
- * Changelog:
- * v1.00 28.05.2014
- * initial release
- * *********************************************************************
- */
 
 namespace Slothsoft\Core\IO;
 
@@ -19,6 +10,13 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\Storage;
 use SplFileInfo;
 
+/**
+ * Legacy HTTP-backed file writer.
+ *
+ * @author Daniel Schulz
+ * @since 2014-05-28
+ * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
+ */
 class HTTPFile implements FileWriterInterface {
     
     const STATUS_BAD_REQUEST = 400;

@@ -48,6 +48,8 @@ vendor/bin/phpdoc
 
 Use the connected MCP servers when they are relevant to the task.
 
+When editing files in a JetBrains IDE project, use the JetBrains MCP after the edit to retrieve IDE inspections for the touched files. Treat this as part of validation alongside running tests or syntax checks, and report any remaining warnings that are not safe to fix.
+
 ## Agent Workflow
 
 - Work from the current package root.

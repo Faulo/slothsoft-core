@@ -10,6 +10,16 @@ Shared utility package for slothsoft PHP packages.
 
 This is one of the oldest slothsoft packages. It contains actively used infrastructure, older but still supported utility APIs, and historical compatibility code. The package is kept installable for existing consumers, but not every namespace is recommended for new code.
 
+## Compatibility Policy
+
+Semantic versioning is in effect. Public classes are public API, including public constructors, methods, constants, and properties. Public signatures must remain backward-compatible unless an API-breaking change is specifically requested for a major release.
+
+All code in this package must remain syntactically valid on PHP 7.4 and behaviorally compatible with every PHP version covered by CI. Newer PHP runtimes may be used locally, but PHP 8-only syntax is not allowed.
+
+Bug fixes are allowed in every area of the package, including deprecated and historical APIs. Deprecated APIs should not be used for new code, but they are still expected to keep working for existing consumers, including compatibility fixes for newer PHP versions.
+
+Adding dependencies is acceptable when the dependency is justified by the change and remains compatible with this package's supported PHP versions.
+
 ## Current / Supported Areas
 
 These parts are suitable for use in new or maintained slothsoft code:
@@ -76,6 +86,16 @@ These components are included for historical reasons only. Do not use them for n
   - Dice, name, and prime helpers retained for old consumers.
 - `Slothsoft\Core\InterExec`
   - Legacy execution helper.
+
+## Development Notes
+
+Some APIs use global or static process state, especially `ServerEnvironment`, `Configuration`, `Storage`, and file-system/cache helpers. Tests that exercise stateful behavior should isolate side effects with `@runInSeparateProcess`.
+
+Tests may create temporary files through `temp_file`, `temp_dir`, or `Slothsoft\Core\IO\FileInfoFactory::createTempFile`; those helpers do not require manual cleanup. Files in `test-files/` are canonical fixtures.
+
+The local development environment should provide the Composer development extensions. If an optional extension or platform feature is unavailable, affected tests may be skipped or impossible to run locally. Skipped tests should be treated as intentionally skipped unless the task is specifically about test skipping.
+
+Use `.editorconfig` for coding style. Additional formatter or static-analysis tooling may be added later, but none is required right now.
 
 ## Installation
 

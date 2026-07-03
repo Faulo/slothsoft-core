@@ -5,9 +5,12 @@ namespace Slothsoft\Core\IO\Psr7;
 
 use BadMethodCallException;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 final class ProcessStream implements StreamInterface {
+    
+    private const CHUNK_SIZE = 8192;
     
     private string $command;
     
@@ -18,10 +21,20 @@ final class ProcessStream implements StreamInterface {
     }
     
     private function init(): void {
+        if ($this->handle !== null) {
+            return;
+        }
+        
         $this->handle = popen($this->command, StreamWrapperInterface::MODE_OPEN_READONLY);
+        if ($this->handle === false) {
+            $this->handle = null;
+            throw new RuntimeException(sprintf('Failed to open process "%s".', $this->command));
+        }
     }
     
     public function eof() {
+        $this->init();
+        
         return feof($this->handle);
     }
     
@@ -30,7 +43,10 @@ final class ProcessStream implements StreamInterface {
     }
     
     public function close() {
-        pclose($this->handle);
+        if ($this->handle !== null) {
+            pclose($this->handle);
+            $this->handle = null;
+        }
     }
     
     public function detach() {
@@ -46,7 +62,7 @@ final class ProcessStream implements StreamInterface {
     public function getContents() {
         $ret = '';
         while (! $this->eof()) {
-            $ret .= $this->read(PHP_INT_MAX);
+            $ret .= $this->read(self::CHUNK_SIZE);
         }
         return $ret;
     }
@@ -68,7 +84,13 @@ final class ProcessStream implements StreamInterface {
     }
     
     public function read($length) {
-        return fread($this->handle, $length);
+        $this->init();
+        
+        if ($length <= 0) {
+            return '';
+        }
+        
+        return fread($this->handle, min($length, self::CHUNK_SIZE));
     }
     
     public function isSeekable() {

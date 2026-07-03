@@ -291,7 +291,7 @@ final class DOMHelper {
     
     public function transformToFile($source, $template, array $param = [], ?SplFileInfo $output = null): SplFileInfo {
         if (! $output) {
-            $output = FileInfoFactory::createFromTemp();
+            $output = FileInfoFactory::createTempFile();
         }
         
         $adapter = $this->transformToAdapter($source, $template, $param);

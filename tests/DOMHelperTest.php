@@ -41,20 +41,33 @@ final class DOMHelperTest extends TestCase {
         $dataDoc = new DOMDocument();
         $dataDoc->loadXML('<input/>');
         
-        $templateXml = <<<EOT
-        <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-            <xsl:param name="foo"/>
-            <xsl:template match="input">
-                <output foo="{\$foo}"/>
-            </xsl:template>
-        </xsl:stylesheet>
-        EOT;
         $templateDoc = new DOMDocument();
-        $templateDoc->loadXML($templateXml);
+        $templateDoc->loadXML($this->createTemplateXml());
         
         $resultDoc = $this->sut->transformToDocument($dataDoc, $templateDoc, [
             'foo' => 'bar'
         ]);
+        
+        $this->assertInstanceOf(DOMElement::class, $resultDoc->documentElement);
+        $this->assertEquals('output', $resultDoc->documentElement->tagName);
+        $this->assertEquals('bar', $resultDoc->documentElement->getAttribute('foo'));
+    }
+    
+    /**
+     *
+     * @test
+     */
+    public function transformToFileCreatesTempOutputWhenNoneIsGiven(): void {
+        $dataDoc = new DOMDocument();
+        $dataDoc->loadXML('<input/>');
+        
+        $templateDoc = new DOMDocument();
+        $templateDoc->loadXML($this->createTemplateXml());
+        
+        $resultFile = $this->sut->transformToFile($dataDoc, $templateDoc, [
+            'foo' => 'bar'
+        ]);
+        $resultDoc = DOMHelper::loadDocument((string) $resultFile);
         
         $this->assertInstanceOf(DOMElement::class, $resultDoc->documentElement);
         $this->assertEquals('output', $resultDoc->documentElement->tagName);
@@ -96,5 +109,14 @@ final class DOMHelperTest extends TestCase {
             DOMHelper::NS_XSD,
             'xsd'
         ];
+    }
+    
+    private function createTemplateXml(): string {
+        return '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">' .
+            '<xsl:param name="foo"/>' .
+            '<xsl:template match="input">' .
+            '<output foo="{$foo}"/>' .
+            '</xsl:template>' .
+            '</xsl:stylesheet>';
     }
 }

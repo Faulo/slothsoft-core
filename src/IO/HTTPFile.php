@@ -17,7 +17,7 @@ use SplFileInfo;
  * @since 2014-05-28
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
-class HTTPFile implements FileWriterInterface {
+final class HTTPFile implements FileWriterInterface {
     
     const STATUS_BAD_REQUEST = 400;
     
@@ -240,11 +240,11 @@ class HTTPFile implements FileWriterInterface {
         return $ret;
     }
     
-    protected $path;
+    private $path;
     
-    protected $name;
+    private $name;
     
-    protected function __construct(string $filePath, string $fileName = '') {
+    private function __construct(string $filePath, string $fileName = '') {
         if ($fileName === '') {
             $fileName = basename($filePath);
         }

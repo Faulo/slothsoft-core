@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\StreamFilter;
 
-class ChunkEncode extends StreamFilterBase {
+final class ChunkEncode extends StreamFilterBase {
     
     protected function processHeader(): string {
         return '';

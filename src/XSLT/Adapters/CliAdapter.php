@@ -14,7 +14,7 @@ use SplFileInfo;
  * @author Daniel Schulz
  *
  */
-class CliAdapter extends GenericAdapter {
+final class CliAdapter extends GenericAdapter {
     
     private string $path;
     

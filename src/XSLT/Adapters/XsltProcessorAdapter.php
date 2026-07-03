@@ -13,7 +13,7 @@ use XSLTProcessor;
  * @author Daniel Schulz
  *
  */
-class XsltProcessorAdapter extends GenericAdapter {
+final class XsltProcessorAdapter extends GenericAdapter {
     
     public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo {
         if (! $outputFile) {

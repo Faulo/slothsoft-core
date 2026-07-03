@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\StreamFilter;
 
-class Identity extends StreamFilterBase {
+final class Identity extends StreamFilterBase {
     
     protected function processHeader(): string {
         return '';

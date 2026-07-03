@@ -10,6 +10,8 @@ All code must be syntactically valid on the PHP version declared by `PHP_VERSION
 
 The machine is configured so `php` and `composer` use the correct PHP version. Run them directly.
 
+When executing ad hoc PHP code from the shell, do not use inline PHP snippets such as `php -r`, especially under PowerShell. Write the code to a temporary `.php` file and execute that file with `php`. Use existing temp-file helpers when working inside PHP code; for shell-only probes, create a normal temporary file and remove it after the command if appropriate.
+
 ## Tools
 
 Use these tools directly:

@@ -14,87 +14,63 @@ class InterExec {
     
     /**
      * The command to run.
-     *
-     * @var string
      */
-    public $command_to_run = '';
+    public string $command_to_run = '';
     
     /**
      * Environment variables (null to use existing variables).
-     *
-     * @var array|null
      */
-    public $environment_vars = null;
+    public ?array $environment_vars = null;
     
     /**
      * Time, in seconds, after which command is forcefully aborted.
-     *
-     * @var integer
      */
-    public $timeout = 0;
+    public int $timeout = 0;
     
     /**
-     * All of the program's standard output till now.
-     *
-     * @var string
+     * All the program's standard output till now.
      */
-    public $stdout = '';
+    public string $stdout = '';
     
     /**
-     * All of the program's error output till now.
-     *
-     * @var string
+     * All the program's error output till now.
      */
-    public $stderr = '';
+    public string $stderr = '';
     
     /**
-     * Program's exit code (obviously only set after program quits).
-     *
-     * @var integer
+     * Program's exit code (only set after the program quits).
      */
-    public $return = 0;
+    public int $return = 0;
     
     /**
      * Timestamp in seconds of start of execution.
-     *
-     * @var float
      */
-    public $time_start = 0.0;
+    public float $time_start = 0.0;
     
     /**
      * The time taken for the program to run and close.
-     *
-     * @var float
      */
-    public $time_taken = 0;
+    public float $time_taken = 0;
     
     /**
      * Legacy timeout counter name used by the original implementation.
-     *
-     * @var float
      */
-    public $taken = 0;
+    public float $taken = 0;
     
     /**
      * If enabled, fixes a problem with popen not allowing spaces inside program path (even when quoted).
-     *
-     * @var boolean
      */
-    public $fix_windows_path = true;
+    public bool $fix_windows_path = true;
     
     /**
      * Interval between ticks, in seconds (a value of zero disables interval)
-     *
-     * @var float
      */
-    public $tick_interval = 0;
+    public float $tick_interval = 0;
     
     /**
      * Array containing event callbacks.
-     *
-     * @var array
      */
-    protected $events = array();
+    protected array $events = array();
     
     /**
      * Process resource.
@@ -105,25 +81,19 @@ class InterExec {
     
     /**
      * Size of buffer for reading from pipes.
-     *
-     * @var integer
      */
-    public $data_buffer_size = 4096;
+    public int $data_buffer_size = 4096;
     
     /**
      * Process I/O pipes.
-     *
-     * @var array
      */
-    public $pipes = null;
+    public ?array $pipes = null;
     
     /**
      * Pipe type, pipe or pty (Linux only, PHP must be compiled with --enable-pty)
      * Constants : PIPE_TYPE_DEFAULT, PIPE_TYPE_PTY
-     *
-     * @var string
      */
-    public $pipeType = self::PIPE_TYPE_DEFAULT;
+    public string $pipeType = self::PIPE_TYPE_DEFAULT;
     
     const STDIN = 0;
     

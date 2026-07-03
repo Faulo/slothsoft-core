@@ -405,10 +405,10 @@ class Storage implements EphemeralStorageInterface {
             $last = array_shift($host);
         }
         $host = implode('.', $host);
-        if ($host === 'co.uk') { // HUARGH
+        if ($host === 'co.uk') { // ARGH
             $host = $last . '.' . $host;
         }
-        if ($host === 'twitter.com') { // this is why you don't set precedences
+        if ($host === 'twitter.com') { // this is why you don't set precedents
             $match = [];
             if (preg_match('~/i/([a-z]+)/~', $uri, $match)) {
                 $host = $match[1] . '.' . $host;

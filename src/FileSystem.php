@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
 declare(strict_types = 1);
 /**
  * *********************************************************************
@@ -521,7 +521,7 @@ abstract class FileSystem {
         if ($options & self::SCANDIR_SORT) {
             $tmp = [];
             foreach ($ret as $val) {
-                $tmp[$val] = preg_replace('/\.[^\.]+$/', '', $val);
+                $tmp[$val] = preg_replace('/\.[^.]+$/', '', $val);
             }
             asort($tmp);
             $ret = array_keys($tmp);
@@ -859,7 +859,7 @@ abstract class FileSystem {
     }
     
     /**
-     * Determines whether or not a command is available on the command line.
+     * Determines whether a command is available on the command line.
      *
      * @param string $command
      * @return bool

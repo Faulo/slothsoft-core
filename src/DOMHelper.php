@@ -74,8 +74,10 @@ final class DOMHelper {
     private const W3C_NAMESPACES = [
         'html' => self::NS_HTML,
         'xml' => self::NS_XML,
+        'xmlns' => self::NS_XMLNS,
         'xsl' => self::NS_XSL,
         'xsd' => self::NS_XSD,
+        'xsi' => self::NS_XSI,
         'svg' => self::NS_SVG,
         'xlink' => self::NS_XLINK,
         'atom' => self::NS_ATOM,
@@ -120,7 +122,7 @@ final class DOMHelper {
     public const XPATH_MISC = 16;
 
     public static function loadDocument(string $filePath, bool $asHTML = false): DOMDocument {
-        $document = self::dom()->createDocument(null, null);
+        $document = new DOMDocument();
         if ($asHTML) {
             $document->loadHTMLFile($filePath, LIBXML_PARSEHUGE);
         } else {
@@ -130,7 +132,7 @@ final class DOMHelper {
     }
 
     public static function parseDocument(string $fileContents, bool $asHTML = false): DOMDocument {
-        $document = self::dom()->createDocument(null, null);
+        $document = new DOMDocument();
         if ($asHTML) {
             $document->loadHTML($fileContents, LIBXML_PARSEHUGE);
         } else {
@@ -193,7 +195,7 @@ final class DOMHelper {
 
     public function parse(string $xmlCode, ?DOMDocument $targetDoc = null, bool $asHTML = false): DOMDocumentFragment {
         if ($asHTML) {
-            $parseDoc = self::dom()->createDocument(null, null);
+            $parseDoc = new DOMDocument();
 
             $ret = @$parseDoc->loadHTML(sprintf(self::HTML_FRAME, $xmlCode));
             if (! $ret) {
@@ -230,7 +232,7 @@ final class DOMHelper {
             }
         } else {
             if ($targetDoc === null) {
-                $targetDoc = self::dom()->createDocument(null, null);
+                $targetDoc = new DOMDocument();
             }
 
             $retFragment = $targetDoc->createDocumentFragment();
@@ -259,7 +261,7 @@ final class DOMHelper {
     }
 
     public function load($url, bool $asHTML = false): DOMDocument {
-        $doc = self::dom()->createDocument(null, null);
+        $doc = new DOMDocument();
         if ($asHTML) {
             $doc->loadHTMLFile((string) $url);
         } else {
@@ -305,7 +307,7 @@ final class DOMHelper {
         $finalDoc = $this->transformToDocument($source, $template, $param);
 
         if ($targetDoc === null) {
-            $targetDoc = self::dom()->createDocument(null, null);
+            $targetDoc = new DOMDocument();
         }
         $retNode = $targetDoc->createDocumentFragment();
         foreach ($finalDoc->childNodes as $node) {
@@ -330,7 +332,7 @@ final class DOMHelper {
      */
     public function normalizeDocument(DOMDocument $dataDoc): DOMDocument {
         try {
-            $retDoc = self::dom()->createDocument(null, null);
+            $retDoc = new DOMDocument();
 
             $nsList = $this->getKnownNamespacePrefixes();
 

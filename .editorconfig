@@ -41,7 +41,7 @@ ij_xml_space_inside_empty_tag = true
 [*.php]
 
 # Einstellungen für neue Zeilen
-trim_trailing_whitespace = true
+trim_trailing_whitespace = false
 end_of_line = lf
 
 #### JetBrains / PhpStorm ####

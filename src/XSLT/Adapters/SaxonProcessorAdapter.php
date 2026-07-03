@@ -16,11 +16,11 @@ use SplFileInfo;
  *
  */
 class SaxonProcessorAdapter extends GenericAdapter {
-
+    
     private function newSaxonProcessor(): SaxonProcessor {
         return new SaxonProcessor();
     }
-
+    
     /**
      * (non-PHPdoc)
      *
@@ -31,19 +31,19 @@ class SaxonProcessorAdapter extends GenericAdapter {
         if (! $outputFile) {
             $outputFile = FileInfoFactory::createTempFile();
         }
-
+        
         $saxon = $this->newSaxonProcessor();
         $xslt = $saxon->newXsltProcessor();
-
+        
         $xslt->setSourceFromFile((string) $this->source->toFile());
         $xslt->compileFromFile((string) $this->template->toFile());
         $xslt->setOutputFile((string) $outputFile);
-
+        
         $xslt->transformToFile();
-
+        
         return $outputFile;
     }
-
+    
     /**
      * (non-PHPdoc)
      *

@@ -7,7 +7,7 @@ namespace Slothsoft\Core\Game;
  * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
  */
 class Prime {
-
+    
     public static function getPrimeList($size) {
         $ret = [];
         for ($i = 1; $i > 0; $i++) {
@@ -20,19 +20,19 @@ class Prime {
         }
         return $ret;
     }
-
+    
     // http://stackoverflow.com/questions/16763322/a-formula-to-find-prime-numbers-in-a-loop
     public static function isPrime($num) {
         // 1 is not prime. See: http://en.wikipedia.org/wiki/Prime_number#Primality_of_one
         if ($num === 1) {
             return false;
         }
-
+        
         // 2 is prime (the only even number that is prime)
         if ($num === 2) {
             return true;
         }
-
+        
         /**
          * if the number is divisible by two, then it's not prime and it's no longer
          * needed to check other even numbers
@@ -40,7 +40,7 @@ class Prime {
         if ($num % 2 === 0) {
             return false;
         }
-
+        
         /**
          * Checks the odd numbers.
          * If any of them is a factor, then it returns false.

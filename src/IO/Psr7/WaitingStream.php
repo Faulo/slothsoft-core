@@ -22,7 +22,7 @@ final class WaitingStream implements StreamInterface {
         $this->heartbeat = $heartbeat;
     }
     
-    public function isReadable() {
+    public function isReadable(): bool {
         return true;
     }
     
@@ -45,7 +45,7 @@ final class WaitingStream implements StreamInterface {
         return '';
     }
     
-    public function isSeekable() {
+    public function isSeekable(): bool {
         return false;
     }
     
@@ -53,7 +53,7 @@ final class WaitingStream implements StreamInterface {
         throw new BadMethodCallException('Cannot seek a WaitingStream.');
     }
     
-    public function isWritable() {
+    public function isWritable(): bool {
         return false;
     }
     
@@ -61,4 +61,3 @@ final class WaitingStream implements StreamInterface {
         throw new BadMethodCallException('Cannot write a WaitingStream.');
     }
 }
-

@@ -53,7 +53,7 @@ final class LazyFileWriterStream implements StreamInterface {
         return null;
     }
     
-    public function getMetadata($key = null) {
+    public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
@@ -71,11 +71,11 @@ final class LazyFileWriterStream implements StreamInterface {
         return $this->handle === null ? 0 : $this->handle->ftell();
     }
     
-    public function eof() {
+    public function eof(): bool {
         return $this->handle === null ? $this->getSize() === 0 : $this->handle->eof();
     }
     
-    public function isSeekable() {
+    public function isSeekable(): bool {
         return true;
     }
     
@@ -88,10 +88,10 @@ final class LazyFileWriterStream implements StreamInterface {
     }
     
     public function rewind() {
-        $this->seek(0, SEEK_SET);
+        $this->seek(0);
     }
     
-    public function isWritable() {
+    public function isWritable(): bool {
         return false;
     }
     
@@ -99,7 +99,7 @@ final class LazyFileWriterStream implements StreamInterface {
         throw new BadMethodCallException('Cannot write a LazyFileWriterStream.');
     }
     
-    public function isReadable() {
+    public function isReadable(): bool {
         return true;
     }
     

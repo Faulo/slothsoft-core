@@ -5,6 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Traits;
 
 use DOMDocument;
 use DOMElement;
+use RuntimeException;
 
 /**
  *
@@ -14,7 +15,12 @@ use DOMElement;
 trait DOMWriterElementFromDocumentTrait {
     
     public function toElement(DOMDocument $targetDoc): DOMElement {
-        return $targetDoc->importNode($this->toDocument()->documentElement, true);
+        $element = $targetDoc->importNode($this->toDocument()->documentElement, true);
+        
+        if (! $element instanceof DOMElement) {
+            throw new RuntimeException('Unable to import document element.');
+        }
+        
+        return $element;
     }
 }
-

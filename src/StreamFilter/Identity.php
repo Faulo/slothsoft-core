@@ -9,12 +9,11 @@ class Identity extends StreamFilterBase {
         return '';
     }
     
-    protected function processPayload(string $data): string {
-        return $data;
+    protected function processPayload(string $input): string {
+        return $input;
     }
     
     protected function processFooter(): string {
         return '';
     }
 }
-

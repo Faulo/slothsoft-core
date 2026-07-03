@@ -37,7 +37,7 @@ final class OneTimeGeneratorStream implements StreamInterface {
         }
     }
     
-    public function eof() {
+    public function eof(): bool {
         $this->init();
         
         return $this->state === self::END and $this->bufferIndex >= $this->bufferSize;
@@ -57,11 +57,11 @@ final class OneTimeGeneratorStream implements StreamInterface {
         $this->close();
     }
     
-    public function getMetadata($key = null) {
+    public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
-    public function getContents() {
+    public function getContents(): string {
         throw new BadMethodCallException('Cannot getContents a OneTimeGeneratorStream.');
     }
     
@@ -77,7 +77,7 @@ final class OneTimeGeneratorStream implements StreamInterface {
         throw new BadMethodCallException('Cannot tell a OneTimeGeneratorStream.');
     }
     
-    public function isReadable() {
+    public function isReadable(): bool {
         return true;
     }
     
@@ -119,7 +119,7 @@ final class OneTimeGeneratorStream implements StreamInterface {
         return $result;
     }
     
-    public function isSeekable() {
+    public function isSeekable(): bool {
         return false;
     }
     
@@ -127,7 +127,7 @@ final class OneTimeGeneratorStream implements StreamInterface {
         throw new BadMethodCallException('Cannot seek a OneTimeGeneratorStream.');
     }
     
-    public function isWritable() {
+    public function isWritable(): bool {
         return false;
     }
     

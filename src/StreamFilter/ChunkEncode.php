@@ -9,12 +9,11 @@ class ChunkEncode extends StreamFilterBase {
         return '';
     }
     
-    protected function processPayload(string $data): string {
-        return dechex(strlen($data)) . "\r\n" . $data . "\r\n";
+    protected function processPayload(string $input): string {
+        return dechex(strlen($input)) . "\r\n" . $input . "\r\n";
     }
     
     protected function processFooter(): string {
         return "0\r\n\r\n";
     }
 }
-

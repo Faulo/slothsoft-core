@@ -7,7 +7,7 @@ use Psr\Http\Message\StreamInterface;
 
 class ZlibFilteredStream extends AbstractFilteredStream {
     
-    private $zlibCoding;
+    private int $zlibCoding;
     
     private $compressor;
     
@@ -29,4 +29,3 @@ class ZlibFilteredStream extends AbstractFilteredStream {
         return deflate_add($this->compressor, '', ZLIB_FINISH);
     }
 }
-

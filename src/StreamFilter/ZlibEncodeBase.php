@@ -14,12 +14,11 @@ abstract class ZlibEncodeBase extends StreamFilterBase {
         return '';
     }
     
-    protected function processPayload(string $data): string {
-        return deflate_add($this->compressor, $data, ZLIB_NO_FLUSH);
+    protected function processPayload(string $input): string {
+        return deflate_add($this->compressor, $input, ZLIB_NO_FLUSH);
     }
     
     protected function processFooter(): string {
         return deflate_add($this->compressor, '', ZLIB_FINISH);
     }
 }
-

@@ -56,7 +56,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @return boolean
      * @see https://www.php.net/manual/de/streamwrapper.stream-open.php
      */
-    public function stream_open(string $path, string $mode, int $options, ?string &$opened_path) {
+    public function stream_open(string $path, string $mode, int $options, ?string &$opened_path): bool {
         $this->stream = self::getFactoryByUrl($path)->createStreamWrapper($path, $mode, $options);
         
         if ($this->stream === null) {
@@ -143,4 +143,3 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
         return $this->stream->stream_close();
     }
 }
-

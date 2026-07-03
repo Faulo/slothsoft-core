@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Sanitizer;
 
 class IntegerSanitizer implements SanitizerInterface {
     
-    private $default;
+    private int $default;
     
     public function __construct(int $default = 0) {
         $this->default = $default;
@@ -20,4 +20,3 @@ class IntegerSanitizer implements SanitizerInterface {
         return $this->default;
     }
 }
-

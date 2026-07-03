@@ -14,9 +14,9 @@ use SplFileInfo;
  */
 class DocumentInput implements InputInterface {
     
-    private $content;
+    private DOMDocument $content;
     
-    private $contentFile;
+    private ?SplFileInfo $contentFile = null;
     
     public function __construct(DOMDocument $input) {
         $this->content = $input;
@@ -33,4 +33,3 @@ class DocumentInput implements InputInterface {
         return $this->content;
     }
 }
-

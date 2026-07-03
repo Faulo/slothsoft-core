@@ -7,7 +7,7 @@ use Slothsoft\Core\FileSystem;
 
 class FileNameSanitizer implements SanitizerInterface {
     
-    private $default;
+    private string $default;
     
     public function __construct(string $default = '') {
         $this->default = $default;
@@ -22,4 +22,3 @@ class FileNameSanitizer implements SanitizerInterface {
         return $this->default;
     }
 }
-

@@ -8,7 +8,7 @@ use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
 class ZlibFilteredStreamFactory implements FilteredStreamWriterInterface {
     
-    private $zlibCoding;
+    private int $zlibCoding;
     
     public function __construct(int $zlibCoding) {
         $this->zlibCoding = $zlibCoding;
@@ -18,4 +18,3 @@ class ZlibFilteredStreamFactory implements FilteredStreamWriterInterface {
         return new ZlibFilteredStream($stream, $this->zlibCoding);
     }
 }
-

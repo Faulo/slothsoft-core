@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Sanitizer;
 
 class TokenSanitizer implements SanitizerInterface {
     
-    private $default;
+    private array $default;
     
     public function __construct(array $default = []) {
         $this->default = $default;
@@ -32,4 +32,3 @@ class TokenSanitizer implements SanitizerInterface {
         return $this->default;
     }
 }
-

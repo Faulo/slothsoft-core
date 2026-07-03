@@ -14,7 +14,7 @@ abstract class StreamFilterBase extends php_user_filter implements StreamFilterI
     
     const STATE_CLOSED = 4;
     
-    private $state;
+    private int $state;
     
     public function onCreate(): bool {
         $this->state = self::STATE_OPENING;
@@ -51,7 +51,7 @@ abstract class StreamFilterBase extends php_user_filter implements StreamFilterI
         return PSFS_PASS_ON;
     }
     
-    private function createBucket(string $data) {
+    private function createBucket(string $data): object {
         return stream_bucket_new($this->stream, $data);
     }
     
@@ -61,4 +61,3 @@ abstract class StreamFilterBase extends php_user_filter implements StreamFilterI
     
     abstract protected function processFooter(): string;
 }
-

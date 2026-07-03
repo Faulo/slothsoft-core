@@ -43,7 +43,7 @@ final class PersistentGeneratorStream implements StreamInterface {
         }
     }
     
-    public function eof() {
+    public function eof(): bool {
         $this->init();
         
         return $this->state === self::END and $this->bufferIndex >= $this->bufferSize;
@@ -66,7 +66,7 @@ final class PersistentGeneratorStream implements StreamInterface {
         return null;
     }
     
-    public function getMetadata($key = null) {
+    public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
@@ -94,7 +94,7 @@ final class PersistentGeneratorStream implements StreamInterface {
         return $this->read(PHP_INT_MAX);
     }
     
-    public function getSize() {
+    public function getSize(): int {
         $this->init();
         
         if ($this->state !== self::END) {
@@ -106,11 +106,11 @@ final class PersistentGeneratorStream implements StreamInterface {
         return $this->bufferSize;
     }
     
-    public function tell() {
+    public function tell(): int {
         return $this->bufferIndex;
     }
     
-    public function isReadable() {
+    public function isReadable(): bool {
         return true;
     }
     
@@ -131,7 +131,7 @@ final class PersistentGeneratorStream implements StreamInterface {
                     $this->generator->next();
                 }
                 
-                $this->buffer .= (string) $this->generator->current();
+                $this->buffer .= $this->generator->current();
                 $this->bufferSize = strlen($this->buffer);
                 
                 if (! $this->generator->valid()) {
@@ -152,7 +152,7 @@ final class PersistentGeneratorStream implements StreamInterface {
         return $result;
     }
     
-    public function isSeekable() {
+    public function isSeekable(): bool {
         return true;
     }
     
@@ -168,7 +168,7 @@ final class PersistentGeneratorStream implements StreamInterface {
         }
     }
     
-    public function isWritable() {
+    public function isWritable(): bool {
         return false;
     }
     

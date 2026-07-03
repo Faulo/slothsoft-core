@@ -13,13 +13,13 @@ abstract class AbstractStreamFilterTest extends TestCase {
     
     abstract protected function getFilterClass(): string;
     
-    private $streamId;
+    private string $streamId;
     
     private $tempFile;
     
-    private $input;
+    private string $input;
     
-    private $expectedResult;
+    private string $expectedResult;
     
     public function setUp(): void {
         $this->streamId = uniqid(md5($this->getFilterClass()));
@@ -70,4 +70,3 @@ abstract class AbstractStreamFilterTest extends TestCase {
         $this->assertEquals($this->expectedResult, $actualResult);
     }
 }
-

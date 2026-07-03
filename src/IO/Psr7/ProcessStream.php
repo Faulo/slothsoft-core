@@ -32,7 +32,7 @@ final class ProcessStream implements StreamInterface {
         }
     }
     
-    public function eof() {
+    public function eof(): bool {
         $this->init();
         
         return feof($this->handle);
@@ -55,11 +55,11 @@ final class ProcessStream implements StreamInterface {
         return $ret;
     }
     
-    public function getMetadata($key = null) {
+    public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
-    public function getContents() {
+    public function getContents(): string {
         $ret = '';
         while (! $this->eof()) {
             $ret .= $this->read(self::CHUNK_SIZE);
@@ -79,7 +79,7 @@ final class ProcessStream implements StreamInterface {
         throw new BadMethodCallException('Cannot tell a ProcessStream.');
     }
     
-    public function isReadable() {
+    public function isReadable(): bool {
         return true;
     }
     
@@ -93,7 +93,7 @@ final class ProcessStream implements StreamInterface {
         return fread($this->handle, min($length, self::CHUNK_SIZE));
     }
     
-    public function isSeekable() {
+    public function isSeekable(): bool {
         return false;
     }
     
@@ -105,7 +105,7 @@ final class ProcessStream implements StreamInterface {
         }
     }
     
-    public function isWritable() {
+    public function isWritable(): bool {
         return false;
     }
     

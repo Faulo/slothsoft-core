@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Sanitizer;
 
 class ArraySanitizer implements SanitizerInterface {
     
-    private $default;
+    private array $default;
     
     public function __construct(array $default = []) {
         $this->default = $default;
@@ -19,4 +19,3 @@ class ArraySanitizer implements SanitizerInterface {
         return $this->default;
     }
 }
-

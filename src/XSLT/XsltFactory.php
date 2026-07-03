@@ -45,11 +45,11 @@ class XsltFactory {
     
     const PROCESSOR_SAXON9_ARGS = '%1$s -xsl:%2$s -o:%3$s';
     
-    private static $versionMapping = [
+    private static array $versionMapping = [
         '1.0' => self::PROCESSOR_PHP
     ];
     
-    private static $processorConfiguration = [
+    private static array $processorConfiguration = [
         self::PROCESSOR_PHP => [],
         self::PROCESSOR_LIBXML => [
             'path' => ''
@@ -117,6 +117,8 @@ class XsltFactory {
             case self::PROCESSOR_SAXONC:
                 return new SaxonProcessorAdapter();
         }
+        
+        throw new DomainException("XSLT processor '$processorId' is not supported by this implementation.");
     }
     
     public static function createInput($input): InputInterface {
@@ -138,4 +140,3 @@ class XsltFactory {
         }
     }
 }
-

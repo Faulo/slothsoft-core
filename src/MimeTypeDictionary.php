@@ -52,7 +52,7 @@ class MimeTypeDictionary {
         
         $mime = strtolower($mime);
         
-        return isset(self::$mimeExtensionList[$mime]) ? self::$mimeExtensionList[$mime] : '';
+        return self::$mimeExtensionList[$mime] ?? '';
     }
     
     public static function guessMime(string $extension): string {
@@ -60,7 +60,7 @@ class MimeTypeDictionary {
         
         $extension = strtolower($extension);
         
-        return isset(self::$extensionMimeList[$extension]) ? self::$extensionMimeList[$extension] : 'application/octet-stream';
+        return self::$extensionMimeList[$extension] ?? 'application/octet-stream';
     }
     
     public static function guessCompressions(string $mime): string {
@@ -96,4 +96,3 @@ class MimeTypeDictionary {
         return $type === 'application/javascript' or $type === 'application/json' or substr($type, 0, 5) === 'text/' or self::isXml($type);
     }
 }
-

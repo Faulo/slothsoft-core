@@ -61,7 +61,7 @@ final class LazyStringWriterStream implements StreamInterface {
         return null;
     }
     
-    public function getMetadata($key = null) {
+    public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
@@ -77,21 +77,21 @@ final class LazyStringWriterStream implements StreamInterface {
         return $index === 0 ? $this->buffer : substr($this->buffer, $index);
     }
     
-    public function getSize() {
+    public function getSize(): int {
         $this->init();
         return $this->bufferSize;
     }
     
-    public function tell() {
+    public function tell(): int {
         return $this->bufferIndex;
     }
     
-    public function eof() {
+    public function eof(): bool {
         $this->init();
         return $this->bufferIndex >= $this->bufferSize;
     }
     
-    public function isSeekable() {
+    public function isSeekable(): bool {
         return true;
     }
     
@@ -120,10 +120,10 @@ final class LazyStringWriterStream implements StreamInterface {
     }
     
     public function rewind() {
-        $this->seek(0, SEEK_SET);
+        $this->seek(0);
     }
     
-    public function isWritable() {
+    public function isWritable(): bool {
         return false;
     }
     
@@ -131,7 +131,7 @@ final class LazyStringWriterStream implements StreamInterface {
         throw new BadMethodCallException('Cannot write a LazyStringWriterStream.');
     }
     
-    public function isReadable() {
+    public function isReadable(): bool {
         return true;
     }
     

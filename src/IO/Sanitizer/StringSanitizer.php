@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Sanitizer;
 
 class StringSanitizer implements SanitizerInterface {
     
-    private $default;
+    private string $default;
     
     public function __construct(string $default = '') {
         $this->default = $default;
@@ -20,4 +20,3 @@ class StringSanitizer implements SanitizerInterface {
         return $this->default;
     }
 }
-

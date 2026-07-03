@@ -23,7 +23,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
     
     private $stream;
     
-    private $state;
+    private int $state;
     
     public function __construct(StreamInterface $stream) {
         $this->stream = new CachingStream($stream);
@@ -47,6 +47,8 @@ abstract class AbstractFilteredStream implements StreamInterface {
             case static::STATE_CLOSED:
                 throw new RuntimeException('The stream has been closed.');
         }
+        
+        throw new RuntimeException("Invalid stream state '$this->state'.");
     }
     
     public function getContents() {
@@ -90,4 +92,3 @@ abstract class AbstractFilteredStream implements StreamInterface {
     
     abstract protected function processFooter(): string;
 }
-

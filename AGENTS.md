@@ -40,6 +40,8 @@ Local environments should have the Composer development extensions installed. If
 
 When writing tests for APIs with global or static process state, use `@runInSeparateProcess` to avoid leaking side effects between tests.
 
+PHPUnit tests marked with `@todo auto-generated` are controlled by the test generator. If you manually change one of these tests, remove the `@todo auto-generated` marker in the same edit so the generator does not treat it as disposable/regenerable.
+
 Tests may write temporary files through `temp_file`, `temp_dir`, or `Slothsoft\Core\IO\FileInfoFactory::createTempFile`. Manual cleanup is not required for those helpers.
 
 Files in `test-files/` are canonical fixtures. Do not treat them as disposable output.

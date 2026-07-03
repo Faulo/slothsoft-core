@@ -6,7 +6,7 @@ Shared instructions for coding agents working in slothsoft packages. Keep packag
 
 The file `.env` is the source of truth for runtime configuration. In particular, `PHP_VERSION` is authoritative.
 
-All code must be syntactically valid on PHP 7.4. Behavior must remain compatible with every PHP version supported by CI, including newer PHP 8.x versions. Do not use PHP 8-only syntax even if the local runtime supports it.
+All code must be syntactically valid on the PHP version declared by `PHP_VERSION` in `.env`. Behavior must remain compatible with every PHP version supported by CI. Do not use syntax newer than the `.env` PHP version even if the local runtime supports it.
 
 The machine is configured so `php` and `composer` use the correct PHP version. Run them directly.
 

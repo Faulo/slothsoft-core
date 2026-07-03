@@ -15,10 +15,10 @@ namespace Slothsoft\Core;
 use DomainException;
 use DOMDocument;
 use DOMDocumentFragment;
+use DOMException;
 use DOMImplementation;
 use DOMNode;
 use DOMXPath;
-use Exception;
 use RuntimeException;
 use Slothsoft\Core\IO\FileInfoFactory;
 use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
@@ -26,21 +26,21 @@ use Slothsoft\Core\XSLT\XsltFactory;
 use SplFileInfo;
 
 final class DOMHelper {
-    
+
     public const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';
-    
+
     public const NS_CRON_INSTRUCTIONS = 'http://schema.slothsoft.net/cron/instructions';
-    
+
     public const NS_FARAH_DICTIONARY = 'http://schema.slothsoft.net/farah/dictionary';
-    
+
     public const NS_FARAH_MODULE = 'http://schema.slothsoft.net/farah/module';
-    
+
     public const NS_FARAH_SITES = 'http://schema.slothsoft.net/farah/sitemap';
-    
+
     public const NS_SAVEGAME_EDITOR = 'http://schema.slothsoft.net/savegame/editor';
-    
+
     public const NS_SCHEMA_VERSIONING = 'http://schema.slothsoft.net/schema/versioning';
-    
+
     private const SLOTHSOFT_NAMESPACES = [
         'saa' => self::NS_AMBER_AMBERDATA,
         'sci' => self::NS_CRON_INSTRUCTIONS,
@@ -50,25 +50,27 @@ final class DOMHelper {
         'sse' => self::NS_SAVEGAME_EDITOR,
         'ssv' => self::NS_SCHEMA_VERSIONING
     ];
-    
+
     public const NS_XML = 'http://www.w3.org/XML/1998/namespace';
-    
+
+    public const NS_XMLNS = 'http://www.w3.org/2000/xmlns/';
+
     public const NS_HTML = 'http://www.w3.org/1999/xhtml';
-    
+
     public const NS_XSL = 'http://www.w3.org/1999/XSL/Transform';
-    
+
     public const NS_XSD = 'http://www.w3.org/2001/XMLSchema';
-    
+
     public const NS_XSI = 'http://www.w3.org/2001/XMLSchema-instance';
-    
+
     public const NS_SVG = 'http://www.w3.org/2000/svg';
-    
+
     public const NS_XLINK = 'http://www.w3.org/1999/xlink';
-    
+
     public const NS_ATOM = 'http://www.w3.org/2005/Atom';
-    
+
     public const NS_XINCLUDE = 'http://www.w3.org/2001/XInclude';
-    
+
     private const W3C_NAMESPACES = [
         'html' => self::NS_HTML,
         'xml' => self::NS_XML,
@@ -79,46 +81,46 @@ final class DOMHelper {
         'atom' => self::NS_ATOM,
         'xi' => self::NS_XINCLUDE
     ];
-    
+
     private const HTML_NAMESPACES = [
         'html' => self::NS_HTML
     ];
-    
+
     public const NS_PHP = 'http://php.net/xpath';
-    
+
     private const PHP_NAMESPACES = [
         'php' => self::NS_PHP
     ];
-    
+
     public const NS_EM = 'http://www.mozilla.org/2004/em-rdf#';
-    
+
     public const NS_GD = 'http://schemas.google.com/g/2005';
-    
+
     public const NS_MEDIA = 'http://search.yahoo.com/mrss/';
-    
+
     public const NS_SITEMAP = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-    
+
     private const MISC_NAMESPACES = [
         'em' => self::NS_EM,
         'gd' => self::NS_GD,
         'media' => self::NS_MEDIA,
         'sitemap' => self::NS_SITEMAP
     ];
-    
+
     public const XPATH_NS_ALL = -1;
-    
+
     public const XPATH_SLOTHSOFT = 1;
-    
+
     public const XPATH_W3C = 2;
-    
+
     public const XPATH_HTML = 4;
-    
+
     public const XPATH_PHP = 8;
-    
+
     public const XPATH_MISC = 16;
-    
+
     public static function loadDocument(string $filePath, bool $asHTML = false): DOMDocument {
-        $document = self::dom()->createDocument();
+        $document = self::dom()->createDocument(null, null);
         if ($asHTML) {
             $document->loadHTMLFile($filePath, LIBXML_PARSEHUGE);
         } else {
@@ -126,9 +128,9 @@ final class DOMHelper {
         }
         return $document;
     }
-    
+
     public static function parseDocument(string $fileContents, bool $asHTML = false): DOMDocument {
-        $document = self::dom()->createDocument();
+        $document = self::dom()->createDocument(null, null);
         if ($asHTML) {
             $document->loadHTML($fileContents, LIBXML_PARSEHUGE);
         } else {
@@ -136,7 +138,7 @@ final class DOMHelper {
         }
         return $document;
     }
-    
+
     public static function loadXPath(DOMDocument $document, int $options = self::XPATH_HTML): DOMXPath {
         $xpath = new DOMXPath($document);
         $nsList = [];
@@ -163,7 +165,7 @@ final class DOMHelper {
         }
         return $xpath;
     }
-    
+
     public static function guessExtension(string $namespaceURI): string {
         switch ($namespaceURI) {
             case self::NS_HTML:
@@ -178,9 +180,9 @@ final class DOMHelper {
                 return 'xml';
         }
     }
-    
-    private const HTML_FRAME = '<?xml version="1.0" encoding="UTF-8"?><html><body>%s</body></html>';
-    
+
+    private const HTML_FRAME = '<?xml version="1.0" encoding="UTF-8"?><html lang=""><body>%s</body></html>';
+
     private static function dom(): DOMImplementation {
         static $implementation = null;
         if ($implementation === null) {
@@ -188,11 +190,11 @@ final class DOMHelper {
         }
         return $implementation;
     }
-    
+
     public function parse(string $xmlCode, ?DOMDocument $targetDoc = null, bool $asHTML = false): DOMDocumentFragment {
         if ($asHTML) {
-            $parseDoc = self::dom()->createDocument();
-            
+            $parseDoc = self::dom()->createDocument(null, null);
+
             $ret = @$parseDoc->loadHTML(sprintf(self::HTML_FRAME, $xmlCode));
             if (! $ret) {
                 ob_start();
@@ -202,18 +204,18 @@ final class DOMHelper {
                 throw new RuntimeException(sprintf('Error loading HTML:%s%s%s%s', PHP_EOL, substr($xmlCode, 0, 1024), PHP_EOL, substr($error, 0, 1024)));
             }
             $rootNode = $parseDoc->documentElement->lastChild;
-            
+
             if ($targetDoc === null) {
                 $targetDoc = $parseDoc;
             }
-            
+
             $retFragment = $targetDoc->createDocumentFragment();
-            
+
             $childNodeList = [];
             foreach ($rootNode->childNodes as $childNode) {
                 $childNodeList[] = $childNode;
             }
-            
+
             foreach ($childNodeList as $childNode) {
                 if ($targetDoc === $parseDoc) {
                     $retFragment->appendChild($childNode);
@@ -228,11 +230,11 @@ final class DOMHelper {
             }
         } else {
             if ($targetDoc === null) {
-                $targetDoc = self::dom()->createDocument();
+                $targetDoc = self::dom()->createDocument(null, null);
             }
-            
+
             $retFragment = $targetDoc->createDocumentFragment();
-            
+
             if (strlen($xmlCode)) {
                 $ret = @$retFragment->appendXML($xmlCode);
                 if (! $ret) {
@@ -244,20 +246,20 @@ final class DOMHelper {
                 }
             }
         }
-        
+
         return $retFragment;
     }
-    
+
     public function createDocument(string $namespaceURI, string $qualifiedName): DOMDocument {
         return self::dom()->createDocument($namespaceURI, $qualifiedName);
     }
-    
+
     public function stringify(DOMNode $sourceNode): string {
         return $sourceNode->ownerDocument->saveXML($sourceNode);
     }
-    
+
     public function load($url, bool $asHTML = false): DOMDocument {
-        $doc = self::dom()->createDocument();
+        $doc = self::dom()->createDocument(null, null);
         if ($asHTML) {
             $doc->loadHTMLFile((string) $url);
         } else {
@@ -265,45 +267,45 @@ final class DOMHelper {
         }
         return $doc;
     }
-    
+
     private function transformToAdapter($source, $template, array $param = []): AdapterInterface {
         $source = XsltFactory::createInput($source);
         $template = XsltFactory::createInput($template);
-        
+
         $templateDoc = $template->toDocument();
         if ($templateDoc->documentElement->namespaceURI !== self::NS_XSL) {
             throw new DomainException("Template file '{$template->toFile()}' is in namespace '{$templateDoc->documentElement->namespaceURI}, but should have been 'http://www.w3.org/1999/XSL/Transform'!");
         }
         $templateVersion = $templateDoc->documentElement->getAttribute('version');
-        
+
         $adapter = XsltFactory::createAdapter(floatval($templateVersion));
-        
+
         $adapter->setSource($source);
         $adapter->setTemplate($template);
         $adapter->setParameters($param);
-        
+
         return $adapter;
     }
-    
+
     public function transformToDocument($source, $template, array $param = []): DOMDocument {
         return $this->transformToAdapter($source, $template, $param)->writeDocument();
     }
-    
+
     public function transformToFile($source, $template, array $param = [], ?SplFileInfo $output = null): SplFileInfo {
         if (! $output) {
             $output = FileInfoFactory::createTempFile();
         }
-        
+
         $adapter = $this->transformToAdapter($source, $template, $param);
         $adapter->writeFile($output);
         return $output;
     }
-    
+
     public function transformToFragment($source, $template, array $param = [], ?DOMDocument $targetDoc = null): DOMDocumentFragment {
         $finalDoc = $this->transformToDocument($source, $template, $param);
-        
+
         if ($targetDoc === null) {
-            $targetDoc = self::dom()->createDocument();
+            $targetDoc = self::dom()->createDocument(null, null);
         }
         $retNode = $targetDoc->createDocumentFragment();
         foreach ($finalDoc->childNodes as $node) {
@@ -311,25 +313,57 @@ final class DOMHelper {
         }
         return $retNode;
     }
-    
+
+    /**
+     * Normalizes namespace prefixes in a document without changing element or attribute namespaces.
+     *
+     * Only namespaces known to this helper are explicitly rewritten. Unknown namespaces are not assigned
+     * a configured prefix, because a prefix can be rebound inside a subtree and normalizing unknown
+     * namespace/prefix pairs globally can change the document meaning. Libxml may still serialize an
+     * unknown namespace with an equivalent in-scope prefix or default namespace declaration.
+     *
+     * Known namespaces use the standardized prefixes defined by this helper when a prefix is emitted, such as "svg" for
+     * {@see self::NS_SVG} and "html" for {@see self::NS_HTML}. Using a known prefix for an unrelated
+     * unknown namespace can lead to unexpected results if the same document also contains the matching
+     * known namespace. Redundant namespace declarations may be removed during DOM serialization, and
+     * prefix/default namespace spelling may change where the namespace URI and local name remain the same.
+     */
     public function normalizeDocument(DOMDocument $dataDoc): DOMDocument {
         try {
-            $retDoc = self::dom()->createDocument();
-            
-            $nsList = array_flip(self::$namespaceList);
-            if (isset($nsList[$dataDoc->documentElement->namespaceURI])) {
-                unset($nsList[$dataDoc->documentElement->namespaceURI]);
-            }
-            
+            $retDoc = self::dom()->createDocument(null, null);
+
+            $nsList = $this->getKnownNamespacePrefixes();
+
             $this->normalizeNode($dataDoc, $retDoc, $nsList);
-            
-            $retDoc->loadXML($retDoc->saveXML(), LIBXML_NSCLEAN);
-        } catch (Exception $e) {
+        } catch (DOMException $e) {
             $retDoc = $dataDoc;
         }
         return $retDoc;
     }
-    
+
+    private function normalizeQualifiedName(DOMNode $sourceNode, array $nsList, ?DOMNode $parentNode = null): string {
+        if (empty($sourceNode->prefix) or empty($sourceNode->namespaceURI)) {
+            return $sourceNode->localName;
+        }
+
+        if ($parentNode !== null and $parentNode->namespaceURI === $sourceNode->namespaceURI) {
+            return $sourceNode->localName;
+        }
+
+        if (isset($nsList[$sourceNode->namespaceURI])) {
+            return $nsList[$sourceNode->namespaceURI] . ':' . $sourceNode->localName;
+        }
+
+        return $sourceNode->prefix . ':' . $sourceNode->localName;
+    }
+
+    private function getKnownNamespacePrefixes(): array {
+        return array_flip(self::SLOTHSOFT_NAMESPACES + self::W3C_NAMESPACES + self::HTML_NAMESPACES + self::PHP_NAMESPACES + self::MISC_NAMESPACES);
+    }
+
+    /**
+     * @throws DOMException
+     */
     private function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList): DOMNode {
         $retNode = null;
         switch ($sourceNode->nodeType) {
@@ -337,10 +371,10 @@ final class DOMHelper {
                 $retNode = $retDoc;
                 break;
             case XML_ELEMENT_NODE:
-                $tagName = isset($nsList[$sourceNode->namespaceURI]) ? $nsList[$sourceNode->namespaceURI] . ':' . $sourceNode->localName : $sourceNode->localName;
+                $tagName = $this->normalizeQualifiedName($sourceNode, $nsList, $sourceNode->parentNode);
                 $retNode = $retDoc->createElementNS($sourceNode->namespaceURI, $tagName);
                 foreach ($sourceNode->attributes as $childNode) {
-                    $tagName = strlen($childNode->prefix) ? $childNode->prefix . ':' . $childNode->localName : $childNode->localName;
+                    $tagName = $this->normalizeQualifiedName($childNode, $nsList);
                     $retNode->setAttributeNS($childNode->namespaceURI, $tagName, $childNode->value);
                 }
                 break;

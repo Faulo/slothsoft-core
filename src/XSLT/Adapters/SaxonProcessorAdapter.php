@@ -5,6 +5,7 @@ namespace Slothsoft\Core\XSLT\Adapters;
 
 use DOMDocument;
 use Saxon\SaxonProcessor;
+use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
@@ -49,7 +50,6 @@ class SaxonProcessorAdapter extends GenericAdapter {
      *
      */
     public function writeDocument(): DOMDocument {
-        return $this->writeFile()->getDocument();
+        return DOMHelper::loadDocument((string) $this->writeFile());
     }
 }
-

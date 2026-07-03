@@ -17,6 +17,7 @@
         "ext-curl": "*",
         "ext-mbstring": "*",
         "ext-json": "*",
+        "ext-zlib": "*",
         "php-ds/php-ds": "^1.7",
         "slothsoft/w3c": "^1.3",
         "psr/http-message": "^1.0",

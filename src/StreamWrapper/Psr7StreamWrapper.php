@@ -49,7 +49,7 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
     
     public function stream_tell() {
         try {
-            $this->stream->tell();
+            return $this->stream->tell();
         } catch (RuntimeException $e) {
             return false;
         }

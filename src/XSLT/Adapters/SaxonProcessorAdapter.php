@@ -15,7 +15,7 @@ use SplFileInfo;
  * @author Daniel Schulz
  *
  */
-class SaxonProcessorAdapter extends GenericAdapter {
+final class SaxonProcessorAdapter extends GenericAdapter {
     
     private function newSaxonProcessor(): SaxonProcessor {
         return new SaxonProcessor();

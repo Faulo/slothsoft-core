@@ -23,7 +23,7 @@ use Slothsoft\Core\DBMS\Table;
  * @since 2014-07-25
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
-class Storage implements EphemeralStorageInterface {
+final class Storage implements EphemeralStorageInterface {
     
     private static function logEnabled(): ConfigurationField {
         static $field;

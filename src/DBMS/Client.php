@@ -9,7 +9,7 @@ use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 /**
  * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
  */
-class Client {
+final class Client {
     
     private static function getEnvWithDefault(string $envKey, string $defaultValue, ?string $envFileKey = null): string {
         $value = getenv($envKey);

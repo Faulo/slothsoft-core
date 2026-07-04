@@ -10,7 +10,7 @@ namespace Slothsoft\Core\Game;
  * @since 2013-09-20
  * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
  */
-class Dice {
+final class Dice {
     
     protected $sidesCount;
     

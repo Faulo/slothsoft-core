@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\XSLT\Adapters;
 
+use DOMDocument;
+use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
 
 /**
@@ -12,11 +14,11 @@ use Slothsoft\Core\XSLT\Inputs\InputInterface;
  */
 abstract class GenericAdapter implements AdapterInterface {
     
-    protected $source;
+    protected InputInterface $source;
     
-    protected $template;
+    protected InputInterface $template;
     
-    protected $param = [];
+    protected array $param = [];
     
     public function setParameters(array $param) {
         $this->param = $param;
@@ -29,5 +31,8 @@ abstract class GenericAdapter implements AdapterInterface {
     public function setTemplate(InputInterface $input) {
         $this->template = $input;
     }
+    
+    public function writeDocument(): DOMDocument {
+        return DOMHelper::loadDocument((string) $this->writeFile());
+    }
 }
-

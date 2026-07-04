@@ -4,9 +4,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use DOMDocument;
 use Saxon\SaxonProcessor;
-use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
@@ -44,13 +42,4 @@ final class SaxonProcessorAdapter extends GenericAdapter {
         return $outputFile;
     }
     
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toDocument()
-     *
-     */
-    public function writeDocument(): DOMDocument {
-        return DOMHelper::loadDocument((string) $this->writeFile());
-    }
 }

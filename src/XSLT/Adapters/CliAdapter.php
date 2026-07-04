@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\XSLT\Adapters;
 
-use DOMDocument;
 use RuntimeException;
-use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
@@ -14,7 +12,7 @@ use SplFileInfo;
  * @author Daniel Schulz
  *
  */
-class CliAdapter extends GenericAdapter {
+final class CliAdapter extends GenericAdapter {
     
     private string $path;
     
@@ -48,13 +46,4 @@ class CliAdapter extends GenericAdapter {
         return $outputFile;
     }
     
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toDocument()
-     *
-     */
-    public function writeDocument(): DOMDocument {
-        return DOMHelper::loadDocument((string) $this->writeFile());
-    }
 }

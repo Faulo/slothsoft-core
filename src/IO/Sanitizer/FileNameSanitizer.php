@@ -13,12 +13,12 @@ final class FileNameSanitizer implements SanitizerInterface {
         $this->default = $default;
     }
     
-    public function apply($value) {
+    public function apply($value): string {
         $value = FileSystem::filenameSanitize((string) $value);
         return $value === '' ? $this->getDefault() : $value;
     }
     
-    public function getDefault() {
+    public function getDefault(): string {
         return $this->default;
     }
 }

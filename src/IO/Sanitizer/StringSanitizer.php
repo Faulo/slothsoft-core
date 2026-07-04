@@ -11,12 +11,12 @@ final class StringSanitizer implements SanitizerInterface {
         $this->default = $default;
     }
     
-    public function apply($value) {
+    public function apply($value): string {
         $value = (string) $value;
         return $value === '' ? $this->getDefault() : $value;
     }
     
-    public function getDefault() {
+    public function getDefault(): string {
         return $this->default;
     }
 }

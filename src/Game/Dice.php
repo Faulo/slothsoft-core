@@ -41,7 +41,7 @@ final class Dice {
         return min($this->getMax(), max($this->getMin(), $value));
     }
     
-    public function roll() {
+    public function roll(): int {
         $ret = 0;
         for ($i = 0; $i < $this->diceCount; $i++) {
             $ret += $this->rand(1, $this->sidesCount);
@@ -49,27 +49,27 @@ final class Dice {
         return $ret;
     }
     
-    public function rollImpossible() {
+    public function rollImpossible(): bool {
         return $this->rollLower($this->getMin());
     }
     
     // returns true if these dice rolled at least as high as $value
     // e.g. for ETW0, saving throws
-    public function rollHigher($value) {
+    public function rollHigher($value): bool {
         return $this->roll() >= $value;
     }
     
     // returns true if these dice rolled at most as high as $value
     // e.g. for skill checks, attribute checks, percentages
-    public function rollLower($value) {
+    public function rollLower($value): bool {
         return $this->roll() <= $value;
     }
     
-    public function rollEqual($value) {
+    public function rollEqual($value): bool {
         return $value === $this->roll();
     }
     
-    protected function rand($min, $max) {
+    protected function rand($min, $max): int {
         return rand($min, $max);
     }
 }

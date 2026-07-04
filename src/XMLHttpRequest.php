@@ -483,7 +483,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         self::$cookies[$key] = $val;
     }
     
-    public static function parseHeaderList($head) {
+    public static function parseHeaderList($head): array {
         $ret = [];
         $headList = explode("\n", str_replace("\r", "\n", $head));
         foreach ($headList as $line) {

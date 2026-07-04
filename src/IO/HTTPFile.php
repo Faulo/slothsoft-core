@@ -29,7 +29,7 @@ final class HTTPFile implements FileWriterInterface {
      *
      * @return string
      */
-    public static function getTempFile() {
+    public static function getTempFile(): string {
         // $ret = tempnam(sys_get_temp_dir() . DIRECTORY_SEPARATOR . __NAMESPACE__, __CLASS__);
         $ret = temp_file(__CLASS__);
         // my_dump($ret);
@@ -42,11 +42,11 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromPath(string $filePath, string $fileName = '') {
+    public static function createFromPath(string $filePath, string $fileName = ''): HTTPFile {
         return new HTTPFile($filePath, $fileName);
     }
     
-    public static function createFromTemp(string $fileName = '') {
+    public static function createFromTemp(string $fileName = ''): HTTPFile {
         return self::createFromPath(self::getTempFile(), $fileName);
     }
     
@@ -56,7 +56,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromDocument(DOMDocument $doc, string $fileName = '') {
+    public static function createFromDocument(DOMDocument $doc, string $fileName = ''): HTTPFile {
         if ($fileName === '') {
             $fileName = 'index.xml';
         }
@@ -71,7 +71,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromString(string $content, string $fileName = '') {
+    public static function createFromString(string $content, string $fileName = ''): HTTPFile {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
@@ -87,7 +87,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromFileList(array $fileList, string $fileName = '') {
+    public static function createFromFileList(array $fileList, string $fileName = ''): HTTPFile {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
@@ -105,7 +105,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromStream($resource, string $fileName = '') {
+    public static function createFromStream($resource, string $fileName = ''): HTTPFile {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
@@ -121,7 +121,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return HTTPFile
      */
-    public static function createFromJSON($object, string $fileName = '') {
+    public static function createFromJSON($object, string $fileName = ''): HTTPFile {
         $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'data.json';
@@ -135,7 +135,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return NULL|HTTPFile
      */
-    public static function createFromPHP(string $phpCommand, string $fileName = '') {
+    public static function createFromPHP(string $phpCommand, string $fileName = ''): ?HTTPFile {
         if ($fileName === '') {
             $fileName = basename($phpCommand);
             if ($fileName === '') {
@@ -154,7 +154,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $fileName
      * @return NULL|HTTPFile
      */
-    public static function createFromURL(string $url, string $fileName = '') {
+    public static function createFromURL(string $url, string $fileName = ''): ?HTTPFile {
         if ($fileName === '') {
             $fileName = basename($url);
             if ($fileName === '') {
@@ -186,7 +186,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param int $headerCache
      * @return NULL|HTTPFile
      */
-    public static function createFromDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR) {
+    public static function createFromDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR): ?HTTPFile {
         $ret = self::verifyDownload($filePath, $url, $headerCache);
         if (! $ret) {
             if ($file = self::createFromURL($url)) {
@@ -202,7 +202,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param int $headerCache
      * @return boolean
      */
-    public static function verifyURL(string $url, int $headerCache = Seconds::YEAR) {
+    public static function verifyURL(string $url, int $headerCache = Seconds::YEAR): bool {
         $ret = false;
         if ($res = Storage::loadExternalHeader($url, $headerCache)) {
             $status = isset($res['status']) ? (int) $res['status'] : self::STATUS_BAD_REQUEST;
@@ -223,7 +223,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param int $headerCache
      * @return boolean
      */
-    public static function verifyDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR) {
+    public static function verifyDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR): bool {
         $ret = false;
         if (file_exists($filePath)) {
             if ($headerCache === -1) {
@@ -252,11 +252,11 @@ final class HTTPFile implements FileWriterInterface {
         $this->name = $fileName;
     }
     
-    public function getPath() {
+    public function getPath(): string {
         return $this->path;
     }
     
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
     
@@ -272,7 +272,7 @@ final class HTTPFile implements FileWriterInterface {
         return file_put_contents($this->getPath(), $content);
     }
     
-    public function getDocument() {
+    public function getDocument(): DOMDocument {
         return DOMHelper::loadDocument($this->getPath());
     }
     
@@ -303,7 +303,7 @@ final class HTTPFile implements FileWriterInterface {
         return $ret;
     }
     
-    public function delete() {
+    public function delete(): bool {
         return unlink($this->getPath());
     }
     

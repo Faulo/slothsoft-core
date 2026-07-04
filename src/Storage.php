@@ -98,7 +98,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return null|DOMDocument
      */
-    public static function loadExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?DOMDocument {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -125,7 +125,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return boolean
      */
-    public static function clearExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
+    public static function clearExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null): bool {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $storage = self::_getStorageByURI($uri);
@@ -141,7 +141,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return NULL|DOMXPath
      */
-    public static function loadExternalXPath(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalXPath(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?DOMXPath {
         $ret = null;
         if ($doc = self::loadExternalDocument($uri, $cacheTime, $data, $options)) {
             $ret = DOMHelper::loadXPath($doc);
@@ -181,7 +181,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return NULL|string
      */
-    public static function loadExternalFile(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalFile(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?string {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         
@@ -214,7 +214,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $options
      * @return NULL|array
      */
-    public static function loadExternalHeader(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
+    public static function loadExternalHeader(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?array {
         $cacheTime = (int) $cacheTime;
         self::_httpOptions($options);
         $options['method'] = 'HEAD';
@@ -239,11 +239,11 @@ final class Storage implements EphemeralStorageInterface {
      *
      * @return boolean
      */
-    protected static function _randomCheck() {
+    protected static function _randomCheck(): bool {
         return ! rand(0, 999);
     }
     
-    protected static function _httpRequest(array $options, $uri, $data) {
+    protected static function _httpRequest(array $options, $uri, $data): XMLHttpRequest {
         // echo sprintf('XMLHttpRequest %s "%s"...%s', $options['method'], $uri, PHP_EOL);
         $req = new XMLHttpRequest();
         $req->open($options['method'], $uri);
@@ -314,7 +314,7 @@ final class Storage implements EphemeralStorageInterface {
         }
     }
     
-    protected static function _httpOAuth(array $options, string $uri) {
+    protected static function _httpOAuth(array $options, string $uri): string {
         $params = [];
         $params['realm'] = $uri;
         $params['oauth_consumer_key'] = $options['oauth']['appToken'];
@@ -365,7 +365,7 @@ final class Storage implements EphemeralStorageInterface {
      * @return EphemeralStorageInterface
      * @throws Exception
      */
-    protected static function _getStorageByURI(string $uri) {
+    protected static function _getStorageByURI(string $uri): EphemeralStorageInterface {
         $scheme = self::_getSchemeFromURI($uri);
         $host = self::_getHostFromURI($uri);
         $storageName = sprintf('%s-%s', $scheme, $host);
@@ -375,7 +375,7 @@ final class Storage implements EphemeralStorageInterface {
         return self::loadStorage($storageName);
     }
     
-    public static function _getStorageNameFromURI($uri) {
+    public static function _getStorageNameFromURI($uri): string {
         $arr = parse_url(strtolower($uri));
         if (! isset($arr['scheme'])) {
             $arr['scheme'] = 'http';
@@ -425,13 +425,13 @@ final class Storage implements EphemeralStorageInterface {
         return sha1($name);
     }
     
-    protected static function _name(array $options, $uri, $data) {
+    protected static function _name(array $options, $uri, $data): string {
         return sprintf('%s %s?%s', $options['method'], $uri, serialize($data));
     }
     
     protected static DOMHelper $dom;
     
-    protected static function _DOMHelper() {
+    protected static function _DOMHelper(): DOMHelper {
         if (! isset(self::$dom)) {
             self::$dom = new DOMHelper();
         }
@@ -693,7 +693,7 @@ final class Storage implements EphemeralStorageInterface {
         }
     }
     
-    public function cron() {
+    public function cron(): bool {
         $this->cleanse();
         return true;
     }

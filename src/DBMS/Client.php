@@ -79,7 +79,7 @@ final class Client {
     public function __construct() {
     }
     
-    public function reconnect() {
+    public function reconnect(): bool {
         try {
             $authority = self::getDefaultAuthority();
         } catch (ConfigurationRequiredException $e) {
@@ -105,7 +105,7 @@ final class Client {
         }
     }
     
-    protected function connect() {
+    protected function connect(): bool {
         return ($this->connected and $this->sqli->ping()) or ($this->reconnect() and $this->connected = true);
     }
     
@@ -119,7 +119,7 @@ final class Client {
         return $ret;
     }
     
-    public function tableExists($dbName, $tableName) {
+    public function tableExists($dbName, $tableName): ?bool {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'tables', 'table_name', sprintf('table_schema = "%s" AND table_name = "%s"', $this->escape($dbName), $this->escape($tableName)));
@@ -135,7 +135,7 @@ final class Client {
         return $this->execute($sql);
     }
     
-    public function databaseExists($dbName) {
+    public function databaseExists($dbName): ?bool {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'schemata', 'schema_name', sprintf('schema_name = "%s"', $this->escape($dbName)));
@@ -388,7 +388,7 @@ final class Client {
         return null;
     }
     
-    public function getColumns($dbName, $tableName) {
+    public function getColumns($dbName, $tableName): ?array {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
@@ -407,7 +407,7 @@ final class Client {
         return $ret;
     }
     
-    public function optimize($dbName, $tableName) {
+    public function optimize($dbName, $tableName): bool {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $sql = sprintf('OPTIMIZE TABLE %s', $dbHandle);
         $res = $this->execute($sql);
@@ -464,7 +464,7 @@ final class Client {
     }
     
     // gibt id-string zurück
-    protected function get_ids($id) {
+    protected function get_ids($id): string {
         if (is_array($id)) {
             switch (count($id)) {
                 case 0:
@@ -496,7 +496,7 @@ final class Client {
     }
     
     // gibt update-string zurück
-    protected function _get_update_data(array $arr) {
+    protected function _get_update_data(array $arr): string {
         $ret = [];
         foreach ($arr as $key => $val) {
             if ($val === null) {
@@ -517,7 +517,7 @@ final class Client {
     }
     
     // gibt db-handle zurück
-    protected function get_handle($dbName, $tableName = null) {
+    protected function get_handle($dbName, $tableName = null): string {
         if ($dbName === null) {
             $dbName = $tableName;
             $tableName = null;

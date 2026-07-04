@@ -11,11 +11,11 @@ final class ArraySanitizer implements SanitizerInterface {
         $this->default = $default;
     }
     
-    public function apply($value) {
+    public function apply($value): array {
         return is_array($value) ? $value : $this->getDefault();
     }
     
-    public function getDefault() {
+    public function getDefault(): array {
         return $this->default;
     }
 }

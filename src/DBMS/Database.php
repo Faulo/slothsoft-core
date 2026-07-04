@@ -22,7 +22,7 @@ final class Database {
         return $this->name;
     }
     
-    public function tableExists($tableName) {
+    public function tableExists($tableName): ?bool {
         return $this->client->tableExists($this->name, $tableName);
     }
     
@@ -33,7 +33,7 @@ final class Database {
         return $this->client->tableMove($this->name, $oldTableName, $newDbName, $newTableName);
     }
     
-    public function databaseExists() {
+    public function databaseExists(): ?bool {
         return $this->client->databaseExists($this->name);
     }
     
@@ -81,11 +81,11 @@ final class Database {
     }
     
     // SHOW COLUMNS
-    public function getColumns($tableName) {
+    public function getColumns($tableName): ?array {
         return $this->client->getColumns($this->name, $tableName);
     }
     
-    public function optimize($tableName = null) {
+    public function optimize($tableName = null): ?bool {
         if ($tableName) {
             return $this->client->optimize($this->name, $tableName);
         } else {

@@ -27,7 +27,7 @@ final class WebCrawler {
         $this->errorList = [];
     }
     
-    public function crawl() {
+    public function crawl(): string {
         $href = $this->buildURL('', $this->url);
         $this->crawlURL($href);
         

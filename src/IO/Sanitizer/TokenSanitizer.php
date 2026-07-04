@@ -11,7 +11,7 @@ final class TokenSanitizer implements SanitizerInterface {
         $this->default = $default;
     }
     
-    public function apply($value) {
+    public function apply($value): array {
         if (is_string($value)) {
             $result = [];
             foreach (preg_split('~\s+~', $value) as $val) {
@@ -28,7 +28,7 @@ final class TokenSanitizer implements SanitizerInterface {
         return $this->getDefault();
     }
     
-    public function getDefault() {
+    public function getDefault(): array {
         return $this->default;
     }
 }

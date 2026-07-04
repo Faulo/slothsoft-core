@@ -21,7 +21,7 @@ final class Table {
         return $this->name;
     }
     
-    public function tableExists() {
+    public function tableExists(): ?bool {
         return $this->db->tableExists($this->name);
     }
     
@@ -56,11 +56,11 @@ final class Table {
     }
     
     // SHOW COLUMNS
-    public function getColumns() {
+    public function getColumns(): ?array {
         return $this->db->getColumns($this->name);
     }
     
-    public function optimize() {
+    public function optimize(): ?bool {
         return $this->db->optimize($this->name);
     }
     

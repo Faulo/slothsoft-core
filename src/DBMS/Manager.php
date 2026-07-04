@@ -53,7 +53,7 @@ final class Manager {
     
     protected static $tableList = [];
     
-    public static function getClient() {
+    public static function getClient(): Client {
         if (! self::$client) {
             self::_createLog(sprintf('Manager: creating Client...'));
             self::$client = new Client();

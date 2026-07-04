@@ -11,12 +11,12 @@ final class IntegerSanitizer implements SanitizerInterface {
         $this->default = $default;
     }
     
-    public function apply($value) {
+    public function apply($value): int {
         $value = filter_var((string) $value, FILTER_SANITIZE_NUMBER_INT);
         return $value === '' ? $this->getDefault() : (int) $value;
     }
     
-    public function getDefault() {
+    public function getDefault(): int {
         return $this->default;
     }
 }

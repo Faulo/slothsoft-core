@@ -27,7 +27,7 @@ final class Name {
         'numberof' => 1
     ];
     
-    public static function generate(array $config = []) {
+    public static function generate(array $config = []): array {
         $ret = null;
         $param = self::$generateConfig;
         foreach ($param as $key => &$val) {

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use DOMDocument;
+use DOMXPath;
 use Slothsoft\Core\IO\FileInfoFactory;
 
 /**
@@ -22,12 +23,12 @@ final class CloudFlareScraper {
         $this->trySolving = $trySolving;
     }
     
-    public function getFile($uri) {
+    public function getFile($uri): ?string {
         $req = $this->_httpRequest($uri);
         return $req->responseText;
     }
     
-    public function getXPath($uri) {
+    public function getXPath($uri): ?DOMXPath {
         $req = $this->_httpRequest($uri);
         return $req->responseXML ? $this->_loadXPath($req->responseXML) : null;
     }
@@ -114,11 +115,11 @@ final class CloudFlareScraper {
         return $ret;
     }
     
-    protected function _isProtected($html) {
+    protected function _isProtected($html): bool {
         return (bool) strpos($html, 's,t,o,p,b,r,e,a,k,i,n,g');
     }
     
-    protected function _loadXPath(DOMDocument $doc) {
+    protected function _loadXPath(DOMDocument $doc): DOMXPath {
         return DOMHelper::loadXPath($doc);
     }
     

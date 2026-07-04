@@ -42,14 +42,14 @@ final class Image {
     
     const THUMBNAIL_HEIGHT = 240;
     
-    protected static function getTempFile() {
+    protected static function getTempFile(): string {
         // $ret = tempnam(sys_get_temp_dir(), __CLASS__);
         $ret = temp_file(__CLASS__);
         // my_dump($ret);
         return $ret;
     }
     
-    public static function createSprite($destFile, $spriteWidth, $spriteHeight, $cols = 1, $rows = 1, array $imageList = []) {
+    public static function createSprite($destFile, $spriteWidth, $spriteHeight, $cols = 1, $rows = 1, array $imageList = []): bool {
         $width = $spriteWidth * $cols;
         $height = $spriteHeight * $rows;
         $ret = imagepng(imagecreatetruecolor($width, $height), $destFile, 9);
@@ -59,7 +59,7 @@ final class Image {
         return $ret;
     }
     
-    public static function addSprite($destFile, array $sourceFileList, $spriteWidth = null, $spriteHeigh = null) {
+    public static function addSprite($destFile, array $sourceFileList, $spriteWidth = null, $spriteHeigh = null): bool {
         $destInfo = self::imageInfo($destFile);
         $destImage = self::createFromFile($destFile);
         imagealphablending($destImage, true);
@@ -85,7 +85,7 @@ final class Image {
         return imagepng($destImage, $destFile, 9);
     }
     
-    public static function imageInfo($file) {
+    public static function imageInfo($file): array {
         $arr = getimagesize($file);
         return [
             'width' => $arr[0],
@@ -142,7 +142,7 @@ final class Image {
         return $new_image;
     }
     
-    public static function convertFile($sourceFile, $destFile) {
+    public static function convertFile($sourceFile, $destFile): bool {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
         if (self::IRFANVIEW_ACTIVE) {
@@ -167,7 +167,7 @@ final class Image {
         return $ret;
     }
     
-    public static function scaleFile($sourceFile, $destFile, $width, $height) {
+    public static function scaleFile($sourceFile, $destFile, $width, $height): bool {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
         if (self::IRFANVIEW_ACTIVE) {
@@ -192,7 +192,7 @@ final class Image {
     public static function cropFile($sourceFile, $destFile, $width, $height) {
     }
     
-    public static function mergeFile($sourceFile, $appendFile, $targetFile = null) {
+    public static function mergeFile($sourceFile, $appendFile, $targetFile = null): bool {
         if ($targetFile === null) {
             $targetFile = $sourceFile;
         }

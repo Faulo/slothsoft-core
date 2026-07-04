@@ -8,7 +8,7 @@ namespace Slothsoft\Core\Game;
  */
 final class Prime {
     
-    public static function getPrimeList($size) {
+    public static function getPrimeList($size): array {
         $ret = [];
         for ($i = 1; $i > 0; $i++) {
             if (self::isPrime($i)) {
@@ -22,7 +22,7 @@ final class Prime {
     }
     
     // http://stackoverflow.com/questions/16763322/a-formula-to-find-prime-numbers-in-a-loop
-    public static function isPrime($num) {
+    public static function isPrime($num): bool {
         // 1 is not prime. See: http://en.wikipedia.org/wiki/Prime_number#Primality_of_one
         if ($num === 1) {
             return false;

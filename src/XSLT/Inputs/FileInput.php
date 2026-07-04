@@ -8,9 +8,10 @@ use Slothsoft\Core\DOMHelper;
 use SplFileInfo;
 
 /**
+ * File-backed XSLT input with lazy DOM loading.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 final class FileInput implements InputInterface {
     

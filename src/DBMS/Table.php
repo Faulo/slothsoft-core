@@ -4,6 +4,10 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\DBMS;
 
 /**
+ * Legacy DBMS table wrapper for select, insert, update, delete, and schema operations.
+ *
+ * @author Daniel Schulz
+ * @since 2018-03-29
  * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
  */
 final class Table {

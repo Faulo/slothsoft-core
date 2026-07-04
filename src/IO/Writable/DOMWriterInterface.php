@@ -7,9 +7,10 @@ use DOMDocument;
 use DOMElement;
 
 /**
+ * Writer that exports object state as DOM elements or documents.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-03-03
  */
 interface DOMWriterInterface {
     
@@ -30,4 +31,3 @@ interface DOMWriterInterface {
      */
     public function toDocument(): DOMDocument;
 }
-

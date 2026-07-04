@@ -8,9 +8,10 @@ use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
 /**
+ * XSLT adapter that shells out to an external command-line processor.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 final class CliAdapter extends GenericAdapter {
     

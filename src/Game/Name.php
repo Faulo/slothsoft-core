@@ -6,6 +6,10 @@ namespace Slothsoft\Core\Game;
 use Slothsoft\Core\Storage;
 
 /**
+ * Legacy random-name generator backed by the historical remote name service.
+ *
+ * @author Daniel Schulz
+ * @since 2017-12-28
  * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
  */
 final class Name {

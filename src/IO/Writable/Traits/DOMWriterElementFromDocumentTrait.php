@@ -8,9 +8,10 @@ use DOMElement;
 use RuntimeException;
 
 /**
+ * Implements element output for DOM writers that already provide document output.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-03-03
  */
 trait DOMWriterElementFromDocumentTrait {
     

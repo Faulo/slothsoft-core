@@ -7,9 +7,10 @@ use DOMDocument;
 use DOMElement;
 
 /**
+ * Reader that imports state from DOM documents or elements.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-03-03
  */
 interface DOMReaderInterface {
     
@@ -17,4 +18,3 @@ interface DOMReaderInterface {
     
     public function fromElement(DOMElement $sourceElement): void;
 }
-

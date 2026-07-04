@@ -1,14 +1,5 @@
 <?php
 declare(strict_types = 1);
-/**
- * *********************************************************************
- * DOMHelper v1.00 11.07.2014 © Daniel Schulz
- *
- * Changelog:
- * v1.00 11.07.2014
- * initial release
- * *********************************************************************
- */
 
 namespace Slothsoft\Core;
 
@@ -25,6 +16,12 @@ use Slothsoft\Core\XSLT\Adapters\AdapterInterface;
 use Slothsoft\Core\XSLT\XsltFactory;
 use SplFileInfo;
 
+/**
+ * DOM parsing, namespace registration, serialization, and XSLT helper.
+ *
+ * @author Daniel Schulz
+ * @since 2014-07-11
+ */
 final class DOMHelper {
     
     public const NS_AMBER_AMBERDATA = 'http://schema.slothsoft.net/amber/amberdata';

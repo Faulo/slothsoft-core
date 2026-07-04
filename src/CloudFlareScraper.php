@@ -8,6 +8,10 @@ use DOMXPath;
 use Slothsoft\Core\IO\FileInfoFactory;
 
 /**
+ * Legacy Cloudflare challenge workaround for loading protected pages through XMLHttpRequest.
+ *
+ * @author Daniel Schulz
+ * @since 2017-12-28
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
 final class CloudFlareScraper {

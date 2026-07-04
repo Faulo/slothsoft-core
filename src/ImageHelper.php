@@ -8,6 +8,10 @@ use ImagickDraw;
 use SplFileInfo;
 
 /**
+ * Legacy Imagick helper for PNG conversion and sprite sheet generation.
+ *
+ * @author Daniel Schulz
+ * @since 2018-07-02
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
 final class ImageHelper {

@@ -8,9 +8,10 @@ use Slothsoft\Core\DOMHelper;
 use Slothsoft\Core\XSLT\Inputs\InputInterface;
 
 /**
+ * Shared state and DOM output behavior for XSLT processor adapters.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 abstract class GenericAdapter implements AdapterInterface {
     

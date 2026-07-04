@@ -6,6 +6,10 @@ namespace Slothsoft\Core;
 use Exception;
 
 /**
+ * Legacy Source RCON client for querying and executing remote server commands.
+ *
+ * @author Daniel Schulz
+ * @since 2017-12-28
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
 class RCon {

@@ -18,9 +18,10 @@ use Slothsoft\Core\XSLT\Inputs\InputInterface;
 use SplFileInfo;
 
 /**
+ * Factory and configuration registry for XSLT processor adapters and inputs.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 final class XsltFactory {
     

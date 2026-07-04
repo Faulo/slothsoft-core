@@ -6,9 +6,10 @@ namespace Slothsoft\Core\IO\Writable;
 use SplFileInfo;
 
 /**
+ * Writer that materializes object state as a file.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-03-03
  */
 interface FileWriterInterface {
     
@@ -20,4 +21,3 @@ interface FileWriterInterface {
      */
     public function toFile(): SplFileInfo;
 }
-

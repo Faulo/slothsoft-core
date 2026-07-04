@@ -4,6 +4,10 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\Game;
 
 /**
+ * Legacy prime-number helper.
+ *
+ * @author Daniel Schulz
+ * @since 2017-12-28
  * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
  */
 final class Prime {

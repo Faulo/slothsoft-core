@@ -7,6 +7,10 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
 /**
+ * Legacy mysqli client wrapper with process-wide default connection configuration.
+ *
+ * @author Daniel Schulz
+ * @since 2018-03-29
  * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
  */
 final class Client {

@@ -7,10 +7,10 @@ use DOMDocument;
 use DOMNode;
 
 /**
- * Defines a data repository with built-in decay.
+ * Storage backend for named payloads that expire by modification time.
  *
- * @author Daniel
- *
+ * @author Daniel Schulz
+ * @since 2025-02-15
  */
 interface EphemeralStorageInterface {
     

@@ -8,9 +8,10 @@ use Slothsoft\Core\XSLT\Inputs\InputInterface;
 use SplFileInfo;
 
 /**
+ * XSLT processor adapter that transforms source and template inputs into files or DOM documents.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 interface AdapterInterface {
     
@@ -24,4 +25,3 @@ interface AdapterInterface {
     
     public function writeDocument(): DOMDocument;
 }
-

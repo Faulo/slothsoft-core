@@ -8,9 +8,10 @@ use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
 /**
+ * DOM-backed XSLT input with lazy temporary file materialization.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 final class DocumentInput implements InputInterface {
     

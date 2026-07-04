@@ -1,14 +1,5 @@
 <?php /** @noinspection PhpUndefinedClassInspection */
 declare(strict_types = 1);
-/**
- * *********************************************************************
- * FileSystem v1.00 19.10.2012 © Daniel Schulz
- *
- * Changelog:
- * v1.00 19.10.2012
- * initial release
- * *********************************************************************
- */
 
 namespace Slothsoft\Core;
 
@@ -26,6 +17,12 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\StorageConfigurationField;
 use SplFileInfo;
 
+/**
+ * Legacy file-system helper for path handling, directory scans, media metadata, and archive operations.
+ *
+ * @author Daniel Schulz
+ * @since 2012-10-19
+ */
 abstract class FileSystem {
     
     const ZIP_PATH = 'C:/Program Files/7-Zip/7z.exe';

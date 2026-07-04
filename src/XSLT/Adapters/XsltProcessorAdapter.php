@@ -9,9 +9,10 @@ use SplFileInfo;
 use XSLTProcessor;
 
 /**
+ * XSLT adapter backed by PHP's native XSLTProcessor extension.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 final class XsltProcessorAdapter extends GenericAdapter {
     
@@ -45,4 +46,3 @@ final class XsltProcessorAdapter extends GenericAdapter {
         return $xslt->transformToDoc($this->source->toDocument());
     }
 }
-

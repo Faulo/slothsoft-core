@@ -4,7 +4,12 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use DOMXPath;
+
 /**
+ * Small legacy crawler that follows same-domain links through Storage-backed requests.
+ *
+ * @author Daniel Schulz
+ * @since 2017-12-28
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
 final class WebCrawler {

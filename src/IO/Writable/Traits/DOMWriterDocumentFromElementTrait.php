@@ -6,9 +6,10 @@ namespace Slothsoft\Core\IO\Writable\Traits;
 use DOMDocument;
 
 /**
+ * Implements document output for DOM writers that already provide element output.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-03-03
  */
 trait DOMWriterDocumentFromElementTrait {
     
@@ -18,4 +19,3 @@ trait DOMWriterDocumentFromElementTrait {
         return $targetDoc;
     }
 }
-

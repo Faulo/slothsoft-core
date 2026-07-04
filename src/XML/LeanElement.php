@@ -11,9 +11,10 @@ use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 
 /**
+ * Lightweight DOM element tree that can write itself back to a DOM document.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-03-01
  */
 final class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;

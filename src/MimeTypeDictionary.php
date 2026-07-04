@@ -6,9 +6,10 @@ namespace Slothsoft\Core;
 use DOMDocument;
 
 /**
+ * MIME type, file extension, and compression lookup helper.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-01-23
  */
 final class MimeTypeDictionary {
     

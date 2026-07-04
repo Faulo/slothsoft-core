@@ -9,9 +9,10 @@ use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 
 /**
+ * XSLT adapter backed by the Saxon/C PHP extension.
  *
  * @author Daniel Schulz
- *
+ * @since 2018-02-21
  */
 final class SaxonProcessorAdapter extends GenericAdapter {
     

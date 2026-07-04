@@ -4,6 +4,9 @@
 # Changelog
 # =========
 #
+## [1.3.3] - 2026-05-23
+# - PHP empty lines keep code indentation.
+#
 ## [1.3.2] - 2026-05-13
 # - XML support
 #
@@ -51,6 +54,7 @@ ij_continuation_indent_size = 4
 ij_formatter_off_tag = @formatter:off
 ij_formatter_on_tag = @formatter:on
 ij_formatter_tags_enabled = true
+ij_any_keep_indents_on_empty_lines = true
 ij_visual_guides = none
 ij_wrap_on_typing = false
 

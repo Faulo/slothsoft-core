@@ -151,14 +151,14 @@ abstract class FileSystem {
     
     public static function asNode(string $path, ?DOMDocument $dataDoc = null): ?DOMNode {
         $retNode = null;
-        $storage = null;
+        $isDir = is_dir($path);
         $returnDocument = ! $dataDoc;
         if ($path = realpath($path)) {
             $name = basename($path);
             if ($name === 'Thumbs.db') {
                 @unlink($path);
             } else {
-                if (is_dir($path)) {
+                if ($isDir) {
                     $modifyTime = self::changetime($path);
                     $storage = self::getStorage();
                     $storageKey = self::generateStorageKey($path);
@@ -249,7 +249,7 @@ abstract class FileSystem {
                         foreach ($childNodes as $node) {
                             $retNode->appendChild($node);
                         }
-                        if ($storage) {
+                        if ($isDir) {
                             $storage->storeXML($storageKey, $retNode, $modifyTime);
                         }
                     }

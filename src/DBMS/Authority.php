@@ -8,11 +8,11 @@ namespace Slothsoft\Core\DBMS;
  */
 final class Authority {
     
-    public $server;
+    public string $server;
     
-    public $user;
+    public string $user;
     
-    public $password;
+    public string $password;
     
     public function __construct(string $server, string $user, string $password) {
         $this->server = $server;

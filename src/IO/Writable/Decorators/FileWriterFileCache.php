@@ -3,22 +3,17 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\IO\Writable\Decorators;
 
-use Closure;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
 final class FileWriterFileCache implements FileWriterInterface {
+    use FileCacheTrait;
     
     private FileWriterInterface $sourceWriter;
     
-    private SplFileInfo $cacheFile;
-    
-    private ?Closure $shouldRefreshCacheDelegate;
-    
     public function __construct(FileWriterInterface $sourceWriter, SplFileInfo $cacheFile, ?callable $shouldRefreshCacheDelegate = null) {
         $this->sourceWriter = $sourceWriter;
-        $this->cacheFile = $cacheFile;
-        $this->shouldRefreshCacheDelegate = $shouldRefreshCacheDelegate === null ? null : Closure::fromCallable($shouldRefreshCacheDelegate);
+        $this->initializeFileCache($cacheFile, $shouldRefreshCacheDelegate);
     }
     
     public function toFile(): SplFileInfo {
@@ -30,17 +25,5 @@ final class FileWriterFileCache implements FileWriterInterface {
         if ($this->shouldRefreshCache()) {
             copy((string) $this->sourceWriter->toFile(), (string) $this->cacheFile);
         }
-    }
-    
-    private function shouldRefreshCache(): bool {
-        $shouldRefreshCache = true;
-        if (is_dir($this->cacheFile->getPath())) {
-            if ($this->cacheFile->isFile() and $this->cacheFile->getSize() > 0) {
-                $shouldRefreshCache = $this->shouldRefreshCacheDelegate === null ? false : ($this->shouldRefreshCacheDelegate)($this->cacheFile);
-            }
-        } else {
-            mkdir($this->cacheFile->getPath(), 0777, true);
-        }
-        return $shouldRefreshCache;
     }
 }

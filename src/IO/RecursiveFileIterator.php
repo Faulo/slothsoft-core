@@ -8,7 +8,7 @@ use RecursiveDirectoryIterator;
 use RecursiveFilterIterator;
 use RecursiveIteratorIterator;
 
-class RecursiveFileIterator {
+final class RecursiveFileIterator {
     
     public static function iterateDirectoriesAndFiles(string $directory): iterable {
         if (! is_dir($directory)) {
@@ -48,4 +48,3 @@ class RecursiveFileIterator {
         }
     }
 }
-

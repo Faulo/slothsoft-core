@@ -6,7 +6,7 @@ namespace Slothsoft\Core\IO\Writable\Decorators;
 use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 
-class StreamWriterMemoryCache implements StreamWriterInterface {
+final class StreamWriterMemoryCache implements StreamWriterInterface {
     
     private StreamWriterInterface $source;
     
@@ -23,4 +23,3 @@ class StreamWriterMemoryCache implements StreamWriterInterface {
         return $this->result;
     }
 }
-

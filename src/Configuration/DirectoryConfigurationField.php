@@ -6,7 +6,7 @@ namespace Slothsoft\Core\Configuration;
 use BadMethodCallException;
 use RuntimeException;
 
-class DirectoryConfigurationField extends ConfigurationField {
+final class DirectoryConfigurationField extends ConfigurationField {
     
     public function setValue($newValue) {
         $newValue = (string) $newValue;
@@ -26,4 +26,3 @@ class DirectoryConfigurationField extends ConfigurationField {
         parent::setValue($value);
     }
 }
-

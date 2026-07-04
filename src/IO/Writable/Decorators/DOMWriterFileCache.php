@@ -11,7 +11,7 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
 use SplFileInfo;
 
-class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
+final class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
     use DOMWriterElementFromDocumentTrait;
     
     private DOMWriterInterface $sourceWriter;
@@ -60,4 +60,3 @@ class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterface {
         return $shouldRefreshCache;
     }
 }
-

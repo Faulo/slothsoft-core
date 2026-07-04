@@ -8,7 +8,7 @@ use Slothsoft\Core\Storage;
 /**
  * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
  */
-class Name {
+final class Name {
     
     const GENERATE_URI = 'http://listofrandomnames.com/index.cfm';
     

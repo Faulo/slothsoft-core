@@ -8,7 +8,7 @@ use DOMDocument;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
 
-class DOMWriterFromDocumentDelegate implements DOMWriterInterface {
+final class DOMWriterFromDocumentDelegate implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
     
     private Closure $delegate;
@@ -27,4 +27,3 @@ class DOMWriterFromDocumentDelegate implements DOMWriterInterface {
         return $this->result;
     }
 }
-

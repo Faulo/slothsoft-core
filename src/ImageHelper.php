@@ -10,7 +10,7 @@ use SplFileInfo;
 /**
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
-class ImageHelper {
+final class ImageHelper {
     
     public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = -1): void {
         FileSystem::ensureDirectory($targetFile->getPath());

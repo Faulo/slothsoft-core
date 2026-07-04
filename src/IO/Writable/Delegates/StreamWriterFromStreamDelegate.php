@@ -7,7 +7,7 @@ use Closure;
 use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\StreamWriterInterface;
 
-class StreamWriterFromStreamDelegate implements StreamWriterInterface {
+final class StreamWriterFromStreamDelegate implements StreamWriterInterface {
     
     private Closure $delegate;
     
@@ -25,4 +25,3 @@ class StreamWriterFromStreamDelegate implements StreamWriterInterface {
         return $this->result;
     }
 }
-

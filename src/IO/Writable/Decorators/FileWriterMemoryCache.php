@@ -6,7 +6,7 @@ namespace Slothsoft\Core\IO\Writable\Decorators;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
-class FileWriterMemoryCache implements FileWriterInterface {
+final class FileWriterMemoryCache implements FileWriterInterface {
     
     private FileWriterInterface $source;
     
@@ -23,4 +23,3 @@ class FileWriterMemoryCache implements FileWriterInterface {
         return $this->result;
     }
 }
-

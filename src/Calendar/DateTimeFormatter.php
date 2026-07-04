@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\Calendar;
 
-class DateTimeFormatter {
+final class DateTimeFormatter {
     
     const FORMAT_DATETIME = 'd.m.y H:i:s';
     
@@ -15,4 +15,3 @@ class DateTimeFormatter {
     
     const FORMAT_ATOM = DATE_ATOM;
 }
-

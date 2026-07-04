@@ -5,6 +5,5 @@ namespace Slothsoft\Core\Configuration;
 
 use LogicException;
 
-class ConfigurationRequiredException extends LogicException {
+final class ConfigurationRequiredException extends LogicException {
 }
-

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
 declare(strict_types = 1);
 
 namespace Slothsoft\Core;
@@ -9,7 +10,7 @@ use IteratorAggregate;
 use ReturnTypeWillChange;
 use Traversable;
 
-class CascadingDictionary implements ArrayAccess, IteratorAggregate {
+final class CascadingDictionary implements ArrayAccess, IteratorAggregate {
     
     private array $values = [];
     
@@ -58,4 +59,3 @@ class CascadingDictionary implements ArrayAccess, IteratorAggregate {
         return new ArrayIterator($this->values);
     }
 }
-

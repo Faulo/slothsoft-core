@@ -7,7 +7,7 @@ use Closure;
 use Generator;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
-class ChunkWriterFromChunkWriterDelegate implements ChunkWriterInterface {
+final class ChunkWriterFromChunkWriterDelegate implements ChunkWriterInterface {
     
     private Closure $delegate;
     
@@ -29,4 +29,3 @@ class ChunkWriterFromChunkWriterDelegate implements ChunkWriterInterface {
         return $this->result;
     }
 }
-

@@ -11,7 +11,7 @@ use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 use SplFileInfo;
 
-class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface {
+final class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface {
     
     private ChunkWriterInterface $sourceWriter;
     
@@ -69,4 +69,3 @@ class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInterface 
         return $shouldRefreshCache;
     }
 }
-

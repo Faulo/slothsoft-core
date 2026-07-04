@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\IO;
 
-class Memory {
+final class Memory {
     
     const ONE_BYTE = 1;
     
@@ -13,4 +13,3 @@ class Memory {
     
     const ONE_GIGABYTE = 1073741824;
 }
-

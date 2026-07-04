@@ -6,7 +6,7 @@ namespace Slothsoft\Core;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
 
-class ServerEnvironment {
+final class ServerEnvironment {
     
     private static function rootDirectory(): ConfigurationField {
         static $field;
@@ -88,4 +88,3 @@ class ServerEnvironment {
         return self::hostName()->getValue();
     }
 }
-

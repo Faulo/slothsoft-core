@@ -6,7 +6,7 @@ namespace Slothsoft\Core\Configuration;
 use BadMethodCallException;
 use Slothsoft\Core\EphemeralStorageInterface;
 
-class StorageConfigurationField extends ConfigurationField {
+final class StorageConfigurationField extends ConfigurationField {
     
     public function setValue($newValue) {
         if ($newValue instanceof EphemeralStorageInterface) {
@@ -16,4 +16,3 @@ class StorageConfigurationField extends ConfigurationField {
         }
     }
 }
-

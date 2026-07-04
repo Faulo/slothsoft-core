@@ -5,7 +5,7 @@ namespace Slothsoft\Core\Configuration;
 
 use BadMethodCallException;
 
-class FileConfigurationField extends ConfigurationField {
+final class FileConfigurationField extends ConfigurationField {
     
     public function setValue($newValue) {
         $newValue = (string) $newValue;
@@ -15,4 +15,3 @@ class FileConfigurationField extends ConfigurationField {
         parent::setValue($newValue);
     }
 }
-

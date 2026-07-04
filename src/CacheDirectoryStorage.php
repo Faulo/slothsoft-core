@@ -6,11 +6,11 @@ namespace Slothsoft\Core;
 use DOMDocument;
 use DOMNode;
 
-class CacheDirectoryStorage implements EphemeralStorageInterface {
+final class CacheDirectoryStorage implements EphemeralStorageInterface {
     
     protected static DOMHelper $dom;
     
-    protected static function _DOMHelper() {
+    protected static function _DOMHelper() :DOMHelper{
         if (! isset(self::$dom)) {
             self::$dom = new DOMHelper();
         }

@@ -9,7 +9,7 @@ use Exception;
 /**
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
-class Image {
+final class Image {
     
     const IRFANVIEW_ACTIVE = true;
     

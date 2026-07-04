@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\Calendar;
 
-class Seconds {
+final class Seconds {
     
     const USLEEP_FACTOR = 1000000;
     
@@ -27,4 +27,3 @@ class Seconds {
     
     const DECADE = 315360000;
 }
-

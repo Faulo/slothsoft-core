@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\IO\Sanitizer;
 
-class StringSanitizer implements SanitizerInterface {
+final class StringSanitizer implements SanitizerInterface {
     
     private string $default;
     

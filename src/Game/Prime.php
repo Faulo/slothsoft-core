@@ -6,7 +6,7 @@ namespace Slothsoft\Core\Game;
 /**
  * @deprecated Included for historical compatibility only. The Game API is out of support and should not be used in new code.
  */
-class Prime {
+final class Prime {
     
     public static function getPrimeList($size) {
         $ret = [];

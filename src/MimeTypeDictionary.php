@@ -10,7 +10,7 @@ use DOMDocument;
  * @author Daniel Schulz
  *
  */
-class MimeTypeDictionary {
+final class MimeTypeDictionary {
     
     const FILE_MIME = __DIR__ . '/../mimeTypes.xml';
     

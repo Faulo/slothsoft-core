@@ -22,7 +22,7 @@ use SplFileInfo;
  * @author Daniel Schulz
  *
  */
-class XsltFactory {
+final class XsltFactory {
     
     const PROCESSOR_PHP = 'php';
     

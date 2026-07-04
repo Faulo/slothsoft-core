@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Writable\Decorators;
 
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
-class StringWriterMemoryCache implements StringWriterInterface {
+final class StringWriterMemoryCache implements StringWriterInterface {
     
     private StringWriterInterface $source;
     
@@ -22,4 +22,3 @@ class StringWriterMemoryCache implements StringWriterInterface {
         return $this->result;
     }
 }
-

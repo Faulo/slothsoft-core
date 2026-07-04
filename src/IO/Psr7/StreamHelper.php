@@ -8,7 +8,7 @@ use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Memory;
 use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
-class StreamHelper {
+final class StreamHelper {
     
     public static function cacheStream(StreamInterface $input, $chunkSize = Memory::ONE_KILOBYTE): StreamInterface {
         $cache = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
@@ -40,4 +40,3 @@ class StreamHelper {
         return new Stream($cache);
     }
 }
-

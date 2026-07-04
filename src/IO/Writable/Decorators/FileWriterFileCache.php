@@ -7,7 +7,7 @@ use Closure;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
-class FileWriterFileCache implements FileWriterInterface {
+final class FileWriterFileCache implements FileWriterInterface {
     
     private FileWriterInterface $sourceWriter;
     
@@ -44,4 +44,3 @@ class FileWriterFileCache implements FileWriterInterface {
         return $shouldRefreshCache;
     }
 }
-

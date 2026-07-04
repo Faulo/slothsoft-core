@@ -12,7 +12,7 @@ use SplFileInfo;
  * @author Daniel Schulz
  *
  */
-class FileInput implements InputInterface {
+final class FileInput implements InputInterface {
     
     private SplFileInfo $content;
     

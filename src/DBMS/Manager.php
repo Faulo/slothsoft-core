@@ -11,7 +11,7 @@ use Slothsoft\Core\ServerEnvironment;
 /**
  * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
  */
-class Manager {
+final class Manager {
     
     private static function logEnabled(): ConfigurationField {
         static $field;

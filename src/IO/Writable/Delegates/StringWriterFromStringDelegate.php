@@ -6,7 +6,7 @@ namespace Slothsoft\Core\IO\Writable\Delegates;
 use Closure;
 use Slothsoft\Core\IO\Writable\StringWriterInterface;
 
-class StringWriterFromStringDelegate implements StringWriterInterface {
+final class StringWriterFromStringDelegate implements StringWriterInterface {
     
     private Closure $delegate;
     
@@ -24,4 +24,3 @@ class StringWriterFromStringDelegate implements StringWriterInterface {
         return $this->result;
     }
 }
-

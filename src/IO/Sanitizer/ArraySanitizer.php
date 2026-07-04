@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\IO\Sanitizer;
 
-class ArraySanitizer implements SanitizerInterface {
+final class ArraySanitizer implements SanitizerInterface {
     
     private array $default;
     

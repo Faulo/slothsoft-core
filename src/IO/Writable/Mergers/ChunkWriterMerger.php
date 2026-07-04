@@ -6,7 +6,7 @@ namespace Slothsoft\Core\IO\Writable\Mergers;
 use Generator;
 use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
-class ChunkWriterMerger implements ChunkWriterInterface {
+final class ChunkWriterMerger implements ChunkWriterInterface {
     
     private array $writers;
     
@@ -20,4 +20,3 @@ class ChunkWriterMerger implements ChunkWriterInterface {
         }
     }
 }
-

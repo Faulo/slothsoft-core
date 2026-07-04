@@ -9,7 +9,7 @@ use DOMElement;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
 
-class DOMWriterFromElementDelegate implements DOMWriterInterface {
+final class DOMWriterFromElementDelegate implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
     
     private Closure $delegate;
@@ -28,4 +28,3 @@ class DOMWriterFromElementDelegate implements DOMWriterInterface {
         return $this->result->ownerDocument === $targetDoc ? $this->result : $targetDoc->importNode($this->result, true);
     }
 }
-

@@ -15,7 +15,7 @@ use Slothsoft\Core\IO\Writable\Traits\DOMWriterDocumentFromElementTrait;
  * @author Daniel Schulz
  *
  */
-class LeanElement implements DOMWriterInterface {
+final class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
     
     public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array {
@@ -132,6 +132,7 @@ class LeanElement implements DOMWriterInterface {
                 return $child;
             }
         }
+        return null;
     }
     
     public function toElement(DOMDocument $targetDoc): DOMElement {
@@ -167,4 +168,3 @@ class LeanElement implements DOMWriterInterface {
         $this->children = new Vector((array) $data[2] ?? []);
     }
 }
-

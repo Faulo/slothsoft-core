@@ -7,7 +7,7 @@ use DOMDocument;
 use InvalidArgumentException;
 use Slothsoft\Core\FileSystem;
 
-class FileInfoFactory {
+final class FileInfoFactory {
     
     public static function createTempFile(): FileInfo {
         return self::createFromPath(temp_file(__CLASS__));
@@ -47,4 +47,3 @@ class FileInfoFactory {
         return self::createFromPath($tmpName);
     }
 }
-

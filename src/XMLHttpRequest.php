@@ -25,7 +25,7 @@ use w3c\XMLHttpRequestEventTarget;
  * @since 2012-10-19
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
-class XMLHttpRequest implements \w3c\XMLHttpRequest {
+final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     const NEWLINE = "
 ";

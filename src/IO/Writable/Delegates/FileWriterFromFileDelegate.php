@@ -7,7 +7,7 @@ use Closure;
 use Slothsoft\Core\IO\Writable\FileWriterInterface;
 use SplFileInfo;
 
-class FileWriterFromFileDelegate implements FileWriterInterface {
+final class FileWriterFromFileDelegate implements FileWriterInterface {
     
     private Closure $delegate;
     
@@ -25,4 +25,3 @@ class FileWriterFromFileDelegate implements FileWriterInterface {
         return $this->result;
     }
 }
-

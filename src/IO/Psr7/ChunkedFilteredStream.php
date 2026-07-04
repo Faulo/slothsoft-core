@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\IO\Psr7;
 
-class ChunkedFilteredStream extends AbstractFilteredStream {
+final class ChunkedFilteredStream extends AbstractFilteredStream {
     
     protected function processHeader(): string {
         return '';
@@ -17,4 +17,3 @@ class ChunkedFilteredStream extends AbstractFilteredStream {
         return "0\r\n\r\n";
     }
 }
-

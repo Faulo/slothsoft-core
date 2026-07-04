@@ -6,7 +6,7 @@ namespace Slothsoft\Core\IO\Psr7;
 use Psr\Http\Message\StreamInterface;
 use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
-class ZlibFilteredStreamFactory implements FilteredStreamWriterInterface {
+final class ZlibFilteredStreamFactory implements FilteredStreamWriterInterface {
     
     private int $zlibCoding;
     

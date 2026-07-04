@@ -7,7 +7,7 @@ use DOMDocument;
 use Slothsoft\Core\IO\Writable\DOMWriterInterface;
 use Slothsoft\Core\IO\Writable\Traits\DOMWriterElementFromDocumentTrait;
 
-class DOMWriterMemoryCache implements DOMWriterInterface {
+final class DOMWriterMemoryCache implements DOMWriterInterface {
     use DOMWriterElementFromDocumentTrait;
     
     private DOMWriterInterface $source;
@@ -25,4 +25,3 @@ class DOMWriterMemoryCache implements DOMWriterInterface {
         return $this->result;
     }
 }
-

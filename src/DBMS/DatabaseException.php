@@ -11,5 +11,5 @@ use Exception;
  * @author Daniel Schulz
  * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
  */
-class DatabaseException extends Exception {
+final class DatabaseException extends Exception {
 }

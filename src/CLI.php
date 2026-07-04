@@ -7,7 +7,7 @@ use Slothsoft\Core\Configuration\ConfigurationField;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
-class CLI {
+final class CLI {
     
     private static function totalTimeout(): ConfigurationField {
         static $field;

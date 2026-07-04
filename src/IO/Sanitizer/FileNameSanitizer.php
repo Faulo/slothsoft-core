@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Sanitizer;
 
 use Slothsoft\Core\FileSystem;
 
-class FileNameSanitizer implements SanitizerInterface {
+final class FileNameSanitizer implements SanitizerInterface {
     
     private string $default;
     

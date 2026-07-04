@@ -7,7 +7,7 @@ use DOMXPath;
 /**
  * @deprecated Included for historical compatibility only. This API is out of support and should not be used in new code.
  */
-class WebCrawler {
+final class WebCrawler {
     
     public $maxDepth = 0;
     

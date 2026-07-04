@@ -5,7 +5,7 @@ namespace Slothsoft\Core\IO\Psr7;
 
 use Psr\Http\Message\StreamInterface;
 
-class ZlibFilteredStream extends AbstractFilteredStream {
+final class ZlibFilteredStream extends AbstractFilteredStream {
     
     private int $zlibCoding;
     

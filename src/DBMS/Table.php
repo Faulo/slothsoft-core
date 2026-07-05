@@ -20,7 +20,7 @@ final class Table {
      * @param Database $db
      * @param string $tableName
      */
-    public function __construct(Database $db, $tableName) {
+    public function __construct(Database $db, string $tableName) {
         $this->db = $db;
         $this->name = $tableName;
     }
@@ -28,12 +28,12 @@ final class Table {
     /**
      * @return string
      */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
     
     /**
-     * @return bool|null
+     * @return ?bool
      */
     public function tableExists(): ?bool {
         return $this->db->tableExists($this->name);
@@ -41,10 +41,10 @@ final class Table {
     
     /**
      * @param string $newTableName
-     * @param string|null $newDbName
+     * @param ?string $newDbName
      * @return bool
      */
-    public function tableMove($newTableName, $newDbName = null) {
+    public function tableMove(string $newTableName, ?string $newDbName = null): bool {
         return $this->db->tableMove($this->name, $newTableName, $newDbName);
     }
     
@@ -56,55 +56,55 @@ final class Table {
      * @param array $options
      * @return void
      */
-    public function createTable(array $cols, array $keys, array $options = []) {
+    public function createTable(array $cols, array $keys, array $options = []): void {
         $this->db->createTable($this->name, $cols, $keys, $options);
     }
     
     /**
-     * @param mixed $columnQuery
-     * @param string $sqlString
+     * @param array|string|bool $columnQuery
+     * @param array|string $sqlQuery
      * @param string $sqlSuffix
-     * @return array|null
+     * @return ?array
      */
-    public function select($columnQuery = true, $sqlString = '', $sqlSuffix = '') {
-        return $this->db->select($this->name, $columnQuery, $sqlString, $sqlSuffix);
+    public function select($columnQuery = true, $sqlQuery = '', string $sqlSuffix = ''): ?array {
+        return $this->db->select($this->name, $columnQuery, $sqlQuery, $sqlSuffix);
     }
     
     /**
      * @param array $insertData
      * @param array $onDuplicateData
-     * @return int|null
+     * @return ?int
      */
-    public function insert($insertData = [], $onDuplicateData = []) {
+    public function insert(array $insertData = [], array $onDuplicateData = []): ?int {
         return $this->db->insert($this->name, $insertData, $onDuplicateData);
     }
     
     /**
      * @param array $arr
-     * @param mixed $id
-     * @return int|null
+     * @param mixed $idQuery
+     * @return ?int
      */
-    public function update($arr = [], $id = false) {
-        return $this->db->update($this->name, $arr, $id);
+    public function update(array $arr = [], $idQuery = false): ?int {
+        return $this->db->update($this->name, $arr, $idQuery);
     }
     
     /**
-     * @param mixed $id
-     * @return int|null
+     * @param mixed $idQuery
+     * @return ?int
      */
-    public function delete($id = false) {
-        return $this->db->delete($this->name, $id);
+    public function delete($idQuery = false): ?int {
+        return $this->db->delete($this->name, $idQuery);
     }
     
     /**
-     * @return array|null
+     * @return ?array
      */
     public function getColumns(): ?array {
         return $this->db->getColumns($this->name);
     }
     
     /**
-     * @return bool|null
+     * @return ?bool
      */
     public function optimize(): ?bool {
         return $this->db->optimize($this->name);
@@ -114,7 +114,7 @@ final class Table {
      * @param string $string
      * @return string
      */
-    public function escape($string) {
+    public function escape(string $string): string {
         return $this->db->escape($string);
     }
     
@@ -122,7 +122,7 @@ final class Table {
      * @param array|string $index
      * @return void
      */
-    public function addIndex($index) {
+    public function addIndex($index): void {
         $this->db->addIndex($this->name, $index);
     }
 }

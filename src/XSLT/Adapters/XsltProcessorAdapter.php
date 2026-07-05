@@ -17,7 +17,7 @@ use XSLTProcessor;
 final class XsltProcessorAdapter extends GenericAdapter {
     
     /**
-     * @param SplFileInfo|null $outputFile
+     * @param ?SplFileInfo $outputFile
      * @return SplFileInfo
      */
     public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo {

@@ -211,7 +211,7 @@ final class DOMHelper {
     
     /**
      * @param string $xmlCode
-     * @param DOMDocument|null $targetDoc
+     * @param ?DOMDocument $targetDoc
      * @param bool $asHTML
      * @return DOMDocumentFragment
      * @throws RuntimeException
@@ -341,7 +341,7 @@ final class DOMHelper {
      * @param mixed $source
      * @param mixed $template
      * @param array $param
-     * @param SplFileInfo|null $output
+     * @param ?SplFileInfo $output
      * @return SplFileInfo
      */
     public function transformToFile($source, $template, array $param = [], ?SplFileInfo $output = null): SplFileInfo {
@@ -358,7 +358,7 @@ final class DOMHelper {
      * @param mixed $source
      * @param mixed $template
      * @param array $param
-     * @param DOMDocument|null $targetDoc
+     * @param ?DOMDocument $targetDoc
      * @return DOMDocumentFragment
      */
     public function transformToFragment($source, $template, array $param = [], ?DOMDocument $targetDoc = null): DOMDocumentFragment {

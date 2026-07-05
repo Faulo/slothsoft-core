@@ -20,7 +20,7 @@ final class DOMWriterFromFileWriter implements DOMWriterInterface {
     
     /**
      * @param FileWriterInterface $source
-     * @param string|null $documentURI
+     * @param ?string $documentURI
      * @param bool $isHtml
      */
     public function __construct(FileWriterInterface $source, ?string $documentURI = null, bool $isHtml = false) {

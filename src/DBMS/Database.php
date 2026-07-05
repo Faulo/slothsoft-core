@@ -28,13 +28,13 @@ final class Database {
     /**
      * @return string
      */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
     
     /**
      * @param string $tableName
-     * @return bool|null
+     * @return ?bool
      */
     public function tableExists(string $tableName): ?bool {
         return $this->client->tableExists($this->name, $tableName);
@@ -43,10 +43,10 @@ final class Database {
     /**
      * @param string $oldTableName
      * @param string $newTableName
-     * @param string $newDbName
+     * @param ?string $newDbName
      * @return bool
      */
-    public function tableMove($oldTableName, $newTableName, $newDbName = null) {
+    public function tableMove(string $oldTableName, string $newTableName, ?string $newDbName = null): bool {
         if (! $newDbName) {
             $newDbName = $this->name;
         }
@@ -54,7 +54,7 @@ final class Database {
     }
     
     /**
-     * @return bool|null
+     * @return ?bool
      */
     public function databaseExists(): ?bool {
         return $this->client->databaseExists($this->name);
@@ -63,7 +63,7 @@ final class Database {
     /**
      * @return array
      */
-    public function getTableList() {
+    public function getTableList(): array {
         return $this->client->getTableList($this->name);
     }
     
@@ -71,21 +71,21 @@ final class Database {
      * @param string $tableName
      * @return Table
      */
-    public function getTable($tableName) {
+    public function getTable(string $tableName): Table {
         return Manager::getTable($this->name, $tableName);
     }
     
     /**
      * @return void
      */
-    public function createDatabase() {
+    public function createDatabase(): void {
         $this->client->createDatabase($this->name);
     }
     
     /**
      * @return void
      */
-    public function deleteDatabase() {
+    public function deleteDatabase(): void {
         $this->client->deleteDatabase($this->name);
     }
     
@@ -96,63 +96,63 @@ final class Database {
      * @param array $options
      * @return void
      */
-    public function createTable($tableName, array $cols, array $keys, array $options = []) {
+    public function createTable(string $tableName, array $cols, array $keys, array $options = []): void {
         $this->client->createTable($this->name, $tableName, $cols, $keys, $options);
     }
     
     /**
      * @param string $tableName
-     * @param mixed $columnQuery
-     * @param string $sqlString
+     * @param array|string|bool $columnQuery
+     * @param array|string $sqlQuery
      * @param string $sqlSuffix
-     * @return array|null
+     * @return ?array
      */
-    public function select($tableName, $columnQuery = true, $sqlString = '', $sqlSuffix = '') {
-        return $this->client->select($this->name, $tableName, $columnQuery, $sqlString, $sqlSuffix);
+    public function select(string $tableName, $columnQuery = true, $sqlQuery = '', string $sqlSuffix = ''): ?array {
+        return $this->client->select($this->name, $tableName, $columnQuery, $sqlQuery, $sqlSuffix);
     }
     
     /**
      * @param string $tableName
      * @param array $insertData
      * @param array $onDuplicateData
-     * @return int|null
+     * @return ?int
      */
-    public function insert($tableName, $insertData = [], $onDuplicateData = []) {
+    public function insert(string $tableName, array $insertData = [], array $onDuplicateData = []): ?int {
         return $this->client->insert($this->name, $tableName, $insertData, $onDuplicateData);
     }
     
     /**
      * @param string $tableName
      * @param array $arr
-     * @param mixed $id
-     * @return int|null
+     * @param mixed $idQuery
+     * @return ?int
      */
-    public function update($tableName, $arr = [], $id = false) {
-        return $this->client->update($this->name, $tableName, $arr, $id);
+    public function update(string $tableName, array $arr = [], $idQuery = false): ?int {
+        return $this->client->update($this->name, $tableName, $arr, $idQuery);
     }
     
     /**
      * @param string $tableName
-     * @param mixed $id
-     * @return int|null
+     * @param mixed $idQuery
+     * @return ?int
      */
-    public function delete($tableName, $id = false) {
-        return $this->client->delete($this->name, $tableName, $id);
+    public function delete(string $tableName, $idQuery = false): ?int {
+        return $this->client->delete($this->name, $tableName, $idQuery);
     }
     
     /**
      * @param string $tableName
-     * @return array|null
+     * @return ?array
      */
-    public function getColumns($tableName): ?array {
+    public function getColumns(string $tableName): ?array {
         return $this->client->getColumns($this->name, $tableName);
     }
     
     /**
-     * @param string $tableName
-     * @return bool|null
+     * @param ?string $tableName
+     * @return ?bool
      */
-    public function optimize($tableName = null): ?bool {
+    public function optimize(?string $tableName = null): ?bool {
         if ($tableName) {
             return $this->client->optimize($this->name, $tableName);
         } else {
@@ -168,7 +168,7 @@ final class Database {
      * @param string $string
      * @return string
      */
-    public function escape($string) {
+    public function escape(string $string): string {
         return $this->client->escape($string);
     }
     
@@ -177,14 +177,14 @@ final class Database {
      * @param array|string $index
      * @return void
      */
-    public function addIndex($tableName, $index) {
+    public function addIndex(string $tableName, $index): void {
         $this->client->addIndex($this->name, $tableName, $index);
     }
     
     /**
      * @return void
      */
-    public function resetCharset() {
+    public function resetCharset(): void {
         $this->client->resetCharset($this->name);
         $tableList = $this->getTableList();
         foreach ($tableList as $table) {

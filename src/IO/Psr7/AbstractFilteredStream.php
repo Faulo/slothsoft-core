@@ -48,7 +48,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
     }
     
     /**
-     * @return resource|null
+     * @return ?resource
      */
     public function detach() {
         return $this->stream->detach();
@@ -106,7 +106,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
     }
     
     /**
-     * @return int|null
+     * @return ?int
      */
     public function getSize(): ?int {
         if ($this->isSeekable()) {
@@ -163,7 +163,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
     }
     
     /**
-     * @param string|null $key
+     * @param ?string $key
      * @return array|mixed|null
      */
     public function getMetadata(?string $key = null) {

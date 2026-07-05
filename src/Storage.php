@@ -117,7 +117,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return null|DOMDocument
+     * @return ?DOMDocument
      * @throws Exception
      */
     public static function loadExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?DOMDocument {
@@ -162,7 +162,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return NULL|DOMXPath
+     * @return ?DOMXPath
      * @throws Exception
      */
     public static function loadExternalXPath(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?DOMXPath {
@@ -179,7 +179,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return NULL|mixed
+     * @return ?mixed
      * @throws Exception
      */
     public static function loadExternalJSON(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
@@ -204,7 +204,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return NULL|string
+     * @return ?string
      * @throws Exception
      */
     public static function loadExternalFile(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?string {
@@ -238,7 +238,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return NULL|array
+     * @return ?array
      * @throws Exception
      */
     public static function loadExternalHeader(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?array {
@@ -592,7 +592,7 @@ final class Storage implements EphemeralStorageInterface {
      *
      * @param string $name
      * @param int $modifyTime
-     * @return NULL|mixed
+     * @return ?mixed
      */
     public function retrieve(string $name, int $modifyTime): ?string {
         $ret = null;
@@ -610,8 +610,8 @@ final class Storage implements EphemeralStorageInterface {
     /**
      * @param string $name
      * @param int $modifyTime
-     * @param DOMDocument|null $targetDoc
-     * @return DOMNode|null
+     * @param ?DOMDocument $targetDoc
+     * @return ?DOMNode
      */
     public function retrieveXML(string $name, int $modifyTime, ?DOMDocument $targetDoc = null): ?DOMNode {
         $ret = null;
@@ -626,7 +626,7 @@ final class Storage implements EphemeralStorageInterface {
      *
      * @param string $name
      * @param int $modifyTime
-     * @return NULL|DOMDocument
+     * @return ?DOMDocument
      */
     public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument {
         $retDoc = null;

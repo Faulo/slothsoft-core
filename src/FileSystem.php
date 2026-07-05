@@ -182,8 +182,8 @@ abstract class FileSystem {
     
     /**
      * @param string $path
-     * @param DOMDocument|null $dataDoc
-     * @return DOMNode|null
+     * @param ?DOMDocument $dataDoc
+     * @return ?DOMNode
      * @throws DOMException
      * @throws Exception
      */
@@ -312,7 +312,7 @@ abstract class FileSystem {
     
     /**
      * @param string $fileName
-     * @return int|null
+     * @return ?int
      */
     public static function size(string $fileName): ?int {
         $size = null;
@@ -326,7 +326,7 @@ abstract class FileSystem {
     
     /**
      * @param string $fileName
-     * @return float|null
+     * @return ?float
      */
     public static function free(string $fileName): ?float {
         $space = disk_free_space($fileName);
@@ -335,7 +335,7 @@ abstract class FileSystem {
     
     /**
      * @param string $fileName
-     * @return string|null
+     * @return ?string
      */
     public static function mime(string $fileName): ?string {
         $fInfo = new FInfo(FILEINFO_MIME_TYPE);
@@ -353,7 +353,7 @@ abstract class FileSystem {
     
     /**
      * @param string $fileName
-     * @return int|null
+     * @return ?int
      */
     public static function changetime(string $fileName): ?int {
         // $time = filemtime($fileName);
@@ -368,7 +368,7 @@ abstract class FileSystem {
     
     /**
      * @param string $fileName
-     * @return int|null
+     * @return ?int
      */
     public static function maketime(string $fileName): ?int {
         // $time = filemtime($fileName);
@@ -433,7 +433,7 @@ abstract class FileSystem {
             ':',
             '\\',
             '/',
-            '⁄',
+            '???',
             '*',
             '"',
             '?',
@@ -638,7 +638,7 @@ abstract class FileSystem {
     
     /**
      * @param string $dirPath
-     * @param string|null $rootPath
+     * @param ?string $rootPath
      * @return mixed
      */
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
@@ -866,7 +866,7 @@ abstract class FileSystem {
      * @param string $delimiter
      * @param string $enclosure
      * @param string $escape
-     * @return array|null
+     * @return ?array
      */
     public static function loadCSV(string $path, string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): ?array {
         $ret = null;

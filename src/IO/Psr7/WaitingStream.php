@@ -19,7 +19,7 @@ final class WaitingStream implements StreamInterface {
     /**
      * @param StreamInterface $stream
      * @param int $waitInMicroseconds
-     * @param array|null $heartbeat
+     * @param ?array $heartbeat
      */
     public function __construct(StreamInterface $stream, int $waitInMicroseconds, ?array $heartbeat = null) {
         $this->stream = $stream;
@@ -42,14 +42,14 @@ final class WaitingStream implements StreamInterface {
     }
     
     /**
-     * @return resource|null
+     * @return ?resource
      */
     public function detach() {
         return $this->stream->detach();
     }
     
     /**
-     * @return int|null
+     * @return ?int
      */
     public function getSize(): ?int {
         return $this->stream->getSize();
@@ -81,7 +81,7 @@ final class WaitingStream implements StreamInterface {
     }
     
     /**
-     * @param string|null $key
+     * @param ?string $key
      * @return array|mixed|null
      */
     public function getMetadata(?string $key = null) {

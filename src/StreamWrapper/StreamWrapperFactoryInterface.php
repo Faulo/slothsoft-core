@@ -10,7 +10,7 @@ interface StreamWrapperFactoryInterface {
      * @param string $url
      * @param string $mode
      * @param int $options
-     * @return StreamWrapperInterface|null
+     * @return ?StreamWrapperInterface
      */
     public function createStreamWrapper(string $url, string $mode, int $options);
     

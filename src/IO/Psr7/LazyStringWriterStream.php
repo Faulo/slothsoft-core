@@ -74,8 +74,8 @@ final class LazyStringWriterStream implements StreamInterface {
     }
     
     /**
-     * @param string|null $key
-     * @return array|null
+     * @param ?string $key
+     * @return ?array
      */
     public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;

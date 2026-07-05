@@ -103,7 +103,7 @@ final class CLI {
     
     /**
      * @param string $command
-     * @param string|null $workingDirectory
+     * @param ?string $workingDirectory
      * @return int
      */
     public static function execute(string $command, ?string $workingDirectory = null): int {

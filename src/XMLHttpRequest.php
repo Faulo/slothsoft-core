@@ -136,8 +136,8 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
      * @param string $method
      * @param string $url
      * @param bool $async
-     * @param string|null $user
-     * @param string|null $password
+     * @param ?string $user
+     * @param ?string $password
      * @return void
      */
     public function open(string $method, string $url, bool $async = true, ?string $user = null, ?string $password = null): void {

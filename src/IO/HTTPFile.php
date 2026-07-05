@@ -134,7 +134,7 @@ final class HTTPFile implements FileWriterInterface {
      *
      * @param string $phpCommand
      * @param string $fileName
-     * @return NULL|HTTPFile
+     * @return ?HTTPFile
      */
     public static function createFromPHP(string $phpCommand, string $fileName = ''): ?HTTPFile {
         if ($fileName === '') {
@@ -153,7 +153,7 @@ final class HTTPFile implements FileWriterInterface {
      *
      * @param string $url
      * @param string $fileName
-     * @return NULL|HTTPFile
+     * @return ?HTTPFile
      */
     public static function createFromURL(string $url, string $fileName = ''): ?HTTPFile {
         if ($fileName === '') {
@@ -185,7 +185,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param string $filePath
      * @param string $url
      * @param int $headerCache
-     * @return NULL|HTTPFile
+     * @return ?HTTPFile
      */
     public static function createFromDownload(string $filePath, string $url, int $headerCache = Seconds::YEAR): ?HTTPFile {
         $ret = self::verifyDownload($filePath, $url, $headerCache);

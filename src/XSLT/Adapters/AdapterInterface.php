@@ -34,7 +34,7 @@ interface AdapterInterface {
     public function setParameters(array $param);
     
     /**
-     * @param SplFileInfo|null $outputFile
+     * @param ?SplFileInfo $outputFile
      * @return SplFileInfo
      */
     public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo;

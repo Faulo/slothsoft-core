@@ -24,22 +24,22 @@ interface EphemeralStorageInterface {
     /**
      * @param string $name
      * @param int $modifyTime
-     * @return string|null
+     * @return ?string
      */
     public function retrieve(string $name, int $modifyTime): ?string;
     
     /**
      * @param string $name
      * @param int $modifyTime
-     * @param DOMDocument|null $targetDoc
-     * @return DOMNode|null
+     * @param ?DOMDocument $targetDoc
+     * @return ?DOMNode
      */
     public function retrieveXML(string $name, int $modifyTime, ?DOMDocument $targetDoc = null): ?DOMNode;
     
     /**
      * @param string $name
      * @param int $modifyTime
-     * @return DOMDocument|null
+     * @return ?DOMDocument
      */
     public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument;
     

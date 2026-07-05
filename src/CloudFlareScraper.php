@@ -33,7 +33,7 @@ final class CloudFlareScraper {
     
     /**
      * @param mixed $uri
-     * @return string|null
+     * @return ?string
      */
     public function getFile($uri): ?string {
         $req = $this->_httpRequest($uri);
@@ -42,7 +42,7 @@ final class CloudFlareScraper {
     
     /**
      * @param mixed $uri
-     * @return DOMXPath|null
+     * @return ?DOMXPath
      */
     public function getXPath($uri): ?DOMXPath {
         $req = $this->_httpRequest($uri);

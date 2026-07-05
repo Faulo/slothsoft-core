@@ -31,7 +31,7 @@ final class CliAdapter extends GenericAdapter {
     /**
      * (non-PHPdoc)
      *
-     * @param SplFileInfo|null $outputFile
+     * @param ?SplFileInfo $outputFile
      * @return SplFileInfo
      * @throws RuntimeException
      * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toFile()

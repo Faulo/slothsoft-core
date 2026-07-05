@@ -20,7 +20,7 @@ final class DOMWriterFromStringWriter implements DOMWriterInterface {
     
     /**
      * @param StringWriterInterface $source
-     * @param string|null $documentURI
+     * @param ?string $documentURI
      * @param bool $isHtml
      */
     public function __construct(StringWriterInterface $source, ?string $documentURI = null, bool $isHtml = false) {

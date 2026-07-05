@@ -19,7 +19,7 @@ final class ImageHelper {
     /**
      * @param SplFileInfo $sourceFile
      * @param SplFileInfo $targetFile
-     * @param int|null $alphaColorIndex
+     * @param ?int $alphaColorIndex
      * @return void
      */
     public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = -1): void {

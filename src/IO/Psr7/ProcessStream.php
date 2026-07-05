@@ -62,7 +62,7 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @return resource|null
+     * @return ?resource
      */
     public function detach() {
         $ret = $this->handle;
@@ -71,8 +71,8 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @param string|null $key
-     * @return array|null
+     * @param ?string $key
+     * @return ?array
      */
     public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;

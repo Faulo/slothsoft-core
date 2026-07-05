@@ -29,7 +29,7 @@ final class Manager {
      * @param bool $value
      * @return void
      */
-    public static function setLogEnabled(bool $value) {
+    public static function setLogEnabled(bool $value): void {
         self::logEnabled()->setValue($value);
     }
     
@@ -52,7 +52,7 @@ final class Manager {
      * @param string $directory
      * @return void
      */
-    public static function setLogDirectory(string $directory) {
+    public static function setLogDirectory(string $directory): void {
         self::logDirectory()->setValue($directory);
     }
     
@@ -75,7 +75,7 @@ final class Manager {
      * @return Client
      */
     public static function getClient(): Client {
-        if (! self::$client) {
+        if (! isset(self::$client)) {
             self::_createLog('Manager: creating Client...');
             self::$client = new Client();
         }
@@ -86,7 +86,7 @@ final class Manager {
      * @param string $dbName
      * @return Database
      */
-    public static function getDatabase($dbName) {
+    public static function getDatabase(string $dbName): Database {
         $dbName = mb_strtolower(trim($dbName));
         if (! isset(self::$databaseList[$dbName])) {
             self::_createLog(sprintf('Manager: creating Database %s...', $dbName));
@@ -101,7 +101,7 @@ final class Manager {
      * @param string $tableName
      * @return Table
      */
-    public static function getTable($dbName, $tableName) {
+    public static function getTable(string $dbName, string $tableName): Table {
         $dbName = mb_strtolower(trim($dbName));
         $tableName = mb_strtolower(trim($tableName));
         if (! isset(self::$tableList[$dbName])) {
@@ -118,7 +118,7 @@ final class Manager {
     /**
      * @return void
      */
-    public static function cron() {
+    public static function cron(): void {
         $infoTable = self::getTable('information_schema', 'TABLES');
         $tableList = $infoTable->select([
             'TABLE_SCHEMA',
@@ -148,10 +148,10 @@ final class Manager {
     }
     
     /**
-     * @param string  $sql
+     * @param string $sql
      * @return void
      */
-    public static function _createLog(string $sql) :void{
+    public static function _createLog(string $sql): void {
         if (self::getLogEnabled()) {
             if (strlen($sql) > self::LOG_LINELENGTH) {
                 $sql = substr($sql, 0, self::LOG_LINELENGTH) . '...';

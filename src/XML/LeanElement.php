@@ -155,7 +155,7 @@ final class LeanElement implements DOMWriterInterface {
     
     /**
      * @param string $tag
-     * @return LeanElement|null
+     * @return ?LeanElement
      */
     public function getChildByTag(string $tag): ?LeanElement {
         foreach ($this->children as $child) {

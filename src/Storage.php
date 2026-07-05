@@ -7,12 +7,10 @@ use DOMDocument;
 use DOMNode;
 use DOMXPath;
 use Exception;
-use mysqli_sql_exception;
 use Slothsoft\Core\Calendar\DateTimeFormatter;
 use Slothsoft\Core\Calendar\Seconds;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\DirectoryConfigurationField;
-use Slothsoft\Core\DBMS\DatabaseException;
 use Slothsoft\Core\DBMS\Manager;
 use Slothsoft\Core\DBMS\Table;
 
@@ -527,20 +525,20 @@ final class Storage implements EphemeralStorageInterface {
         if ($storageName) {
             $this->tableName = $storageName;
         }
-        try {
-            $this->dbmsTable = $this->getDBMSTable();
+        $this->dbmsTable = $this->getDBMSTable();
+        
+        if (! $this->dbmsTable->tableExists()) {
+            $this->install();
             if (! $this->dbmsTable->tableExists()) {
-                $this->install();
+                $this->dbmsTable = null;
             }
-        } catch (DatabaseException|mysqli_sql_exception $e) {
-            $this->dbmsTable = null;
         }
     }
     
     /**
-     * @return mixed
+     * @return Table
      */
-    protected function getDBMSTable() {
+    protected function getDBMSTable(): Table {
         return Manager::getTable($this->dbName, $this->tableName);
     }
     
@@ -581,7 +579,7 @@ final class Storage implements EphemeralStorageInterface {
         $ret = false;
         if ($this->dbmsTable) {
             $sql = sprintf('`id` = "%s" AND `modify-time` >= %d', $this->dbmsTable->escape(self::_hash($name)), $modifyTime);
-            $ret = (bool) count($this->dbmsTable->select('id', $sql));
+            $ret = (bool) count($this->dbmsTable->select('id', $sql) ?? []);
         }
         $this->_createLog('exists', $name, $ret);
         
@@ -702,10 +700,7 @@ final class Storage implements EphemeralStorageInterface {
             $insert['id'] = self::_hash($name);
             $insert['create-time'] = $this->now;
             
-            try {
-                $ret = (bool) $this->dbmsTable->insert($insert, $update);
-            } catch (DatabaseException $e) {
-            }
+            $ret = (bool) $this->dbmsTable->insert($insert, $update);
             $this->_createLog('store', $name, $ret);
         }
         

@@ -129,7 +129,7 @@ final class Manager {
                 "InnoDB",
                 "MyISAM"
             ]
-        ]);
+        ]) ?? [];
         foreach ($tableList as $table) {
             $dbName = $table['TABLE_SCHEMA'];
             $tableName = $table['TABLE_NAME'];

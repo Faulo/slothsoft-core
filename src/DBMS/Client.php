@@ -96,23 +96,41 @@ final class Client {
     
     /**
      * @return bool
-     * @throws DatabaseException
      */
     public function reconnect(): bool {
         try {
             $authority = self::getDefaultAuthority();
         } catch (ConfigurationRequiredException $e) {
-            throw new DatabaseException('Database configuration has not been set!', 0, $e);
+            $this->error('Database configuration has not been set!');
+            return false;
         }
-        $this->sqli = mysqli_init();
+        
+        $sqli = mysqli_init();
+        if (! $sqli instanceof mysqli) {
+            $this->error('Failed to initialize mysqli.');
+            return false;
+        }
+        
+        $this->sqli = $sqli;
         $this->sqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
-        @$this->sqli->real_connect($authority->server, $authority->user, $authority->password);
+        $this->connected = false;
+        
+        if (! @$this->sqli->real_connect($authority->server, $authority->user, $authority->password)) {
+            $this->error();
+            return false;
+        }
+        
         if ($this->sqli->connect_error) {
             $this->error();
+            return false;
         }
-        $this->sqli->set_charset(self::CONNECTION_CHARSET);
-        if ($this->dbName) {
-            $this->sqli->select_db($this->dbName);
+        if (! $this->sqli->set_charset(self::CONNECTION_CHARSET)) {
+            $this->error('Failed to set connection charset.');
+            return false;
+        }
+        if ($this->dbName and ! $this->sqli->select_db($this->dbName)) {
+            $this->error(sprintf('Failed to select database "%s".', $this->dbName));
+            return false;
         }
         return true;
     }
@@ -129,7 +147,6 @@ final class Client {
     
     /**
      * @return bool
-     * @throws DatabaseException
      */
     protected function connect(): bool {
         return ($this->connected and $this->sqli->ping()) or ($this->reconnect() and $this->connected = true);
@@ -138,7 +155,6 @@ final class Client {
     /**
      * @param string $dbName
      * @return ?bool
-     * @throws DatabaseException
      */
     public function setDatabase(string $dbName): ?bool {
         $ret = null;
@@ -154,13 +170,12 @@ final class Client {
      * @param string $dbName
      * @param string $tableName
      * @return ?bool
-     * @throws DatabaseException
      */
     public function tableExists(string $dbName, string $tableName): ?bool {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'tables', 'table_name', sprintf('table_schema = "%s" AND table_name = "%s"', $this->escape($dbName), $this->escape($tableName)));
-            $ret = (bool) count($ret);
+            $ret = (bool) count($ret ?? []);
         }
         return $ret;
     }
@@ -171,7 +186,6 @@ final class Client {
      * @param string $newDbName
      * @param string $newTableName
      * @return bool
-     * @throws DatabaseException
      */
     public function tableMove(string $oldDbName, string $oldTableName, string $newDbName, string $newTableName): bool {
         $oldHandle = $this->get_handle($oldDbName, $oldTableName);
@@ -183,20 +197,18 @@ final class Client {
     /**
      * @param string $dbName
      * @return ?bool
-     * @throws DatabaseException
      */
     public function databaseExists(string $dbName): ?bool {
         $ret = null;
         if ($this->connect()) {
             $ret = $this->select('information_schema', 'schemata', 'schema_name', sprintf('schema_name = "%s"', $this->escape($dbName)));
-            $ret = (bool) count($ret);
+            $ret = (bool) count($ret ?? []);
         }
         return $ret;
     }
     
     /**
      * @return ?array
-     * @throws DatabaseException
      */
     public function getDatabaseList(): ?array {
         $ret = null;
@@ -209,7 +221,6 @@ final class Client {
     /**
      * @param string $dbName
      * @return ?array
-     * @throws DatabaseException
      */
     public function getTableList(string $dbName): ?array {
         $ret = null;
@@ -222,7 +233,6 @@ final class Client {
     /**
      * @param string $dbName
      * @return void
-     * @throws DatabaseException
      */
     public function createDatabase(string $dbName): void {
         $dbHandle = $this->get_handle($dbName);
@@ -235,7 +245,6 @@ final class Client {
     /**
      * @param string $dbName
      * @return void
-     * @throws DatabaseException
      */
     public function deleteDatabase(string $dbName): void {
         $dbHandle = $this->get_handle($dbName);
@@ -252,7 +261,6 @@ final class Client {
      * @param array $keys
      * @param array $options
      * @return void
-     * @throws DatabaseException
      */
     public function createTable(string $dbName, string $tableName, array $cols, array $keys, array $options = []): void {
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -293,7 +301,6 @@ final class Client {
      * @param string $tableName
      * @param array|string $index
      * @return void
-     * @throws DatabaseException
      */
     public function addIndex(string $dbName, string $tableName, $index): void {
         if (! is_array($index)) {
@@ -316,7 +323,6 @@ final class Client {
      * @param array|string $sqlQuery
      * @param string $sqlSuffix
      * @return ?array
-     * @throws DatabaseException
      */
     public function select(string $dbName, string $tableName, $columnQuery = true, $sqlQuery = '', string $sqlSuffix = ''): ?array {
         $ret = null;
@@ -387,7 +393,6 @@ final class Client {
      * @param array $insertData
      * @param array $onDuplicateData
      * @return ?int
-     * @throws DatabaseException
      */
     public function insert(string $dbName, string $tableName, array $insertData = [], array $onDuplicateData = []): ?int {
         $ret = null;
@@ -422,7 +427,6 @@ final class Client {
      * @param array $arr
      * @param mixed $idQuery
      * @return ?int
-     * @throws DatabaseException
      */
     public function update(string $dbName, string $tableName, array $arr = [], $idQuery = false): ?int {
         $ret = null;
@@ -443,7 +447,6 @@ final class Client {
      * @param string $tableName
      * @param mixed $idQuery
      * @return ?int
-     * @throws DatabaseException
      */
     public function delete(string $dbName, string $tableName, $idQuery = false): ?int {
         $ret = null;
@@ -462,12 +465,15 @@ final class Client {
     /**
      * @param string $sqlString
      * @return mysqli_result|bool
-     * @throws DatabaseException
      */
     public function execute(string $sqlString) {
         if ($this->connect()) {
             Manager::_createLog($sqlString);
-            return $this->sqli->query($sqlString);
+            $ret = @$this->sqli->query($sqlString);
+            if ($ret === false) {
+                $this->error($sqlString);
+            }
+            return $ret;
         }
         return false;
     }
@@ -487,7 +493,6 @@ final class Client {
      * @param string $dbName
      * @param string $tableName
      * @return ?array
-     * @throws DatabaseException
      */
     public function getColumns(string $dbName, string $tableName): ?array {
         $ret = null;
@@ -512,12 +517,15 @@ final class Client {
      * @param string $dbName
      * @param string $tableName
      * @return bool
-     * @throws DatabaseException
      */
     public function optimize(string $dbName, string $tableName): bool {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $sql = sprintf('OPTIMIZE TABLE %s', $dbHandle);
         $res = $this->execute($sql);
+        if ($res === false) {
+            return false;
+        }
+        
         $ret = [];
         if ($res->num_rows > 0) {
             while ($tmp = $res->fetch_assoc()) {
@@ -535,14 +543,14 @@ final class Client {
                 $err[] = $arr['Msg_text'];
             }
         }
-        throw new DatabaseException(implode(PHP_EOL, $err));
+        $this->error(implode(PHP_EOL, $err));
+        return false;
     }
     
     /**
      * @param string $dbName
      * @param ?string $tableName
      * @return void
-     * @throws DatabaseException
      */
     public function resetCharset(string $dbName, ?string $tableName = null): void {
         $mode = null;
@@ -569,7 +577,6 @@ final class Client {
     /**
      * @param string $string
      * @return string
-     * @throws DatabaseException
      */
     public function escape(string $string): string {
         if ($this->connect()) {
@@ -581,7 +588,6 @@ final class Client {
     /**
      * @param mixed $idQuery
      * @return string
-     * @throws DatabaseException
      */
     protected function get_ids($idQuery): string {
         if (is_array($idQuery)) {
@@ -606,7 +612,6 @@ final class Client {
     /**
      * @param array $arr
      * @return string
-     * @throws DatabaseException
      */
     protected function _get_update_data(array $arr): string {
         $ret = [];
@@ -638,16 +643,19 @@ final class Client {
     /**
      * @param ?string $sql
      * @return void
-     * @throws DatabaseException
      */
     protected function error(?string $sql = null): void {
         $err = '';
         if ($sql) {
-            $err .= 'ERROR querying statement:' . PHP_EOL;
+            $err .= 'ERROR querying statement: ';
             $err .= $sql . PHP_EOL;
         } else {
-            $err .= 'ERROR while mysqling!' . PHP_EOL;
+            $err .= 'ERROR while mysqling!';
+            if (isset($this->sqli) and $this->sqli->error) {
+                $err .= sprintf(' [%s] %s', $this->sqli->errno, $this->sqli->error);
+            }
+            $err .= PHP_EOL;
         }
-        throw new DatabaseException($err);
+        Manager::_createLog($err);
     }
 }

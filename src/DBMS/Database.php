@@ -62,7 +62,7 @@ final class Database {
     /**
      * @return array
      */
-    public function getTableList(): array {
+    public function getTableList(): ?array {
         return $this->client->getTableList($this->name);
     }
     

@@ -111,8 +111,8 @@ final class LeanElement implements DOMWriterInterface {
     /**
      *
      * @param string $key
-     * @return mixed
      * @param mixed $default
+     * @return mixed
      */
     public function getAttribute(string $key, $default = null) {
         return $this->attributes[$key] ?? $default;

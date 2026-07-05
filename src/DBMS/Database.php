@@ -78,6 +78,7 @@ final class Database {
     }
     
     // CREATE DATABASE
+    
     /**
      * @return void
      */
@@ -93,6 +94,7 @@ final class Database {
     }
     
     // CREATE TABLE
+    
     /**
      * @param mixed $tableName
      * @param array $cols
@@ -118,6 +120,7 @@ final class Database {
     }
     
     // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
+    
     /**
      * @param mixed $tableName
      * @param mixed $insertData
@@ -129,6 +132,7 @@ final class Database {
     }
     
     // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
+    
     /**
      * @param mixed $tableName
      * @param mixed $arr
@@ -140,6 +144,7 @@ final class Database {
     }
     
     // DELETE FROM $table WHERE id = $id
+    
     /**
      * @param mixed $tableName
      * @param mixed $id
@@ -150,6 +155,7 @@ final class Database {
     }
     
     // SHOW COLUMNS
+    
     /**
      * @param mixed $tableName
      * @return array|null

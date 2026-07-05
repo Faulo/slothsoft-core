@@ -88,8 +88,8 @@ final class HTTPFile implements FileWriterInterface {
      *
      * @param array $content
      * @param string $fileName
-     * @return HTTPFile
      * @param array $fileList
+     * @return HTTPFile
      */
     public static function createFromFileList(array $fileList, string $fileName = ''): HTTPFile {
         if ($fileName === '') {

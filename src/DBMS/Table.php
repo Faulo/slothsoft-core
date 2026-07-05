@@ -50,6 +50,7 @@ final class Table {
     }
     
     // CREATE DATABASE
+    
     /**
      * @param array $cols
      * @param array $keys
@@ -73,6 +74,7 @@ final class Table {
     }
     
     // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
+    
     /**
      * @param mixed $insertData
      * @param mixed $onDuplicateData
@@ -83,6 +85,7 @@ final class Table {
     }
     
     // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
+    
     /**
      * @param mixed $arr
      * @param mixed $id
@@ -93,6 +96,7 @@ final class Table {
     }
     
     // DELETE FROM $table WHERE id = $id
+    
     /**
      * @param mixed $id
      * @return mixed
@@ -102,6 +106,7 @@ final class Table {
     }
     
     // SHOW COLUMNS
+    
     /**
      * @return array|null
      */

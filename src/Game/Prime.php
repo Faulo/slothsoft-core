@@ -30,6 +30,7 @@ final class Prime {
     }
     
     // http://stackoverflow.com/questions/16763322/a-formula-to-find-prime-numbers-in-a-loop
+    
     /**
      * @param mixed $num
      * @return bool

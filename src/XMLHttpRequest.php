@@ -132,6 +132,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     // request
+    
     /**
      * @param string $method
      * @param string $url
@@ -471,6 +472,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     // EventTarget
+    
     /**
      * @param string $type
      * @param callable $listener
@@ -514,6 +516,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     // proprietary
+    
     /**
      * @param string $file
      * @return void
@@ -530,6 +533,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     // protected
+    
     /**
      * @param mixed $type
      * @return void

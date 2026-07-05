@@ -405,6 +405,7 @@ final class Client {
     }
     
     // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
+    
     /**
      * @param mixed $dbName
      * @param mixed $tableName
@@ -447,6 +448,7 @@ final class Client {
     }
     
     // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
+    
     /**
      * @param mixed $dbName
      * @param mixed $tableName
@@ -470,6 +472,7 @@ final class Client {
     }
     
     // DELETE FROM $table WHERE id = $id
+    
     /**
      * @param mixed $dbName
      * @param mixed $tableName
@@ -492,6 +495,7 @@ final class Client {
     }
     
     // führt alles Mögliche aus, möglichst vermeiden ^^
+    
     /**
      * @param mixed $sqlString
      * @return mixed
@@ -615,6 +619,7 @@ final class Client {
     }
     
     // gibt id-string zurück
+    
     /**
      * @param mixed $id
      * @return string
@@ -652,6 +657,7 @@ final class Client {
     }
     
     // gibt update-string zurück
+    
     /**
      * @param array $arr
      * @return string
@@ -678,6 +684,7 @@ final class Client {
     }
     
     // gibt db-handle zurück
+    
     /**
      * @param mixed $dbName
      * @param mixed $tableName

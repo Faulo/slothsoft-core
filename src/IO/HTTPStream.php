@@ -48,6 +48,7 @@ abstract class HTTPStream {
     protected $heartbeatTimeout = Seconds::HOUR;
     
     // time without actual content before child is terminated
+    
     /**
      * @return mixed
      */

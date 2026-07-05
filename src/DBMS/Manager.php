@@ -65,11 +65,11 @@ final class Manager {
     
     const LOG_LINELENGTH = 120;
     
-    protected static $client;
+    protected static Client $client;
     
-    protected static $databaseList = [];
+    protected static array $databaseList = [];
     
-    protected static $tableList = [];
+    protected static array $tableList = [];
     
     /**
      * @return Client
@@ -83,8 +83,8 @@ final class Manager {
     }
     
     /**
-     * @param mixed $dbName
-     * @return mixed
+     * @param string $dbName
+     * @return Database
      */
     public static function getDatabase($dbName) {
         $dbName = mb_strtolower(trim($dbName));
@@ -97,9 +97,9 @@ final class Manager {
     }
     
     /**
-     * @param mixed $dbName
-     * @param mixed $tableName
-     * @return mixed
+     * @param string $dbName
+     * @param string $tableName
+     * @return Table
      */
     public static function getTable($dbName, $tableName) {
         $dbName = mb_strtolower(trim($dbName));
@@ -131,7 +131,6 @@ final class Manager {
                 "MyISAM"
             ]
         ]);
-        // my_dump($tableList);die();
         foreach ($tableList as $table) {
             $dbName = $table['TABLE_SCHEMA'];
             $tableName = $table['TABLE_NAME'];
@@ -149,10 +148,10 @@ final class Manager {
     }
     
     /**
-     * @param mixed $sql
+     * @param string  $sql
      * @return void
      */
-    public static function _createLog($sql) {
+    public static function _createLog(string $sql) :void{
         if (self::getLogEnabled()) {
             if (strlen($sql) > self::LOG_LINELENGTH) {
                 $sql = substr($sql, 0, self::LOG_LINELENGTH) . '...';

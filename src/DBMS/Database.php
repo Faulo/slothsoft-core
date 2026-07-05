@@ -12,41 +12,39 @@ namespace Slothsoft\Core\DBMS;
  */
 final class Database {
     
-    protected $client;
+    protected Client $client;
     
-    protected $name;
+    protected string $name;
     
     /**
      * @param Client $client
      * @param mixed $dbName
-     * @return void
      */
-    public function __construct(Client $client, $dbName) {
+    public function __construct(Client $client, string $dbName) {
         $this->client = $client;
         $this->name = $dbName;
-        // $this->client->setDatabase($this->name);
     }
     
     /**
-     * @return mixed
+     * @return string
      */
     public function getName() {
         return $this->name;
     }
     
     /**
-     * @param mixed $tableName
+     * @param string $tableName
      * @return bool|null
      */
-    public function tableExists($tableName): ?bool {
+    public function tableExists(string $tableName): ?bool {
         return $this->client->tableExists($this->name, $tableName);
     }
     
     /**
-     * @param mixed $oldTableName
-     * @param mixed $newTableName
-     * @param mixed $newDbName
-     * @return mixed
+     * @param string $oldTableName
+     * @param string $newTableName
+     * @param string $newDbName
+     * @return bool
      */
     public function tableMove($oldTableName, $newTableName, $newDbName = null) {
         if (! $newDbName) {
@@ -63,21 +61,19 @@ final class Database {
     }
     
     /**
-     * @return mixed
+     * @return array
      */
     public function getTableList() {
         return $this->client->getTableList($this->name);
     }
     
     /**
-     * @param mixed $tableName
-     * @return mixed
+     * @param string $tableName
+     * @return Table
      */
     public function getTable($tableName) {
         return Manager::getTable($this->name, $tableName);
     }
-    
-    // CREATE DATABASE
     
     /**
      * @return void
@@ -93,10 +89,8 @@ final class Database {
         $this->client->deleteDatabase($this->name);
     }
     
-    // CREATE TABLE
-    
     /**
-     * @param mixed $tableName
+     * @param string $tableName
      * @param array $cols
      * @param array $keys
      * @param array $options
@@ -106,58 +100,48 @@ final class Database {
         $this->client->createTable($this->name, $tableName, $cols, $keys, $options);
     }
     
-    // SELECT $cols FROM $table WHERE ($string)
-    // $cols: true => ['*'], 'col' => 'col', ['c1', 'c2'] => 'c1, c2'
     /**
-     * @param mixed $tableName
+     * @param string $tableName
      * @param mixed $cols
-     * @param mixed $sqlString
-     * @param mixed $sqlSuffix
-     * @return mixed
+     * @param string $sqlString
+     * @param string $sqlSuffix
+     * @return array|null
      */
     public function select($tableName, $cols = true, $sqlString = '', $sqlSuffix = '') {
         return $this->client->select($this->name, $tableName, $cols, $sqlString, $sqlSuffix);
     }
     
-    // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
-    
     /**
-     * @param mixed $tableName
-     * @param mixed $insertData
-     * @param mixed $onDuplicateData
-     * @return mixed
+     * @param string $tableName
+     * @param array $insertData
+     * @param array $onDuplicateData
+     * @return int|null
      */
     public function insert($tableName, $insertData = [], $onDuplicateData = []) {
         return $this->client->insert($this->name, $tableName, $insertData, $onDuplicateData);
     }
     
-    // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
-    
     /**
-     * @param mixed $tableName
-     * @param mixed $arr
+     * @param string $tableName
+     * @param array $arr
      * @param mixed $id
-     * @return mixed
+     * @return int|null
      */
     public function update($tableName, $arr = [], $id = false) {
         return $this->client->update($this->name, $tableName, $arr, $id);
     }
     
-    // DELETE FROM $table WHERE id = $id
-    
     /**
-     * @param mixed $tableName
+     * @param string $tableName
      * @param mixed $id
-     * @return mixed
+     * @return int|null
      */
     public function delete($tableName, $id = false) {
         return $this->client->delete($this->name, $tableName, $id);
     }
     
-    // SHOW COLUMNS
-    
     /**
-     * @param mixed $tableName
+     * @param string $tableName
      * @return array|null
      */
     public function getColumns($tableName): ?array {
@@ -165,7 +149,7 @@ final class Database {
     }
     
     /**
-     * @param mixed $tableName
+     * @param string $tableName
      * @return bool|null
      */
     public function optimize($tableName = null): ?bool {
@@ -181,16 +165,16 @@ final class Database {
     }
     
     /**
-     * @param mixed $string
-     * @return mixed
+     * @param string $string
+     * @return string
      */
     public function escape($string) {
         return $this->client->escape($string);
     }
     
     /**
-     * @param mixed $tableName
-     * @param mixed $index
+     * @param string $tableName
+     * @param array|string $index
      * @return void
      */
     public function addIndex($tableName, $index) {

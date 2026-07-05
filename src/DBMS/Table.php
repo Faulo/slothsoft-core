@@ -12,14 +12,13 @@ namespace Slothsoft\Core\DBMS;
  */
 final class Table {
     
-    protected $db;
+    protected Database $db;
     
-    protected $name;
+    protected string $name;
     
     /**
      * @param Database $db
-     * @param mixed $tableName
-     * @return void
+     * @param string $tableName
      */
     public function __construct(Database $db, $tableName) {
         $this->db = $db;
@@ -27,7 +26,7 @@ final class Table {
     }
     
     /**
-     * @return mixed
+     * @return string
      */
     public function getName() {
         return $this->name;
@@ -41,9 +40,9 @@ final class Table {
     }
     
     /**
-     * @param mixed $newTableName
-     * @param mixed $newDbName
-     * @return mixed
+     * @param string $newTableName
+     * @param string|null $newDbName
+     * @return bool
      */
     public function tableMove($newTableName, $newDbName = null) {
         return $this->db->tableMove($this->name, $newTableName, $newDbName);
@@ -61,51 +60,41 @@ final class Table {
         $this->db->createTable($this->name, $cols, $keys, $options);
     }
     
-    // SELECT $cols FROM $table WHERE ($string)
-    // $cols: true => ['*'], 'col' => 'col', ['c1', 'c2'] => 'c1, c2'
     /**
      * @param mixed $cols
-     * @param mixed $sqlString
-     * @param mixed $sqlSuffix
-     * @return mixed
+     * @param string $sqlString
+     * @param string $sqlSuffix
+     * @return array|null
      */
     public function select($cols = true, $sqlString = '', $sqlSuffix = '') {
         return $this->db->select($this->name, $cols, $sqlString, $sqlSuffix);
     }
     
-    // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
-    
     /**
-     * @param mixed $insertData
-     * @param mixed $onDuplicateData
-     * @return mixed
+     * @param array $insertData
+     * @param array $onDuplicateData
+     * @return int|null
      */
     public function insert($insertData = [], $onDuplicateData = []) {
         return $this->db->insert($this->name, $insertData, $onDuplicateData);
     }
     
-    // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
-    
     /**
-     * @param mixed $arr
+     * @param array $arr
      * @param mixed $id
-     * @return mixed
+     * @return int|null
      */
     public function update($arr = [], $id = false) {
         return $this->db->update($this->name, $arr, $id);
     }
     
-    // DELETE FROM $table WHERE id = $id
-    
     /**
      * @param mixed $id
-     * @return mixed
+     * @return int|null
      */
     public function delete($id = false) {
         return $this->db->delete($this->name, $id);
     }
-    
-    // SHOW COLUMNS
     
     /**
      * @return array|null
@@ -122,15 +111,15 @@ final class Table {
     }
     
     /**
-     * @param mixed $string
-     * @return mixed
+     * @param string $string
+     * @return string
      */
     public function escape($string) {
         return $this->db->escape($string);
     }
     
     /**
-     * @param mixed $index
+     * @param array|string $index
      * @return void
      */
     public function addIndex($index) {

@@ -26,6 +26,10 @@ final class LazyStringWriterStream implements StreamInterface {
     
     private int $bufferSize = 0;
     
+    /**
+     * @param StringWriterInterface $writer
+     * @return void
+     */
     public function __construct(StringWriterInterface $writer) {
         $this->writer = $writer;
         $this->state = self::NEW;
@@ -43,11 +47,17 @@ final class LazyStringWriterStream implements StreamInterface {
         }
     }
     
+    /**
+     * @return mixed
+     */
     public function __toString() {
         $this->rewind();
         return $this->getContents();
     }
     
+    /**
+     * @return void
+     */
     public function close() {
         $this->writer = null;
         
@@ -56,15 +66,25 @@ final class LazyStringWriterStream implements StreamInterface {
         }
     }
     
+    /**
+     * @return mixed
+     */
     public function detach() {
         $this->close();
         return null;
     }
     
+    /**
+     * @param mixed $key
+     * @return array|null
+     */
     public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
+    /**
+     * @return mixed
+     */
     public function getContents() {
         $this->init();
         
@@ -77,24 +97,43 @@ final class LazyStringWriterStream implements StreamInterface {
         return $index === 0 ? $this->buffer : substr($this->buffer, $index);
     }
     
+    /**
+     * @return int
+     */
     public function getSize(): int {
         $this->init();
         return $this->bufferSize;
     }
     
+    /**
+     * @return int
+     */
     public function tell(): int {
         return $this->bufferIndex;
     }
     
+    /**
+     * @return bool
+     */
     public function eof(): bool {
         $this->init();
         return $this->bufferIndex >= $this->bufferSize;
     }
     
+    /**
+     * @return bool
+     */
     public function isSeekable(): bool {
         return true;
     }
     
+    /**
+     * @param mixed $offset
+     * @param mixed $whence
+     * @return void
+     * @throws BadMethodCallException
+     * @throws OutOfBoundsException
+     */
     public function seek($offset, $whence = SEEK_SET) {
         $this->init();
         
@@ -119,22 +158,40 @@ final class LazyStringWriterStream implements StreamInterface {
         $this->bufferIndex = $position;
     }
     
+    /**
+     * @return void
+     */
     public function rewind() {
         $this->seek(0);
     }
     
+    /**
+     * @return bool
+     */
     public function isWritable(): bool {
         return false;
     }
     
+    /**
+     * @param mixed $string
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function write($string) {
         throw new BadMethodCallException('Cannot write a LazyStringWriterStream.');
     }
     
+    /**
+     * @return bool
+     */
     public function isReadable(): bool {
         return true;
     }
     
+    /**
+     * @param mixed $length
+     * @return mixed
+     */
     public function read($length) {
         $this->init();
         

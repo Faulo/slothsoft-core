@@ -13,10 +13,17 @@ final class FileWriterFromFileDelegate implements FileWriterInterface {
     
     private ?SplFileInfo $result = null;
     
+    /**
+     * @param callable $delegate
+     * @return void
+     */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         if ($this->result === null) {
             $this->result = ($this->delegate)();

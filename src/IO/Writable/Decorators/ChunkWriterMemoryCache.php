@@ -12,10 +12,17 @@ final class ChunkWriterMemoryCache implements ChunkWriterInterface {
     
     private ?array $chunks = null;
     
+    /**
+     * @param ChunkWriterInterface $source
+     * @return void
+     */
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         if ($this->chunks === null) {
             $this->chunks = [];

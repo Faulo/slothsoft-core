@@ -26,12 +26,19 @@ final class WebCrawler {
     
     protected $errorList;
     
+    /**
+     * @param mixed $url
+     * @return void
+     */
     public function __construct($url) {
         $this->url = $url;
         $this->linkList = [];
         $this->errorList = [];
     }
     
+    /**
+     * @return string
+     */
     public function crawl(): string {
         $href = $this->buildURL('', $this->url);
         $this->crawlURL($href);
@@ -47,6 +54,12 @@ final class WebCrawler {
         return implode(PHP_EOL, $ret);
     }
     
+    /**
+     * @param mixed $url
+     * @param mixed $depth
+     * @param mixed $parentUrl
+     * @return void
+     */
     protected function crawlURL($url, $depth = 0, $parentUrl = '') {
         if (! isset($this->linkList[$url])) {
             switch (true) {
@@ -111,6 +124,11 @@ final class WebCrawler {
         }
     }
     
+    /**
+     * @param mixed $url
+     * @param mixed $parentUrl
+     * @return mixed
+     */
     protected function buildURL($url, $parentUrl = '') {
         $success = true;
         

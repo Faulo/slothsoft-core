@@ -44,14 +44,24 @@ final class Client {
         return $field;
     }
     
+    /**
+     * @param Authority $authority
+     * @return void
+     */
     public static function setDefaultAuthority(Authority $authority) {
         self::defaultAuthority()->setValue($authority);
     }
     
+    /**
+     * @return Authority
+     */
     public static function getDefaultAuthority(): Authority {
         return self::defaultAuthority()->getValue();
     }
     
+    /**
+     * @return void
+     */
     public static function clearDefaultAuthority(): void {
         self::defaultAuthority()->setValue(null);
     }
@@ -80,9 +90,16 @@ final class Client {
     
     protected $dbName = null;
     
+    /**
+     * @return void
+     */
     public function __construct() {
     }
     
+    /**
+     * @return bool
+     * @throws DatabaseException
+     */
     public function reconnect(): bool {
         try {
             $authority = self::getDefaultAuthority();
@@ -102,6 +119,9 @@ final class Client {
         return true;
     }
     
+    /**
+     * @return void
+     */
     public function disconnect() {
         if ($this->connected) {
             $this->connected = false;
@@ -109,10 +129,19 @@ final class Client {
         }
     }
     
+    /**
+     * @return bool
+     * @throws DatabaseException
+     */
     protected function connect(): bool {
         return ($this->connected and $this->sqli->ping()) or ($this->reconnect() and $this->connected = true);
     }
     
+    /**
+     * @param mixed $dbName
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function setDatabase($dbName) {
         $ret = null;
         $this->dbName = null;
@@ -123,6 +152,12 @@ final class Client {
         return $ret;
     }
     
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @return bool|null
+     * @throws DatabaseException
+     */
     public function tableExists($dbName, $tableName): ?bool {
         $ret = null;
         if ($this->connect()) {
@@ -132,6 +167,14 @@ final class Client {
         return $ret;
     }
     
+    /**
+     * @param mixed $oldDbName
+     * @param mixed $oldTableName
+     * @param mixed $newDbName
+     * @param mixed $newTableName
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function tableMove($oldDbName, $oldTableName, $newDbName, $newTableName) {
         $oldHandle = $this->get_handle($oldDbName, $oldTableName);
         $newHandle = $this->get_handle($newDbName, $newTableName);
@@ -139,6 +182,11 @@ final class Client {
         return $this->execute($sql);
     }
     
+    /**
+     * @param mixed $dbName
+     * @return bool|null
+     * @throws DatabaseException
+     */
     public function databaseExists($dbName): ?bool {
         $ret = null;
         if ($this->connect()) {
@@ -148,6 +196,10 @@ final class Client {
         return $ret;
     }
     
+    /**
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function getDatabaseList() {
         $ret = null;
         if ($this->connect()) {
@@ -156,6 +208,11 @@ final class Client {
         return $ret;
     }
     
+    /**
+     * @param mixed $dbName
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function getTableList($dbName) {
         $ret = null;
         if ($this->connect()) {
@@ -164,6 +221,11 @@ final class Client {
         return $ret;
     }
     
+    /**
+     * @param mixed $dbName
+     * @return void
+     * @throws DatabaseException
+     */
     public function createDatabase($dbName) {
         $dbHandle = $this->get_handle($dbName);
         $sql = sprintf('CREATE DATABASE IF NOT EXISTS %s', $dbHandle);
@@ -172,6 +234,11 @@ final class Client {
         }
     }
     
+    /**
+     * @param mixed $dbName
+     * @return void
+     * @throws DatabaseException
+     */
     public function deleteDatabase($dbName) {
         $dbHandle = $this->get_handle($dbName);
         $sql = sprintf('DROP DATABASE IF EXISTS %s', $dbHandle);
@@ -180,6 +247,15 @@ final class Client {
         }
     }
     
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @param array $cols
+     * @param array $keys
+     * @param array $options
+     * @return void
+     * @throws DatabaseException
+     */
     public function createTable($dbName, $tableName, array $cols, array $keys, array $options = []) {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $colStr = [];
@@ -214,6 +290,13 @@ final class Client {
         }
     }
     
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @param mixed $index
+     * @return void
+     * @throws DatabaseException
+     */
     public function addIndex($dbName, $tableName, $index) {
         if (! is_array($index)) {
             $index = [
@@ -232,6 +315,15 @@ final class Client {
     
     // SELECT $cols FROM $table WHERE ($string)
     // $cols: true => ['*'], 'col' => 'col', ['c1', 'c2'] => 'c1, c2'
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @param mixed $cols
+     * @param mixed $sqlString
+     * @param mixed $sqlSuffix
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function select($dbName, $tableName, $cols = true, $sqlString = '', $sqlSuffix = '') {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -313,6 +405,14 @@ final class Client {
     }
     
     // INSERT INTO $table ($arr[key]) VALUES ($arr[val])
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @param mixed $insertData
+     * @param mixed $onDuplicateData
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function insert($dbName, $tableName, $insertData = [], $onDuplicateData = []) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -347,6 +447,14 @@ final class Client {
     }
     
     // UPDATE $table SET ($arr[key] = $arr[val]) WHERE id = $id
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @param mixed $arr
+     * @param mixed $id
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function update($dbName, $tableName, $arr = [], $id = false) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -362,6 +470,13 @@ final class Client {
     }
     
     // DELETE FROM $table WHERE id = $id
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @param mixed $id
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function delete($dbName, $tableName, $id = false) {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -377,6 +492,11 @@ final class Client {
     }
     
     // führt alles Mögliche aus, möglichst vermeiden ^^
+    /**
+     * @param mixed $sqlString
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function execute($sqlString) {
         if ($this->connect()) {
             Manager::_createLog($sqlString);
@@ -385,6 +505,10 @@ final class Client {
         return null;
     }
     
+    /**
+     * @param mixed $file
+     * @return mixed
+     */
     public function executeFile($file) {
         if ($sql = file_get_contents($file)) {
             return $this->sqli->multi_query($sql);
@@ -392,6 +516,12 @@ final class Client {
         return null;
     }
     
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @return array|null
+     * @throws DatabaseException
+     */
     public function getColumns($dbName, $tableName): ?array {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -411,6 +541,12 @@ final class Client {
         return $ret;
     }
     
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @return bool
+     * @throws DatabaseException
+     */
     public function optimize($dbName, $tableName): bool {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $sql = sprintf('OPTIMIZE TABLE %s', $dbHandle);
@@ -435,6 +571,12 @@ final class Client {
         throw new DatabaseException(implode(PHP_EOL, $err));
     }
     
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @return void
+     * @throws DatabaseException
+     */
     public function resetCharset($dbName, $tableName = null) {
         // ALTER DATABASE <database_name> CHARACTER SET utf8 COLLATE utf8_unicode_ci;
         // ALTER TABLE <table_name> DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -460,6 +602,11 @@ final class Client {
         }
     }
     
+    /**
+     * @param mixed $string
+     * @return mixed
+     * @throws DatabaseException
+     */
     public function escape($string) {
         if ($this->connect()) {
             return $this->sqli->real_escape_string((string) $string);
@@ -468,6 +615,11 @@ final class Client {
     }
     
     // gibt id-string zurück
+    /**
+     * @param mixed $id
+     * @return string
+     * @throws DatabaseException
+     */
     protected function get_ids($id): string {
         if (is_array($id)) {
             switch (count($id)) {
@@ -500,6 +652,11 @@ final class Client {
     }
     
     // gibt update-string zurück
+    /**
+     * @param array $arr
+     * @return string
+     * @throws DatabaseException
+     */
     protected function _get_update_data(array $arr): string {
         $ret = [];
         foreach ($arr as $key => $val) {
@@ -521,6 +678,11 @@ final class Client {
     }
     
     // gibt db-handle zurück
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @return string
+     */
     protected function get_handle($dbName, $tableName = null): string {
         if ($dbName === null) {
             $dbName = $tableName;
@@ -529,6 +691,11 @@ final class Client {
         return $tableName === null ? sprintf('`%s`', $dbName) : sprintf('`%s`.`%s`', $dbName, $tableName);
     }
     
+    /**
+     * @param mixed $sql
+     * @return void
+     * @throws DatabaseException
+     */
     protected function error($sql = null) {
         $err = '';
         if ($sql) {

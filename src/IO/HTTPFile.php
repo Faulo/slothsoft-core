@@ -46,6 +46,10 @@ final class HTTPFile implements FileWriterInterface {
         return new HTTPFile($filePath, $fileName);
     }
     
+    /**
+     * @param string $fileName
+     * @return HTTPFile
+     */
     public static function createFromTemp(string $fileName = ''): HTTPFile {
         return self::createFromPath(self::getTempFile(), $fileName);
     }
@@ -85,6 +89,7 @@ final class HTTPFile implements FileWriterInterface {
      * @param array $content
      * @param string $fileName
      * @return HTTPFile
+     * @param array $fileList
      */
     public static function createFromFileList(array $fileList, string $fileName = ''): HTTPFile {
         if ($fileName === '') {
@@ -248,34 +253,64 @@ final class HTTPFile implements FileWriterInterface {
         $this->name = $fileName;
     }
     
+    /**
+     * @return string
+     */
     public function getPath(): string {
         return $this->path;
     }
     
+    /**
+     * @return string
+     */
     public function getName(): string {
         return $this->name;
     }
     
+    /**
+     * @return string
+     */
     public function getContents(): string {
         return file_get_contents($this->getPath());
     }
     
+    /**
+     * @param string $content
+     * @return mixed
+     */
     public function setContents(string $content) {
         return file_put_contents($this->getPath(), $content);
     }
     
+    /**
+     * @param mixed $content
+     * @return mixed
+     */
     public function setStream($content) {
         return file_put_contents($this->getPath(), $content);
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function getDocument(): DOMDocument {
         return DOMHelper::loadDocument($this->getPath());
     }
     
+    /**
+     * @param DOMDocument $content
+     * @return mixed
+     */
     public function setDocument(DOMDocument $content) {
         return $content->save($this->getPath());
     }
     
+    /**
+     * @param mixed $dir
+     * @param mixed $name
+     * @param mixed $copyClosure
+     * @return mixed
+     */
     public function copyTo($dir, $name = null, $copyClosure = null) {
         $ret = false;
         if ($dir = realpath($dir)) {
@@ -299,22 +334,37 @@ final class HTTPFile implements FileWriterInterface {
         return $ret;
     }
     
+    /**
+     * @return bool
+     */
     public function delete(): bool {
         return unlink($this->getPath());
     }
     
+    /**
+     * @return bool
+     */
     public function exists(): bool {
         return is_file($this->path);
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         return FileInfoFactory::createFromPath($this->path);
     }
     
+    /**
+     * @return string
+     */
     public function toString(): string {
         return $this->getContents();
     }
     
+    /**
+     * @return string
+     */
     public function toFileName(): string {
         return $this->getName();
     }

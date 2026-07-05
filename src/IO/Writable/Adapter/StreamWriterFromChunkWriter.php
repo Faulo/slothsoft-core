@@ -15,11 +15,19 @@ final class StreamWriterFromChunkWriter implements StreamWriterInterface {
     
     private bool $canLoadAllChunks;
     
+    /**
+     * @param ChunkWriterInterface $source
+     * @param bool $canLoadAllChunks
+     * @return void
+     */
     public function __construct(ChunkWriterInterface $source, bool $canLoadAllChunks = true) {
         $this->source = $source;
         $this->canLoadAllChunks = $canLoadAllChunks;
     }
     
+    /**
+     * @return StreamInterface
+     */
     public function toStream(): StreamInterface {
         return $this->canLoadAllChunks ? new PersistentGeneratorStream($this->source) : new OneTimeGeneratorStream($this->source);
     }

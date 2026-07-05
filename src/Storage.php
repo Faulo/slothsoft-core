@@ -33,10 +33,17 @@ final class Storage implements EphemeralStorageInterface {
         return $field;
     }
     
+    /**
+     * @param bool $value
+     * @return void
+     */
     public static function setLogEnabled(bool $value) {
         self::logEnabled()->setValue($value);
     }
     
+    /**
+     * @return bool
+     */
     public static function getLogEnabled(): bool {
         return self::logEnabled()->getValue();
     }
@@ -49,10 +56,17 @@ final class Storage implements EphemeralStorageInterface {
         return $field;
     }
     
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function setLogDirectory(string $directory) {
         self::logDirectory()->setValue($directory);
     }
     
+    /**
+     * @return string
+     */
     public static function getLogDirectory(): string {
         return self::logDirectory()->getValue();
     }
@@ -65,10 +79,17 @@ final class Storage implements EphemeralStorageInterface {
         return $field;
     }
     
+    /**
+     * @param bool $value
+     * @return void
+     */
     public static function setTouchOnExit(bool $value) {
         self::logEnabled()->setValue($value);
     }
     
+    /**
+     * @return bool
+     */
     public static function getTouchOnExit(): bool {
         return self::logEnabled()->getValue();
     }
@@ -97,6 +118,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $data
      * @param mixed $options
      * @return null|DOMDocument
+     * @throws Exception
      */
     public static function loadExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?DOMDocument {
         $cacheTime = (int) $cacheTime;
@@ -124,6 +146,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $data
      * @param mixed $options
      * @return boolean
+     * @throws Exception
      */
     public static function clearExternalDocument(string $uri, ?int $cacheTime = null, $data = null, $options = null): bool {
         $cacheTime = (int) $cacheTime;
@@ -140,6 +163,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $data
      * @param mixed $options
      * @return NULL|DOMXPath
+     * @throws Exception
      */
     public static function loadExternalXPath(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?DOMXPath {
         $ret = null;
@@ -156,6 +180,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $data
      * @param mixed $options
      * @return NULL|mixed
+     * @throws Exception
      */
     public static function loadExternalJSON(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
         $cacheTime = (int) $cacheTime;
@@ -180,6 +205,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $data
      * @param mixed $options
      * @return NULL|string
+     * @throws Exception
      */
     public static function loadExternalFile(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?string {
         $cacheTime = (int) $cacheTime;
@@ -213,6 +239,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param mixed $data
      * @param mixed $options
      * @return NULL|array
+     * @throws Exception
      */
     public static function loadExternalHeader(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?array {
         $cacheTime = (int) $cacheTime;
@@ -243,6 +270,13 @@ final class Storage implements EphemeralStorageInterface {
         return ! rand(0, 999);
     }
     
+    /**
+     * @param array $options
+     * @param mixed $uri
+     * @param mixed $data
+     * @return XMLHttpRequest
+     * @throws Exception
+     */
     protected static function _httpRequest(array $options, $uri, $data): XMLHttpRequest {
         // echo sprintf('XMLHttpRequest %s "%s"...%s', $options['method'], $uri, PHP_EOL);
         $req = new XMLHttpRequest();
@@ -293,6 +327,7 @@ final class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param mixed $options
+     * @return void
      */
     protected static function _httpOptions(&$options) {
         if (! is_array($options)) {
@@ -314,6 +349,11 @@ final class Storage implements EphemeralStorageInterface {
         }
     }
     
+    /**
+     * @param array $options
+     * @param string $uri
+     * @return string
+     */
     protected static function _httpOAuth(array $options, string $uri): string {
         $params = [];
         $params['realm'] = $uri;
@@ -375,6 +415,11 @@ final class Storage implements EphemeralStorageInterface {
         return self::loadStorage($storageName);
     }
     
+    /**
+     * @param mixed $uri
+     * @return string
+     * @throws Exception
+     */
     public static function _getStorageNameFromURI($uri): string {
         $arr = parse_url(strtolower($uri));
         if (! isset($arr['scheme'])) {
@@ -397,6 +442,10 @@ final class Storage implements EphemeralStorageInterface {
         return implode('.', $host);
     }
     
+    /**
+     * @param mixed $uri
+     * @return mixed
+     */
     protected static function _getHostFromURI($uri) {
         $host = parse_url($uri, PHP_URL_HOST);
         $host = strtolower($host);
@@ -417,20 +466,37 @@ final class Storage implements EphemeralStorageInterface {
         return $host;
     }
     
+    /**
+     * @param mixed $uri
+     * @return mixed
+     */
     protected static function _getSchemeFromURI($uri) {
         return parse_url($uri, PHP_URL_SCHEME);
     }
     
+    /**
+     * @param string $name
+     * @return string
+     */
     protected static function _hash(string $name): string {
         return sha1($name);
     }
     
+    /**
+     * @param array $options
+     * @param mixed $uri
+     * @param mixed $data
+     * @return string
+     */
     protected static function _name(array $options, $uri, $data): string {
         return sprintf('%s %s?%s', $options['method'], $uri, serialize($data));
     }
     
     protected static DOMHelper $dom;
     
+    /**
+     * @return DOMHelper
+     */
     protected static function _DOMHelper(): DOMHelper {
         if (! isset(self::$dom)) {
             self::$dom = new DOMHelper();
@@ -450,6 +516,10 @@ final class Storage implements EphemeralStorageInterface {
     
     protected int $cleanseTime;
     
+    /**
+     * @param mixed $storageName
+     * @return void
+     */
     public function __construct($storageName = null) {
         $this->now = time();
         $this->touchList = [];
@@ -468,10 +538,16 @@ final class Storage implements EphemeralStorageInterface {
         }
     }
     
+    /**
+     * @return mixed
+     */
     protected function getDBMSTable() {
         return Manager::getTable($this->dbName, $this->tableName);
     }
     
+    /**
+     * @return void
+     */
     public function install(): void {
         if ($this->dbmsTable) {
             $sqlCols = [
@@ -532,6 +608,12 @@ final class Storage implements EphemeralStorageInterface {
         return $ret;
     }
     
+    /**
+     * @param string $name
+     * @param int $modifyTime
+     * @param DOMDocument|null $targetDoc
+     * @return DOMNode|null
+     */
     public function retrieveXML(string $name, int $modifyTime, ?DOMDocument $targetDoc = null): ?DOMNode {
         $ret = null;
         if ($data = $this->retrieve($name, $modifyTime)) {
@@ -665,6 +747,10 @@ final class Storage implements EphemeralStorageInterface {
         return $this->store($name, json_encode($dataObject), $modifyTime);
     }
     
+    /**
+     * @param int $id
+     * @return void
+     */
     protected function touch(int $id) {
         if ($id) {
             $this->touchList[$id] = $id;
@@ -674,6 +760,9 @@ final class Storage implements EphemeralStorageInterface {
         }
     }
     
+    /**
+     * @return void
+     */
     public function sendTouch() {
         if ($this->touchList) {
             $arr = [];
@@ -684,23 +773,38 @@ final class Storage implements EphemeralStorageInterface {
         }
     }
     
+    /**
+     * @return void
+     */
     public function cleanse() {
         if ($this->dbmsTable) {
             $this->dbmsTable->optimize();
         }
     }
     
+    /**
+     * @return bool
+     */
     public function cron(): bool {
         $this->cleanse();
         return true;
     }
     
+    /**
+     * @return void
+     */
     public function __destruct() {
         if (self::getTouchOnExit()) {
             $this->sendTouch();
         }
     }
     
+    /**
+     * @param mixed $method
+     * @param mixed $name
+     * @param mixed $ret
+     * @return void
+     */
     protected function _createLog($method, $name, $ret) {
         if (self::getLogEnabled()) {
             $logFile = sprintf('%s%s.log', self::getLogDirectory(), FileSystem::filenameSanitize($this->tableName));

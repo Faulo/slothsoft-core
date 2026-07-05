@@ -13,10 +13,17 @@ final class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
     
     private ?Generator $result = null;
     
+    /**
+     * @param callable $delegate
+     * @return void
+     */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         if ($this->result === null or ! $this->result->valid()) {
             $this->result = ($this->delegate)();

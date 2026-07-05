@@ -118,6 +118,11 @@ final class DOMHelper {
     
     public const XPATH_MISC = 16;
     
+    /**
+     * @param string $filePath
+     * @param bool $asHTML
+     * @return DOMDocument
+     */
     public static function loadDocument(string $filePath, bool $asHTML = false): DOMDocument {
         $document = new DOMDocument();
         if ($asHTML) {
@@ -128,6 +133,11 @@ final class DOMHelper {
         return $document;
     }
     
+    /**
+     * @param string $fileContents
+     * @param bool $asHTML
+     * @return DOMDocument
+     */
     public static function parseDocument(string $fileContents, bool $asHTML = false): DOMDocument {
         $document = new DOMDocument();
         if ($asHTML) {
@@ -138,6 +148,11 @@ final class DOMHelper {
         return $document;
     }
     
+    /**
+     * @param DOMDocument $document
+     * @param int $options
+     * @return DOMXPath
+     */
     public static function loadXPath(DOMDocument $document, int $options = self::XPATH_HTML): DOMXPath {
         $xpath = new DOMXPath($document);
         $nsList = [];
@@ -165,6 +180,10 @@ final class DOMHelper {
         return $xpath;
     }
     
+    /**
+     * @param string $namespaceURI
+     * @return string
+     */
     public static function guessExtension(string $namespaceURI): string {
         switch ($namespaceURI) {
             case self::NS_HTML:
@@ -190,6 +209,13 @@ final class DOMHelper {
         return $implementation;
     }
     
+    /**
+     * @param string $xmlCode
+     * @param DOMDocument|null $targetDoc
+     * @param bool $asHTML
+     * @return DOMDocumentFragment
+     * @throws RuntimeException
+     */
     public function parse(string $xmlCode, ?DOMDocument $targetDoc = null, bool $asHTML = false): DOMDocumentFragment {
         if ($asHTML) {
             $parseDoc = new DOMDocument();
@@ -249,14 +275,29 @@ final class DOMHelper {
         return $retFragment;
     }
     
+    /**
+     * @param string $namespaceURI
+     * @param string $qualifiedName
+     * @return DOMDocument
+     * @throws DOMException
+     */
     public function createDocument(string $namespaceURI, string $qualifiedName): DOMDocument {
         return self::dom()->createDocument($namespaceURI, $qualifiedName);
     }
     
+    /**
+     * @param DOMNode $sourceNode
+     * @return string
+     */
     public function stringify(DOMNode $sourceNode): string {
         return $sourceNode->ownerDocument->saveXML($sourceNode);
     }
     
+    /**
+     * @param mixed $url
+     * @param bool $asHTML
+     * @return DOMDocument
+     */
     public function load($url, bool $asHTML = false): DOMDocument {
         $doc = new DOMDocument();
         if ($asHTML) {
@@ -286,10 +327,23 @@ final class DOMHelper {
         return $adapter;
     }
     
+    /**
+     * @param mixed $source
+     * @param mixed $template
+     * @param array $param
+     * @return DOMDocument
+     */
     public function transformToDocument($source, $template, array $param = []): DOMDocument {
         return $this->transformToAdapter($source, $template, $param)->writeDocument();
     }
     
+    /**
+     * @param mixed $source
+     * @param mixed $template
+     * @param array $param
+     * @param SplFileInfo|null $output
+     * @return SplFileInfo
+     */
     public function transformToFile($source, $template, array $param = [], ?SplFileInfo $output = null): SplFileInfo {
         if (! $output) {
             $output = FileInfoFactory::createTempFile();
@@ -300,6 +354,13 @@ final class DOMHelper {
         return $output;
     }
     
+    /**
+     * @param mixed $source
+     * @param mixed $template
+     * @param array $param
+     * @param DOMDocument|null $targetDoc
+     * @return DOMDocumentFragment
+     */
     public function transformToFragment($source, $template, array $param = [], ?DOMDocument $targetDoc = null): DOMDocumentFragment {
         $finalDoc = $this->transformToDocument($source, $template, $param);
         
@@ -326,6 +387,8 @@ final class DOMHelper {
      * unknown namespace can lead to unexpected results if the same document also contains the matching
      * known namespace. Redundant namespace declarations may be removed during DOM serialization, and
      * prefix/default namespace spelling may change where the namespace URI and local name remain the same.
+     * @param DOMDocument $dataDoc
+     * @return DOMDocument
      */
     public function normalizeDocument(DOMDocument $dataDoc): DOMDocument {
         try {

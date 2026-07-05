@@ -8,6 +8,12 @@ use RuntimeException;
 
 final class DirectoryConfigurationField extends ConfigurationField {
     
+    /**
+     * @param mixed $newValue
+     * @return void
+     * @throws BadMethodCallException
+     * @throws RuntimeException
+     */
     public function setValue($newValue) {
         $newValue = (string) $newValue;
         if ($newValue === '') {

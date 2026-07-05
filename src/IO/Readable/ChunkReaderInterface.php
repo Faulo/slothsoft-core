@@ -7,6 +7,10 @@ use Generator;
 
 interface ChunkReaderInterface {
     
+    /**
+     * @param Generator $chunks
+     * @return void
+     */
     public function fromChunks(Generator $chunks);
 }
 

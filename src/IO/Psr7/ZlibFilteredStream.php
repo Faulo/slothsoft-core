@@ -11,20 +11,35 @@ final class ZlibFilteredStream extends AbstractFilteredStream {
     
     private $compressor;
     
+    /**
+     * @param StreamInterface $stream
+     * @param int $zlibCoding
+     * @return void
+     */
     public function __construct(StreamInterface $stream, int $zlibCoding) {
         parent::__construct($stream);
         $this->zlibCoding = $zlibCoding;
     }
     
+    /**
+     * @return string
+     */
     protected function processHeader(): string {
         $this->compressor = deflate_init($this->zlibCoding);
         return '';
     }
     
+    /**
+     * @param string $data
+     * @return string
+     */
     protected function processPayload(string $data): string {
         return deflate_add($this->compressor, $data, ZLIB_NO_FLUSH);
     }
     
+    /**
+     * @return string
+     */
     protected function processFooter(): string {
         return deflate_add($this->compressor, '', ZLIB_FINISH);
     }

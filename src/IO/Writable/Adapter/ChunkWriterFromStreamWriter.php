@@ -14,11 +14,19 @@ final class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
     
     private int $chunkSize;
     
+    /**
+     * @param StreamWriterInterface $source
+     * @param int $chunkSize
+     * @return void
+     */
     public function __construct(StreamWriterInterface $source, int $chunkSize = Memory::ONE_KILOBYTE) {
         $this->source = $source;
         $this->chunkSize = $chunkSize;
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         $handle = $this->source->toStream();
         while (! $handle->eof()) {

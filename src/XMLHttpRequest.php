@@ -117,6 +117,9 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         'SERVER_SOFTWARE' => 'PHP'
     ];
     
+    /**
+     * @return void
+     */
     public function __construct() {
         if (isset($_SERVER)) {
             foreach ($this->_env as $key => &$val) {
@@ -129,6 +132,14 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     // request
+    /**
+     * @param string $method
+     * @param string $url
+     * @param bool $async
+     * @param string|null $user
+     * @param string|null $password
+     * @return void
+     */
     public function open(string $method, string $url, bool $async = true, ?string $user = null, ?string $password = null): void {
         $this->method = $method;
         $this->url = $url;
@@ -189,6 +200,12 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         $this->readyState = self::OPENED;
     }
     
+    /**
+     * @param string $header
+     * @param string $value
+     * @return void
+     * @throws Exception
+     */
     public function setRequestHeader(string $header, string $value): void {
         if ($this->readyState !== self::OPENED) {
             throw new Exception('InvalidStateError');
@@ -196,11 +213,20 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         $this->requestHeaders[strtolower($header)] = $value;
     }
     
+    /**
+     * @param mixed $header
+     * @return mixed
+     */
     public function getRequestHeader($header) {
         $header = strtolower($header);
         return $this->requestHeaders[$header] ?? null;
     }
     
+    /**
+     * @param mixed $data
+     * @return void
+     * @throws Exception
+     */
     public function send($data = null): void {
         $type = null;
         if ($data !== null) {
@@ -411,25 +437,46 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         $this->readyState = self::DONE;
     }
     
+    /**
+     * @return void
+     */
     public function abort(): void {
     }
     
+    /**
+     * @param string $mime
+     * @return void
+     * @throws Exception
+     */
     public function overrideMimeType(string $mime): void {
         if ($this->readyState === self::OPENED or $this->readyState === self::DONE) {
             throw new Exception('InvalidStateError');
         }
     }
     
+    /**
+     * @param string $header
+     * @return string
+     */
     public function getResponseHeader(string $header): string {
         $header = strtolower($header);
         return $this->responseHeaders[$header] ?? '';
     }
     
+    /**
+     * @return array
+     */
     public function getAllResponseHeaders(): array {
         return $this->responseHeaders;
     }
     
     // EventTarget
+    /**
+     * @param string $type
+     * @param callable $listener
+     * @param bool $capture
+     * @return void
+     */
     public function addEventListener(string $type, callable $listener, bool $capture = false): void {
         if (! isset($this->eventListeners[$type])) {
             $this->eventListeners[$type] = array();
@@ -439,6 +486,12 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
     
+    /**
+     * @param string $type
+     * @param callable $listener
+     * @param bool $capture
+     * @return void
+     */
     public function removeEventListener(string $type, callable $listener, bool $capture = false): void {
         if (! isset($this->eventListeners[$type])) {
             $this->eventListeners[$type] = array();
@@ -451,20 +504,36 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
     
+    /**
+     * @param mixed $event
+     * @return bool
+     * @throws BadMethodCallException
+     */
     public function dispatchEvent($event): bool {
         throw new BadMethodCallException("dispatchEvent is not implemented.");
     }
     
     // proprietary
+    /**
+     * @param string $file
+     * @return void
+     */
     public function setCookieFile(string $file): void {
         $this->cookieFile = $file;
     }
     
+    /**
+     * @return string
+     */
     public function getCookieFile(): string {
         return $this->cookieFile;
     }
     
     // protected
+    /**
+     * @param mixed $type
+     * @return void
+     */
     protected function fireEventListener($type) {
         if (isset($this->eventListeners[$type])) {
             foreach ($this->eventListeners[$type] as $listener) {
@@ -475,16 +544,29 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
     }
     
+    /**
+     * @param mixed $line
+     * @return void
+     */
     protected static function addCookie($line) {
         $cookie = explode(';', $line, 2);
         $cookie = explode('=', $cookie[0], 2);
         self::$cookies[trim($cookie[0])] = $cookie[1];
     }
     
+    /**
+     * @param mixed $key
+     * @param mixed $val
+     * @return void
+     */
     public static function setCookie($key, $val) {
         self::$cookies[$key] = $val;
     }
     
+    /**
+     * @param mixed $head
+     * @return array
+     */
     public static function parseHeaderList($head): array {
         $ret = [];
         $headList = explode("\n", str_replace("\r", "\n", $head));

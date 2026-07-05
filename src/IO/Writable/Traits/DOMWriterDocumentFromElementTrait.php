@@ -13,6 +13,9 @@ use DOMDocument;
  */
 trait DOMWriterDocumentFromElementTrait {
     
+    /**
+     * @return DOMDocument
+     */
     public function toDocument(): DOMDocument {
         $targetDoc = new DOMDocument();
         $targetDoc->appendChild($this->toElement($targetDoc));

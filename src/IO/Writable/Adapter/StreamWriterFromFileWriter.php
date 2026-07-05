@@ -12,10 +12,17 @@ final class StreamWriterFromFileWriter implements StreamWriterInterface {
     
     private FileWriterInterface $source;
     
+    /**
+     * @param FileWriterInterface $source
+     * @return void
+     */
     public function __construct(FileWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return StreamInterface
+     */
     public function toStream(): StreamInterface {
         return new LazyFileWriterStream($this->source);
     }

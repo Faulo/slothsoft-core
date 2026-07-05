@@ -15,13 +15,32 @@ use SplFileInfo;
  */
 interface AdapterInterface {
     
+    /**
+     * @param InputInterface $input
+     * @return void
+     */
     public function setSource(InputInterface $input);
     
+    /**
+     * @param InputInterface $input
+     * @return void
+     */
     public function setTemplate(InputInterface $input);
     
+    /**
+     * @param array $param
+     * @return void
+     */
     public function setParameters(array $param);
     
+    /**
+     * @param SplFileInfo|null $outputFile
+     * @return SplFileInfo
+     */
     public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo;
     
+    /**
+     * @return DOMDocument
+     */
     public function writeDocument(): DOMDocument;
 }

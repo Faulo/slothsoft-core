@@ -48,6 +48,10 @@ final class MimeTypeDictionary {
         }
     }
     
+    /**
+     * @param string $mime
+     * @return string
+     */
     public static function guessExtension(string $mime): string {
         self::init();
         
@@ -56,6 +60,10 @@ final class MimeTypeDictionary {
         return self::$mimeExtensionList[$mime] ?? '';
     }
     
+    /**
+     * @param string $extension
+     * @return string
+     */
     public static function guessMime(string $extension): string {
         self::init();
         
@@ -64,6 +72,10 @@ final class MimeTypeDictionary {
         return self::$extensionMimeList[$extension] ?? 'application/octet-stream';
     }
     
+    /**
+     * @param string $mime
+     * @return string
+     */
     public static function guessCompressions(string $mime): string {
         self::init();
         
@@ -72,6 +84,11 @@ final class MimeTypeDictionary {
         return self::$mimeCompressionsList[$mime] ?? '';
     }
     
+    /**
+     * @param string $extension
+     * @param string $testMime
+     * @return bool
+     */
     public static function matchesMime(string $extension, string $testMime): bool {
         if ($testMime === '*/*') {
             return true;
@@ -85,14 +102,26 @@ final class MimeTypeDictionary {
         return ($testMime[0] === $extMime[0] and ($testMime[1] === '*' or $testMime[1] === $extMime[1]));
     }
     
+    /**
+     * @param string $type
+     * @return bool
+     */
     public static function isXml(string $type): bool {
         return $type === 'application/xml' or substr($type, -4) === '+xml';
     }
     
+    /**
+     * @param string $type
+     * @return bool
+     */
     public static function isHtml(string $type): bool {
         return $type === 'text/html';
     }
     
+    /**
+     * @param string $type
+     * @return bool
+     */
     public static function isText(string $type): bool {
         return $type === 'application/javascript' or $type === 'application/json' or substr($type, 0, 5) === 'text/' or self::isXml($type);
     }

@@ -8,6 +8,10 @@ use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
 final class ChunkedFilteredStreamFactory implements FilteredStreamWriterInterface {
     
+    /**
+     * @param StreamInterface $stream
+     * @return StreamInterface
+     */
     public function toFilteredStream(StreamInterface $stream): StreamInterface {
         return new ChunkedFilteredStream($stream);
     }

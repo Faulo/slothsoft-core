@@ -90,6 +90,10 @@ abstract class FileSystem {
         'ass'
     ];
     
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function ensureDirectory(string $directory): void {
         if (is_file($directory)) {
             unlink($directory);
@@ -100,18 +104,35 @@ abstract class FileSystem {
         }
     }
     
+    /**
+     * @param string $fileName
+     * @return bool
+     */
     public static function isVideo(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$videoExtensions);
     }
     
+    /**
+     * @param string $fileName
+     * @return bool
+     */
     public static function isAudio(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$audioExtensions);
     }
     
+    /**
+     * @param string $fileName
+     * @return bool
+     */
     public static function isSubttitle(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$subttitleExtensions);
     }
     
+    /**
+     * @param mixed $size
+     * @param int $precision
+     * @return string
+     */
     public static function drawBytes($size, int $precision = 2): string {
         for ($i = 0; $size > 1024; $i++) {
             $size /= 1024.0;
@@ -127,14 +148,27 @@ abstract class FileSystem {
         return $field;
     }
     
+    /**
+     * @param EphemeralStorageInterface $storage
+     * @return void
+     */
     public static function setStorage(EphemeralStorageInterface $storage) {
         self::storage()->setValue($storage);
     }
     
+    /**
+     * @return EphemeralStorageInterface
+     */
     public static function getStorage(): EphemeralStorageInterface {
         return self::storage()->getValue();
     }
     
+    /**
+     * @param string $path
+     * @param string $hash
+     * @return string
+     * @throws Exception
+     */
     public static function generateStorageKey(string $path, string $hash = ''): string {
         $key = realpath($path);
         if (! $key) {
@@ -146,6 +180,13 @@ abstract class FileSystem {
         return sprintf('file:///%s', $key);
     }
     
+    /**
+     * @param string $path
+     * @param DOMDocument|null $dataDoc
+     * @return DOMNode|null
+     * @throws DOMException
+     * @throws Exception
+     */
     public static function asNode(string $path, ?DOMDocument $dataDoc = null): ?DOMNode {
         $retNode = null;
         $isDir = is_dir($path);
@@ -260,10 +301,19 @@ abstract class FileSystem {
         return $retNode;
     }
     
+    /**
+     * @param string $fileName
+     * @param bool $absolute
+     * @return string
+     */
     public static function webpath(string $fileName, bool $absolute = true): string {
         return $absolute ? str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen($_SERVER['DOCUMENT_ROOT']))) : str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen(dirname($_SERVER['SCRIPT_FILENAME']) . '/')));
     }
     
+    /**
+     * @param string $fileName
+     * @return int|null
+     */
     public static function size(string $fileName): ?int {
         $size = null;
         if (is_readable($fileName)) {
@@ -274,21 +324,37 @@ abstract class FileSystem {
         return $size;
     }
     
+    /**
+     * @param string $fileName
+     * @return float|null
+     */
     public static function free(string $fileName): ?float {
         $space = disk_free_space($fileName);
         return is_float($space) ? $space : null;
     }
     
+    /**
+     * @param string $fileName
+     * @return string|null
+     */
     public static function mime(string $fileName): ?string {
         $fInfo = new FInfo(FILEINFO_MIME_TYPE);
         @$ret = $fInfo->file($fileName);
         return is_string($ret) ? $ret : null;
     }
     
+    /**
+     * @param string $fileName
+     * @return string
+     */
     public static function extension(string $fileName): string {
         return pathinfo($fileName, PATHINFO_EXTENSION);
     }
     
+    /**
+     * @param string $fileName
+     * @return int|null
+     */
     public static function changetime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
@@ -300,6 +366,10 @@ abstract class FileSystem {
         return $time;
     }
     
+    /**
+     * @param string $fileName
+     * @return int|null
+     */
     public static function maketime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
@@ -311,6 +381,10 @@ abstract class FileSystem {
         return $time;
     }
     
+    /**
+     * @param string $fileName
+     * @return mixed
+     */
     public static function lookupFile(string $fileName) {
         if (is_readable($fileName)) {
             $com = new COM('Scripting.FileSystemObject');
@@ -331,6 +405,11 @@ abstract class FileSystem {
         return null;
     }
     
+    /**
+     * @param string $filename
+     * @param bool $removeRoot
+     * @return string
+     */
     public static function filenameEncode(string $filename, bool $removeRoot = false): string {
         if ($removeRoot) {
             if (strpos($filename, ServerEnvironment::getRootDirectory()) === 0) {
@@ -345,6 +424,10 @@ abstract class FileSystem {
         ], '-', $filename);
     }
     
+    /**
+     * @param string $filename
+     * @return string
+     */
     public static function filenameSanitize(string $filename): string {
         $notAllowed = [
             ':',
@@ -374,6 +457,11 @@ abstract class FileSystem {
         return $filename;
     }
     
+    /**
+     * @param mixed $filePath
+     * @param mixed $downloadName
+     * @return void
+     */
     public static function download($filePath, $downloadName) {
         // error_reporting(0);
         $size = (float) self::size($filePath);
@@ -414,6 +502,12 @@ abstract class FileSystem {
         self::outputChunk($filePath, $start, $length);
     }
     
+    /**
+     * @param mixed $filePath
+     * @param mixed $start
+     * @param mixed $length
+     * @return void
+     */
     public static function outputChunk($filePath, $start, $length) {
         set_time_limit(0);
         // how many bytes per chunk
@@ -542,6 +636,11 @@ abstract class FileSystem {
         return $ret;
     }
     
+    /**
+     * @param string $dirPath
+     * @param string|null $rootPath
+     * @return mixed
+     */
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);
@@ -566,6 +665,11 @@ abstract class FileSystem {
         return false;
     }
     
+    /**
+     * @param string $filePath
+     * @return array
+     * @throws Exception
+     */
     public static function mediaInfo(string $filePath): array {
         $filePath = realpath($filePath);
         $ret = [
@@ -620,6 +724,12 @@ abstract class FileSystem {
         return $ret;
     }
     
+    /**
+     * @param mixed $archivePath
+     * @param mixed $targetDirectory
+     * @return mixed
+     * @throws Exception
+     */
     public static function extractArchive($archivePath, $targetDirectory) {
         if (! is_readable(self::ZIP_PATH)) {
             throw new Exception('7-Zip not found @ ' . self::ZIP_PATH);
@@ -633,6 +743,13 @@ abstract class FileSystem {
         return true;
     }
     
+    /**
+     * @param mixed $directoryPath
+     * @param mixed $archiveName
+     * @param mixed $checkUpdate
+     * @return mixed
+     * @throws Exception
+     */
     public static function archivePath($directoryPath, $archiveName, $checkUpdate = false) {
         $directoryPath = realpath($directoryPath);
         // $rootPath = realpath($directoryPath . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR;
@@ -673,6 +790,13 @@ abstract class FileSystem {
         return $ret;
     }
     
+    /**
+     * @param mixed $destPath
+     * @param mixed $sourceURI
+     * @param array $options
+     * @return mixed
+     * @throws Exception
+     */
     public static function downloadByURI($destPath, $sourceURI, array $options = []) {
         $ret = 'ERROR';
         $downloadCommand = $options['download-cmd'] ?? 'curl %s -o %s';
@@ -713,6 +837,11 @@ abstract class FileSystem {
         return $ret;
     }
     
+    /**
+     * @param mixed $sourceURI
+     * @param mixed $linkQuery
+     * @return mixed
+     */
     public static function getLinkByXPath($sourceURI, $linkQuery) {
         $ret = false;
         $sourceParam = parse_url($sourceURI);
@@ -732,6 +861,13 @@ abstract class FileSystem {
         return $ret;
     }
     
+    /**
+     * @param string $path
+     * @param string $delimiter
+     * @param string $enclosure
+     * @param string $escape
+     * @return array|null
+     */
     public static function loadCSV(string $path, string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): ?array {
         $ret = null;
         if ($handle = fopen($path, 'r')) {
@@ -785,6 +921,7 @@ abstract class FileSystem {
      *
      * @param string $path
      * @param bool $keepRoot
+     * @return void
      */
     public static function removeDir(string $path, bool $keepRoot = false): void {
         if ($path === '' or ! is_dir($path) or ! is_writable($path) or ! realpath($path)) {
@@ -820,6 +957,9 @@ abstract class FileSystem {
      *
      * @param string $from
      * @param string $to
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws DirectoryCouldNotBeCreatedException
      */
     public static function copy(string $from, string $to): void {
         if (realpath($from) === false) {

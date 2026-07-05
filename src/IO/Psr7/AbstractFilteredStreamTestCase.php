@@ -11,10 +11,20 @@ use Slothsoft\Core\IO\Writable\FilteredStreamWriterInterface;
 
 abstract class AbstractFilteredStreamTestCase extends TestCase {
     
+    /**
+     * @return string
+     */
     abstract protected function getInput(): string;
     
+    /**
+     * @param string $input
+     * @return string
+     */
     abstract protected function calculateExpectedResult(string $input): string;
     
+    /**
+     * @return FilteredStreamWriterInterface
+     */
     abstract protected function getFilterFactory(): FilteredStreamWriterInterface;
     
     private StreamInterface $inputStream;
@@ -23,6 +33,9 @@ abstract class AbstractFilteredStreamTestCase extends TestCase {
     
     private FilteredStreamWriterInterface $factory;
     
+    /**
+     * @return void
+     */
     public function setUp(): void {
         $input = $this->getInput();
         $this->inputStream = Utils::streamFor($input);
@@ -30,6 +43,9 @@ abstract class AbstractFilteredStreamTestCase extends TestCase {
         $this->factory = $this->getFilterFactory();
     }
     
+    /**
+     * @return void
+     */
     public function testReadStream(): void {
         $stream = $this->factory->toFilteredStream($this->inputStream);
         

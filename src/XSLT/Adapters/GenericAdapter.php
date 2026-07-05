@@ -21,18 +21,33 @@ abstract class GenericAdapter implements AdapterInterface {
     
     protected array $param = [];
     
+    /**
+     * @param array $param
+     * @return void
+     */
     public function setParameters(array $param) {
         $this->param = $param;
     }
     
+    /**
+     * @param InputInterface $input
+     * @return void
+     */
     public function setSource(InputInterface $input) {
         $this->source = $input;
     }
     
+    /**
+     * @param InputInterface $input
+     * @return void
+     */
     public function setTemplate(InputInterface $input) {
         $this->template = $input;
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function writeDocument(): DOMDocument {
         return DOMHelper::loadDocument((string) $this->writeFile());
     }

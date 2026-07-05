@@ -12,10 +12,17 @@ final class StringWriterFromStringDelegate implements StringWriterInterface {
     
     private ?string $result = null;
     
+    /**
+     * @param callable $delegate
+     * @return void
+     */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);
     }
     
+    /**
+     * @return string
+     */
     public function toString(): string {
         if ($this->result === null) {
             $this->result = ($this->delegate)();

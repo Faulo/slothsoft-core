@@ -10,6 +10,11 @@ use Slothsoft\Core\StreamWrapper\StreamWrapperInterface;
 
 final class StreamHelper {
     
+    /**
+     * @param StreamInterface $input
+     * @param mixed $chunkSize
+     * @return StreamInterface
+     */
     public static function cacheStream(StreamInterface $input, $chunkSize = Memory::ONE_KILOBYTE): StreamInterface {
         $cache = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
         while (! $input->eof()) {
@@ -19,6 +24,12 @@ final class StreamHelper {
         return new Stream($cache);
     }
     
+    /**
+     * @param StreamInterface $input
+     * @param int $offset
+     * @param int $length
+     * @return StreamInterface
+     */
     public static function sliceStream(StreamInterface $input, int $offset, int $length): StreamInterface {
         $input = self::cacheStream($input);
         $cache = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);

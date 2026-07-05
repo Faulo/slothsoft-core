@@ -10,6 +10,11 @@ use RecursiveIteratorIterator;
 
 final class RecursiveFileIterator {
     
+    /**
+     * @param string $directory
+     * @return iterable
+     * @throws InvalidArgumentException
+     */
     public static function iterateDirectoriesAndFiles(string $directory): iterable {
         if (! is_dir($directory)) {
             throw new InvalidArgumentException("Directory '$directory' does not exist.");
@@ -18,6 +23,9 @@ final class RecursiveFileIterator {
         $iterator = new RecursiveDirectoryIterator($directory);
         $iterator = new class($iterator) extends RecursiveFilterIterator {
             
+            /**
+             * @return bool
+             */
             public function accept(): bool {
                 $name = $this->current()->getFilename();
                 return $name !== '..';
@@ -32,6 +40,10 @@ final class RecursiveFileIterator {
         }
     }
     
+    /**
+     * @param string $directory
+     * @return iterable
+     */
     public static function iterateFiles(string $directory): iterable {
         foreach (self::iterateDirectoriesAndFiles($directory) as $file) {
             if (is_file($file)) {
@@ -40,6 +52,10 @@ final class RecursiveFileIterator {
         }
     }
     
+    /**
+     * @param string $directory
+     * @return iterable
+     */
     public static function iterateDirectories(string $directory): iterable {
         foreach (self::iterateDirectoriesAndFiles($directory) as $file) {
             if (is_dir($file)) {

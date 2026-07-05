@@ -11,10 +11,17 @@ final class ChunkWriterFromStringWriter implements ChunkWriterInterface {
     
     private StringWriterInterface $source;
     
+    /**
+     * @param StringWriterInterface $source
+     * @return void
+     */
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         yield $this->source->toString();
     }

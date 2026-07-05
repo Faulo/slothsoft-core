@@ -14,10 +14,17 @@ final class DOMWriterMemoryCache implements DOMWriterInterface {
     
     private ?DOMDocument $result = null;
     
+    /**
+     * @param DOMWriterInterface $source
+     * @return void
+     */
     public function __construct(DOMWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function toDocument(): DOMDocument {
         if ($this->result === null) {
             $this->result = $this->source->toDocument();

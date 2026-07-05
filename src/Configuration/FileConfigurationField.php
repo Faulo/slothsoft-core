@@ -7,6 +7,11 @@ use BadMethodCallException;
 
 final class FileConfigurationField extends ConfigurationField {
     
+    /**
+     * @param mixed $newValue
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function setValue($newValue) {
         $newValue = (string) $newValue;
         if ($newValue === '') {

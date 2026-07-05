@@ -25,11 +25,20 @@ abstract class AbstractFilteredStream implements StreamInterface {
     
     private int $state;
     
+    /**
+     * @param StreamInterface $stream
+     * @return void
+     */
     public function __construct(StreamInterface $stream) {
         $this->stream = new CachingStream($stream);
         $this->state = static::STATE_OPENING;
     }
     
+    /**
+     * @param mixed $length
+     * @return mixed
+     * @throws RuntimeException
+     */
     public function read($length) {
         switch ($this->state) {
             case static::STATE_OPENING:
@@ -51,6 +60,9 @@ abstract class AbstractFilteredStream implements StreamInterface {
         throw new RuntimeException("Invalid stream state '$this->state'.");
     }
     
+    /**
+     * @return mixed
+     */
     public function getContents() {
         $buffer = '';
         while (! $this->eof()) {
@@ -59,14 +71,23 @@ abstract class AbstractFilteredStream implements StreamInterface {
         return $buffer;
     }
     
+    /**
+     * @return mixed
+     */
     public function eof() {
         return $this->state === static::STATE_CLOSED;
     }
     
+    /**
+     * @return mixed
+     */
     public function isSeekable() {
         return $this->stream->isSeekable();
     }
     
+    /**
+     * @return mixed
+     */
     public function getSize() {
         if ($this->isSeekable()) {
             $ret = strlen($this->getContents());
@@ -77,6 +98,12 @@ abstract class AbstractFilteredStream implements StreamInterface {
         }
     }
     
+    /**
+     * @param mixed $offset
+     * @param mixed $whence
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function seek($offset, $whence = SEEK_SET) {
         if ($offset === 0 and $whence === SEEK_SET) {
             $this->stream->rewind();
@@ -86,9 +113,19 @@ abstract class AbstractFilteredStream implements StreamInterface {
         }
     }
     
+    /**
+     * @return string
+     */
     abstract protected function processHeader(): string;
     
+    /**
+     * @param string $data
+     * @return string
+     */
     abstract protected function processPayload(string $data): string;
     
+    /**
+     * @return string
+     */
     abstract protected function processFooter(): string;
 }

@@ -11,10 +11,17 @@ final class ChunkWriterFromProcess implements ChunkWriterInterface {
     
     private Process $process;
     
+    /**
+     * @param Process $process
+     * @return void
+     */
     public function __construct(Process $process) {
         $this->process = $process;
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         $this->process->start();
         foreach ($this->process as $data) {

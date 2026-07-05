@@ -8,6 +8,11 @@ use Slothsoft\Core\EphemeralStorageInterface;
 
 final class StorageConfigurationField extends ConfigurationField {
     
+    /**
+     * @param mixed $newValue
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function setValue($newValue) {
         if ($newValue instanceof EphemeralStorageInterface) {
             parent::setValue($newValue);

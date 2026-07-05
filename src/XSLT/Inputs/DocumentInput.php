@@ -19,10 +19,17 @@ final class DocumentInput implements InputInterface {
     
     private ?SplFileInfo $contentFile = null;
     
+    /**
+     * @param DOMDocument $input
+     * @return void
+     */
     public function __construct(DOMDocument $input) {
         $this->content = $input;
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         if ($this->contentFile === null) {
             $this->contentFile = FileInfoFactory::createFromDocument($this->content);
@@ -30,6 +37,9 @@ final class DocumentInput implements InputInterface {
         return $this->contentFile;
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function toDocument(): DOMDocument {
         return $this->content;
     }

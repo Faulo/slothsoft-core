@@ -16,6 +16,12 @@ use SplFileInfo;
  */
 final class ImageHelper {
     
+    /**
+     * @param SplFileInfo $sourceFile
+     * @param SplFileInfo $targetFile
+     * @param int|null $alphaColorIndex
+     * @return void
+     */
     public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = -1): void {
         FileSystem::ensureDirectory($targetFile->getPath());
         
@@ -30,6 +36,15 @@ final class ImageHelper {
         }
     }
     
+    /**
+     * @param SplFileInfo $targetFile
+     * @param int $spriteWidth
+     * @param int $spriteHeight
+     * @param int $columns
+     * @param int $rows
+     * @param Imagick ...$sprites
+     * @return void
+     */
     public static function createSpriteSheetFromImages(SplFileInfo $targetFile, int $spriteWidth, int $spriteHeight, int $columns = 1, int $rows = 1, Imagick ...$sprites): void {
         FileSystem::ensureDirectory($targetFile->getPath());
         
@@ -51,6 +66,15 @@ final class ImageHelper {
         $sheet->writeImage((string) $targetFile);
     }
     
+    /**
+     * @param SplFileInfo $targetFile
+     * @param int $spriteWidth
+     * @param int $spriteHeight
+     * @param int $columns
+     * @param int $rows
+     * @param SplFileInfo ...$spriteFiles
+     * @return void
+     */
     public static function createSpriteSheet(SplFileInfo $targetFile, int $spriteWidth, int $spriteHeight, int $columns = 1, int $rows = 1, SplFileInfo ...$spriteFiles): void {
         $sprites = [];
         foreach ($spriteFiles as $spriteFile) {

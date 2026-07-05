@@ -19,14 +19,24 @@ final class FileInput implements InputInterface {
     
     private ?DOMDocument $contentDocument = null;
     
+    /**
+     * @param SplFileInfo $input
+     * @return void
+     */
     public function __construct(SplFileInfo $input) {
         $this->content = $input;
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         return $this->content;
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function toDocument(): DOMDocument {
         if ($this->contentDocument === null) {
             $this->contentDocument = DOMHelper::loadDocument((string) $this->content);

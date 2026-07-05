@@ -24,6 +24,10 @@ final class OneTimeGeneratorStream implements StreamInterface {
     
     private int $state;
     
+    /**
+     * @param ChunkWriterInterface $writer
+     * @return void
+     */
     public function __construct(ChunkWriterInterface $writer) {
         $this->writer = $writer;
         $this->generator = null;
@@ -37,46 +41,79 @@ final class OneTimeGeneratorStream implements StreamInterface {
         }
     }
     
+    /**
+     * @return bool
+     */
     public function eof(): bool {
         $this->init();
         
         return $this->state === self::END and $this->bufferIndex >= $this->bufferSize;
     }
     
+    /**
+     * @return void
+     */
     public function rewind() {
         $this->seek(0);
     }
     
+    /**
+     * @return void
+     */
     public function close() {
         $this->writer = null;
         $this->generator = null;
         $this->state = self::END;
     }
     
+    /**
+     * @return void
+     */
     public function detach() {
         $this->close();
     }
     
+    /**
+     * @param mixed $key
+     * @return array|null
+     */
     public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
+    /**
+     * @return string
+     * @throws BadMethodCallException
+     */
     public function getContents(): string {
         throw new BadMethodCallException('Cannot getContents a OneTimeGeneratorStream.');
     }
     
+    /**
+     * @return mixed
+     */
     public function __toString() {
         return 'OneTimeGeneratorStream';
     }
     
+    /**
+     * @return mixed
+     */
     public function getSize() {
         return null;
     }
     
+    /**
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function tell() {
         throw new BadMethodCallException('Cannot tell a OneTimeGeneratorStream.');
     }
     
+    /**
+     * @return bool
+     */
     public function isReadable(): bool {
         return true;
     }
@@ -87,6 +124,11 @@ final class OneTimeGeneratorStream implements StreamInterface {
     
     private int $bufferSize = 0;
     
+    /**
+     * @param mixed $length
+     * @return mixed
+     * @throws BadMethodCallException
+     */
     public function read($length) {
         $this->init();
         
@@ -119,18 +161,35 @@ final class OneTimeGeneratorStream implements StreamInterface {
         return $result;
     }
     
+    /**
+     * @return bool
+     */
     public function isSeekable(): bool {
         return false;
     }
     
+    /**
+     * @param mixed $offset
+     * @param mixed $whence
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function seek($offset, $whence = SEEK_SET) {
         throw new BadMethodCallException('Cannot seek a OneTimeGeneratorStream.');
     }
     
+    /**
+     * @return bool
+     */
     public function isWritable(): bool {
         return false;
     }
     
+    /**
+     * @param mixed $string
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function write($string) {
         throw new BadMethodCallException('Cannot write a OneTimeGeneratorStream.');
     }

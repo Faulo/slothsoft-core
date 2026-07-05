@@ -10,6 +10,9 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
     
     protected static DOMHelper $dom;
     
+    /**
+     * @return DOMHelper
+     */
     protected static function _DOMHelper(): DOMHelper {
         if (! isset(self::$dom)) {
             self::$dom = new DOMHelper();
@@ -35,6 +38,10 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         return $directory . DIRECTORY_SEPARATOR . $third;
     }
     
+    /**
+     * @param string $name
+     * @return void
+     */
     public function __construct(string $name = '') {
         $this->rootDirectory = ServerEnvironment::getCacheDirectory() . DIRECTORY_SEPARATOR . self::ROOT;
         
@@ -49,11 +56,21 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         FileSystem::ensureDirectory($this->rootDirectory);
     }
     
+    /**
+     * @param string $name
+     * @param int $modifyTime
+     * @return bool
+     */
     public function exists(string $name, int $modifyTime): bool {
         $path = $this->hashPath($name);
         return is_file($path) and FileSystem::changetime($path) >= $modifyTime;
     }
     
+    /**
+     * @param string $name
+     * @param int $modifyTime
+     * @return string|null
+     */
     public function retrieve(string $name, int $modifyTime): ?string {
         $path = $this->hashPath($name);
         if (! is_file($path)) {
@@ -67,6 +84,12 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         return file_get_contents($path);
     }
     
+    /**
+     * @param string $name
+     * @param int $modifyTime
+     * @param DOMDocument|null $targetDoc
+     * @return DOMNode|null
+     */
     public function retrieveXML(string $name, int $modifyTime, ?DOMDocument $targetDoc = null): ?DOMNode {
         $ret = null;
         if ($data = $this->retrieve($name, $modifyTime)) {
@@ -76,6 +99,11 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         return $ret;
     }
     
+    /**
+     * @param string $name
+     * @param int $modifyTime
+     * @return DOMDocument|null
+     */
     public function retrieveDocument(string $name, int $modifyTime): ?DOMDocument {
         $path = $this->hashPath($name);
         if (! is_file($path)) {
@@ -96,6 +124,11 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         }
     }
     
+    /**
+     * @param string $name
+     * @param int $modifyTime
+     * @return mixed
+     */
     public function retrieveJSON(string $name, int $modifyTime) {
         $retObject = null;
         $data = $this->retrieve($name, $modifyTime);
@@ -108,6 +141,10 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         return $retObject;
     }
     
+    /**
+     * @param string $name
+     * @return bool
+     */
     public function delete(string $name): bool {
         $path = $this->hashPath($name);
         $result = unlink($path);
@@ -115,6 +152,12 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         return $result;
     }
     
+    /**
+     * @param string $name
+     * @param string $payload
+     * @param int $modifyTime
+     * @return bool
+     */
     public function store(string $name, string $payload, int $modifyTime): bool {
         $path = $this->hashPath($name);
         
@@ -129,11 +172,23 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         return true;
     }
     
+    /**
+     * @param string $name
+     * @param DOMNode $dataNode
+     * @param int $modifyTime
+     * @return bool
+     */
     public function storeXML(string $name, DOMNode $dataNode, int $modifyTime): bool {
         $dom = self::_DOMHelper();
         return $this->store($name, $dom->stringify($dataNode), $modifyTime);
     }
     
+    /**
+     * @param string $name
+     * @param DOMDocument $dataDoc
+     * @param int $modifyTime
+     * @return bool
+     */
     public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {
         if (! $dataDoc->documentElement) {
             return false;
@@ -149,6 +204,12 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
         return true;
     }
     
+    /**
+     * @param string $name
+     * @param mixed $dataObject
+     * @param int $modifyTime
+     * @return bool
+     */
     public function storeJSON(string $name, $dataObject, int $modifyTime): bool {
         return $this->store($name, json_encode($dataObject), $modifyTime);
     }

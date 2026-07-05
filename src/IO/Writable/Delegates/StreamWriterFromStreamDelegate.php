@@ -13,10 +13,17 @@ final class StreamWriterFromStreamDelegate implements StreamWriterInterface {
     
     private ?StreamInterface $result = null;
     
+    /**
+     * @param callable $delegate
+     * @return void
+     */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);
     }
     
+    /**
+     * @return StreamInterface
+     */
     public function toStream(): StreamInterface {
         if ($this->result === null) {
             $this->result = ($this->delegate)();

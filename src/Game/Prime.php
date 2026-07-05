@@ -12,6 +12,10 @@ namespace Slothsoft\Core\Game;
  */
 final class Prime {
     
+    /**
+     * @param mixed $size
+     * @return array
+     */
     public static function getPrimeList($size): array {
         $ret = [];
         for ($i = 1; $i > 0; $i++) {
@@ -26,6 +30,10 @@ final class Prime {
     }
     
     // http://stackoverflow.com/questions/16763322/a-formula-to-find-prime-numbers-in-a-loop
+    /**
+     * @param mixed $num
+     * @return bool
+     */
     public static function isPrime($num): bool {
         // 1 is not prime. See: http://en.wikipedia.org/wiki/Prime_number#Primality_of_one
         if ($num === 1) {

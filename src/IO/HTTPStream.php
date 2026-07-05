@@ -48,72 +48,126 @@ abstract class HTTPStream {
     protected $heartbeatTimeout = Seconds::HOUR;
     
     // time without actual content before child is terminated
+    /**
+     * @return mixed
+     */
     public function getMime() {
         return $this->mime;
     }
     
+    /**
+     * @return mixed
+     */
     public function getEncoding() {
         return $this->encoding;
     }
     
+    /**
+     * @return mixed
+     */
     public function getHeaderList() {
         return $this->headerList;
     }
     
+    /**
+     * @return void
+     */
     public function setStatusError() {
         $this->status = self::STATUS_ERROR;
     }
     
+    /**
+     * @return void
+     */
     public function setStatusDone() {
         $this->status = self::STATUS_DONE;
     }
     
+    /**
+     * @return void
+     */
     public function setStatusRetry() {
         $this->status = self::STATUS_RETRY;
     }
     
+    /**
+     * @return void
+     */
     public function setStatusContent() {
         $this->status = self::STATUS_CONTENT;
     }
     
+    /**
+     * @return void
+     */
     public function setStatusContentDone() {
         $this->status = self::STATUS_CONTENTDONE;
     }
     
+    /**
+     * @return mixed
+     */
     public function getStatus() {
         $this->parseStatus();
         return $this->status;
     }
     
+    /**
+     * @return void
+     */
     abstract protected function parseStatus();
     
+    /**
+     * @return mixed
+     */
     public function getContent() {
         $this->parseContent();
         return $this->content;
     }
     
+    /**
+     * @return void
+     */
     abstract protected function parseContent();
     
+    /**
+     * @return mixed
+     */
     public function getSleepDuration() {
         return $this->sleepDuration;
     }
     
+    /**
+     * @return mixed
+     */
     public function getHeartbeatInterval() {
         return $this->heartbeatInterval;
     }
     
+    /**
+     * @return mixed
+     */
     public function getHeartbeatTimeout() {
         return $this->heartbeatTimeout;
     }
     
+    /**
+     * @return mixed
+     */
     public function getHeartbeatContent() {
         return $this->heartbeatContent;
     }
     
+    /**
+     * @return mixed
+     */
     public function getHeartbeatEOL() {
         return $this->heartbeatEOL;
     }
     
+    /**
+     * @return mixed
+     */
     public function __toString() {
         return sprintf('%s: %d', __CLASS__, time());
     }

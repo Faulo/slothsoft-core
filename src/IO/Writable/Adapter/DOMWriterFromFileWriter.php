@@ -18,12 +18,21 @@ final class DOMWriterFromFileWriter implements DOMWriterInterface {
     
     private bool $isHtml;
     
+    /**
+     * @param FileWriterInterface $source
+     * @param string|null $documentURI
+     * @param bool $isHtml
+     * @return void
+     */
     public function __construct(FileWriterInterface $source, ?string $documentURI = null, bool $isHtml = false) {
         $this->source = $source;
         $this->documentURI = $documentURI;
         $this->isHtml = $isHtml;
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function toDocument(): DOMDocument {
         $document = DOMHelper::loadDocument((string) $this->source->toFile(), $this->isHtml);
         

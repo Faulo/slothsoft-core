@@ -12,10 +12,17 @@ final class FileWriterFromStringWriter implements FileWriterInterface {
     
     private StringWriterInterface $source;
     
+    /**
+     * @param StringWriterInterface $source
+     * @return void
+     */
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         return FileInfoFactory::createFromString($this->source->toString());
     }

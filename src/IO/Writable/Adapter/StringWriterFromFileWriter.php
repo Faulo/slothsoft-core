@@ -10,10 +10,17 @@ final class StringWriterFromFileWriter implements StringWriterInterface {
     
     private FileWriterInterface $source;
     
+    /**
+     * @param FileWriterInterface $source
+     * @return void
+     */
     public function __construct(FileWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return string
+     */
     public function toString(): string {
         return file_get_contents((string) $this->source->toFile());
     }

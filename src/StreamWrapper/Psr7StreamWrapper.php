@@ -10,18 +10,33 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
     
     private StreamInterface $stream;
     
+    /**
+     * @param StreamInterface $stream
+     * @return void
+     */
     public function __construct(StreamInterface $stream) {
         $this->stream = $stream;
     }
     
+    /**
+     * @return array
+     */
     public function stream_stat(): array {
         return [];
     }
     
+    /**
+     * @return bool
+     */
     public function stream_eof(): bool {
         return $this->stream->eof();
     }
     
+    /**
+     * @param int $offset
+     * @param int $whence
+     * @return int
+     */
     public function stream_seek(int $offset, int $whence = SEEK_SET): int {
         try {
             $this->stream->seek($offset, $whence);
@@ -31,6 +46,10 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
         }
     }
     
+    /**
+     * @param int $count
+     * @return mixed
+     */
     public function stream_read(int $count) {
         try {
             return $this->stream->read($count);
@@ -39,6 +58,10 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
         }
     }
     
+    /**
+     * @param string $data
+     * @return mixed
+     */
     public function stream_write(string $data) {
         try {
             return $this->stream->write($data);
@@ -47,6 +70,9 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
         }
     }
     
+    /**
+     * @return mixed
+     */
     public function stream_tell() {
         try {
             return $this->stream->tell();
@@ -55,6 +81,9 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
         }
     }
     
+    /**
+     * @return bool
+     */
     public function stream_close(): bool {
         try {
             $this->stream->close();

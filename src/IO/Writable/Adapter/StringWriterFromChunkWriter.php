@@ -10,10 +10,17 @@ final class StringWriterFromChunkWriter implements StringWriterInterface {
     
     private ChunkWriterInterface $source;
     
+    /**
+     * @param ChunkWriterInterface $source
+     * @return void
+     */
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return string
+     */
     public function toString(): string {
         $result = '';
         /** @noinspection PhpLoopCanBeReplacedWithImplodeInspection */

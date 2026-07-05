@@ -25,10 +25,17 @@ final class Manager {
         return $field;
     }
     
+    /**
+     * @param bool $value
+     * @return void
+     */
     public static function setLogEnabled(bool $value) {
         self::logEnabled()->setValue($value);
     }
     
+    /**
+     * @return bool
+     */
     public static function getLogEnabled(): bool {
         return self::logEnabled()->getValue();
     }
@@ -41,10 +48,17 @@ final class Manager {
         return $field;
     }
     
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function setLogDirectory(string $directory) {
         self::logDirectory()->setValue($directory);
     }
     
+    /**
+     * @return string
+     */
     public static function getLogDirectory(): string {
         return self::logDirectory()->getValue();
     }
@@ -57,6 +71,9 @@ final class Manager {
     
     protected static $tableList = [];
     
+    /**
+     * @return Client
+     */
     public static function getClient(): Client {
         if (! self::$client) {
             self::_createLog('Manager: creating Client...');
@@ -65,6 +82,10 @@ final class Manager {
         return self::$client;
     }
     
+    /**
+     * @param mixed $dbName
+     * @return mixed
+     */
     public static function getDatabase($dbName) {
         $dbName = mb_strtolower(trim($dbName));
         if (! isset(self::$databaseList[$dbName])) {
@@ -75,6 +96,11 @@ final class Manager {
         return self::$databaseList[$dbName];
     }
     
+    /**
+     * @param mixed $dbName
+     * @param mixed $tableName
+     * @return mixed
+     */
     public static function getTable($dbName, $tableName) {
         $dbName = mb_strtolower(trim($dbName));
         $tableName = mb_strtolower(trim($tableName));
@@ -89,6 +115,9 @@ final class Manager {
         return self::$tableList[$dbName][$tableName];
     }
     
+    /**
+     * @return void
+     */
     public static function cron() {
         $infoTable = self::getTable('information_schema', 'TABLES');
         $tableList = $infoTable->select([
@@ -119,6 +148,10 @@ final class Manager {
         }
     }
     
+    /**
+     * @param mixed $sql
+     * @return void
+     */
     public static function _createLog($sql) {
         if (self::getLogEnabled()) {
             if (strlen($sql) > self::LOG_LINELENGTH) {

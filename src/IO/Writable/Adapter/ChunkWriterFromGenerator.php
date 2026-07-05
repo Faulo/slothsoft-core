@@ -10,10 +10,17 @@ final class ChunkWriterFromGenerator implements ChunkWriterInterface {
     
     private Generator $generator;
     
+    /**
+     * @param Generator $generator
+     * @return void
+     */
     public function __construct(Generator $generator) {
         $this->generator = $generator;
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         return $this->generator;
     }

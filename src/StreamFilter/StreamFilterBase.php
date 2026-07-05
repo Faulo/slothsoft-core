@@ -16,11 +16,21 @@ abstract class StreamFilterBase extends php_user_filter implements StreamFilterI
     
     private int $state;
     
+    /**
+     * @return bool
+     */
     public function onCreate(): bool {
         $this->state = self::STATE_OPENING;
         return true;
     }
     
+    /**
+     * @param mixed $in
+     * @param mixed $out
+     * @param mixed $consumed
+     * @param mixed $closing
+     * @return int
+     */
     public final function filter($in, $out, &$consumed, $closing): int {
         if ($this->state === self::STATE_OPENING) {
             $data = $this->processHeader();
@@ -55,9 +65,19 @@ abstract class StreamFilterBase extends php_user_filter implements StreamFilterI
         return stream_bucket_new($this->stream, $data);
     }
     
+    /**
+     * @return string
+     */
     abstract protected function processHeader(): string;
     
+    /**
+     * @param string $input
+     * @return string
+     */
     abstract protected function processPayload(string $input): string;
     
+    /**
+     * @return string
+     */
     abstract protected function processFooter(): string;
 }

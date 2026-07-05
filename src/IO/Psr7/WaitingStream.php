@@ -16,16 +16,29 @@ final class WaitingStream implements StreamInterface {
     
     private ?array $heartbeat;
     
+    /**
+     * @param StreamInterface $stream
+     * @param int $waitInMicroseconds
+     * @param array|null $heartbeat
+     * @return void
+     */
     public function __construct(StreamInterface $stream, int $waitInMicroseconds, ?array $heartbeat = null) {
         $this->stream = $stream;
         $this->usleep = $waitInMicroseconds;
         $this->heartbeat = $heartbeat;
     }
     
+    /**
+     * @return bool
+     */
     public function isReadable(): bool {
         return true;
     }
     
+    /**
+     * @param mixed $length
+     * @return mixed
+     */
     public function read($length) {
         $timeWaited = 0;
         while (! $this->stream->eof()) {
@@ -45,18 +58,35 @@ final class WaitingStream implements StreamInterface {
         return '';
     }
     
+    /**
+     * @return bool
+     */
     public function isSeekable(): bool {
         return false;
     }
     
+    /**
+     * @param mixed $offset
+     * @param mixed $whence
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function seek($offset, $whence = SEEK_SET) {
         throw new BadMethodCallException('Cannot seek a WaitingStream.');
     }
     
+    /**
+     * @return bool
+     */
     public function isWritable(): bool {
         return false;
     }
     
+    /**
+     * @param mixed $string
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function write($string) {
         throw new BadMethodCallException('Cannot write a WaitingStream.');
     }

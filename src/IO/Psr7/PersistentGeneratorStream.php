@@ -26,6 +26,10 @@ final class PersistentGeneratorStream implements StreamInterface {
     
     private int $state;
     
+    /**
+     * @param ChunkWriterInterface $writer
+     * @return void
+     */
     public function __construct(ChunkWriterInterface $writer) {
         $this->writer = $writer;
         $this->generator = null;
@@ -43,16 +47,25 @@ final class PersistentGeneratorStream implements StreamInterface {
         }
     }
     
+    /**
+     * @return bool
+     */
     public function eof(): bool {
         $this->init();
         
         return $this->state === self::END and $this->bufferIndex >= $this->bufferSize;
     }
     
+    /**
+     * @return void
+     */
     public function rewind() {
         $this->seek(0);
     }
     
+    /**
+     * @return void
+     */
     public function close() {
         $this->writer = null;
         $this->generator = null;
@@ -61,15 +74,25 @@ final class PersistentGeneratorStream implements StreamInterface {
         }
     }
     
+    /**
+     * @return mixed
+     */
     public function detach() {
         $this->close();
         return null;
     }
     
+    /**
+     * @param mixed $key
+     * @return array|null
+     */
     public function getMetadata($key = null): ?array {
         return $key === null ? [] : null;
     }
     
+    /**
+     * @return mixed
+     */
     public function getContents() {
         $this->init();
         
@@ -82,6 +105,9 @@ final class PersistentGeneratorStream implements StreamInterface {
         return $this->read(PHP_INT_MAX);
     }
     
+    /**
+     * @return mixed
+     */
     public function __toString() {
         $this->init();
         
@@ -94,6 +120,9 @@ final class PersistentGeneratorStream implements StreamInterface {
         return $this->read(PHP_INT_MAX);
     }
     
+    /**
+     * @return int
+     */
     public function getSize(): int {
         $this->init();
         
@@ -106,10 +135,16 @@ final class PersistentGeneratorStream implements StreamInterface {
         return $this->bufferSize;
     }
     
+    /**
+     * @return int
+     */
     public function tell(): int {
         return $this->bufferIndex;
     }
     
+    /**
+     * @return bool
+     */
     public function isReadable(): bool {
         return true;
     }
@@ -120,6 +155,10 @@ final class PersistentGeneratorStream implements StreamInterface {
     
     private int $bufferSize = 0;
     
+    /**
+     * @param mixed $length
+     * @return mixed
+     */
     public function read($length) {
         $this->init();
         
@@ -152,10 +191,19 @@ final class PersistentGeneratorStream implements StreamInterface {
         return $result;
     }
     
+    /**
+     * @return bool
+     */
     public function isSeekable(): bool {
         return true;
     }
     
+    /**
+     * @param mixed $offset
+     * @param mixed $whence
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function seek($offset, $whence = SEEK_SET) {
         if ($whence === SEEK_SET) {
             while ($this->state === self::MIDDLE) {
@@ -168,10 +216,18 @@ final class PersistentGeneratorStream implements StreamInterface {
         }
     }
     
+    /**
+     * @return bool
+     */
     public function isWritable(): bool {
         return false;
     }
     
+    /**
+     * @param mixed $string
+     * @return void
+     * @throws BadMethodCallException
+     */
     public function write($string) {
         throw new BadMethodCallException('Cannot write a PersistentGeneratorStream.');
     }

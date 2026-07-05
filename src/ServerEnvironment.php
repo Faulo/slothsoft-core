@@ -16,10 +16,17 @@ final class ServerEnvironment {
         return $field;
     }
     
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function setRootDirectory(string $directory) {
         self::rootDirectory()->setValue($directory);
     }
     
+    /**
+     * @return string
+     */
     public static function getRootDirectory(): string {
         return self::rootDirectory()->getValue();
     }
@@ -32,10 +39,17 @@ final class ServerEnvironment {
         return $field;
     }
     
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function setLogDirectory(string $directory) {
         self::logDirectory()->setValue($directory);
     }
     
+    /**
+     * @return string
+     */
     public static function getLogDirectory(): string {
         return self::logDirectory()->getValue();
     }
@@ -48,10 +62,17 @@ final class ServerEnvironment {
         return $field;
     }
     
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function setCacheDirectory(string $directory) {
         self::cacheDirectory()->setValue($directory);
     }
     
+    /**
+     * @return string
+     */
     public static function getCacheDirectory(): string {
         return self::cacheDirectory()->getValue();
     }
@@ -64,10 +85,17 @@ final class ServerEnvironment {
         return $field;
     }
     
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function setDataDirectory(string $directory) {
         self::dataDirectory()->setValue($directory);
     }
     
+    /**
+     * @return string
+     */
     public static function getDataDirectory(): string {
         return self::dataDirectory()->getValue();
     }
@@ -80,10 +108,17 @@ final class ServerEnvironment {
         return $field;
     }
     
+    /**
+     * @param string $value
+     * @return void
+     */
     public static function setHostName(string $value) {
         self::hostName()->setValue($value);
     }
     
+    /**
+     * @return string
+     */
     public static function getHostName(): string {
         return self::hostName()->getValue();
     }

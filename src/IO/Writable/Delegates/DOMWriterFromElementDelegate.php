@@ -16,10 +16,18 @@ final class DOMWriterFromElementDelegate implements DOMWriterInterface {
     
     private ?DOMElement $result = null;
     
+    /**
+     * @param callable $delegate
+     * @return void
+     */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);
     }
     
+    /**
+     * @param DOMDocument $targetDoc
+     * @return DOMElement
+     */
     public function toElement(DOMDocument $targetDoc): DOMElement {
         if ($this->result === null) {
             $this->result = ($this->delegate)($targetDoc);

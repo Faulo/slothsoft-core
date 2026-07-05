@@ -10,10 +10,17 @@ final class StringWriterFromStreamWriter implements StringWriterInterface {
     
     private StreamWriterInterface $source;
     
+    /**
+     * @param StreamWriterInterface $source
+     * @return void
+     */
     public function __construct(StreamWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return string
+     */
     public function toString(): string {
         return (string) $this->source->toStream();
     }

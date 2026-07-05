@@ -7,10 +7,18 @@ final class TokenSanitizer implements SanitizerInterface {
     
     private array $default;
     
+    /**
+     * @param array $default
+     * @return void
+     */
     public function __construct(array $default = []) {
         $this->default = $default;
     }
     
+    /**
+     * @param mixed $value
+     * @return array
+     */
     public function apply($value): array {
         if (is_string($value)) {
             $result = [];
@@ -28,6 +36,9 @@ final class TokenSanitizer implements SanitizerInterface {
         return $this->getDefault();
     }
     
+    /**
+     * @return array
+     */
     public function getDefault(): array {
         return $this->default;
     }

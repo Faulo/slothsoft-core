@@ -7,15 +7,26 @@ final class IntegerSanitizer implements SanitizerInterface {
     
     private int $default;
     
+    /**
+     * @param int $default
+     * @return void
+     */
     public function __construct(int $default = 0) {
         $this->default = $default;
     }
     
+    /**
+     * @param mixed $value
+     * @return int
+     */
     public function apply($value): int {
         $value = filter_var((string) $value, FILTER_SANITIZE_NUMBER_INT);
         return $value === '' ? $this->getDefault() : (int) $value;
     }
     
+    /**
+     * @return int
+     */
     public function getDefault(): int {
         return $this->default;
     }

@@ -16,6 +16,10 @@ use XSLTProcessor;
  */
 final class XsltProcessorAdapter extends GenericAdapter {
     
+    /**
+     * @param SplFileInfo|null $outputFile
+     * @return SplFileInfo
+     */
     public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo {
         if (! $outputFile) {
             $outputFile = FileInfoFactory::createTempFile();
@@ -34,6 +38,9 @@ final class XsltProcessorAdapter extends GenericAdapter {
         return $outputFile;
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function writeDocument(): DOMDocument {
         $xslt = new XSLTProcessor();
         foreach ($this->param as $key => $val) {

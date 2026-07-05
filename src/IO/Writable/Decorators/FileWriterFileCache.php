@@ -11,11 +11,20 @@ final class FileWriterFileCache implements FileWriterInterface {
     
     private FileWriterInterface $sourceWriter;
     
+    /**
+     * @param FileWriterInterface $sourceWriter
+     * @param SplFileInfo $cacheFile
+     * @param callable|null $shouldRefreshCacheDelegate
+     * @return void
+     */
     public function __construct(FileWriterInterface $sourceWriter, SplFileInfo $cacheFile, ?callable $shouldRefreshCacheDelegate = null) {
         $this->sourceWriter = $sourceWriter;
         $this->initializeFileCache($cacheFile, $shouldRefreshCacheDelegate);
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         $this->refreshCacheFile();
         return $this->cacheFile;

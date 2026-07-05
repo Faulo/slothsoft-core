@@ -14,7 +14,15 @@ use DOMElement;
  */
 interface DOMReaderInterface {
     
+    /**
+     * @param DOMDocument $sourceDoc
+     * @return void
+     */
     public function fromDocument(DOMDocument $sourceDoc): void;
     
+    /**
+     * @param DOMElement $sourceElement
+     * @return void
+     */
     public function fromElement(DOMElement $sourceElement): void;
 }

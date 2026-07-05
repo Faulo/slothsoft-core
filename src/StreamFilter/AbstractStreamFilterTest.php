@@ -7,10 +7,20 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractStreamFilterTest extends TestCase {
     
+    /**
+     * @return string
+     */
     abstract protected function getInput(): string;
     
+    /**
+     * @param string $input
+     * @return string
+     */
     abstract protected function calculateExpectedResult(string $input): string;
     
+    /**
+     * @return string
+     */
     abstract protected function getFilterClass(): string;
     
     private string $streamId;
@@ -21,6 +31,9 @@ abstract class AbstractStreamFilterTest extends TestCase {
     
     private string $expectedResult;
     
+    /**
+     * @return void
+     */
     public function setUp(): void {
         $this->streamId = uniqid(md5($this->getFilterClass()));
         $this->tempFile = tempnam(sys_get_temp_dir(), __CLASS__);
@@ -30,6 +43,9 @@ abstract class AbstractStreamFilterTest extends TestCase {
         stream_filter_register($this->streamId, $this->getFilterClass());
     }
     
+    /**
+     * @return void
+     */
     public function testWriteToResource() {
         $resource = fopen($this->tempFile, 'wb');
         stream_filter_append($resource, $this->streamId, STREAM_FILTER_WRITE);
@@ -41,6 +57,9 @@ abstract class AbstractStreamFilterTest extends TestCase {
         $this->assertEquals($this->expectedResult, $actualResult);
     }
     
+    /**
+     * @return void
+     */
     public function testWriteToPath() {
         $path = "php://filter/write=$this->streamId/resource=$this->tempFile";
         file_put_contents($path, $this->input);
@@ -50,6 +69,9 @@ abstract class AbstractStreamFilterTest extends TestCase {
         $this->assertEquals($this->expectedResult, $actualResult);
     }
     
+    /**
+     * @return void
+     */
     public function testReadFromResource() {
         file_put_contents($this->tempFile, $this->input);
         
@@ -61,6 +83,9 @@ abstract class AbstractStreamFilterTest extends TestCase {
         $this->assertEquals($this->expectedResult, $actualResult);
     }
     
+    /**
+     * @return void
+     */
     public function testReadFromPath() {
         file_put_contents($this->tempFile, $this->input);
         

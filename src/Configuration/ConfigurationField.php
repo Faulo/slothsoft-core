@@ -8,12 +8,20 @@ class ConfigurationField {
     
     private $value;
     
+    /**
+     * @param mixed $defaultValue
+     * @return void
+     */
     public function __construct($defaultValue = null) {
         if ($defaultValue !== null) {
             $this->setValue($defaultValue);
         }
     }
     
+    /**
+     * @return mixed
+     * @throws ConfigurationRequiredException
+     */
     public function getValue() {
         if ($this->value === null) {
             $traceList = debug_backtrace();
@@ -30,10 +38,17 @@ class ConfigurationField {
         return $this->value;
     }
     
+    /**
+     * @param mixed $newValue
+     * @return void
+     */
     public function setValue($newValue) {
         $this->value = $newValue;
     }
     
+    /**
+     * @return bool
+     */
     public function hasValue(): bool {
         return $this->value !== null;
     }

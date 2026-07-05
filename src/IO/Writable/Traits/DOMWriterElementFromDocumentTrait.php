@@ -15,6 +15,11 @@ use RuntimeException;
  */
 trait DOMWriterElementFromDocumentTrait {
     
+    /**
+     * @param DOMDocument $targetDoc
+     * @return DOMElement
+     * @throws RuntimeException
+     */
     public function toElement(DOMDocument $targetDoc): DOMElement {
         $element = $targetDoc->importNode($this->toDocument()->documentElement, true);
         

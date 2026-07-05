@@ -15,11 +15,20 @@ final class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInte
     
     private ChunkWriterInterface $sourceWriter;
     
+    /**
+     * @param ChunkWriterInterface $sourceWriter
+     * @param SplFileInfo $cacheFile
+     * @param callable|null $shouldRefreshCacheDelegate
+     * @return void
+     */
     public function __construct(ChunkWriterInterface $sourceWriter, SplFileInfo $cacheFile, ?callable $shouldRefreshCacheDelegate = null) {
         $this->sourceWriter = $sourceWriter;
         $this->initializeFileCache($cacheFile, $shouldRefreshCacheDelegate);
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         if ($this->shouldRefreshCache()) {
             $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
@@ -39,6 +48,9 @@ final class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInte
         }
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         if ($this->shouldRefreshCache()) {
             $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);

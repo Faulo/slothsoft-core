@@ -15,11 +15,19 @@ final class ChunkWriterFromFileWriter implements ChunkWriterInterface {
     
     private int $chunkSize;
     
+    /**
+     * @param FileWriterInterface $source
+     * @param int $chunkSize
+     * @return void
+     */
     public function __construct(FileWriterInterface $source, int $chunkSize = Memory::ONE_KILOBYTE) {
         $this->source = $source;
         $this->chunkSize = $chunkSize;
     }
     
+    /**
+     * @return Generator
+     */
     public function toChunks(): Generator {
         $handle = $this->source->toFile()->openFile(StreamWrapperInterface::MODE_OPEN_READONLY);
         while (! $handle->eof()) {

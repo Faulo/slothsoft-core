@@ -12,10 +12,17 @@ final class FileWriterMemoryCache implements FileWriterInterface {
     
     private ?SplFileInfo $result = null;
     
+    /**
+     * @param FileWriterInterface $source
+     * @return void
+     */
     public function __construct(FileWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo {
         if ($this->result === null) {
             $this->result = $this->source->toFile();

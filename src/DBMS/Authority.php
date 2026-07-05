@@ -18,6 +18,12 @@ final class Authority {
     
     public string $password;
     
+    /**
+     * @param string $server
+     * @param string $user
+     * @param string $password
+     * @return void
+     */
     public function __construct(string $server, string $user, string $password) {
         $this->server = $server;
         $this->user = $user;

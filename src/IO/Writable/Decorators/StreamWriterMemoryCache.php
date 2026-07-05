@@ -12,10 +12,17 @@ final class StreamWriterMemoryCache implements StreamWriterInterface {
     
     private ?StreamInterface $result = null;
     
+    /**
+     * @param StreamWriterInterface $source
+     * @return void
+     */
     public function __construct(StreamWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return StreamInterface
+     */
     public function toStream(): StreamInterface {
         if ($this->result === null or ! $this->result->isReadable()) {
             $this->result = $this->source->toStream();

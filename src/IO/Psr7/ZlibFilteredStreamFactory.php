@@ -10,10 +10,18 @@ final class ZlibFilteredStreamFactory implements FilteredStreamWriterInterface {
     
     private int $zlibCoding;
     
+    /**
+     * @param int $zlibCoding
+     * @return void
+     */
     public function __construct(int $zlibCoding) {
         $this->zlibCoding = $zlibCoding;
     }
     
+    /**
+     * @param StreamInterface $stream
+     * @return StreamInterface
+     */
     public function toFilteredStream(StreamInterface $stream): StreamInterface {
         return new ZlibFilteredStream($stream, $this->zlibCoding);
     }

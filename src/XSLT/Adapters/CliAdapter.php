@@ -20,6 +20,9 @@ final class CliAdapter extends GenericAdapter {
     private string $args;
     
     /**
+     * @param string $path
+     * @param string $args
+     * @return void
      */
     public function __construct(string $path, string $args) {
         $this->path = $path;
@@ -31,6 +34,9 @@ final class CliAdapter extends GenericAdapter {
      *
      * @see \Slothsoft\Core\XSLT\Inputs\InputInterface::toFile()
      *
+     * @param SplFileInfo|null $outputFile
+     * @return SplFileInfo
+     * @throws RuntimeException
      */
     public function writeFile(?SplFileInfo $outputFile = null): SplFileInfo {
         if (! $outputFile) {

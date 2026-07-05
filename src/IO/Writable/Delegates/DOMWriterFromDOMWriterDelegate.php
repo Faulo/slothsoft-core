@@ -14,14 +14,25 @@ final class DOMWriterFromDOMWriterDelegate implements DOMWriterInterface {
     
     private ?DOMWriterInterface $result = null;
     
+    /**
+     * @param callable $delegate
+     * @return void
+     */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);
     }
     
+    /**
+     * @return DOMDocument
+     */
     public function toDocument(): DOMDocument {
         return $this->getWriter()->toDocument();
     }
     
+    /**
+     * @param DOMDocument $targetDoc
+     * @return DOMElement
+     */
     public function toElement(DOMDocument $targetDoc): DOMElement {
         return $this->getWriter()->toElement($targetDoc);
     }

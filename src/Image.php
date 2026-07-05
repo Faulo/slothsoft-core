@@ -46,6 +46,9 @@ final class Image {
     
     const THUMBNAIL_HEIGHT = 240;
     
+    /**
+     * @return string
+     */
     protected static function getTempFile(): string {
         // $ret = tempnam(sys_get_temp_dir(), __CLASS__);
         $ret = temp_file(__CLASS__);
@@ -53,6 +56,15 @@ final class Image {
         return $ret;
     }
     
+    /**
+     * @param mixed $destFile
+     * @param mixed $spriteWidth
+     * @param mixed $spriteHeight
+     * @param mixed $cols
+     * @param mixed $rows
+     * @param array $imageList
+     * @return bool
+     */
     public static function createSprite($destFile, $spriteWidth, $spriteHeight, $cols = 1, $rows = 1, array $imageList = []): bool {
         $width = $spriteWidth * $cols;
         $height = $spriteHeight * $rows;
@@ -63,6 +75,13 @@ final class Image {
         return $ret;
     }
     
+    /**
+     * @param mixed $destFile
+     * @param array $sourceFileList
+     * @param mixed $spriteWidth
+     * @param mixed $spriteHeigh
+     * @return bool
+     */
     public static function addSprite($destFile, array $sourceFileList, $spriteWidth = null, $spriteHeigh = null): bool {
         $destInfo = self::imageInfo($destFile);
         $destImage = self::createFromFile($destFile);
@@ -89,6 +108,10 @@ final class Image {
         return imagepng($destImage, $destFile, 9);
     }
     
+    /**
+     * @param mixed $file
+     * @return array
+     */
     public static function imageInfo($file): array {
         $arr = getimagesize($file);
         return [
@@ -98,6 +121,11 @@ final class Image {
         ];
     }
     
+    /**
+     * @param mixed $file
+     * @return mixed
+     * @throws DomainException
+     */
     public static function createFromFile($file) {
         $size = getimagesize($file);
         switch ($size['mime']) {
@@ -112,6 +140,11 @@ final class Image {
         }
     }
     
+    /**
+     * @param mixed $image_source
+     * @param mixed $new_image
+     * @return void
+     */
     public static function setTransparency($image_source, $new_image) {
         $transparencyIndex = imagecolortransparent($image_source);
         $transparencyColor = array(
@@ -129,6 +162,14 @@ final class Image {
         imagecolortransparent($new_image, $transparencyIndex);
     }
     
+    /**
+     * @param mixed $file
+     * @param mixed $x
+     * @param mixed $y
+     * @param mixed $new_width
+     * @param mixed $new_height
+     * @return mixed
+     */
     public static function splitImage($file, $x, $y, $new_width, $new_height) {
         $pic = self::createFromFile($file);
         $new_image = imagecreatetruecolor($new_width, $new_height);
@@ -146,6 +187,11 @@ final class Image {
         return $new_image;
     }
     
+    /**
+     * @param mixed $sourceFile
+     * @param mixed $destFile
+     * @return bool
+     */
     public static function convertFile($sourceFile, $destFile): bool {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
@@ -171,6 +217,13 @@ final class Image {
         return $ret;
     }
     
+    /**
+     * @param mixed $sourceFile
+     * @param mixed $destFile
+     * @param mixed $width
+     * @param mixed $height
+     * @return bool
+     */
     public static function scaleFile($sourceFile, $destFile, $width, $height): bool {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
@@ -193,9 +246,22 @@ final class Image {
         return $ret;
     }
     
+    /**
+     * @param mixed $sourceFile
+     * @param mixed $destFile
+     * @param mixed $width
+     * @param mixed $height
+     * @return void
+     */
     public static function cropFile($sourceFile, $destFile, $width, $height) {
     }
     
+    /**
+     * @param mixed $sourceFile
+     * @param mixed $appendFile
+     * @param mixed $targetFile
+     * @return bool
+     */
     public static function mergeFile($sourceFile, $appendFile, $targetFile = null): bool {
         if ($targetFile === null) {
             $targetFile = $sourceFile;
@@ -219,6 +285,14 @@ final class Image {
         return $ret;
     }
     
+    /**
+     * @param mixed $sourceFile
+     * @param mixed $thumbWidth
+     * @param mixed $thumbHeight
+     * @param mixed $returnLink
+     * @return mixed
+     * @throws Exception
+     */
     public static function generateThumbnail($sourceFile, $thumbWidth = null, $thumbHeight = null, $returnLink = true) {
         static $cache = null;
         $ret = null;

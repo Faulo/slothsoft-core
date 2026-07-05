@@ -112,6 +112,7 @@ class InterExec {
      *            The command line to execute.
      * @param array $environment_vars
      *            (Optional) Environment variables.
+     * @return void
      */
     public function __construct($command_to_run, $environment_vars = null) {
         $this->command_to_run = $command_to_run;
@@ -125,6 +126,7 @@ class InterExec {
      *            Name of event.
      * @param callable $callback
      *            The callback to call.
+     * @return void
      */
     public function on($event, $callback) {
         $this->events[$event] = $callback;
@@ -139,6 +141,7 @@ class InterExec {
      *            (Optional) Arguments to pass to event.
      *            Note that the first argument is always $this.
      * @return mixed Value resulting from event callback.
+     * @throws InvalidArgumentException
      */
     protected function fire($event, $args = array()) {
         if (! is_array($args))
@@ -190,6 +193,9 @@ class InterExec {
         return trim(preg_replace('/^\s*"([^"]+?)\\\\([^\\\\]+)"\s?(.*)/s', 'cd "$1" && "$2" $3', $commandPath));
     }
     
+    /**
+     * @return void
+     */
     protected function run_startup() {
         // initialize variables
         if ($this->fix_windows_path && DIRECTORY_SEPARATOR == '\\') {
@@ -223,6 +229,9 @@ class InterExec {
         stream_set_blocking($this->pipes[self::STDIN], false);
     }
     
+    /**
+     * @return void
+     */
     protected function run_mainloop() {
         // wait for process to finish
         while (true) {
@@ -314,6 +323,9 @@ class InterExec {
         }
     }
     
+    /**
+     * @return mixed
+     */
     protected function run_shutdown() {
         // close and clean used resources
         foreach ($this->pipes as $pipe)

@@ -17,10 +17,17 @@ final class CLI {
         return $field;
     }
     
+    /**
+     * @param float $value
+     * @return void
+     */
     public static function setTotalTimeout(float $value) {
         self::totalTimeout()->setValue($value);
     }
     
+    /**
+     * @return float
+     */
     public static function getTotalTimeout(): float {
         return self::totalTimeout()->getValue();
     }
@@ -33,10 +40,17 @@ final class CLI {
         return $field;
     }
     
+    /**
+     * @param float $value
+     * @return void
+     */
     public static function setIdleTimeout(float $value) {
         self::idleTimeout()->setValue($value);
     }
     
+    /**
+     * @return float
+     */
     public static function getIdleTimeout(): float {
         return self::idleTimeout()->getValue();
     }
@@ -49,10 +63,17 @@ final class CLI {
         return $field;
     }
     
+    /**
+     * @param mixed $value
+     * @return void
+     */
     public static function setStdOut($value) {
         self::stdOut()->setValue($value);
     }
     
+    /**
+     * @return mixed
+     */
     public static function getStdOut() {
         return self::stdOut()->getValue();
     }
@@ -65,14 +86,26 @@ final class CLI {
         return $field;
     }
     
+    /**
+     * @param mixed $value
+     * @return void
+     */
     public static function setStdErr($value) {
         self::stdErr()->setValue($value);
     }
     
+    /**
+     * @return mixed
+     */
     public static function getStdErr() {
         return self::stdErr()->getValue();
     }
     
+    /**
+     * @param string $command
+     * @param string|null $workingDirectory
+     * @return int
+     */
     public static function execute(string $command, ?string $workingDirectory = null): int {
         fwrite(self::getStdOut(), PHP_EOL . PHP_EOL . sprintf('[%s]> %s', date('d.m.y H:i:s'), $command) . PHP_EOL);
         $process = Process::fromShellCommandline($command);

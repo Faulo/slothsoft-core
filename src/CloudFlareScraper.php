@@ -22,21 +22,38 @@ final class CloudFlareScraper {
     
     protected $lastURI;
     
+    /**
+     * @param mixed $cookieFile
+     * @param mixed $trySolving
+     * @return void
+     */
     public function __construct($cookieFile = null, $trySolving = true) {
         $this->cookieFile = $cookieFile === null ? FileInfoFactory::createTempFile() : $cookieFile;
         $this->trySolving = $trySolving;
     }
     
+    /**
+     * @param mixed $uri
+     * @return string|null
+     */
     public function getFile($uri): ?string {
         $req = $this->_httpRequest($uri);
         return $req->responseText;
     }
     
+    /**
+     * @param mixed $uri
+     * @return DOMXPath|null
+     */
     public function getXPath($uri): ?DOMXPath {
         $req = $this->_httpRequest($uri);
         return $req->responseXML ? $this->_loadXPath($req->responseXML) : null;
     }
     
+    /**
+     * @param mixed $uri
+     * @return mixed
+     */
     protected function _httpRequest($uri) {
         $req = new XMLHttpRequest();
         $req->open('GET', $uri);
@@ -60,6 +77,12 @@ final class CloudFlareScraper {
         return $req;
     }
     
+    /**
+     * @param mixed $requestURI
+     * @param DOMDocument $htmlDoc
+     * @param mixed $html
+     * @return void
+     */
     protected function _solveChallenge($requestURI, DOMDocument $htmlDoc, $html) {
         $ret = null;
         $translationTable = [
@@ -119,14 +142,25 @@ final class CloudFlareScraper {
         return $ret;
     }
     
+    /**
+     * @param mixed $html
+     * @return bool
+     */
     protected function _isProtected($html): bool {
         return (bool) strpos($html, 's,t,o,p,b,r,e,a,k,i,n,g');
     }
     
+    /**
+     * @param DOMDocument $doc
+     * @return DOMXPath
+     */
     protected function _loadXPath(DOMDocument $doc): DOMXPath {
         return DOMHelper::loadXPath($doc);
     }
     
+    /**
+     * @return array
+     */
     public function __serialize(): array {
         return [
             'cookieFile' => $this->cookieFile,
@@ -134,6 +168,10 @@ final class CloudFlareScraper {
         ];
     }
     
+    /**
+     * @param array $data
+     * @return void
+     */
     public function __unserialize(array $data) {
         $this->__construct($data['cookieFile'], $data['trySolving']);
     }

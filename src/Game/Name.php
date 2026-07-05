@@ -31,6 +31,10 @@ final class Name {
         'numberof' => 1
     ];
     
+    /**
+     * @param array $config
+     * @return array
+     */
     public static function generate(array $config = []): array {
         $ret = null;
         $param = self::$generateConfig;

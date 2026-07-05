@@ -67,21 +67,39 @@ final class XsltFactory {
         self::PROCESSOR_SAXONC => []
     ];
     
+    /**
+     * @param string $xsltVersion
+     * @param string $processorId
+     * @return void
+     */
     public static function setProcessorForVersion(string $xsltVersion, string $processorId) {
         self::assertIsValidProcessor($processorId);
         self::$versionMapping[$xsltVersion] = $processorId;
     }
     
+    /**
+     * @param string $xsltVersion
+     * @return string
+     */
     public static function getProcessorForVersion(string $xsltVersion): string {
         self::assertIsValidVersion($xsltVersion);
         return self::$versionMapping[$xsltVersion];
     }
     
+    /**
+     * @param string $processorId
+     * @param array $config
+     * @return void
+     */
     public static function setConfigurationForProcessor(string $processorId, array $config) {
         self::assertIsValidProcessor($processorId);
         self::$processorConfiguration[$processorId] = $config;
     }
     
+    /**
+     * @param string $processorId
+     * @return array
+     */
     public static function getConfigurationForProcessor(string $processorId): array {
         self::assertIsValidProcessor($processorId);
         return self::$processorConfiguration[$processorId];
@@ -99,6 +117,11 @@ final class XsltFactory {
         }
     }
     
+    /**
+     * @param float $xsltVersion
+     * @return AdapterInterface
+     * @throws DomainException
+     */
     public static function createAdapter(float $xsltVersion): AdapterInterface {
         $xsltVersion = sprintf('%1.1f', $xsltVersion);
         $processorId = self::getProcessorForVersion($xsltVersion);
@@ -122,6 +145,11 @@ final class XsltFactory {
         throw new DomainException("XSLT processor '$processorId' is not supported by this implementation.");
     }
     
+    /**
+     * @param mixed $input
+     * @return InputInterface
+     * @throws DomainException
+     */
     public static function createInput($input): InputInterface {
         switch (true) {
             case is_string($input):

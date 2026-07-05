@@ -7,6 +7,10 @@ use Psr\Http\Message\StreamInterface;
 
 interface StreamReaderInterface {
     
+    /**
+     * @param StreamInterface $stream
+     * @return void
+     */
     public function fromStream(StreamInterface $stream);
 }
 

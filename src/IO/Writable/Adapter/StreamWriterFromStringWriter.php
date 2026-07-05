@@ -12,10 +12,17 @@ final class StreamWriterFromStringWriter implements StreamWriterInterface {
     
     private StringWriterInterface $source;
     
+    /**
+     * @param StringWriterInterface $source
+     * @return void
+     */
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;
     }
     
+    /**
+     * @return StreamInterface
+     */
     public function toStream(): StreamInterface {
         return new LazyStringWriterStream($this->source);
     }

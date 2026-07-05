@@ -14,7 +14,13 @@ use SplFileInfo;
  */
 interface InputInterface {
     
+    /**
+     * @return SplFileInfo
+     */
     public function toFile(): SplFileInfo;
     
+    /**
+     * @return DOMDocument
+     */
     public function toDocument(): DOMDocument;
 }

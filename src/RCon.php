@@ -54,6 +54,12 @@ class RCon {
     
     public $errstr;
     
+    /**
+     * @param mixed $ip
+     * @param mixed $port
+     * @param mixed $password
+     * @return void
+     */
     public function __construct($ip, $port, $password) {
         $this->ip = $ip;
         $this->port = $port;
@@ -68,10 +74,19 @@ class RCon {
         $this->send(self::SERVERDATA_AUTH, $password);
     }
     
+    /**
+     * @param mixed $message
+     * @return mixed
+     */
     public function execute($message) {
         return $this->send(self::SERVERDATA_EXECCOMMAND, $message);
     }
     
+    /**
+     * @param mixed $commandId
+     * @param mixed $messageBody
+     * @return mixed
+     */
     public function send($commandId, $messageBody) {
         $this->requestId++;
         $sendData = [];
@@ -122,6 +137,12 @@ class RCon {
         return $responseData['string1'];
     }
     
+    /**
+     * @param mixed $string
+     * @param array $data
+     * @return void
+     * @throws Exception
+     */
     protected function throwError($string, array $data) {
         throw new Exception(vsprintf($string, $data));
     }
@@ -132,6 +153,7 @@ class RCon {
      *
      * @param string $string
      *            String
+     * @return mixed
      */
     protected function getLong(&$string) {
         $ret = 0;
@@ -149,6 +171,7 @@ class RCon {
      *
      * @param string $string
      *            String
+     * @return mixed
      */
     protected function getString(&$string) {
         $ret = null;

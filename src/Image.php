@@ -323,7 +323,7 @@ final class Image {
             $destFile = $cache->getPath($tmpFile, 'images/');
             $destLink = $cache->getURI($tmpFile, 'images/');
             
-            if ($sourceFile and ! file_exists($destFile) or filemtime($destFile) < filemtime($sourceFile)) {
+            if (! file_exists($destFile) or filemtime($destFile) < filemtime($sourceFile)) {
                 if (self::IRFANVIEW_ACTIVE and is_readable(self::IRFANVIEW_PATH)) {
                     $command = '"' . self::IRFANVIEW_PATH . '" ';
                     $command .= sprintf(self::IRFANVIEW_QUERY_SIZE, $sourceFile, str_replace('/', '\\', $destFile), $thumbWidth, $thumbHeight);

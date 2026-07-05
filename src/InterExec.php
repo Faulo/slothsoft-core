@@ -325,9 +325,9 @@ class InterExec {
     }
     
     /**
-     * @return mixed
+     * @return void
      */
-    protected function run_shutdown() {
+    protected function run_shutdown(): void {
         // close and clean used resources
         foreach ($this->pipes as $pipe)
             fclose($pipe);

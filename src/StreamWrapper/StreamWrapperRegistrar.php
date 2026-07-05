@@ -123,7 +123,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * {@inheritdoc}
      * @see StreamWrapperInterface::stream_read
      * @param int $count
-     * @return mixed
+     * @return string|false
      */
     public function stream_read(int $count) {
         return $this->stream->stream_read($count);
@@ -134,7 +134,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * {@inheritdoc}
      * @see StreamWrapperInterface::stream_write
      * @param string $data
-     * @return mixed
+     * @return int|false
      */
     public function stream_write(string $data) {
         return $this->stream->stream_write($data);
@@ -144,7 +144,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      *
      * {@inheritdoc}
      * @see StreamWrapperInterface::stream_tell
-     * @return mixed
+     * @return int|false
      */
     public function stream_tell() {
         return $this->stream->stream_tell();

@@ -46,7 +46,7 @@ interface EphemeralStorageInterface {
     /**
      * @param string $name
      * @param int $modifyTime
-     * @return void
+     * @return mixed
      */
     public function retrieveJSON(string $name, int $modifyTime);
     

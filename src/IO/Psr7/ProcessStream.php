@@ -48,7 +48,7 @@ final class ProcessStream implements StreamInterface {
     /**
      * @return void
      */
-    public function rewind() {
+    public function rewind(): void {
         $this->seek(0);
     }
     
@@ -63,7 +63,7 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @return mixed
+     * @return resource|null
      */
     public function detach() {
         $ret = $this->handle;
@@ -72,10 +72,10 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $key
+     * @param string|null $key
      * @return array|null
      */
-    public function getMetadata($key = null): ?array {
+    public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;
     }
     
@@ -91,24 +91,24 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @return mixed
+     * @return string
      */
-    public function __toString() {
+    public function __toString(): string {
         return $this->getContents();
     }
     
     /**
-     * @return mixed
+     * @return null
      */
     public function getSize() {
         return null;
     }
     
     /**
-     * @return void
+     * @return int
      * @throws BadMethodCallException
      */
-    public function tell() {
+    public function tell(): int {
         throw new BadMethodCallException('Cannot tell a ProcessStream.');
     }
     
@@ -120,10 +120,10 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $length
-     * @return mixed
+     * @param int $length
+     * @return string
      */
-    public function read($length) {
+    public function read(int $length): string {
         $this->init();
         
         if ($length <= 0) {
@@ -141,12 +141,12 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $offset
-     * @param mixed $whence
+     * @param int $offset
+     * @param int $whence
      * @return void
      * @throws BadMethodCallException
      */
-    public function seek($offset, $whence = SEEK_SET) {
+    public function seek(int $offset, int $whence = SEEK_SET): void {
         if ($offset === 0 and $whence === SEEK_SET) {
             $this->init();
         } else {
@@ -162,11 +162,11 @@ final class ProcessStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $string
-     * @return void
+     * @param string $string
+     * @return int
      * @throws BadMethodCallException
      */
-    public function write($string) {
+    public function write(string $string): int {
         throw new BadMethodCallException('Cannot write a ProcessStream.');
     }
 }

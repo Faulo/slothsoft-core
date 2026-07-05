@@ -43,9 +43,9 @@ final class LazyFileWriterStream implements StreamInterface {
     }
     
     /**
-     * @return mixed
+     * @return string
      */
-    public function __toString() {
+    public function __toString(): string {
         $this->rewind();
         return $this->getContents();
     }
@@ -53,13 +53,13 @@ final class LazyFileWriterStream implements StreamInterface {
     /**
      * @return void
      */
-    public function close() {
+    public function close(): void {
         $this->writer = null;
         $this->handle = null;
     }
     
     /**
-     * @return mixed
+     * @return null
      */
     public function detach() {
         $this->close();
@@ -67,33 +67,33 @@ final class LazyFileWriterStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $key
+     * @param string|null $key
      * @return array|null
      */
-    public function getMetadata($key = null): ?array {
+    public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;
     }
     
     /**
-     * @return mixed
+     * @return string
      */
-    public function getContents() {
+    public function getContents(): string {
         return $this->read(PHP_INT_MAX);
     }
     
     private ?int $size = null;
     
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getSize() {
+    public function getSize(): ?int {
         return $this->size ??= $this->getFile()->getSize();
     }
     
     /**
-     * @return mixed
+     * @return int
      */
-    public function tell() {
+    public function tell(): int {
         return $this->handle === null ? 0 : $this->handle->ftell();
     }
     
@@ -112,11 +112,11 @@ final class LazyFileWriterStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $offset
-     * @param mixed $whence
-     * @return mixed
+     * @param int $offset
+     * @param int $whence
+     * @return void
      */
-    public function seek($offset, $whence = SEEK_SET) {
+    public function seek(int $offset, int $whence = SEEK_SET): void {
         if ($this->handle === null and $offset === 0) {
             return;
         }
@@ -127,7 +127,7 @@ final class LazyFileWriterStream implements StreamInterface {
     /**
      * @return void
      */
-    public function rewind() {
+    public function rewind(): void {
         $this->seek(0);
     }
     
@@ -139,11 +139,11 @@ final class LazyFileWriterStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $string
-     * @return void
+     * @param string $string
+     * @return int
      * @throws BadMethodCallException
      */
-    public function write($string) {
+    public function write(string $string): int {
         throw new BadMethodCallException('Cannot write a LazyFileWriterStream.');
     }
     
@@ -155,10 +155,10 @@ final class LazyFileWriterStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $length
-     * @return mixed
+     * @param int $length
+     * @return string
      */
-    public function read($length) {
+    public function read(int $length): string {
         if ($length === 0) {
             return '';
         }

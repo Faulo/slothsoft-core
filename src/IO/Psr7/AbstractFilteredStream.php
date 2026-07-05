@@ -35,11 +35,32 @@ abstract class AbstractFilteredStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $length
-     * @return mixed
+     * @return string
+     */
+    public function __toString(): string {
+        return $this->getContents();
+    }
+    
+    /**
+     * @return void
+     */
+    public function close(): void {
+        $this->stream->close();
+    }
+    
+    /**
+     * @return resource|null
+     */
+    public function detach() {
+        return $this->stream->detach();
+    }
+    
+    /**
+     * @param int $length
+     * @return string
      * @throws RuntimeException
      */
-    public function read($length) {
+    public function read(int $length): string {
         switch ($this->state) {
             case static::STATE_OPENING:
                 $this->state = static::STATE_PROCESSING;
@@ -61,9 +82,9 @@ abstract class AbstractFilteredStream implements StreamInterface {
     }
     
     /**
-     * @return mixed
+     * @return string
      */
-    public function getContents() {
+    public function getContents(): string {
         $buffer = '';
         while (! $this->eof()) {
             $buffer .= $this->read(Memory::ONE_KILOBYTE);
@@ -72,23 +93,23 @@ abstract class AbstractFilteredStream implements StreamInterface {
     }
     
     /**
-     * @return mixed
+     * @return bool
      */
-    public function eof() {
+    public function eof(): bool {
         return $this->state === static::STATE_CLOSED;
     }
     
     /**
-     * @return mixed
+     * @return bool
      */
-    public function isSeekable() {
+    public function isSeekable(): bool {
         return $this->stream->isSeekable();
     }
     
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getSize() {
+    public function getSize(): ?int {
         if ($this->isSeekable()) {
             $ret = strlen($this->getContents());
             $this->rewind();
@@ -99,18 +120,55 @@ abstract class AbstractFilteredStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $offset
-     * @param mixed $whence
+     * @return int
+     */
+    public function tell(): int {
+        return $this->stream->tell();
+    }
+    
+    /**
+     * @param int $offset
+     * @param int $whence
      * @return void
      * @throws BadMethodCallException
      */
-    public function seek($offset, $whence = SEEK_SET) {
+    public function seek(int $offset, int $whence = SEEK_SET): void {
         if ($offset === 0 and $whence === SEEK_SET) {
             $this->stream->rewind();
             $this->state = static::STATE_OPENING;
         } else {
             throw new BadMethodCallException('FilteredStreams only support full rewind.');
         }
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isWritable(): bool {
+        return $this->stream->isWritable();
+    }
+    
+    /**
+     * @param string $string
+     * @return int
+     */
+    public function write(string $string): int {
+        return $this->stream->write($string);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isReadable(): bool {
+        return $this->stream->isReadable();
+    }
+    
+    /**
+     * @param string|null $key
+     * @return array|mixed|null
+     */
+    public function getMetadata(?string $key = null) {
+        return $this->stream->getMetadata($key);
     }
     
     /**

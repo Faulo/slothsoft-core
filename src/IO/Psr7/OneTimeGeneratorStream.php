@@ -53,31 +53,32 @@ final class OneTimeGeneratorStream implements StreamInterface {
     /**
      * @return void
      */
-    public function rewind() {
+    public function rewind(): void {
         $this->seek(0);
     }
     
     /**
      * @return void
      */
-    public function close() {
+    public function close(): void {
         $this->writer = null;
         $this->generator = null;
         $this->state = self::END;
     }
     
     /**
-     * @return void
+     * @return null
      */
     public function detach() {
         $this->close();
+        return null;
     }
     
     /**
-     * @param mixed $key
+     * @param string|null $key
      * @return array|null
      */
-    public function getMetadata($key = null): ?array {
+    public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;
     }
     
@@ -90,24 +91,24 @@ final class OneTimeGeneratorStream implements StreamInterface {
     }
     
     /**
-     * @return mixed
+     * @return string
      */
-    public function __toString() {
+    public function __toString(): string {
         return 'OneTimeGeneratorStream';
     }
     
     /**
-     * @return mixed
+     * @return null
      */
     public function getSize() {
         return null;
     }
     
     /**
-     * @return void
+     * @return int
      * @throws BadMethodCallException
      */
-    public function tell() {
+    public function tell(): int {
         throw new BadMethodCallException('Cannot tell a OneTimeGeneratorStream.');
     }
     
@@ -125,11 +126,11 @@ final class OneTimeGeneratorStream implements StreamInterface {
     private int $bufferSize = 0;
     
     /**
-     * @param mixed $length
-     * @return mixed
+     * @param int $length
+     * @return string
      * @throws BadMethodCallException
      */
-    public function read($length) {
+    public function read(int $length): string {
         $this->init();
         
         if ($this->eof()) {
@@ -169,12 +170,12 @@ final class OneTimeGeneratorStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $offset
-     * @param mixed $whence
+     * @param int $offset
+     * @param int $whence
      * @return void
      * @throws BadMethodCallException
      */
-    public function seek($offset, $whence = SEEK_SET) {
+    public function seek(int $offset, int $whence = SEEK_SET): void {
         throw new BadMethodCallException('Cannot seek a OneTimeGeneratorStream.');
     }
     
@@ -186,11 +187,11 @@ final class OneTimeGeneratorStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $string
-     * @return void
+     * @param string $string
+     * @return int
      * @throws BadMethodCallException
      */
-    public function write($string) {
+    public function write(string $string): int {
         throw new BadMethodCallException('Cannot write a OneTimeGeneratorStream.');
     }
 }

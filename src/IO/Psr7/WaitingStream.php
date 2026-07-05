@@ -29,6 +29,67 @@ final class WaitingStream implements StreamInterface {
     }
     
     /**
+     * @return string
+     */
+    public function __toString(): string {
+        return $this->getContents();
+    }
+    
+    /**
+     * @return void
+     */
+    public function close(): void {
+        $this->stream->close();
+    }
+    
+    /**
+     * @return resource|null
+     */
+    public function detach() {
+        return $this->stream->detach();
+    }
+    
+    /**
+     * @return int|null
+     */
+    public function getSize(): ?int {
+        return $this->stream->getSize();
+    }
+    
+    /**
+     * @return int
+     */
+    public function tell(): int {
+        return $this->stream->tell();
+    }
+    
+    /**
+     * @return bool
+     */
+    public function eof(): bool {
+        return $this->stream->eof();
+    }
+    
+    /**
+     * @return string
+     */
+    public function getContents(): string {
+        $buffer = '';
+        while (! $this->eof()) {
+            $buffer .= $this->read(8192);
+        }
+        return $buffer;
+    }
+    
+    /**
+     * @param string|null $key
+     * @return array|mixed|null
+     */
+    public function getMetadata(?string $key = null) {
+        return $this->stream->getMetadata($key);
+    }
+    
+    /**
      * @return bool
      */
     public function isReadable(): bool {
@@ -36,10 +97,10 @@ final class WaitingStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $length
-     * @return mixed
+     * @param int $length
+     * @return string
      */
-    public function read($length) {
+    public function read(int $length): string {
         $timeWaited = 0;
         while (! $this->stream->eof()) {
             $content = $this->stream->read($length);
@@ -66,12 +127,12 @@ final class WaitingStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $offset
-     * @param mixed $whence
+     * @param int $offset
+     * @param int $whence
      * @return void
      * @throws BadMethodCallException
      */
-    public function seek($offset, $whence = SEEK_SET) {
+    public function seek(int $offset, int $whence = SEEK_SET): void {
         throw new BadMethodCallException('Cannot seek a WaitingStream.');
     }
     
@@ -83,11 +144,11 @@ final class WaitingStream implements StreamInterface {
     }
     
     /**
-     * @param mixed $string
-     * @return void
+     * @param string $string
+     * @return int
      * @throws BadMethodCallException
      */
-    public function write($string) {
+    public function write(string $string): int {
         throw new BadMethodCallException('Cannot write a WaitingStream.');
     }
 }

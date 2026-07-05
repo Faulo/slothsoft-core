@@ -40,7 +40,7 @@ class ResourceStreamWrapper implements StreamWrapperInterface {
     
     /**
      * @param int $count
-     * @return mixed
+     * @return string|false
      */
     public function stream_read(int $count) {
         return fread($this->handle, $count);
@@ -48,14 +48,14 @@ class ResourceStreamWrapper implements StreamWrapperInterface {
     
     /**
      * @param string $data
-     * @return mixed
+     * @return int|false
      */
     public function stream_write(string $data) {
         return fwrite($this->handle, $data);
     }
     
     /**
-     * @return mixed
+     * @return int|false
      */
     public function stream_tell() {
         return ftell($this->handle);

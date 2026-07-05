@@ -48,7 +48,7 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
     
     /**
      * @param int $count
-     * @return mixed
+     * @return string|false
      */
     public function stream_read(int $count) {
         try {
@@ -60,7 +60,7 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
     
     /**
      * @param string $data
-     * @return mixed
+     * @return int|false
      */
     public function stream_write(string $data) {
         try {
@@ -71,7 +71,7 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
     }
     
     /**
-     * @return mixed
+     * @return int|false
      */
     public function stream_tell() {
         try {

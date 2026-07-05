@@ -10,7 +10,6 @@ class ConfigurationField {
     
     /**
      * @param mixed $defaultValue
-     * @return void
      */
     public function __construct($defaultValue = null) {
         if ($defaultValue !== null) {

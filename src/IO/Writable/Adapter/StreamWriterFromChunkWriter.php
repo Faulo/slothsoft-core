@@ -18,7 +18,6 @@ final class StreamWriterFromChunkWriter implements StreamWriterInterface {
     /**
      * @param ChunkWriterInterface $source
      * @param bool $canLoadAllChunks
-     * @return void
      */
     public function __construct(ChunkWriterInterface $source, bool $canLoadAllChunks = true) {
         $this->source = $source;

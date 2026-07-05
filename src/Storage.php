@@ -518,7 +518,6 @@ final class Storage implements EphemeralStorageInterface {
     
     /**
      * @param mixed $storageName
-     * @return void
      */
     public function __construct($storageName = null) {
         $this->now = time();

@@ -15,7 +15,6 @@ final class StreamWriterFromStreamDelegate implements StreamWriterInterface {
     
     /**
      * @param callable $delegate
-     * @return void
      */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);

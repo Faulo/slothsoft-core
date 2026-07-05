@@ -22,7 +22,6 @@ final class DOMWriterFileCache implements DOMWriterInterface, FileWriterInterfac
      * @param DOMWriterInterface $sourceWriter
      * @param SplFileInfo $cacheFile
      * @param callable|null $shouldRefreshCacheDelegate
-     * @return void
      */
     public function __construct(DOMWriterInterface $sourceWriter, SplFileInfo $cacheFile, ?callable $shouldRefreshCacheDelegate = null) {
         $this->sourceWriter = $sourceWriter;

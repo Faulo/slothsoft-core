@@ -28,7 +28,6 @@ final class WebCrawler {
     
     /**
      * @param mixed $url
-     * @return void
      */
     public function __construct($url) {
         $this->url = $url;

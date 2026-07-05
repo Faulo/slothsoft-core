@@ -21,7 +21,6 @@ final class FileInput implements InputInterface {
     
     /**
      * @param SplFileInfo $input
-     * @return void
      */
     public function __construct(SplFileInfo $input) {
         $this->content = $input;

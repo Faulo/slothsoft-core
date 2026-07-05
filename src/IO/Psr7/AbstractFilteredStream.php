@@ -27,7 +27,6 @@ abstract class AbstractFilteredStream implements StreamInterface {
     
     /**
      * @param StreamInterface $stream
-     * @return void
      */
     public function __construct(StreamInterface $stream) {
         $this->stream = new CachingStream($stream);

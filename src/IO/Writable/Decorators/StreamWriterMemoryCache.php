@@ -14,7 +14,6 @@ final class StreamWriterMemoryCache implements StreamWriterInterface {
     
     /**
      * @param StreamWriterInterface $source
-     * @return void
      */
     public function __construct(StreamWriterInterface $source) {
         $this->source = $source;

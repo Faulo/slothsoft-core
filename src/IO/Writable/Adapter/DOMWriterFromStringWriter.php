@@ -22,7 +22,6 @@ final class DOMWriterFromStringWriter implements DOMWriterInterface {
      * @param StringWriterInterface $source
      * @param string|null $documentURI
      * @param bool $isHtml
-     * @return void
      */
     public function __construct(StringWriterInterface $source, ?string $documentURI = null, bool $isHtml = false) {
         $this->source = $source;

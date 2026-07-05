@@ -9,7 +9,6 @@ final class ArraySanitizer implements SanitizerInterface {
     
     /**
      * @param array $default
-     * @return void
      */
     public function __construct(array $default = []) {
         $this->default = $default;

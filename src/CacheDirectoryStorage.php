@@ -40,7 +40,6 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
     
     /**
      * @param string $name
-     * @return void
      */
     public function __construct(string $name = '') {
         $this->rootDirectory = ServerEnvironment::getCacheDirectory() . DIRECTORY_SEPARATOR . self::ROOT;

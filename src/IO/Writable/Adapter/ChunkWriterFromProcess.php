@@ -13,7 +13,6 @@ final class ChunkWriterFromProcess implements ChunkWriterInterface {
     
     /**
      * @param Process $process
-     * @return void
      */
     public function __construct(Process $process) {
         $this->process = $process;

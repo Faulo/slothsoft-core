@@ -12,7 +12,6 @@ final class StringWriterFromStreamWriter implements StringWriterInterface {
     
     /**
      * @param StreamWriterInterface $source
-     * @return void
      */
     public function __construct(StreamWriterInterface $source) {
         $this->source = $source;

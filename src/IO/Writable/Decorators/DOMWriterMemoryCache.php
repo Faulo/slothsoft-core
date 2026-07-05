@@ -16,7 +16,6 @@ final class DOMWriterMemoryCache implements DOMWriterInterface {
     
     /**
      * @param DOMWriterInterface $source
-     * @return void
      */
     public function __construct(DOMWriterInterface $source) {
         $this->source = $source;

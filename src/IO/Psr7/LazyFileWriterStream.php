@@ -16,7 +16,6 @@ final class LazyFileWriterStream implements StreamInterface {
     
     /**
      * @param FileWriterInterface $writer
-     * @return void
      */
     public function __construct(FileWriterInterface $writer) {
         $this->writer = $writer;

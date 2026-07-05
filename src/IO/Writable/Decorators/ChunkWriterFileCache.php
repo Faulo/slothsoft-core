@@ -19,7 +19,6 @@ final class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInte
      * @param ChunkWriterInterface $sourceWriter
      * @param SplFileInfo $cacheFile
      * @param callable|null $shouldRefreshCacheDelegate
-     * @return void
      */
     public function __construct(ChunkWriterInterface $sourceWriter, SplFileInfo $cacheFile, ?callable $shouldRefreshCacheDelegate = null) {
         $this->sourceWriter = $sourceWriter;

@@ -13,7 +13,6 @@ final class ChunkWriterFromStringWriter implements ChunkWriterInterface {
     
     /**
      * @param StringWriterInterface $source
-     * @return void
      */
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;

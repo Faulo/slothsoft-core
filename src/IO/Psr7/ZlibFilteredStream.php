@@ -14,7 +14,6 @@ final class ZlibFilteredStream extends AbstractFilteredStream {
     /**
      * @param StreamInterface $stream
      * @param int $zlibCoding
-     * @return void
      */
     public function __construct(StreamInterface $stream, int $zlibCoding) {
         parent::__construct($stream);

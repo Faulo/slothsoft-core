@@ -14,7 +14,6 @@ final class ChunkWriterMemoryCache implements ChunkWriterInterface {
     
     /**
      * @param ChunkWriterInterface $source
-     * @return void
      */
     public function __construct(ChunkWriterInterface $source) {
         $this->source = $source;

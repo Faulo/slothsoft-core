@@ -12,7 +12,6 @@ final class ChunkWriterMerger implements ChunkWriterInterface {
     
     /**
      * @param ChunkWriterInterface ...$writers
-     * @return void
      */
     public function __construct(ChunkWriterInterface ...$writers) {
         $this->writers = $writers;

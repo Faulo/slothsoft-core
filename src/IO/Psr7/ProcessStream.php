@@ -18,7 +18,6 @@ final class ProcessStream implements StreamInterface {
     
     /**
      * @param string $command
-     * @return void
      */
     public function __construct(string $command) {
         $this->command = $command;

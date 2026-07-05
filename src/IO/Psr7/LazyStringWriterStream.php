@@ -28,7 +28,6 @@ final class LazyStringWriterStream implements StreamInterface {
     
     /**
      * @param StringWriterInterface $writer
-     * @return void
      */
     public function __construct(StringWriterInterface $writer) {
         $this->writer = $writer;

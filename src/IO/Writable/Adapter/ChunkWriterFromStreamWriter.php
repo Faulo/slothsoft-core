@@ -17,7 +17,6 @@ final class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
     /**
      * @param StreamWriterInterface $source
      * @param int $chunkSize
-     * @return void
      */
     public function __construct(StreamWriterInterface $source, int $chunkSize = Memory::ONE_KILOBYTE) {
         $this->source = $source;

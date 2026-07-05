@@ -18,7 +18,6 @@ final class ChunkWriterFromFileWriter implements ChunkWriterInterface {
     /**
      * @param FileWriterInterface $source
      * @param int $chunkSize
-     * @return void
      */
     public function __construct(FileWriterInterface $source, int $chunkSize = Memory::ONE_KILOBYTE) {
         $this->source = $source;

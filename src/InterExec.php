@@ -113,7 +113,6 @@ class InterExec {
      *            The command line to execute.
      * @param array $environment_vars
      *            (Optional) Environment variables.
-     * @return void
      */
     public function __construct($command_to_run, $environment_vars = null) {
         $this->command_to_run = $command_to_run;

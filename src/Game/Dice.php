@@ -19,7 +19,6 @@ final class Dice {
     /**
      * @param mixed $sidesCount
      * @param mixed $diceCount
-     * @return void
      */
     public function __construct($sidesCount, $diceCount = 1) {
         $this->sidesCount = max((int) $sidesCount, 1);

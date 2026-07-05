@@ -22,7 +22,6 @@ final class CliAdapter extends GenericAdapter {
     /**
      * @param string $path
      * @param string $args
-     * @return void
      */
     public function __construct(string $path, string $args) {
         $this->path = $path;

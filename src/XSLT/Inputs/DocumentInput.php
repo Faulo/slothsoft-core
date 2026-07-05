@@ -21,7 +21,6 @@ final class DocumentInput implements InputInterface {
     
     /**
      * @param DOMDocument $input
-     * @return void
      */
     public function __construct(DOMDocument $input) {
         $this->content = $input;

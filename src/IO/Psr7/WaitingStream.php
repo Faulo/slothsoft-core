@@ -20,7 +20,6 @@ final class WaitingStream implements StreamInterface {
      * @param StreamInterface $stream
      * @param int $waitInMicroseconds
      * @param array|null $heartbeat
-     * @return void
      */
     public function __construct(StreamInterface $stream, int $waitInMicroseconds, ?array $heartbeat = null) {
         $this->stream = $stream;

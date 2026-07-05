@@ -58,7 +58,6 @@ class RCon {
      * @param mixed $ip
      * @param mixed $port
      * @param mixed $password
-     * @return void
      */
     public function __construct($ip, $port, $password) {
         $this->ip = $ip;

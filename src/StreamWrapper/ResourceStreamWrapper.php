@@ -9,7 +9,6 @@ class ResourceStreamWrapper implements StreamWrapperInterface {
     
     /**
      * @param mixed $resource
-     * @return void
      */
     public function __construct($resource) {
         $this->handle = $resource;

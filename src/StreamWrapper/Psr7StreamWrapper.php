@@ -12,7 +12,6 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
     
     /**
      * @param StreamInterface $stream
-     * @return void
      */
     public function __construct(StreamInterface $stream) {
         $this->stream = $stream;

@@ -12,7 +12,6 @@ final class StringWriterFromDOMWriter implements StringWriterInterface {
     
     /**
      * @param DOMWriterInterface $source
-     * @return void
      */
     public function __construct(DOMWriterInterface $source) {
         $this->source = $source;

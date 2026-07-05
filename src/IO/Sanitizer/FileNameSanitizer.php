@@ -11,7 +11,6 @@ final class FileNameSanitizer implements SanitizerInterface {
     
     /**
      * @param string $default
-     * @return void
      */
     public function __construct(string $default = '') {
         $this->default = $default;

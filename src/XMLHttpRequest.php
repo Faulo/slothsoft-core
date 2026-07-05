@@ -118,7 +118,6 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     ];
     
     /**
-     * @return void
      */
     public function __construct() {
         if (isset($_SERVER)) {
@@ -416,7 +415,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
                                 }
                             }
                             $this->responseXML->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_PARSEHUGE | LIBXML_HTML_NODEFDTD);
-                            // überflüssige <?xml>s rausnehmen... unschön...
+                            // ??berfl??ssige <?xml>s rausnehmen... unsch??n...
                             $delNodes = [];
                             foreach ($this->responseXML->childNodes as $childNode) {
                                 if ($childNode !== $this->responseXML->documentElement) {

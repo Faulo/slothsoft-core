@@ -14,7 +14,6 @@ final class FileWriterFromStringWriter implements FileWriterInterface {
     
     /**
      * @param StringWriterInterface $source
-     * @return void
      */
     public function __construct(StringWriterInterface $source) {
         $this->source = $source;

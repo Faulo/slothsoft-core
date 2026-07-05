@@ -28,7 +28,6 @@ final class PersistentGeneratorStream implements StreamInterface {
     
     /**
      * @param ChunkWriterInterface $writer
-     * @return void
      */
     public function __construct(ChunkWriterInterface $writer) {
         $this->writer = $writer;

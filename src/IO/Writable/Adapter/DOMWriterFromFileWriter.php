@@ -22,7 +22,6 @@ final class DOMWriterFromFileWriter implements DOMWriterInterface {
      * @param FileWriterInterface $source
      * @param string|null $documentURI
      * @param bool $isHtml
-     * @return void
      */
     public function __construct(FileWriterInterface $source, ?string $documentURI = null, bool $isHtml = false) {
         $this->source = $source;

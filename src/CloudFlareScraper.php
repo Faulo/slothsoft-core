@@ -25,7 +25,6 @@ final class CloudFlareScraper {
     /**
      * @param mixed $cookieFile
      * @param mixed $trySolving
-     * @return void
      */
     public function __construct($cookieFile = null, $trySolving = true) {
         $this->cookieFile = $cookieFile === null ? FileInfoFactory::createTempFile() : $cookieFile;

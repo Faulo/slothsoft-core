@@ -9,7 +9,6 @@ final class IntegerSanitizer implements SanitizerInterface {
     
     /**
      * @param int $default
-     * @return void
      */
     public function __construct(int $default = 0) {
         $this->default = $default;

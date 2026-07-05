@@ -13,7 +13,6 @@ use Slothsoft\Core\Configuration\ConfigurationRequiredException;
  *
  * @author Daniel Schulz
  * @since 2018-03-29
- * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
  */
 final class Client {
     
@@ -81,8 +80,6 @@ final class Client {
     public const ENV_CONNECTION_PASSWORD_FILE = 'MYSQL_PASSWORD_FILE';
     
     private const CONNECTION_CHARSET = 'utf8mb4';
-    
-    private const CONNECTION_SERVER_PASSWORD = '';
     
     private const CONNECTION_COLLATION = 'utf8mb4_unicode_ci';
     

@@ -8,7 +8,6 @@ namespace Slothsoft\Core\DBMS;
  *
  * @author Daniel Schulz
  * @since 2018-03-29
- * @deprecated Included for historical compatibility only. The DBMS API is out of support and should not be used in new code.
  */
 final class Table {
     

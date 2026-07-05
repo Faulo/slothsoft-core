@@ -61,6 +61,8 @@ These APIs are older and may be redesigned later, but they are still intended to
   - Process execution helper.
 - `scripts/bootstrap.php`
   - Global helper functions loaded through Composer.
+- `Slothsoft\Core\DBMS`
+    - mysqli wrapper layer.
 
 ## Historical / Deprecated / Out Of Support
 
@@ -68,8 +70,6 @@ These components are included for historical reasons only. Do not use them for n
 
 - `Slothsoft\Core\Storage`
   - Old cache and remote loading facade built around `XMLHttpRequest`, DBMS fallback, and static configuration.
-- `Slothsoft\Core\DBMS`
-  - Old mysqli wrapper layer.
 - `Slothsoft\Core\XMLHttpRequest`
   - Browser-style HTTP client abstraction over cURL.
 - `Slothsoft\Core\CloudFlareScraper`

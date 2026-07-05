@@ -47,8 +47,6 @@ final class Table {
         return $this->db->tableMove($this->name, $newTableName, $newDbName);
     }
     
-    // CREATE DATABASE
-    
     /**
      * @param array $cols
      * @param array $keys

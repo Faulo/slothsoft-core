@@ -78,7 +78,7 @@ class RCon {
         $sendData['requestId'] = $this->requestId;
         $sendData['commandId'] = $commandId;
         $sendData['string1'] = $messageBody . self::NULL_BYTE;
-        $sendData['string2'] = '' . self::NULL_BYTE;
+        $sendData['string2'] = self::NULL_BYTE;
         
         $sendData['requestId'] = pack('V', $sendData['requestId']);
         $sendData['commandId'] = pack('V', $sendData['commandId']);

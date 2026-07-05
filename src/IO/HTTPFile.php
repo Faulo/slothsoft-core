@@ -72,7 +72,6 @@ final class HTTPFile implements FileWriterInterface {
      * @return HTTPFile
      */
     public static function createFromString(string $content, string $fileName = ''): HTTPFile {
-        $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
         }
@@ -88,7 +87,6 @@ final class HTTPFile implements FileWriterInterface {
      * @return HTTPFile
      */
     public static function createFromFileList(array $fileList, string $fileName = ''): HTTPFile {
-        $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
         }
@@ -106,7 +104,6 @@ final class HTTPFile implements FileWriterInterface {
      * @return HTTPFile
      */
     public static function createFromStream($resource, string $fileName = ''): HTTPFile {
-        $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'index.txt';
         }
@@ -122,7 +119,6 @@ final class HTTPFile implements FileWriterInterface {
      * @return HTTPFile
      */
     public static function createFromJSON($object, string $fileName = ''): HTTPFile {
-        $fileName = (string) $fileName;
         if ($fileName === '') {
             $fileName = 'data.json';
         }

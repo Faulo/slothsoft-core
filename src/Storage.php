@@ -654,7 +654,7 @@ final class Storage implements EphemeralStorageInterface {
      * @return boolean
      */
     public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {
-        return $dataDoc->documentElement ? $this->store($name, $dataDoc->saveXML(), $modifyTime) : false;
+        return $dataDoc->documentElement and $this->store($name, $dataDoc->saveXML(), $modifyTime);
     }
     
     /**
@@ -669,7 +669,7 @@ final class Storage implements EphemeralStorageInterface {
     }
     
     protected function touch(int $id) {
-        if ($id = (int) $id) {
+        if ($id) {
             $this->touchList[$id] = $id;
             // $arr = [];
             // $arr['access-time'] = $this->now;

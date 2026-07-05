@@ -675,10 +675,10 @@ abstract class FileSystem {
     
     public static function downloadByURI($destPath, $sourceURI, array $options = []) {
         $ret = 'ERROR';
-        $downloadCommand = isset($options['download-cmd']) ? $options['download-cmd'] : 'curl %s -o %s';
-        $copyCommand = isset($options['copy-cmd']) ? $options['copy-cmd'] : 'copy %s %s /y';
-        $successCommand = isset($options['success-cmd']) ? $options['success-cmd'] : null;
-        $successPHP = isset($options['success-php']) ? $options['success-php'] : null;
+        $downloadCommand = $options['download-cmd'] ?? 'curl %s -o %s';
+        $copyCommand = $options['copy-cmd'] ?? 'copy %s %s /y';
+        $successCommand = $options['success-cmd'] ?? null;
+        $successPHP = $options['success-php'] ?? null;
         
         // $tempPath = tempnam(sys_get_temp_dir(), 'FS');
         $tempPath = temp_file(__CLASS__);

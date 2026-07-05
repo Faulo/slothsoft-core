@@ -41,7 +41,7 @@ final class CloudFlareScraper {
         $req = new XMLHttpRequest();
         $req->open('GET', $uri);
         $req->setCookieFile($this->cookieFile);
-        $req->setRequestHeader('referer', $this->lastURI ? $this->lastURI : $uri);
+        $req->setRequestHeader('referer', $this->lastURI ?: $uri);
         $req->send();
         
         if ($req->responseXML) {

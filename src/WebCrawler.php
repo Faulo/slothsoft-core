@@ -42,7 +42,7 @@ final class WebCrawler {
         $ret[] = $this->url;
         $ret[] = '';
         foreach ($this->linkList as $url => $res) {
-            $ret[] = $res ? $res : sprintf('SKIP	wrong domain	%s', $url);
+            $ret[] = $res ?: sprintf('SKIP	wrong domain	%s', $url);
         }
         return implode(PHP_EOL, $ret);
     }

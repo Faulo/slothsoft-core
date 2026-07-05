@@ -198,7 +198,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     public function getRequestHeader($header) {
         $header = strtolower($header);
-        return isset($this->requestHeaders[$header]) ? $this->requestHeaders[$header] : null;
+        return $this->requestHeaders[$header] ?? null;
     }
     
     public function send($data = null): void {
@@ -339,6 +339,8 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
                     case 'application/json':
                         $this->_responseCharset = 'UTF-8';
                         break;
+                    default:
+                        break;
                 }
                 if (isset($type[1])) {
                     if (preg_match('/charset\s*=([^;]+)/', $type[1], $match)) {
@@ -348,7 +350,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
             }
             
             $toCharset = 'UTF-8';
-            $fromCharset = $this->_responseCharset ? $this->_responseCharset : strtoupper(mb_detect_encoding($this->responseText)); // 'ISO-8859-1'
+            $fromCharset = $this->_responseCharset ?: strtoupper(mb_detect_encoding($this->responseText)); // 'ISO-8859-1'
             
             if (strlen($fromCharset) and $toCharset !== $fromCharset) {
                 $this->responseText = mb_convert_encoding($this->responseText, $toCharset, $fromCharset);

@@ -59,7 +59,7 @@ final class Manager {
     
     public static function getClient(): Client {
         if (! self::$client) {
-            self::_createLog(sprintf('Manager: creating Client...'));
+            self::_createLog('Manager: creating Client...');
             self::$client = new Client();
         }
         return self::$client;

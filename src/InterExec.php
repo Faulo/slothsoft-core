@@ -286,7 +286,7 @@ class InterExec {
                         $data = $this->fire('input', array(
                             $lastBuffer
                         ));
-                        fwrite($this->pipes[self::STDIN], $data ? $data : PHP_EOL);
+                        fwrite($this->pipes[self::STDIN], $data ?: PHP_EOL);
                         fflush($this->pipes[self::STDIN]);
                         $lastBuffer = '';
                     }
@@ -346,4 +346,4 @@ class InterExec {
     }
 }
 
-?>
+

@@ -45,7 +45,7 @@ final class ImageHelper {
         } elseif ($rows === 1) {
             $sheet = $stack->appendimages(false);
         } else {
-            $sheet = $stack->montageImage(new ImagickDraw(), "{$columns}x{$rows}", "{$spriteWidth}x{$spriteHeight}", Imagick::MONTAGEMODE_CONCATENATE, '0');
+            $sheet = $stack->montageImage(new ImagickDraw(), "{$columns}x$rows", "{$spriteWidth}x$spriteHeight", Imagick::MONTAGEMODE_CONCATENATE, '0');
         }
         $sheet->setImageFormat('png');
         $sheet->writeImage((string) $targetFile);

@@ -315,25 +315,25 @@ final class Client {
     /**
      * @param string $dbName
      * @param string $tableName
-     * @param mixed $cols
+     * @param mixed $columnQuery
      * @param string $sqlString
      * @param string $sqlSuffix
      * @return array|null
      * @throws DatabaseException
      */
-    public function select($dbName, $tableName, $cols = true, $sqlString = '', $sqlSuffix = '') {
+    public function select($dbName, $tableName, $columnQuery = true, $sqlString = '', $sqlSuffix = '') {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
-            if ($cols === true) {
-                $cols = [
+            if ($columnQuery === true) {
+                $columnQuery = [
                     '*'
                 ];
             }
-            $retArr = is_array($cols);
+            $retArr = is_array($columnQuery);
             if (! $retArr) {
-                $cols = [
-                    (string) $cols
+                $columnQuery = [
+                    (string) $columnQuery
                 ];
             }
             if (is_array($sqlString)) {
@@ -367,7 +367,7 @@ final class Client {
             if (strlen($sqlSuffix)) {
                 $sqlString .= ' ' . $sqlSuffix;
             }
-            $sql = sprintf('SELECT %s FROM %s WHERE %s', implode(',', $cols), $dbHandle, $sqlString);
+            $sql = sprintf('SELECT %s FROM %s WHERE %s', implode(',', $columnQuery), $dbHandle, $sqlString);
             if ($res = $this->execute($sql)) {
                 if ($retArr) {
                     $ret = $res->fetch_all(MYSQLI_ASSOC);
@@ -582,28 +582,28 @@ final class Client {
     }
     
     /**
-     * @param mixed $id
+     * @param mixed $idQuery
      * @return string
      * @throws DatabaseException
      */
-    protected function get_ids($id): string {
-        if (is_array($id)) {
-            switch (count($id)) {
+    protected function get_ids($idQuery): string {
+        if (is_array($idQuery)) {
+            switch (count($idQuery)) {
                 case 0:
                     return '0';
                 case 1:
-                    return sprintf('id=%d', reset($id));
+                    return sprintf('id=%d', reset($idQuery));
                 default:
-                    return sprintf('id IN (%s)', implode(',', $id));
+                    return sprintf('id IN (%s)', implode(',', $idQuery));
             }
         }
-        if (is_int($id)) {
-            return sprintf('id=%d', $id);
+        if (is_int($idQuery)) {
+            return sprintf('id=%d', $idQuery);
         }
-        if (is_bool($id)) {
+        if (is_bool($idQuery)) {
             return '1';
         }
-        return sprintf('id="%s"', $this->escape($id));
+        return sprintf('id="%s"', $this->escape($idQuery));
     }
     
     /**

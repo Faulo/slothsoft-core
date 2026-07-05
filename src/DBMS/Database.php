@@ -18,7 +18,7 @@ final class Database {
     
     /**
      * @param Client $client
-     * @param mixed $dbName
+     * @param string $dbName
      */
     public function __construct(Client $client, string $dbName) {
         $this->client = $client;
@@ -102,13 +102,13 @@ final class Database {
     
     /**
      * @param string $tableName
-     * @param mixed $cols
+     * @param mixed $columnQuery
      * @param string $sqlString
      * @param string $sqlSuffix
      * @return array|null
      */
-    public function select($tableName, $cols = true, $sqlString = '', $sqlSuffix = '') {
-        return $this->client->select($this->name, $tableName, $cols, $sqlString, $sqlSuffix);
+    public function select($tableName, $columnQuery = true, $sqlString = '', $sqlSuffix = '') {
+        return $this->client->select($this->name, $tableName, $columnQuery, $sqlString, $sqlSuffix);
     }
     
     /**

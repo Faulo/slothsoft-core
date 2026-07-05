@@ -61,13 +61,13 @@ final class Table {
     }
     
     /**
-     * @param mixed $cols
+     * @param mixed $columnQuery
      * @param string $sqlString
      * @param string $sqlSuffix
      * @return array|null
      */
-    public function select($cols = true, $sqlString = '', $sqlSuffix = '') {
-        return $this->db->select($this->name, $cols, $sqlString, $sqlSuffix);
+    public function select($columnQuery = true, $sqlString = '', $sqlSuffix = '') {
+        return $this->db->select($this->name, $columnQuery, $sqlString, $sqlSuffix);
     }
     
     /**

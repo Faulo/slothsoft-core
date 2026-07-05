@@ -463,9 +463,7 @@ final class Storage implements EphemeralStorageInterface {
             if (! $this->dbmsTable->tableExists()) {
                 $this->install();
             }
-        } catch (DatabaseException $e) {
-            $this->dbmsTable = null;
-        } catch (mysqli_sql_exception $e) {
+        } catch (DatabaseException|mysqli_sql_exception $e) {
             $this->dbmsTable = null;
         }
     }
@@ -626,7 +624,6 @@ final class Storage implements EphemeralStorageInterface {
             try {
                 $ret = (bool) $this->dbmsTable->insert($insert, $update);
             } catch (DatabaseException $e) {
-                $ret = false;
             }
             $this->_createLog('store', $name, $ret);
         }

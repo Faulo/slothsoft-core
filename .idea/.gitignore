@@ -13,3 +13,5 @@
 /phpunit.xml
 /php-docker-settings.xml
 /dataSources.xml
+/php.xml
+/php-test-framework.xml

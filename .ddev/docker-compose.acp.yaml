@@ -1,10 +1,10 @@
 services:
   web:
     environment:
-      - GITHUB_PERSONAL_ACCESS_TOKEN
+      - GITHUB_PAT_TOKEN
     volumes:
       - ${DDEV_APPROOT}:${DDEV_APPROOT}
-      - ~/.claude/:/home/${DDEV_USER}/.claude
-      - ~/.claude.json:/home/${DDEV_USER}/.claude.json
-      - ~/.config/basecamp-mcp/:/home/${DDEV_USER}/.config/basecamp-mcp/
-      - ~/.codex/:/home/${DDEV_USER}/.codex
+      - ~/acp/.codex/:/home/${DDEV_USER}/.codex/
+      - ~/acp/.claude/:/home/${DDEV_USER}/.claude/
+      - ~/acp/.claude.json:/home/${DDEV_USER}/.claude.json
+      - ~/acp/.config/:/home/${DDEV_USER}/.config/

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\DBMS;
 
 use mysqli;
+use mysqli_driver;
 use mysqli_result;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
@@ -45,6 +46,22 @@ final class Client {
         return $field;
     }
     
+    /**
+     * @param callable $callback
+     * @return mixed
+     */
+    private static function runWithMysqliReportingOff(callable $callback) {
+        $driver = new mysqli_driver();
+        $reportMode = $driver->report_mode;
+
+        mysqli_report(MYSQLI_REPORT_OFF);
+        try {
+            return $callback();
+        } finally {
+            mysqli_report($reportMode);
+        }
+    }
+
     /**
      * @param Authority $authority
      * @return void
@@ -98,41 +115,43 @@ final class Client {
      * @return bool
      */
     public function reconnect(): bool {
-        try {
-            $authority = self::getDefaultAuthority();
-        } catch (ConfigurationRequiredException $e) {
-            $this->error('Database configuration has not been set!');
-            return false;
-        }
-        
-        $sqli = mysqli_init();
-        if (! $sqli instanceof mysqli) {
-            $this->error('Failed to initialize mysqli.');
-            return false;
-        }
-        
-        $this->sqli = $sqli;
-        $this->sqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
-        $this->connected = false;
-        
-        if (! @$this->sqli->real_connect($authority->server, $authority->user, $authority->password)) {
-            $this->error();
-            return false;
-        }
-        
-        if ($this->sqli->connect_error) {
-            $this->error();
-            return false;
-        }
-        if (! $this->sqli->set_charset(self::CONNECTION_CHARSET)) {
-            $this->error('Failed to set connection charset.');
-            return false;
-        }
-        if ($this->dbName and ! $this->sqli->select_db($this->dbName)) {
-            $this->error(sprintf('Failed to select database "%s".', $this->dbName));
-            return false;
-        }
-        return true;
+        return self::runWithMysqliReportingOff(function (): bool {
+            try {
+                $authority = self::getDefaultAuthority();
+            } catch (ConfigurationRequiredException $e) {
+                $this->error('Database configuration has not been set!');
+                return false;
+            }
+
+            $sqli = mysqli_init();
+            if (! $sqli instanceof mysqli) {
+                $this->error('Failed to initialize mysqli.');
+                return false;
+            }
+
+            $this->sqli = $sqli;
+            $this->sqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
+            $this->connected = false;
+
+            if (! @$this->sqli->real_connect($authority->server, $authority->user, $authority->password)) {
+                $this->error();
+                return false;
+            }
+
+            if ($this->sqli->connect_error) {
+                $this->error();
+                return false;
+            }
+            if (! $this->sqli->set_charset(self::CONNECTION_CHARSET)) {
+                $this->error('Failed to set connection charset.');
+                return false;
+            }
+            if ($this->dbName and ! $this->sqli->select_db($this->dbName)) {
+                $this->error(sprintf('Failed to select database "%s".', $this->dbName));
+                return false;
+            }
+            return true;
+        });
     }
     
     /**
@@ -467,15 +486,17 @@ final class Client {
      * @return mysqli_result|bool
      */
     public function execute(string $sqlString) {
-        if ($this->connect()) {
-            Manager::_createLog($sqlString);
-            $ret = @$this->sqli->query($sqlString);
-            if ($ret === false) {
-                $this->error($sqlString);
+        return self::runWithMysqliReportingOff(function () use ($sqlString) {
+            if ($this->connect()) {
+                Manager::_createLog($sqlString);
+                $ret = @$this->sqli->query($sqlString);
+                if ($ret === false) {
+                    $this->error($sqlString);
+                }
+                return $ret;
             }
-            return $ret;
-        }
-        return false;
+            return false;
+        });
     }
     
     /**

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\DBMS;
 
+use mysqli_driver;
 use PHPUnit\Framework\TestCase;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
 
@@ -66,5 +67,25 @@ class ClientTest extends TestCase {
         $this->assertEquals('root', $authority->user);
         
         $this->assertEquals('test-password-file', $authority->password);
+    }
+
+    public function testReconnectKeepsLegacyErrorHandlingWithStrictMysqliReportMode() {
+        if (! extension_loaded('mysqli')) {
+            $this->markTestSkipped('Client requires the mysqli extension.');
+        }
+
+        $driver = new mysqli_driver();
+        $reportMode = $driver->report_mode;
+        Client::setDefaultAuthority(new Authority('localhost', 'root', 'invalid-password'));
+
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        try {
+            $client = new Client();
+
+            $this->assertFalse($client->reconnect());
+        } finally {
+            mysqli_report($reportMode);
+            Client::clearDefaultAuthority();
+        }
     }
 }

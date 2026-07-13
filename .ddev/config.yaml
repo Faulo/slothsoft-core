@@ -18,6 +18,7 @@ webimage_extra_packages:
     - php${DDEV_PHP_VERSION}-gd
     - php${DDEV_PHP_VERSION}-imagick
     - php${DDEV_PHP_VERSION}-mysql
+    - php${DDEV_PHP_VERSION}-xsl
 
 # Key features of DDEV's config.yaml:
 

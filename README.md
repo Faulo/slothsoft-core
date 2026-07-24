@@ -91,8 +91,6 @@ These components are included for historical reasons only. Do not use them for n
 
 Some APIs use global or static process state, especially `ServerEnvironment`, `Configuration`, `Storage`, and file-system/cache helpers. Tests that exercise stateful behavior should isolate side effects with `@runInSeparateProcess`.
 
-Tests may create temporary files through `temp_file`, `temp_dir`, or `Slothsoft\Core\IO\FileInfoFactory::createTempFile`; those helpers do not require manual cleanup. Files in `test-files/` are canonical fixtures.
-
 The local development environment should provide the Composer development extensions. If an optional extension or platform feature is unavailable, affected tests may be skipped or impossible to run locally. Skipped tests should be treated as intentionally skipped unless the task is specifically about test skipping.
 
 Use `.editorconfig` for coding style. Additional formatter or static-analysis tooling may be added later, but none is required right now.

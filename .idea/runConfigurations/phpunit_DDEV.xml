@@ -1,5 +1,10 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="phpunit" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+    <CommandLine>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="slothsoft-core" />
+      </PhpTestInterpreterSettings>
+    </CommandLine>
     <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" coverage_engine="PHPDBG" scope="XML" use_alternative_configuration_file="true" />
     <method v="2" />
   </configuration>

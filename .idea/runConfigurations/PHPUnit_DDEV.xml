@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="phpunit" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+  <configuration default="false" name="PHPUnit DDEV" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
     <CommandLine>
       <PhpTestInterpreterSettings>
         <option name="interpreterName" value="slothsoft-core" />

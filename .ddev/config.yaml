@@ -15,10 +15,18 @@ web_environment: []
 nodejs_version: "24"
 corepack_enable: false
 webimage_extra_packages:
+    - php${DDEV_PHP_VERSION}-curl
+    - php${DDEV_PHP_VERSION}-dom
+    - php${DDEV_PHP_VERSION}-fileinfo
     - php${DDEV_PHP_VERSION}-gd
     - php${DDEV_PHP_VERSION}-imagick
-    - php${DDEV_PHP_VERSION}-mysql
+    - php${DDEV_PHP_VERSION}-mbstring
+    - php${DDEV_PHP_VERSION}-mysqli
+    - php${DDEV_PHP_VERSION}-phar
+    - php${DDEV_PHP_VERSION}-tokenizer
+    - php${DDEV_PHP_VERSION}-xmlwriter
     - php${DDEV_PHP_VERSION}-xsl
+
 
 # Key features of DDEV's config.yaml:
 

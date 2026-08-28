@@ -1,4 +1,4 @@
-# Agents instructions
+# AGENTS.md
 
 Shared instructions for coding agents. Project-specific information is kept in [README.md](README.md), read it before non-trivial changes.
 
@@ -70,7 +70,7 @@ pending. Do not push or trigger jobs without authorization.
 The PHPDoc config is `phpdoc.xml`. Generate documentation in DDEV with
 `ddev exec vendor/bin/phpdoc`. `.editorconfig` is in effect.
 
-## Slothsoft
+## General
 
 ### Meta commands
 
@@ -86,11 +86,16 @@ message:
   reproducibility, risks, and a proposed implementation plan. Do not edit
   files, change remote state, commit, or push until the user approves the
   approach.
+- `can you <x>?` is a question about your knowledge, capabilities or permissions. It is not an instruction to perform `x`.
 
 ### Compatibility
 
 Follow semantic versioning. Preserve backward compatibility for public APIs
 unless the task explicitly permits a breaking change.
+
+### Project conventions
+
+`.editorconfig` is authoritative. Never edit `.editorconfig` unless expressly instructed by the user.
 
 ### Git
 
@@ -111,10 +116,10 @@ When Git mutations are authorized:
 - Keep commits small and cohesive.
 - Format agent-authored commits according to Conventional Commits 1.0.0:
   `<type>[optional scope]: <description>`.
-- When working from a Jira ticket, include the ticket key and URL in the commit
+- When working from a ticket, include the ticket key and URL in the commit
   footer.
 - Before committing, read the configured Git author name and email. Keep the
-  configured email, append the agent name once to the configured author name,
+  configured email, append the agent name once, in brackets to the configured author name (e.g. `Daniel Schulz (Codex)`),
   and pass that identity explicitly with `git commit --author`. Do not modify
   repository or global Git configuration.
 - Do not force-push, amend, rebase, reset, or discard changes unless the user

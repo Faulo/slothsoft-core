@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 use Slothsoft\Core\IO\Memory;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('bootstrap-%s.php', PHP_SAPI);
+@include_once __DIR__ . DIRECTORY_SEPARATOR . sprintf('bootstrap-%s.php', PHP_SAPI);
 
 function my_dump($var) {
     if (! headers_sent()) {

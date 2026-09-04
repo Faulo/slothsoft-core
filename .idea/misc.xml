@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectResources">
+    <CATALOG_PROPERTIES>$PROJECT_DIR$/catalog.properties</CATALOG_PROPERTIES>
+    <resource url="https://phar.io/xml/manifest/1.0" location="$PROJECT_DIR$/vendor/phar-io/manifest/manifest.xsd"/>
+  </component>
+</project>

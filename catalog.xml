@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <uri name="https://phar.io/xml/manifest/1.0" uri="vendor/phar-io/manifest/manifest.xsd"/>
+</catalog>

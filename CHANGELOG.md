@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Converted valid document type declarations emitted as XSLT text into DOM document type nodes.
+
 ### Changed
 
 - Updated dependencies and Composer metadata while retaining PHP 7.4 as the dependency-resolution platform.

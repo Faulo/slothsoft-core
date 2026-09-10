@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Adapters;
 
 use DOMDocument;
+use DOMDocumentType;
+use DOMText;
 use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
 use XSLTProcessor;
@@ -50,6 +52,45 @@ final class XsltProcessorAdapter extends GenericAdapter {
         $xslt->registerPHPFunctions();
         $xslt->importStylesheet($this->template->toDocument());
         
-        return $xslt->transformToDoc($this->source->toDocument());
+        return $this->normalizeDocumentType($xslt->transformToDoc($this->source->toDocument()));
+    }
+
+    private function normalizeDocumentType(DOMDocument $document): DOMDocument {
+        $documentElement = $document->documentElement;
+        if ($documentElement === null) {
+            return $document;
+        }
+
+        $documentTypeNode = null;
+        foreach ($document->childNodes as $node) {
+            if ($node->isSameNode($documentElement)) {
+                break;
+            }
+            if ($node instanceof DOMText) {
+                if ($documentTypeNode !== null) {
+                    return $document;
+                }
+                $documentTypeNode = $node;
+            }
+        }
+        if ($documentTypeNode === null) {
+            return $document;
+        }
+
+        $probe = new DOMDocument();
+        if (! @$probe->loadXML($documentTypeNode->data . '<root/>', LIBXML_NONET) or
+            $probe->childNodes->length !== 2 or
+            ! $probe->firstChild instanceof DOMDocumentType) {
+            return $document;
+        }
+
+        $normalizedDocument = new DOMDocument();
+        $normalizedDocument->formatOutput = $document->formatOutput;
+        $normalizedDocument->preserveWhiteSpace = $document->preserveWhiteSpace;
+        if (! @$normalizedDocument->loadXML($document->saveXML(), LIBXML_NONET) or $normalizedDocument->doctype === null) {
+            return $document;
+        }
+        $normalizedDocument->documentURI = $document->documentURI;
+        return $normalizedDocument;
     }
 }

@@ -32,8 +32,7 @@ final class XsltProcessorAdapterTest extends TestCase {
         string $documentType,
         string $expectedName,
         string $expectedPublicId,
-        string $expectedSystemId,
-        string $expectedInternalSubset
+        string $expectedSystemId
     ): void {
         $result = $this->createAdapter($documentType)->writeDocument();
 
@@ -41,7 +40,7 @@ final class XsltProcessorAdapterTest extends TestCase {
         $this->assertSame($expectedName, $result->doctype->name);
         $this->assertSame($expectedPublicId, $result->doctype->publicId);
         $this->assertSame($expectedSystemId, $result->doctype->systemId);
-        $this->assertSame($expectedInternalSubset, trim((string) $result->doctype->internalSubset));
+        $this->assertNull($result->doctype->internalSubset);
         $this->assertSame('root', $result->documentElement->tagName);
     }
 
@@ -50,29 +49,19 @@ final class XsltProcessorAdapterTest extends TestCase {
             '<!DOCTYPE html>',
             'html',
             '',
-            '',
             ''
         ];
         yield 'system identifier' => [
             '<!DOCTYPE root SYSTEM "about:legacy-compat">',
             'root',
             '',
-            'about:legacy-compat',
-            ''
+            'about:legacy-compat'
         ];
         yield 'public identifier' => [
             '<!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "about:legacy-compat">',
             'root',
             '-//W3C//DTD XHTML 1.0 Strict//EN',
-            'about:legacy-compat',
-            ''
-        ];
-        yield 'internal subset' => [
-            '<!DOCTYPE root [<!ELEMENT root ANY>]>',
-            'root',
-            '',
-            '',
-            '<!ELEMENT root ANY>'
+            'about:legacy-compat'
         ];
     }
 
@@ -89,9 +78,9 @@ final class XsltProcessorAdapterTest extends TestCase {
 
     /**
      * @test
-     * @dataProvider invalidDocumentTypes
+     * @dataProvider unconvertedText
      */
-    public function writeDocumentPreservesTextThatIsNotExactlyOneValidDocumentType(string $text): void {
+    public function writeDocumentPreservesUnsupportedText(string $text): void {
         $result = $this->createAdapter($text)->writeDocument();
 
         $this->assertNull($result->doctype);
@@ -99,15 +88,21 @@ final class XsltProcessorAdapterTest extends TestCase {
         $this->assertSame($text, $result->documentElement->previousSibling->nodeValue);
     }
 
-    public function invalidDocumentTypes(): iterable {
+    public function unconvertedText(): iterable {
         yield 'ordinary text' => [
             'not a doctype'
         ];
         yield 'invalid declaration' => [
             '<!DOCTYPE>'
         ];
-        yield 'doctype and another node' => [
-            '<!DOCTYPE root><!-- comment -->'
+        yield 'comment' => [
+            '<!-- comment -->'
+        ];
+        yield 'processing instruction' => [
+            '<?target instruction?>'
+        ];
+        yield 'internal subset' => [
+            '<!DOCTYPE root [<!ELEMENT root ANY>]>'
         ];
     }
 

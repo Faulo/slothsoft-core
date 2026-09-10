@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Slothsoft\Core\XSLT\Adapters;
 
 use DOMDocument;
-use DOMDocumentType;
+use DOMImplementation;
 use DOMText;
 use Slothsoft\Core\IO\FileInfoFactory;
 use SplFileInfo;
@@ -54,13 +54,13 @@ final class XsltProcessorAdapter extends GenericAdapter {
         
         return $this->normalizeDocumentType($xslt->transformToDoc($this->source->toDocument()));
     }
-
+    
     private function normalizeDocumentType(DOMDocument $document): DOMDocument {
         $documentElement = $document->documentElement;
         if ($documentElement === null) {
             return $document;
         }
-
+        
         $documentTypeNode = null;
         foreach ($document->childNodes as $node) {
             if ($node->isSameNode($documentElement)) {
@@ -76,21 +76,27 @@ final class XsltProcessorAdapter extends GenericAdapter {
         if ($documentTypeNode === null) {
             return $document;
         }
-
+        
         $probe = new DOMDocument();
-        if (! @$probe->loadXML($documentTypeNode->data . '<root/>', LIBXML_NONET) or
-            $probe->childNodes->length !== 2 or
-            ! $probe->firstChild instanceof DOMDocumentType) {
+        if (! $probe->loadXML($documentTypeNode->textContent . '<root/>', LIBXML_NONET | LIBXML_NOERROR)) {
             return $document;
         }
-
-        $normalizedDocument = new DOMDocument();
-        $normalizedDocument->formatOutput = $document->formatOutput;
-        $normalizedDocument->preserveWhiteSpace = $document->preserveWhiteSpace;
-        if (! @$normalizedDocument->loadXML($document->saveXML(), LIBXML_NONET) or $normalizedDocument->doctype === null) {
+        if (! $probe->doctype) {
             return $document;
         }
-        $normalizedDocument->documentURI = $document->documentURI;
-        return $normalizedDocument;
+        if ($probe->doctype->internalSubset) {
+            return $document;
+        }
+        
+        $replacement = (new DOMImplementation())->createDocumentType(
+            $probe->doctype->name,
+            $probe->doctype->publicId,
+            $probe->doctype->systemId
+        );
+        if (! $replacement) {
+            return $document;
+        }
+        $document->replaceChild($replacement, $documentTypeNode);
+        return $document;
     }
 }

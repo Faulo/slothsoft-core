@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.28] - 2026-09-10
+
 ### Fixed
 
 - Converted valid document type declarations emitted as XSLT text into DOM document type nodes.

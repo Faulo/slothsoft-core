@@ -7,17 +7,11 @@ def unstable(def body) {
 def report(def body) {
     checkout scm
 
-    dir('.reports') {
-        deleteDir()
-    }
-
-    fileOperations([folderCreateOperation('.reports')])
+    fileOperations([folderDeleteOperation('.reports'), folderCreateOperation('.reports')])
 
     body()
 
-    dir('.reports') {
-        junit "*.xml"
-    }
+    junit ".reports/*.xml"
 }
 
 def runComposerTest(def version, def variant) {

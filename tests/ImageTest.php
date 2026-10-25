@@ -29,8 +29,9 @@ final class ImageTest extends TestCase {
         Image::$FFMPEG_ACTIVE = false;
         Image::$OPTIPNG_ACTIVE = false;
         
-        $sourceFile = temp_dir(__METHOD__) . '/source.png';
-        $destFile = temp_dir(__METHOD__) . '/output.png';
+        $directory = temp_dir(__CLASS__);
+        $sourceFile = $directory . '/source.png';
+        $destFile = $directory . '/output.png';
         
         $this->assertFalse(Image::convertFile($sourceFile, $destFile));
         $this->assertFalse(Image::scaleFile($sourceFile, $destFile, 10, 10));

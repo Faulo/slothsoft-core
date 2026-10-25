@@ -7,19 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-10-25
+
+### Added
+
+- Added PHPStan validation with local COM and DOM stubs and Linux and Windows CI integration.
+
+### Changed
+
+- Changed default `ServerEnvironment` log, cache, and data directories to `.log`, `.cache`, and `.data` under the current working directory, falling back to the system temporary directory if it cannot be determined.
+- Replaced the legacy `HTTPFile::CURL_ENABLED` and `Image` backend flags, executable paths, and thumbnail dimensions with typed public static configuration fields.
+- Updated dependency minimums and expanded CI coverage across supported PHP versions, operating systems, and dependency versions.
+
 ### Fixed
 
+- Made `temp_dir()` and `temp_file()` accept `__METHOD__` on Windows by replacing colons with path separators, and collapsed repeated separators in `normalize_slashes()`.
+- Preserved zero-byte file sizes and converted unavailable sizes to `null` in `LazyFileWriterStream`.
 - Separated Storage touch-on-exit configuration from logging.
 - Initialized the legacy process input buffer and converted fractional tick intervals to integer microseconds.
 - Corrected HTTP request header construction and boolean cURL options.
 - Applied defaults before casting missing LeanElement serialization fields and kept exhausted RCON packet buffers as strings.
-- Corrected static-analysis type documentation and test calls without changing public signatures.
+- Corrected static-analysis type documentation, redundant conditions, and test calls.
+- Kept PHPStan's JUnit report output when invoked through older Composer versions in Jenkins.
 
-## [1.15.0] - 2026-10-25
+### Removed
 
-### Changed
-
-- Changed default `ServerEnvironment` directories to be in the package root.
+- Removed the already-disabled legacy `Image::generateThumbnail()` method.
 
 ## [1.14.28] - 2026-09-10
 
@@ -692,7 +705,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release.
 
-[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.14.27...HEAD
+[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.15.0...HEAD
+[1.15.0]: https://github.com/Faulo/slothsoft-core/compare/1.14.28...1.15.0
+[1.14.28]: https://github.com/Faulo/slothsoft-core/compare/1.14.27...1.14.28
 [1.14.27]: https://github.com/Faulo/slothsoft-core/compare/1.14.26...1.14.27
 [1.14.26]: https://github.com/Faulo/slothsoft-core/compare/1.14.25...1.14.26
 [1.14.25]: https://github.com/Faulo/slothsoft-core/compare/1.14.24...1.14.25

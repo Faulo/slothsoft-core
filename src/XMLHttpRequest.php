@@ -120,14 +120,12 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     /**
      */
     public function __construct() {
-        if (isset($_SERVER)) {
-            foreach ($this->_env as $key => &$val) {
-                if (isset($_SERVER[$key])) {
-                    $val = $_SERVER[$key];
-                }
+        foreach ($this->_env as $key => &$val) {
+            if (isset($_SERVER[$key])) {
+                $val = $_SERVER[$key];
             }
-            unset($val);
         }
+        unset($val);
     }
     
     // request
@@ -415,7 +413,8 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
                                 }
                             }
                             $this->responseXML->loadHTML($html, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_PARSEHUGE | LIBXML_HTML_NODEFDTD);
-                            // ??berfl??ssige <?xml>s rausnehmen... unsch??n...
+                            
+                            // remove any nodes not the document node, like <?xml
                             $delNodes = [];
                             foreach ($this->responseXML->childNodes as $childNode) {
                                 if ($childNode !== $this->responseXML->documentElement) {

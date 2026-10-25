@@ -452,7 +452,7 @@ final class Storage implements EphemeralStorageInterface {
             $last = array_shift($host);
         }
         $host = implode('.', $host);
-        if ($host === 'co.uk') { // ARGH
+        if ($host === 'co.uk' and isset($last)) { // ARGH
             $host = $last . '.' . $host;
         }
         if ($host === 'twitter.com') { // this is why you don't set precedents

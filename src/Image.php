@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use DomainException;
-use Exception;
 
 /**
  * Legacy image conversion, resizing, thumbnail, and optimization facade.
@@ -15,11 +14,9 @@ use Exception;
  */
 final class Image {
     
-    const IRFANVIEW_ACTIVE = true;
+    public static bool $IRFANVIEW_ACTIVE = true;
     
-    // const IRFANVIEW_PATH = 'C:/Program Files (x86)/IrfanView/i_view32.exe';
-    // const IRFANVIEW_PATH = 'C:/NetzwerkDaten/Dropbox/Tools/irfanview/i_view32.exe';
-    const IRFANVIEW_PATH = 'i_view32';
+    public static string $IRFANVIEW_PATH = 'i_view32';
     
     const IRFANVIEW_QUERY_SIZE = '%1$s /resize=(%3$d,%4$d) /aspectratio /silent /convert=%2$s';
     
@@ -27,24 +24,23 @@ final class Image {
     
     const IRFANVIEW_QUERY_SCALE = '%1$s /silent /resize=(%3$d,%4$d) /convert=%2$s';
     
-    const FFMPEG_ACTIVE = true;
+    public static bool $FFMPEG_ACTIVE = true;
     
     // DEAKTIVIERT: temp.tmp kann nicht gelesen werden!!!!!
-    // const FFMPEG_PATH = 'C:/NetzwerkDaten/Dropbox/Tools/ffmpeg/ffmpeg.exe';
-    const FFMPEG_PATH = 'ffmpeg';
+    public static string $FFMPEG_PATH = 'ffmpeg';
     
     const FFMPEG_QUERY_CONVERT = '-i %1$s %2$s -y';
     
     // /encode
-    const OPTIPNG_ACTIVE = true;
+    public static bool $OPTIPNG_ACTIVE = true;
     
-    const OPTIPNG_PATH = 'optipng';
+    public static string $OPTIPNG_PATH = 'optipng';
     
     const OPTIPNG_QUERY_MINIFY = '-silent %1$s';
     
-    const THUMBNAIL_WIDTH = 320;
+    public static int $THUMBNAIL_WIDTH = 320;
     
-    const THUMBNAIL_HEIGHT = 240;
+    public static int $THUMBNAIL_HEIGHT = 240;
     
     /**
      * @return string
@@ -195,20 +191,20 @@ final class Image {
     public static function convertFile($sourceFile, $destFile): bool {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
-        if (self::IRFANVIEW_ACTIVE) {
-            $command = '"' . self::IRFANVIEW_PATH . '" ';
+        if (self::$IRFANVIEW_ACTIVE) {
+            $command = '"' . self::$IRFANVIEW_PATH . '" ';
             $command .= sprintf(self::IRFANVIEW_QUERY_CONVERT, escapeshellarg($sourceFile), escapeshellarg($destFile));
             exec($command);
-        } elseif (self::FFMPEG_ACTIVE) {
-            $command = '"' . self::FFMPEG_PATH . '" ';
+        } elseif (self::$FFMPEG_ACTIVE) {
+            $command = '"' . self::$FFMPEG_PATH . '" ';
             $command .= sprintf(self::FFMPEG_QUERY_CONVERT, escapeshellarg($sourceFile), escapeshellarg($destFile));
             exec($command);
         }
         $ret = file_exists($destFile);
         
-        if (self::OPTIPNG_ACTIVE) {
+        if (self::$OPTIPNG_ACTIVE) {
             if ($ret and strtolower(pathinfo($destFile, PATHINFO_EXTENSION)) === 'png') {
-                $command = '"' . self::OPTIPNG_PATH . '" ';
+                $command = '"' . self::$OPTIPNG_PATH . '" ';
                 $command .= sprintf(self::OPTIPNG_QUERY_MINIFY, escapeshellarg($destFile));
                 exec($command);
             }
@@ -227,17 +223,17 @@ final class Image {
     public static function scaleFile($sourceFile, $destFile, $width, $height): bool {
         $sourceFile = str_replace('/', '\\', $sourceFile);
         $destFile = str_replace('/', '\\', $destFile);
-        if (self::IRFANVIEW_ACTIVE) {
-            $command = '"' . self::IRFANVIEW_PATH . '" ';
+        if (self::$IRFANVIEW_ACTIVE) {
+            $command = '"' . self::$IRFANVIEW_PATH . '" ';
             $command .= sprintf(self::IRFANVIEW_QUERY_SCALE, escapeshellarg($sourceFile), escapeshellarg($destFile), $width, $height);
             exec($command);
         }
         
         $ret = file_exists($destFile);
         
-        if (self::OPTIPNG_ACTIVE) {
+        if (self::$OPTIPNG_ACTIVE) {
             if ($ret and strtolower(pathinfo($destFile, PATHINFO_EXTENSION)) === 'png') {
-                $command = '"' . self::OPTIPNG_PATH . '" ';
+                $command = '"' . self::$OPTIPNG_PATH . '" ';
                 $command .= sprintf(self::OPTIPNG_QUERY_MINIFY, escapeshellarg($destFile));
                 exec($command);
             }
@@ -281,79 +277,6 @@ final class Image {
             $tempFile = self::getTempFile();
             imagepng($sourceImage, $tempFile);
             $ret = self::convertFile($tempFile, $targetFile);
-        }
-        return $ret;
-    }
-    
-    /**
-     * @param mixed $sourceFile
-     * @param mixed $thumbWidth
-     * @param mixed $thumbHeight
-     * @param mixed $returnLink
-     * @return mixed
-     * @throws Exception
-     */
-    public static function generateThumbnail($sourceFile, $thumbWidth = null, $thumbHeight = null, $returnLink = true) {
-        static $cache = null;
-        $ret = null;
-        if (! $cache) {
-            throw new Exception("Image::generateThumbnail has been disabled.");
-            // $cache = new Cache();
-        }
-        if (! $thumbWidth) {
-            $thumbWidth = self::THUMBNAIL_WIDTH;
-        }
-        if (! $thumbHeight) {
-            $thumbHeight = self::THUMBNAIL_HEIGHT;
-        }
-        if ($sourceFile = realpath($sourceFile)) {
-            $fileHash = md5_file($sourceFile);
-            $fileName = basename($sourceFile);
-            $fileExt = strrpos($fileName, '.');
-            if ($fileExt === false) {
-                $fileExt = '.' . $fileName;
-            } else {
-                $fileExt = substr($fileName, $fileExt);
-            }
-            $fileExt = strtolower($fileExt);
-            $tmpFile = sprintf('%s.%dx%d%s', $fileHash, $thumbWidth, $thumbHeight, $fileExt);
-            // $tmpFile = FileSystem::filenameEncode($tmpFile, true);
-            // echo $tmpFile . PHP_EOL;
-            
-            $destFile = $cache->getPath($tmpFile, 'images/');
-            $destLink = $cache->getURI($tmpFile, 'images/');
-            
-            if (! file_exists($destFile) or filemtime($destFile) < filemtime($sourceFile)) {
-                if (self::IRFANVIEW_ACTIVE and is_readable(self::IRFANVIEW_PATH)) {
-                    $command = '"' . self::IRFANVIEW_PATH . '" ';
-                    $command .= sprintf(self::IRFANVIEW_QUERY_SIZE, $sourceFile, str_replace('/', '\\', $destFile), $thumbWidth, $thumbHeight);
-                    // echo $command . PHP_EOL;
-                    exec($command);
-                } else {
-                    try {
-                        $pic = self::createFromFile($sourceFile);
-                        $width = imagesx($pic);
-                        $height = imagesy($pic);
-                        // calculate the image ratio
-                        $imgratio = ($width / $height);
-                        if ($imgratio > 1) {
-                            $new_width = $thumbWidth;
-                            $new_height = (int) ($thumbWidth / $imgratio);
-                        } else {
-                            $new_height = $thumbHeight;
-                            $new_width = (int) ($thumbHeight * $imgratio);
-                        }
-                        $new_image = imagecreatetruecolor($new_width, $new_height);
-                        imagecopyresized($new_image, $pic, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-                        imagedestroy($pic);
-                        imagejpeg($new_image, $destFile);
-                    } catch (Exception $e) {
-                    }
-                }
-            }
-            if (file_exists($destFile)) {
-                $ret = $returnLink ? $destLink : $destFile;
-            }
         }
         return $ret;
     }

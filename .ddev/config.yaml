@@ -21,6 +21,8 @@ webimage_extra_packages:
     - php${DDEV_PHP_VERSION}-dom
     - php${DDEV_PHP_VERSION}-fileinfo
     - php${DDEV_PHP_VERSION}-gd
+    - php${DDEV_PHP_VERSION}-hash
+    - php${DDEV_PHP_VERSION}-iconv
     - php${DDEV_PHP_VERSION}-imagick
     - php${DDEV_PHP_VERSION}-mbstring
     - php${DDEV_PHP_VERSION}-mysqli

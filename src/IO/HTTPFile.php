@@ -21,7 +21,7 @@ final class HTTPFile implements FileWriterInterface {
     
     const STATUS_BAD_REQUEST = 400;
     
-    const CURL_ENABLED = true;
+    public static bool $CURL_ENABLED = true;
     
     const CURL_COMMAND = 'curl %s --output %s --header %s --connect-timeout 300 --retry 3 --http1.1 --silent --fail --insecure --location';
     
@@ -133,9 +133,9 @@ final class HTTPFile implements FileWriterInterface {
      *
      * @param string $phpCommand
      * @param string $fileName
-     * @return ?HTTPFile
+     * @return HTTPFile
      */
-    public static function createFromPHP(string $phpCommand, string $fileName = ''): ?HTTPFile {
+    public static function createFromPHP(string $phpCommand, string $fileName = ''): HTTPFile {
         if ($fileName === '') {
             $fileName = basename($phpCommand);
             if ($fileName === '') {
@@ -166,7 +166,7 @@ final class HTTPFile implements FileWriterInterface {
             $url = 'http://slothsoft.net' . $url;
         }
         
-        if (self::CURL_ENABLED) {
+        if (self::$CURL_ENABLED) {
             $refererURI = sprintf('Referer: %s://%s%s', $param['scheme'], $param['host'], $param['path']);
             $filePath = self::getTempFile();
             $downloadExec = sprintf(self::CURL_COMMAND, escapeshellarg(urldecode($url)), escapeshellarg($filePath), escapeshellarg($refererURI));

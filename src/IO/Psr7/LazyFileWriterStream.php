@@ -86,7 +86,7 @@ final class LazyFileWriterStream implements StreamInterface {
      * @return ?int
      */
     public function getSize(): ?int {
-        return $this->size ??= $this->getFile()->getSize();
+        return $this->size ??= $this->getFile()->getSize() ?: null;
     }
     
     /**

@@ -55,7 +55,7 @@ class CacheDirectoryStorageTest extends TestCase {
         $sut = new CacheDirectoryStorage();
         
         $this->assertTrue($sut->store($storeKey, $storeValue, $storeTime));
-        $this->assertTrue($sut->delete($storeKey, $storeValue, $storeTime));
+        $this->assertTrue($sut->delete($storeKey));
         $this->assertFalse($sut->exists($storeKey, $storeTime));
         $this->assertNull($sut->retrieve($storeKey, $storeTime));
     }

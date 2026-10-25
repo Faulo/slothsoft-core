@@ -35,6 +35,7 @@ final class ChunkWriterFromChunksDelegateTest extends TestCase {
     
     /**
      *
+     * @param positive-int $count
      * @testWith [1]
      *           [2]
      *           [3]
@@ -47,8 +48,7 @@ final class ChunkWriterFromChunksDelegateTest extends TestCase {
             $actual = [
                 ...$sut->toChunks()
             ];
+            $this->assertThat($actual, new IsIdentical($expected));
         }
-        
-        $this->assertThat($actual, new IsIdentical($expected));
     }
 }

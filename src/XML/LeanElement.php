@@ -81,9 +81,9 @@ final class LeanElement implements DOMWriterInterface {
     
     /**
      *
-     * @param string $$tag
+     * @param string $tag
      * @param array $attributes
-     * @param array $children
+     * @param Vector $children
      */
     private function __construct(string $tag, array $attributes, Vector $children) {
         $this->tag = $tag;
@@ -209,8 +209,8 @@ final class LeanElement implements DOMWriterInterface {
      * @return void
      */
     public function __unserialize(array $data): void {
-        $this->tag = (string) $data[0] ?? '';
-        $this->attributes = (array) $data[1] ?? [];
-        $this->children = new Vector((array) $data[2] ?? []);
+        $this->tag = (string) ($data[0] ?? '');
+        $this->attributes = (array) ($data[1] ?? []);
+        $this->children = new Vector((array) ($data[2] ?? []));
     }
 }

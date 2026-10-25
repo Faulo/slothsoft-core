@@ -19,7 +19,6 @@ class StorageTest extends TestCase {
     public function testExists(): void {
         if (! extension_loaded('mysqli')) {
             $this->markTestSkipped('Storage requires the mysqli extension.');
-            return;
         }
         
         $sut = new Storage('not-existing-storage');
@@ -28,4 +27,20 @@ class StorageTest extends TestCase {
         
         $this->assertEquals(false, $actual);
     }
+    
+    /**
+     * @runInSeparateProcess
+     */
+    public function testTouchOnExitIsIndependentOfLogging(): void {
+        Storage::setLogEnabled(false);
+        Storage::setTouchOnExit(true);
+        $this->assertTrue(Storage::getTouchOnExit());
+        $this->assertFalse(Storage::getLogEnabled());
+        
+        Storage::setLogEnabled(true);
+        Storage::setTouchOnExit(false);
+        $this->assertFalse(Storage::getTouchOnExit());
+        $this->assertTrue(Storage::getLogEnabled());
+    }
+    
 }

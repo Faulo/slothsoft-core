@@ -34,6 +34,7 @@ final class ChunkWriterMemoryCacheTest extends TestCase implements ChunkWriterIn
     
     /**
      *
+     * @param positive-int $count
      * @testWith [1]
      *           [2]
      *           [3]
@@ -46,8 +47,7 @@ final class ChunkWriterMemoryCacheTest extends TestCase implements ChunkWriterIn
             $actual = [
                 ...$sut->toChunks()
             ];
+            $this->assertThat($actual, new IsIdentical($expected));
         }
-        
-        $this->assertThat($actual, new IsIdentical($expected));
     }
 }

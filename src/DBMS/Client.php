@@ -53,7 +53,7 @@ final class Client {
     private static function runWithMysqliReportingOff(callable $callback) {
         $driver = new mysqli_driver();
         $reportMode = $driver->report_mode;
-
+        
         mysqli_report(MYSQLI_REPORT_OFF);
         try {
             return $callback();
@@ -61,7 +61,7 @@ final class Client {
             mysqli_report($reportMode);
         }
     }
-
+    
     /**
      * @param Authority $authority
      * @return void
@@ -122,22 +122,22 @@ final class Client {
                 $this->error('Database configuration has not been set!');
                 return false;
             }
-
+            
             $sqli = mysqli_init();
             if (! $sqli instanceof mysqli) {
                 $this->error('Failed to initialize mysqli.');
                 return false;
             }
-
+            
             $this->sqli = $sqli;
             $this->sqli->options(MYSQLI_OPT_CONNECT_TIMEOUT, 1);
             $this->connected = false;
-
+            
             if (! @$this->sqli->real_connect($authority->server, $authority->user, $authority->password)) {
                 $this->error();
                 return false;
             }
-
+            
             if ($this->sqli->connect_error) {
                 $this->error();
                 return false;
@@ -168,7 +168,14 @@ final class Client {
      * @return bool
      */
     protected function connect(): bool {
-        return ($this->connected and $this->sqli->ping()) or ($this->reconnect() and $this->connected = true);
+        if ($this->connected and $this->sqli->ping()) {
+            return true;
+        }
+        if (! $this->reconnect()) {
+            return false;
+        }
+        $this->connected = true;
+        return true;
     }
     
     /**

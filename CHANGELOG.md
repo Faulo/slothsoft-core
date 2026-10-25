@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Separated Storage touch-on-exit configuration from logging.
+- Initialized the legacy process input buffer and converted fractional tick intervals to integer microseconds.
+- Corrected HTTP request header construction and boolean cURL options.
+- Applied defaults before casting missing LeanElement serialization fields and kept exhausted RCON packet buffers as strings.
+- Corrected static-analysis type documentation and test calls without changing public signatures.
+
 ## [1.15.0] - 2026-10-25
 
 ### Changed

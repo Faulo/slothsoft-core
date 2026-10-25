@@ -6,6 +6,7 @@ namespace Slothsoft\Core;
 use COM;
 use DOMDocument;
 use DOMElement;
+use DOMException;
 use DOMNode;
 use DOMXPath;
 use Exception;
@@ -257,7 +258,8 @@ abstract class FileSystem {
                         // $attr['free-string'] = self::drawBytes($attr['free-int']);
                         $childList = self::scanDir($path, self::SCANDIR_REALPATH | self::SCANDIR_SORT);
                         foreach ($childList as $child) {
-                            if ($node = self::asNode($child, $dataDoc)) {
+                            $node = self::asNode($child, $dataDoc);
+                            if ($node instanceof DOMElement) {
                                 $attr['size-int'] += (float) $node->getAttribute('size-int');
                                 $childNodes[] = $node;
                             }
@@ -765,29 +767,6 @@ abstract class FileSystem {
         $command .= sprintf(self::ZIP_QUERY_UPDATE, $archiveName, $directoryPath);
         exec($command);
         return true;
-    }
-    
-    private static function add2archive($path, $archive, $rootPath, &$fileCount = 0) {
-        $ret = true;
-        if (is_dir($rootPath . $path)) {
-            $archive->addEmptyDir($path);
-            $arr = self::scanDir($rootPath . $path);
-            foreach ($arr as $childPath) {
-                $ret = ($ret and self::add2archive($path . DIRECTORY_SEPARATOR . $childPath, $archive, $rootPath, $fileCount));
-            }
-        }
-        if (is_file($rootPath . $path)) {
-            $fileCount++;
-            if ($fileCount > self::ARCHIVE_MAX_FILES) {
-                $fileCount = 0;
-                $name = $archive->filename;
-                $ret = ($ret and $archive->close() and $archive->open($name));
-            }
-            if ($ret) {
-                $archive->addFile($rootPath . $path, $path, $fileCount);
-            }
-        }
-        return $ret;
     }
     
     /**

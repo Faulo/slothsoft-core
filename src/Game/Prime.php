@@ -18,7 +18,7 @@ final class Prime {
      */
     public static function getPrimeList($size): array {
         $ret = [];
-        for ($i = 1; $i > 0; $i++) {
+        for ($i = 1; ; $i++) {
             if (self::isPrime($i)) {
                 $ret[] = $i;
             }

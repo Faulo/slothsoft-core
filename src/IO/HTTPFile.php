@@ -86,7 +86,6 @@ final class HTTPFile implements FileWriterInterface {
     
     /**
      *
-     * @param array $content
      * @param string $fileName
      * @param array $fileList
      * @return HTTPFile

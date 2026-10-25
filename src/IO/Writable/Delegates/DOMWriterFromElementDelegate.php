@@ -32,6 +32,8 @@ final class DOMWriterFromElementDelegate implements DOMWriterInterface {
             $this->result = ($this->delegate)($targetDoc);
             assert($this->result instanceof DOMElement, "DOMWriterFromElementDelegate must return DOMElement!");
         }
-        return $this->result->ownerDocument === $targetDoc ? $this->result : $targetDoc->importNode($this->result, true);
+        $element = $this->result->ownerDocument === $targetDoc ? $this->result : $targetDoc->importNode($this->result, true);
+        assert($element instanceof DOMElement);
+        return $element;
     }
 }

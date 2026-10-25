@@ -76,7 +76,7 @@ class InterExec {
     /**
      * Process resource.
      *
-     * @var resource
+     * @var resource|false|null
      */
     public $process_handle = null;
     
@@ -137,7 +137,7 @@ class InterExec {
      *
      * @param string $event
      *            Name of event.
-     * @param array $args
+     * @param mixed $args
      *            (Optional) Arguments to pass to event.
      *            Note that the first argument is always $this.
      * @return mixed Value resulting from event callback.
@@ -205,7 +205,6 @@ class InterExec {
         $this->stderr = '';
         $this->pipes = array();
         $this->time_start = microtime(true);
-        $this->_last_buffer_data = '';
         
         // create process and pipes
         $this->process_handle = proc_open($this->command_to_run, array(
@@ -233,6 +232,7 @@ class InterExec {
      * @return void
      */
     protected function run_mainloop() {
+        $lastBuffer = '';
         // wait for process to finish
         while (true) {
             $this->fire('tick');
@@ -318,7 +318,7 @@ class InterExec {
             
             // sleep for a while
             if ($this->tick_interval) {
-                usleep($this->tick_interval * 1000000);
+                usleep((int) ($this->tick_interval * 1000000));
             }
         }
     }

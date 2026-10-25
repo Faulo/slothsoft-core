@@ -80,7 +80,7 @@ final class CloudFlareScraper {
      * @param mixed $requestURI
      * @param DOMDocument $htmlDoc
      * @param mixed $html
-     * @return void
+     * @return ?XMLHttpRequest
      */
     protected function _solveChallenge($requestURI, DOMDocument $htmlDoc, $html) {
         $ret = null;
@@ -121,21 +121,20 @@ final class CloudFlareScraper {
                 
                 $var += strlen(parse_url($requestURI, PHP_URL_HOST));
                 
-                if ($xpath = $this->_loadXPath($htmlDoc)) {
-                    $path = $xpath->evaluate('string(//form/@action)');
-                    $data = [];
-                    $data['jschl_vc'] = $xpath->evaluate('string(//input[@name = "jschl_vc"]/@value)');
-                    $data['pass'] = $xpath->evaluate('string(//input[@name = "pass"]/@value)');
-                    $data['jschl_answer'] = (string) $var;
-                    
-                    $uri = sprintf('%s://%s%s?%s', parse_url($requestURI, PHP_URL_SCHEME), parse_url($requestURI, PHP_URL_HOST), $path, http_build_query($data));
-                    // echo $uri . PHP_EOL;
-                    // echo file_get_contents($options['cookieFile']) . PHP_EOL;
-                    // my_dump($options);
-                    sleep(5);
-                    
-                    $ret = $this->_httpRequest($uri);
-                }
+                $xpath = $this->_loadXPath($htmlDoc);
+                $path = $xpath->evaluate('string(//form/@action)');
+                $data = [];
+                $data['jschl_vc'] = $xpath->evaluate('string(//input[@name = "jschl_vc"]/@value)');
+                $data['pass'] = $xpath->evaluate('string(//input[@name = "pass"]/@value)');
+                $data['jschl_answer'] = (string) $var;
+                
+                $uri = sprintf('%s://%s%s?%s', parse_url($requestURI, PHP_URL_SCHEME), parse_url($requestURI, PHP_URL_HOST), $path, http_build_query($data));
+                // echo $uri . PHP_EOL;
+                // echo file_get_contents($options['cookieFile']) . PHP_EOL;
+                // my_dump($options);
+                sleep(5);
+                
+                $ret = $this->_httpRequest($uri);
             }
         }
         return $ret;

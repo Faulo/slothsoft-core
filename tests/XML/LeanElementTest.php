@@ -74,4 +74,13 @@ class LeanElementTest extends TestCase {
         $this->assertEquals($value, $sut->getChildByTag($tag)
             ->getAttribute($key));
     }
+    
+    public function testUnserializeMissingFieldsUsesDefaults(): void {
+        $sut = LeanElement::createOneFromArray('original', ['key' => 'value']);
+        $sut->__unserialize([]);
+        $this->assertSame('', $sut->getTag());
+        $this->assertSame([], $sut->getAttributes());
+        $this->assertSame([], [...$sut->getChildren()]);
+    }
+    
 }

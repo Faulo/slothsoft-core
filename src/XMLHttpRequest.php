@@ -263,7 +263,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         
         $header = array();
         foreach ($this->requestHeaders as $key => $value) {
-            $header[] .= $key . ': ' . $value;
+            $header[] = $key . ': ' . $value;
         }
         // my_dump($this->requestHeaders);
         // my_dump($data);
@@ -298,10 +298,10 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         }
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connectTimeout);
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->transferTimeout);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $this->followRedirects);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, (bool) $this->followRedirects);
         curl_setopt($ch, CURLOPT_MAXREDIRS, $this->maxRedirects);
         if ($this->globalDNS) {
-            curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, 1);
+            curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, true);
         }
         curl_setopt($ch, CURLOPT_TCP_KEEPALIVE, $this->keepAliveActive);
         curl_setopt($ch, CURLOPT_TCP_KEEPIDLE, $this->keepAliveTimeout);

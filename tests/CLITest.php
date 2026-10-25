@@ -5,6 +5,9 @@ namespace Slothsoft\Core;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class CLITest extends TestCase {
     
     public function testDefaultTotalTimeout() {
@@ -13,7 +16,7 @@ class CLITest extends TestCase {
     
     public function testSetTotalTimeout() {
         CLI::setTotalTimeout(42);
-        $this->assertEquals(42, CLI::getTotalTimeout(42));
+        $this->assertEquals(42, CLI::getTotalTimeout());
     }
     
     public function testDefaultIdleTimeout() {
@@ -22,7 +25,7 @@ class CLITest extends TestCase {
     
     public function testSetIdleTimeout() {
         CLI::setIdleTimeout(42);
-        $this->assertEquals(42, CLI::getIdleTimeout(42));
+        $this->assertEquals(42, CLI::getIdleTimeout());
     }
     
     public function testDefaultStdOut() {
@@ -75,6 +78,7 @@ class CLITest extends TestCase {
         
         $handler = function (int $errno, string $errstr) {
             $this->assertEquals(E_USER_WARNING, $errno);
+            return true;
         };
         set_error_handler($handler, E_USER_WARNING);
         $code = CLI::execute($command);
@@ -95,6 +99,7 @@ class CLITest extends TestCase {
         
         $handler = function (int $errno, string $errstr) {
             $this->assertEquals(E_USER_WARNING, $errno);
+            return true;
         };
         set_error_handler($handler, E_USER_WARNING);
         $code = CLI::execute($command);

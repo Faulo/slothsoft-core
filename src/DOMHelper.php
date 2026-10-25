@@ -446,9 +446,8 @@ final class DOMHelper {
         }
         if ($retNode and $sourceNode->hasChildNodes()) {
             foreach ($sourceNode->childNodes as $childNode) {
-                if ($node = $this->normalizeNode($childNode, $retDoc, $nsList)) {
-                    $retNode->appendChild($node);
-                }
+                $node = $this->normalizeNode($childNode, $retDoc, $nsList);
+                $retNode->appendChild($node);
             }
         }
         return $retNode;

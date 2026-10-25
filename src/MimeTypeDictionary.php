@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Slothsoft\Core;
 
 use DOMDocument;
+use DOMElement;
 
 /**
  * MIME type, file extension, and compression lookup helper.
@@ -31,6 +32,7 @@ final class MimeTypeDictionary {
             $mimeDoc->load(self::FILE_MIME);
             foreach ($mimeDoc->getElementsByTagName('sub') as $subNode) {
                 $typeNode = $subNode->parentNode;
+                assert($typeNode instanceof DOMElement);
                 
                 $mime = $typeNode->getAttribute('name') . '/' . $subNode->getAttribute('name');
                 $extension = $subNode->getAttribute('ext');

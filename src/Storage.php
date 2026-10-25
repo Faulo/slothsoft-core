@@ -82,14 +82,14 @@ final class Storage implements EphemeralStorageInterface {
      * @return void
      */
     public static function setTouchOnExit(bool $value) {
-        self::logEnabled()->setValue($value);
+        self::touchOnExit()->setValue($value);
     }
     
     /**
      * @return bool
      */
     public static function getTouchOnExit(): bool {
-        return self::logEnabled()->getValue();
+        return self::touchOnExit()->getValue();
     }
     
     protected static array $storageList = [];
@@ -590,7 +590,7 @@ final class Storage implements EphemeralStorageInterface {
      *
      * @param string $name
      * @param int $modifyTime
-     * @return ?mixed
+     * @return ?string
      */
     public function retrieve(string $name, int $modifyTime): ?string {
         $ret = null;

@@ -157,7 +157,7 @@ class RCon {
     protected function getLong(&$string) {
         $ret = 0;
         $data = substr($string, 0, 4);
-        $string = substr($string, 4);
+        $string = (string) substr($string, 4);
         if (strlen($data) === 4) {
             $data = unpack('V', $data);
             $ret = (int) reset($data);
@@ -173,14 +173,10 @@ class RCon {
      * @return mixed
      */
     protected function getString(&$string) {
-        $ret = null;
         $data = explode("\0", $string, 2);
         if (isset($data[1])) {
             $string = $data[1];
         }
-        if (isset($data[0])) {
-            $ret = $data[0];
-        }
-        return $ret;
+        return $data[0];
     }
 }

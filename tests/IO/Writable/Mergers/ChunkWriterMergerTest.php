@@ -34,6 +34,7 @@ final class ChunkWriterMergerTest extends TestCase implements ChunkWriterInterfa
     
     /**
      *
+     * @param positive-int $count
      * @testWith [1]
      *           [2]
      *           [3]
@@ -51,8 +52,7 @@ final class ChunkWriterMergerTest extends TestCase implements ChunkWriterInterfa
             $actual = [
                 ...$sut->toChunks()
             ];
+            $this->assertThat($actual, new IsIdentical($expected));
         }
-        
-        $this->assertThat($actual, new IsIdentical($expected));
     }
 }

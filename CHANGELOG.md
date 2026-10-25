@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-10-25
+
+### Changed
+
+- Changed default `ServerEnvironment` directories to be in the package root.
+
 ## [1.14.28] - 2026-09-10
 
 ### Fixed

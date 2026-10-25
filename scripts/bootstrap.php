@@ -17,11 +17,11 @@ function my_dump($var) {
 }
 
 function temp_file(string $folder, ?string $prefix = null): string {
-    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . normalize_slashes($folder);
+    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . normalize_slashes(str_replace(':', DIRECTORY_SEPARATOR, $folder));
     if (! is_dir($path)) {
         mkdir($path, 0777, true);
     }
-    for ($i = 0; $i < 10; $i ++) {
+    for ($i = 0; $i < 10; $i++) {
         $ret = $path . DIRECTORY_SEPARATOR . uniqid((string) $prefix, true) . '.tmp';
         if (! file_exists($ret)) {
             return $ret;
@@ -31,11 +31,11 @@ function temp_file(string $folder, ?string $prefix = null): string {
 }
 
 function temp_dir(string $folder, ?string $prefix = null): string {
-    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . normalize_slashes($folder);
+    $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . normalize_slashes(str_replace(':', DIRECTORY_SEPARATOR, $folder));
     if (! is_dir($path)) {
         mkdir($path, 0777, true);
     }
-    for ($i = 0; $i < 10; $i ++) {
+    for ($i = 0; $i < 10; $i++) {
         $ret = $path . DIRECTORY_SEPARATOR . uniqid((string) $prefix, true);
         if (! file_exists($ret) and mkdir($ret, 0777)) {
             return $ret;
@@ -45,10 +45,7 @@ function temp_dir(string $folder, ?string $prefix = null): string {
 }
 
 function normalize_slashes(string $path): string {
-    return str_replace([
-        '/',
-        '\\'
-    ], DIRECTORY_SEPARATOR, $path);
+    return preg_replace('~[\\\\/]+~', DIRECTORY_SEPARATOR, $path);
 }
 
 function get_execution_time(): int {
@@ -59,26 +56,28 @@ function get_execution_time(): int {
     }
     return (int) (1000 * (microtime(true) - $microtime_start));
 }
+
 get_execution_time();
 
 function log_execution_time(string $file, int $line): void {
     if (isset($_REQUEST['dev-time'])) {
         static $previousMemory = null;
         static $previousTime = null;
-
+        
         $nowMemory = memory_get_usage();
         $nowTime = get_execution_time();
-
+        
         $diffMemory = $previousMemory === null ? 0 : $nowMemory - $previousMemory;
         $diffTime = $previousTime === null ? 0 : $nowTime - $previousTime;
-
+        
         $previousMemory = $nowMemory;
         $previousTime = $nowTime;
-
+        
         printf('Took %5dMB (+%5dMB) and %6dms (+%4dms) to get to line %4d in file "%s"%s', $nowMemory / Memory::ONE_MEGABYTE, $diffMemory / Memory::ONE_MEGABYTE, $nowTime, $diffTime, $line, basename($file), PHP_EOL);
         flush();
     }
 }
+
 log_execution_time(__FILE__, __LINE__);
 
 function print_execution_time(bool $echo = true): string {

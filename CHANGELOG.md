@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Deferred directory configuration creation and path resolution until `getValue()`, allowing paths to become available after configuration.
+- Preserved UTF-8 encoding for PHPStan's JUnit report on Windows Jenkins agents.
 
 ## [1.15.0] - 2026-10-25
 

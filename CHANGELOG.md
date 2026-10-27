@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.1] - 2026-10-27
+
 ### Fixed
 
 - Deferred directory configuration creation and path resolution until `getValue()`, allowing paths to become available after configuration.

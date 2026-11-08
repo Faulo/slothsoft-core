@@ -14,14 +14,14 @@ final class ChunkWriterFromChunksDelegate implements ChunkWriterInterface {
     private ?Generator $result = null;
     
     /**
-     * @param callable $delegate
+     * @param callable(): Generator<mixed, mixed> $delegate
      */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);
     }
     
     /**
-     * @return Generator
+     * @return Generator<mixed, mixed>
      */
     public function toChunks(): Generator {
         if ($this->result === null or ! $this->result->valid()) {

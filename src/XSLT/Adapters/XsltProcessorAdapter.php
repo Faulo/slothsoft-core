@@ -42,6 +42,7 @@ final class XsltProcessorAdapter extends GenericAdapter {
     
     /**
      * @return DOMDocument
+     * @throws \RuntimeException
      */
     public function writeDocument(): DOMDocument {
         $xslt = new XSLTProcessor();

@@ -105,6 +105,7 @@ final class CLI {
      * @param string $command
      * @param ?string $workingDirectory
      * @return int
+     * @throws \RuntimeException
      */
     public static function execute(string $command, ?string $workingDirectory = null): int {
         fwrite(self::getStdOut(), PHP_EOL . PHP_EOL . sprintf('[%s]> %s', date('d.m.y H:i:s'), $command) . PHP_EOL);

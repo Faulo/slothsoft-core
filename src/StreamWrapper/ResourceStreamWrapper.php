@@ -9,7 +9,7 @@ class ResourceStreamWrapper implements StreamWrapperInterface {
     private $handle;
     
     /**
-     * @param mixed $resource
+     * @param resource $resource
      */
     public function __construct($resource) {
         $this->handle = $resource;
@@ -17,6 +17,7 @@ class ResourceStreamWrapper implements StreamWrapperInterface {
     
     /**
      * @return array<mixed>
+     * @throws \RuntimeException
      */
     public function stream_stat(): array {
         $stat = fstat($this->handle);

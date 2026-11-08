@@ -63,21 +63,21 @@ abstract class HTTPStream {
     // time without actual content before child is terminated
     
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getMime() {
         return $this->mime;
     }
     
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getEncoding() {
         return $this->encoding;
     }
     
     /**
-     * @return mixed
+     * @return array<string, string>
      */
     public function getHeaderList() {
         return $this->headerList;
@@ -119,7 +119,7 @@ abstract class HTTPStream {
     }
     
     /**
-     * @return mixed
+     * @return int
      */
     public function getStatus() {
         $this->parseStatus();
@@ -132,7 +132,7 @@ abstract class HTTPStream {
     abstract protected function parseStatus();
     
     /**
-     * @return mixed
+     * @return string
      */
     public function getContent() {
         $this->parseContent();
@@ -145,42 +145,42 @@ abstract class HTTPStream {
     abstract protected function parseContent();
     
     /**
-     * @return mixed
+     * @return float
      */
     public function getSleepDuration() {
         return $this->sleepDuration;
     }
     
     /**
-     * @return mixed
+     * @return float
      */
     public function getHeartbeatInterval() {
         return $this->heartbeatInterval;
     }
     
     /**
-     * @return mixed
+     * @return float
      */
     public function getHeartbeatTimeout() {
         return $this->heartbeatTimeout;
     }
     
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getHeartbeatContent() {
         return $this->heartbeatContent;
     }
     
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getHeartbeatEOL() {
         return $this->heartbeatEOL;
     }
     
     /**
-     * @return mixed
+     * @return string
      */
     public function __toString() {
         return sprintf('%s: %d', __CLASS__, time());

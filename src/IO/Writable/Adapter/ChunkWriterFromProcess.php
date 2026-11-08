@@ -19,7 +19,7 @@ final class ChunkWriterFromProcess implements ChunkWriterInterface {
     }
     
     /**
-     * @return Generator
+     * @return Generator<int, string>
      */
     public function toChunks(): Generator {
         $this->process->start();

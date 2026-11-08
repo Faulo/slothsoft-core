@@ -7,12 +7,12 @@ interface SanitizerInterface {
     
     /**
      * @param mixed $value
-     * @return void
+     * @return mixed
      */
     public function apply($value);
     
     /**
-     * @return void
+     * @return mixed
      */
     public function getDefault();
 }

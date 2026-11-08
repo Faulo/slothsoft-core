@@ -16,7 +16,7 @@ final class DOMWriterFromDocumentDelegate implements DOMWriterInterface {
     private ?DOMDocument $result = null;
     
     /**
-     * @param callable $delegate
+     * @param callable(): DOMDocument $delegate
      */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);

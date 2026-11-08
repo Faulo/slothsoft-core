@@ -21,6 +21,7 @@ final class ImageHelper {
      * @param SplFileInfo $targetFile
      * @param ?int $alphaColorIndex
      * @return void
+     * @throws \RuntimeException
      */
     public static function convertToPng(SplFileInfo $sourceFile, SplFileInfo $targetFile, ?int $alphaColorIndex = -1): void {
         FileSystem::ensureDirectory($targetFile->getPath());

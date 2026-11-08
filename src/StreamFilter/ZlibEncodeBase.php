@@ -24,6 +24,7 @@ abstract class ZlibEncodeBase extends StreamFilterBase {
     /**
      * @param string $input
      * @return string
+     * @throws \RuntimeException
      */
     protected function processPayload(string $input): string {
         $result = deflate_add($this->compressor, $input, ZLIB_NO_FLUSH);
@@ -35,6 +36,7 @@ abstract class ZlibEncodeBase extends StreamFilterBase {
     
     /**
      * @return string
+     * @throws \RuntimeException
      */
     protected function processFooter(): string {
         $result = deflate_add($this->compressor, '', ZLIB_FINISH);

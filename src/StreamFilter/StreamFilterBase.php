@@ -25,10 +25,10 @@ abstract class StreamFilterBase extends php_user_filter implements StreamFilterI
     }
     
     /**
-     * @param mixed $in
-     * @param mixed $out
-     * @param mixed $consumed
-     * @param mixed $closing
+     * @param resource $in
+     * @param resource $out
+     * @param int|float $consumed
+     * @param bool $closing
      * @return int
      */
     public final function filter($in, $out, &$consumed, $closing): int {

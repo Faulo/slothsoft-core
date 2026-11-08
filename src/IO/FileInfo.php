@@ -18,6 +18,7 @@ final class FileInfo extends SplFileInfo implements FileWriterInterface, StringW
     
     /**
      * @return string
+     * @throws \RuntimeException
      */
     public function toString(): string {
         $result = file_get_contents((string) $this);

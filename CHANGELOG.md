@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Audited the July 2026 method documentation and typing changes; corrected sanitizer and stream-filter interface contracts, nullable results, resource and collection documentation, and exception annotations.
+- Restored scalar and stringable DBMS escaping and fraction-slash filename sanitization.
+- Restored full-stream string conversion for filtered streams and handled failed file stream opening, invalid RCON packet lengths, and legacy Cloudflare challenge failures and default cookie paths explicitly.
+
 ## [1.15.2] - 2026-11-08
 
 ### Fixed

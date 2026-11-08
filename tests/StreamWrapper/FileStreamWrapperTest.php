@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
  *
  * @see FileStreamWrapper
  *
- * @todo auto-generated
  */
 final class FileStreamWrapperTest extends TestCase {
     
@@ -20,5 +19,10 @@ final class FileStreamWrapperTest extends TestCase {
      */
     public function testClassExists(): void {
         $this->assertTrue(class_exists(FileStreamWrapper::class), "Failed to load class 'Slothsoft\Core\StreamWrapper\FileStreamWrapper'!");
+    }
+    
+    public function testMissingFileFailsBeforeCreatingAResourceWrapper(): void {
+        $this->expectException(\RuntimeException::class);
+        new FileStreamWrapper(new \SplFileInfo(__DIR__ . '/missing-' . uniqid()));
     }
 }

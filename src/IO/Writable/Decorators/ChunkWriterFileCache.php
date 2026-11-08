@@ -26,7 +26,7 @@ final class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInte
     }
     
     /**
-     * @return Generator
+     * @return Generator<mixed, mixed>
      */
     public function toChunks(): Generator {
         if ($this->shouldRefreshCache()) {

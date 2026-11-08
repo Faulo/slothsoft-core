@@ -13,7 +13,7 @@ final class StringWriterFromStringDelegate implements StringWriterInterface {
     private ?string $result = null;
     
     /**
-     * @param callable $delegate
+     * @param callable(): string $delegate
      */
     public function __construct(callable $delegate) {
         $this->delegate = Closure::fromCallable($delegate);

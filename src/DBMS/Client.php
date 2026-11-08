@@ -421,6 +421,7 @@ final class Client {
      * @param array<mixed> $insertData
      * @param array<mixed> $onDuplicateData
      * @return ?int
+     * @throws \OverflowException
      */
     public function insert(string $dbName, string $tableName, array $insertData = [], array $onDuplicateData = []): ?int {
         $ret = null;
@@ -458,6 +459,7 @@ final class Client {
      * @param array<mixed> $arr
      * @param mixed $idQuery
      * @return ?int
+     * @throws \OverflowException
      */
     public function update(string $dbName, string $tableName, array $arr = [], $idQuery = false): ?int {
         $ret = null;
@@ -481,6 +483,7 @@ final class Client {
      * @param string $tableName
      * @param mixed $idQuery
      * @return ?int
+     * @throws \OverflowException
      */
     public function delete(string $dbName, string $tableName, $idQuery = false): ?int {
         $ret = null;
@@ -614,10 +617,11 @@ final class Client {
     }
     
     /**
-     * @param string $string
+     * @param mixed $string
      * @return string
      */
-    public function escape(string $string): string {
+    public function escape($string): string {
+        $string = (string) $string;
         if ($this->connect()) {
             return $this->sqli->real_escape_string($string);
         }

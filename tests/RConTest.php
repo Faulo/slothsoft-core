@@ -11,6 +11,18 @@ use PHPUnit\Framework\TestCase;
  * @see RCon
  */
 final class RConTest extends TestCase {
+    public function testNegativePacketLengthIsRejected(): void {
+        $sut = $this->getMockBuilder(RCon::class)->disableOriginalConstructor()->onlyMethods(['getLong'])->getMock();
+        $sut->method('getLong')->willReturn(-1);
+        foreach (['socket' => fopen('php://temp', 'w+'), 'requestId' => 0] as $name => $value) {
+            $property = new \ReflectionProperty(RCon::class, $name);
+            $property->setAccessible(true);
+            $property->setValue($sut, $value);
+        }
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Empty response?!');
+        $sut->send(RCon::SERVERDATA_EXECCOMMAND, 'hello');
+    }
     
     /**
      *

@@ -9,8 +9,9 @@ final class FileStreamWrapper extends ResourceStreamWrapper {
     
     /**
      * @param SplFileInfo $file
+     * @throws \RuntimeException
      */
     public function __construct(SplFileInfo $file) {
-        parent::__construct(fopen((string) $file, StreamWrapperInterface::MODE_OPEN_READONLY));
+        parent::__construct(\GuzzleHttp\Psr7\Utils::tryFopen((string) $file, StreamWrapperInterface::MODE_OPEN_READONLY));
     }
 }

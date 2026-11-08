@@ -8,7 +8,7 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 final class ChunkWriterMerger implements ChunkWriterInterface {
     
-    /** @var array<mixed> */
+    /** @var array<int|string, ChunkWriterInterface> */
     private array $writers;
     
     /**
@@ -19,7 +19,7 @@ final class ChunkWriterMerger implements ChunkWriterInterface {
     }
     
     /**
-     * @return Generator
+     * @return Generator<mixed, mixed>
      */
     public function toChunks(): Generator {
         foreach ($this->writers as $writer) {

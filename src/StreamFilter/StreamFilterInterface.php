@@ -6,11 +6,11 @@ namespace Slothsoft\Core\StreamFilter;
 interface StreamFilterInterface {
     
     /**
-     * @param mixed $in
-     * @param mixed $out
-     * @param mixed $consumed
-     * @param mixed $closing
-     * @return void
+     * @param resource $in
+     * @param resource $out
+     * @param int|float $consumed
+     * @param bool $closing
+     * @return int
      */
     public function filter($in, $out, &$consumed, $closing);
     
@@ -20,7 +20,7 @@ interface StreamFilterInterface {
     public function onClose();
     
     /**
-     * @return void
+     * @return bool
      */
     public function onCreate();
 }

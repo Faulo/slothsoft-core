@@ -98,6 +98,7 @@ final class LazyFileWriterStream implements StreamInterface {
     
     /**
      * @return int
+     * @throws \RuntimeException
      */
     public function tell(): int {
         $position = $this->handle === null ? 0 : $this->handle->ftell();
@@ -167,6 +168,7 @@ final class LazyFileWriterStream implements StreamInterface {
     /**
      * @param int $length
      * @return string
+     * @throws \RuntimeException
      */
     public function read(int $length): string {
         if ($length === 0) {

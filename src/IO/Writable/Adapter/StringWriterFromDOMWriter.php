@@ -19,6 +19,7 @@ final class StringWriterFromDOMWriter implements StringWriterInterface {
     
     /**
      * @return string
+     * @throws \RuntimeException
      */
     public function toString(): string {
         $result = $this->source->toDocument()->saveXML();

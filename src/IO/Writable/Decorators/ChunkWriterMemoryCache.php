@@ -21,7 +21,7 @@ final class ChunkWriterMemoryCache implements ChunkWriterInterface {
     }
     
     /**
-     * @return Generator
+     * @return Generator<mixed, mixed>
      */
     public function toChunks(): Generator {
         if ($this->chunks === null) {

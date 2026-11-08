@@ -25,7 +25,7 @@ final class ChunkWriterFromFileWriter implements ChunkWriterInterface {
     }
     
     /**
-     * @return Generator
+     * @return Generator<int, string|false>
      */
     public function toChunks(): Generator {
         $handle = $this->source->toFile()->openFile(StreamWrapperInterface::MODE_OPEN_READONLY);

@@ -132,6 +132,7 @@ final class ProcessStream implements StreamInterface {
     /**
      * @param int $length
      * @return string
+     * @throws RuntimeException
      */
     public function read(int $length): string {
         $this->init();

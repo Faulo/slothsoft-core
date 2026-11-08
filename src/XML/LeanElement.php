@@ -21,7 +21,7 @@ final class LeanElement implements DOMWriterInterface {
     
     /**
      * @param DOMNodeList<\DOMNode> $domNodeList
-     * @return array<mixed>
+     * @return list<LeanElement>
      */
     public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array {
         $ret = [];
@@ -36,6 +36,7 @@ final class LeanElement implements DOMWriterInterface {
     /**
      * @param DOMDocument $domDocument
      * @return LeanElement
+     * @throws \InvalidArgumentException
      */
     public static function createTreeFromDOMDocument(DOMDocument $domDocument): LeanElement {
         $element = $domDocument->documentElement;

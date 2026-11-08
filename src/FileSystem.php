@@ -262,7 +262,7 @@ abstract class FileSystem {
                         // $attr['free-string'] = self::drawBytes($attr['free-int']);
                         $childList = self::scanDir($path, self::SCANDIR_REALPATH | self::SCANDIR_SORT);
                         foreach ($childList as $child) {
-                            $node = self::asNode($child, $dataDoc);
+                            $node = self::asNode((string) $child, $dataDoc);
                             if ($node instanceof DOMElement) {
                                 $attr['size-int'] += (float) $node->getAttribute('size-int');
                                 $childNodes[] = $node;
@@ -389,7 +389,7 @@ abstract class FileSystem {
     
     /**
      * @param string $fileName
-     * @return mixed
+     * @return mixed A COM filesystem automation object, or null when unavailable.
      */
     public static function lookupFile(string $fileName) {
         if (is_readable($fileName)) {
@@ -439,7 +439,7 @@ abstract class FileSystem {
             ':',
             '\\',
             '/',
-            '???',
+            '⁄',
             '*',
             '"',
             '?',
@@ -563,8 +563,8 @@ abstract class FileSystem {
      *
      * @param string $relPath
      * @param int $options
-     * @param string $filter
-     * @return array<mixed>
+     * @param ?string $filter
+     * @return list<int|string|SplFileInfo>
      */
     public static function scanDir(string $relPath, int $options = 0, ?string $filter = null): array {
         $dirPath = realpath($relPath);
@@ -645,7 +645,7 @@ abstract class FileSystem {
     /**
      * @param string $dirPath
      * @param ?string $rootPath
-     * @return mixed
+     * @return non-empty-array<int|string, int|null>|false
      */
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
@@ -736,7 +736,7 @@ abstract class FileSystem {
     /**
      * @param mixed $archivePath
      * @param mixed $targetDirectory
-     * @return mixed
+     * @return bool
      * @throws Exception
      */
     public static function extractArchive($archivePath, $targetDirectory) {
@@ -756,7 +756,7 @@ abstract class FileSystem {
      * @param mixed $directoryPath
      * @param mixed $archiveName
      * @param mixed $checkUpdate
-     * @return mixed
+     * @return bool
      * @throws Exception
      */
     public static function archivePath($directoryPath, $archiveName, $checkUpdate = false) {
@@ -770,7 +770,11 @@ abstract class FileSystem {
         if (! is_readable(self::ZIP_PATH)) {
             throw new Exception('7-Zip not found @ ' . self::ZIP_PATH);
         }
-        if (is_file($archiveName) and max(self::dirModifyTime($directoryPath)) < self::changetime($archiveName)) {
+        $modifyTimes = self::dirModifyTime($directoryPath);
+        if ($modifyTimes === false) {
+            return false;
+        }
+        if (is_file($archiveName) and max($modifyTimes) < self::changetime($archiveName)) {
             return false;
         }
         $command = '"' . self::ZIP_PATH . '" ';
@@ -783,7 +787,7 @@ abstract class FileSystem {
      * @param mixed $destPath
      * @param mixed $sourceURI
      * @param array<mixed> $options
-     * @return mixed
+     * @return string
      * @throws Exception
      */
     public static function downloadByURI($destPath, $sourceURI, array $options = []) {
@@ -829,7 +833,7 @@ abstract class FileSystem {
     /**
      * @param mixed $sourceURI
      * @param mixed $linkQuery
-     * @return mixed
+     * @return string|false
      */
     public static function getLinkByXPath($sourceURI, $linkQuery) {
         $ret = false;
@@ -855,7 +859,7 @@ abstract class FileSystem {
      * @param string $delimiter
      * @param string $enclosure
      * @param string $escape
-     * @return ?array<mixed>
+     * @return list<list<string|null>|null>|null
      */
     public static function loadCSV(string $path, string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): ?array {
         $ret = null;
@@ -925,7 +929,8 @@ abstract class FileSystem {
                 unlink($path);
             }
         } else {
-            foreach (self::scanDir($path, FileSystem::SCANDIR_REALPATH) as $file) {
+            foreach (self::scanDir($path, FileSystem::SCANDIR_REALPATH) as $entry) {
+                $file = (string) $entry;
                 if (is_writable($file)) {
                     if (is_dir($file)) {
                         self::removeDir($file);

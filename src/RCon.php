@@ -89,7 +89,7 @@ class RCon {
     
     /**
      * @param mixed $message
-     * @return mixed
+     * @return string
      */
     public function execute($message) {
         return $this->send(self::SERVERDATA_EXECCOMMAND, $message);
@@ -98,7 +98,8 @@ class RCon {
     /**
      * @param mixed $commandId
      * @param mixed $messageBody
-     * @return mixed
+     * @return string
+     * @throws Exception
      */
     public function send($commandId, $messageBody) {
         $this->requestId++;
@@ -131,7 +132,7 @@ class RCon {
         if ($string === false) {
             throw new Exception('Cannot read response length.');
         }
-        if ($length = $this->getLong($string)) {
+        if (($length = $this->getLong($string)) > 0) {
             $string = fread($this->getSocket(), $length);
             if ($string === false) {
                 throw new Exception('Cannot read response.');
@@ -172,7 +173,8 @@ class RCon {
      *
      * @param string $string
      *            String
-     * @return mixed
+     * @return int
+     * @throws Exception
      */
     protected function getLong(&$string) {
         $ret = 0;
@@ -193,7 +195,7 @@ class RCon {
      *
      * @param string $string
      *            String
-     * @return mixed
+     * @return string
      */
     protected function getString(&$string) {
         $data = explode("\0", $string, 2);

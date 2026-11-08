@@ -116,7 +116,7 @@ class InterExec {
      *
      * @param string $command_to_run
      *            The command line to execute.
-     * @param array<mixed> $environment_vars
+     * @param array<mixed>|null $environment_vars
      *            (Optional) Environment variables.
      */
     public function __construct($command_to_run, $environment_vars = null) {
@@ -200,6 +200,7 @@ class InterExec {
     
     /**
      * @return void
+     * @throws \RuntimeException
      */
     protected function run_startup() {
         // initialize variables
@@ -238,6 +239,7 @@ class InterExec {
     
     /**
      * @return void
+     * @throws \RuntimeException
      */
     protected function run_mainloop() {
         if ($this->pipes === null || ! isset($this->pipes[self::STDIN], $this->pipes[self::STDOUT], $this->pipes[self::STDERR])) {

@@ -88,4 +88,30 @@ class ClientTest extends TestCase {
             Client::clearDefaultAuthority();
         }
     }
+    
+    /** @runInSeparateProcess */
+    public function testEscapePreservesScalarAndStringableInputs(): void {
+        Client::setDefaultAuthority(new Authority('localhost', 'root', 'invalid-password'));
+        $client = new Client();
+        $database = new Database($client, 'test');
+        $table = new Table($database, 'test');
+        $stringable = new class {
+            public function __toString(): string {
+                return 'value';
+            }
+        };
+        foreach ([42, 1.5, true, false, null, $stringable] as $value) {
+            $expected = (string) $value;
+            $this->assertSame($expected, $client->escape($value));
+            $this->assertSame($expected, $database->escape($value));
+            $this->assertSame($expected, $table->escape($value));
+        }
+        $method = new \ReflectionMethod(Client::class, '_get_update_data');
+        $method->setAccessible(true);
+        $this->assertSame('`price`="1.5",`enabled`="1",`missing`=NULL', $method->invoke($client, [
+            'price' => 1.5,
+            'enabled' => true,
+            'missing' => null
+        ]));
+    }
 }

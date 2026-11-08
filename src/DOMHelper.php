@@ -292,6 +292,7 @@ final class DOMHelper {
     /**
      * @param DOMNode $sourceNode
      * @return string
+     * @throws RuntimeException
      */
     public function stringify(DOMNode $sourceNode): string {
         $document = $sourceNode instanceof DOMDocument ? $sourceNode : $sourceNode->ownerDocument;

@@ -30,7 +30,7 @@ final class CloudFlareScraper {
      * @param mixed $trySolving
      */
     public function __construct($cookieFile = null, $trySolving = true) {
-        $this->cookieFile = $cookieFile === null ? FileInfoFactory::createTempFile() : $cookieFile;
+        $this->cookieFile = $cookieFile === null ? (string) FileInfoFactory::createTempFile() : $cookieFile;
         $this->trySolving = $trySolving;
     }
     
@@ -40,7 +40,7 @@ final class CloudFlareScraper {
      */
     public function getFile($uri): ?string {
         $req = $this->_httpRequest($uri);
-        return $req->responseText;
+        return $req === null ? null : $req->responseText;
     }
     
     /**
@@ -49,12 +49,12 @@ final class CloudFlareScraper {
      */
     public function getXPath($uri): ?DOMXPath {
         $req = $this->_httpRequest($uri);
-        return $req->responseXML ? $this->_loadXPath($req->responseXML) : null;
+        return $req !== null && $req->responseXML ? $this->_loadXPath($req->responseXML) : null;
     }
     
     /**
      * @param mixed $uri
-     * @return mixed
+     * @return XMLHttpRequest|null
      */
     protected function _httpRequest($uri) {
         $req = new XMLHttpRequest();

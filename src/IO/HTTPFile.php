@@ -273,6 +273,7 @@ final class HTTPFile implements FileWriterInterface {
     
     /**
      * @return string
+     * @throws \RuntimeException
      */
     public function getContents(): string {
         $result = file_get_contents($this->getPath());
@@ -284,7 +285,7 @@ final class HTTPFile implements FileWriterInterface {
     
     /**
      * @param string $content
-     * @return mixed
+     * @return int|false
      */
     public function setContents(string $content) {
         return file_put_contents($this->getPath(), $content);
@@ -292,7 +293,7 @@ final class HTTPFile implements FileWriterInterface {
     
     /**
      * @param mixed $content
-     * @return mixed
+     * @return int|false
      */
     public function setStream($content) {
         return file_put_contents($this->getPath(), $content);
@@ -307,7 +308,7 @@ final class HTTPFile implements FileWriterInterface {
     
     /**
      * @param DOMDocument $content
-     * @return mixed
+     * @return int|false
      */
     public function setDocument(DOMDocument $content) {
         return $content->save($this->getPath());

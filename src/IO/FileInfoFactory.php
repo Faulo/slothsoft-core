@@ -54,7 +54,7 @@ final class FileInfoFactory {
     }
     
     /**
-     * @param mixed $resource
+     * @param mixed $resource A stream resource or any data accepted by file_put_contents().
      * @return FileInfo
      */
     public static function createFromResource($resource): FileInfo {

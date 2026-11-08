@@ -14,7 +14,7 @@ final class Prime {
     
     /**
      * @param mixed $size
-     * @return array<mixed>
+     * @return list<int>
      */
     public static function getPrimeList($size): array {
         $ret = [];

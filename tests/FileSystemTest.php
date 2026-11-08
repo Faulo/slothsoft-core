@@ -32,6 +32,10 @@ class FileSystemTest extends TestCase {
                 'A'
             ],
             [
+                "A\u{2044}B",
+                'AB'
+            ],
+            [
                 '/\\A?: !*B|<>',
                 'A - B'
             ],

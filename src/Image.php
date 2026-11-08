@@ -107,6 +107,7 @@ final class Image {
     /**
      * @param mixed $file
      * @return array<mixed>
+     * @throws DomainException
      */
     public static function imageInfo($file): array {
         $arr = getimagesize($file);
@@ -122,7 +123,7 @@ final class Image {
     
     /**
      * @param mixed $file
-     * @return mixed
+     * @return mixed A GD resource on PHP 7.4, GdImage on PHP 8+, or false on load failure.
      * @throws DomainException
      */
     public static function createFromFile($file) {
@@ -143,9 +144,10 @@ final class Image {
     }
     
     /**
-     * @param mixed $image_source
-     * @param mixed $new_image
+     * @param mixed $image_source GD resource on PHP 7.4 or GdImage on PHP 8+.
+     * @param mixed $new_image GD resource on PHP 7.4 or GdImage on PHP 8+.
      * @return void
+     * @throws DomainException
      */
     public static function setTransparency($image_source, $new_image) {
         $transparencyIndex = imagecolortransparent($image_source);
@@ -173,7 +175,8 @@ final class Image {
      * @param mixed $y
      * @param mixed $new_width
      * @param mixed $new_height
-     * @return mixed
+     * @return mixed A GD resource on PHP 7.4, GdImage on PHP 8+, or false on load failure.
+     * @throws DomainException
      */
     public static function splitImage($file, $x, $y, $new_width, $new_height) {
         $pic = self::createFromFile($file);

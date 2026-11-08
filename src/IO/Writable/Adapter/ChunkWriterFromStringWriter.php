@@ -19,7 +19,7 @@ final class ChunkWriterFromStringWriter implements ChunkWriterInterface {
     }
     
     /**
-     * @return Generator
+     * @return Generator<int, string>
      */
     public function toChunks(): Generator {
         yield $this->source->toString();

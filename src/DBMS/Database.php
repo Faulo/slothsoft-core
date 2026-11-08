@@ -60,7 +60,7 @@ final class Database {
     }
     
     /**
-     * @return array<mixed>
+     * @return ?array<mixed>
      */
     public function getTableList(): ?array {
         return $this->client->getTableList($this->name);
@@ -165,10 +165,10 @@ final class Database {
     }
     
     /**
-     * @param string $string
+     * @param mixed $string
      * @return string
      */
-    public function escape(string $string): string {
+    public function escape($string): string {
         return $this->client->escape($string);
     }
     

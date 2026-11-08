@@ -19,6 +19,7 @@ final class StringWriterFromFileWriter implements StringWriterInterface {
     
     /**
      * @return string
+     * @throws \RuntimeException
      */
     public function toString(): string {
         $result = file_get_contents((string) $this->source->toFile());

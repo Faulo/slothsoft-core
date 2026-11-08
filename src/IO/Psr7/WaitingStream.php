@@ -85,7 +85,7 @@ final class WaitingStream implements StreamInterface {
     
     /**
      * @param ?string $key
-     * @return array<mixed>|mixed|null
+     * @return mixed An array of metadata for a null key; a metadata value or null otherwise.
      */
     public function getMetadata(?string $key = null) {
         return $this->stream->getMetadata($key);

@@ -32,6 +32,7 @@ final class ZlibFilteredStream extends AbstractFilteredStream {
     /**
      * @param string $data
      * @return string
+     * @throws \RuntimeException
      */
     protected function processPayload(string $data): string {
         $result = deflate_add($this->compressor, $data, ZLIB_NO_FLUSH);
@@ -43,6 +44,7 @@ final class ZlibFilteredStream extends AbstractFilteredStream {
     
     /**
      * @return string
+     * @throws \RuntimeException
      */
     protected function processFooter(): string {
         $result = deflate_add($this->compressor, '', ZLIB_FINISH);

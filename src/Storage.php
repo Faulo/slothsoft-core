@@ -113,7 +113,7 @@ final class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @param int $cacheTime
+     * @param ?int $cacheTime
      * @param mixed $data
      * @param mixed $options
      * @return ?DOMDocument
@@ -141,7 +141,7 @@ final class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @param int $cacheTime
+     * @param ?int $cacheTime
      * @param mixed $data
      * @param mixed $options
      * @return boolean
@@ -158,7 +158,7 @@ final class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @param int $cacheTime
+     * @param ?int $cacheTime
      * @param mixed $data
      * @param mixed $options
      * @return ?DOMXPath
@@ -175,10 +175,10 @@ final class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @param int $cacheTime
+     * @param ?int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return ?mixed
+     * @return mixed
      * @throws Exception
      */
     public static function loadExternalJSON(string $uri, ?int $cacheTime = null, $data = null, $options = null) {
@@ -200,7 +200,7 @@ final class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @param int $cacheTime
+     * @param ?int $cacheTime
      * @param mixed $data
      * @param mixed $options
      * @return ?string
@@ -234,7 +234,7 @@ final class Storage implements EphemeralStorageInterface {
     /**
      *
      * @param string $uri
-     * @param int $cacheTime
+     * @param ?int $cacheTime
      * @param mixed $data
      * @param mixed $options
      * @return ?array<mixed>

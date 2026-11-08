@@ -109,10 +109,10 @@ final class Table {
     }
     
     /**
-     * @param string $string
+     * @param mixed $string
      * @return string
      */
-    public function escape(string $string): string {
+    public function escape($string): string {
         return $this->db->escape($string);
     }
     

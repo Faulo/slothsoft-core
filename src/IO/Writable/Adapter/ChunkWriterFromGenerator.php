@@ -18,7 +18,7 @@ final class ChunkWriterFromGenerator implements ChunkWriterInterface {
     }
     
     /**
-     * @return Generator
+     * @return Generator<mixed, mixed>
      */
     public function toChunks(): Generator {
         return $this->generator;

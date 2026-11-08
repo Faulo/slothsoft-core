@@ -12,7 +12,7 @@ use Traversable;
 
 /**
  * @implements ArrayAccess<string, mixed>
- * @implements IteratorAggregate<string, mixed>
+ * @implements IteratorAggregate<int|string, mixed>
  */
 final class CascadingDictionary implements ArrayAccess, IteratorAggregate {
     
@@ -81,7 +81,7 @@ final class CascadingDictionary implements ArrayAccess, IteratorAggregate {
     }
     
     /**
-     * @return Traversable<mixed>
+     * @return Traversable<int|string, mixed>
      */
     public function getIterator(): Traversable {
         return new ArrayIterator($this->values);

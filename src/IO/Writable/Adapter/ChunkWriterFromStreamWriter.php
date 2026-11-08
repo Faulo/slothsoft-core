@@ -24,7 +24,7 @@ final class ChunkWriterFromStreamWriter implements ChunkWriterInterface {
     }
     
     /**
-     * @return Generator
+     * @return Generator<int, string>
      */
     public function toChunks(): Generator {
         $handle = $this->source->toStream();

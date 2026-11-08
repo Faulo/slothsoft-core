@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.3] - 2026-11-08
+
 ### Fixed
 
 - Audited the July 2026 method documentation and typing changes; corrected sanitizer and stream-filter interface contracts, nullable results, resource and collection documentation, and exception annotations.
@@ -724,7 +726,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release.
 
-[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.15.2...HEAD
+[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.15.3...HEAD
+[1.15.3]: https://github.com/Faulo/slothsoft-core/compare/1.15.2...1.15.3
 [1.15.2]: https://github.com/Faulo/slothsoft-core/compare/1.15.1...1.15.2
 [1.15.1]: https://github.com/Faulo/slothsoft-core/compare/1.15.0...1.15.1
 [1.15.0]: https://github.com/Faulo/slothsoft-core/compare/1.14.28...1.15.0

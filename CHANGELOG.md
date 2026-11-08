@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.2] - 2026-11-08
+
 ### Fixed
 
 - Completed PHPStan type annotations and added explicit handling for failed reads, serialization, and missing DOM elements while preserving PHP 7.4 compatibility.
@@ -716,7 +718,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release.
 
-[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.15.0...HEAD
+[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.15.2...HEAD
+[1.15.2]: https://github.com/Faulo/slothsoft-core/compare/1.15.1...1.15.2
+[1.15.1]: https://github.com/Faulo/slothsoft-core/compare/1.15.0...1.15.1
 [1.15.0]: https://github.com/Faulo/slothsoft-core/compare/1.14.28...1.15.0
 [1.14.28]: https://github.com/Faulo/slothsoft-core/compare/1.14.27...1.14.28
 [1.14.27]: https://github.com/Faulo/slothsoft-core/compare/1.14.26...1.14.27

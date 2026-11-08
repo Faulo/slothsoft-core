@@ -16,7 +16,9 @@ final class RConTest extends TestCase {
         $sut->method('getLong')->willReturn(-1);
         foreach (['socket' => fopen('php://temp', 'w+'), 'requestId' => 0] as $name => $value) {
             $property = new \ReflectionProperty(RCon::class, $name);
-            $property->setAccessible(true);
+            if (PHP_VERSION_ID < 80100) {
+                $property->setAccessible(true);
+            }
             $property->setValue($sut, $value);
         }
         $this->expectException(\Exception::class);

@@ -107,7 +107,9 @@ class ClientTest extends TestCase {
             $this->assertSame($expected, $table->escape($value));
         }
         $method = new \ReflectionMethod(Client::class, '_get_update_data');
-        $method->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
         $this->assertSame('`price`="1.5",`enabled`="1",`missing`=NULL', $method->invoke($client, [
             'price' => 1.5,
             'enabled' => true,

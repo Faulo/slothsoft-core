@@ -16,10 +16,13 @@ use Slothsoft\Core\IO\FileInfoFactory;
  */
 final class CloudFlareScraper {
     
+    /** @var string */
     protected $cookieFile;
     
+    /** @var bool */
     protected $trySolving;
     
+    /** @var string|null */
     protected $lastURI;
     
     /**
@@ -119,7 +122,7 @@ final class CloudFlareScraper {
                 
                 // my_dump($var);
                 
-                $var += strlen(parse_url($requestURI, PHP_URL_HOST));
+                $var += strlen(parse_url($requestURI, PHP_URL_HOST) ?: '');
                 
                 $xpath = $this->_loadXPath($htmlDoc);
                 $path = $xpath->evaluate('string(//form/@action)');
@@ -157,7 +160,7 @@ final class CloudFlareScraper {
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function __serialize(): array {
         return [
@@ -167,7 +170,7 @@ final class CloudFlareScraper {
     }
     
     /**
-     * @param array $data
+     * @param array<mixed> $data
      * @return void
      */
     public function __unserialize(array $data) {

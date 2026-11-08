@@ -35,14 +35,24 @@ final class PersistentGeneratorStream implements StreamInterface {
         $this->state = self::NEW;
     }
     
+    private function getGenerator(): Generator {
+        if ($this->generator === null) {
+            throw new BadMethodCallException('The stream generator is closed.');
+        }
+        return $this->generator;
+    }
+    
     private function init(): void {
         if ($this->state === self::ABORTED) {
             throw new BadMethodCallException('The PersistentGeneratorStream was closed before it could finish reading its data.');
         }
         
         if ($this->state === self::NEW) {
+            if ($this->writer === null) {
+                throw new BadMethodCallException('The stream writer is closed.');
+            }
             $this->generator = $this->writer->toChunks();
-            $this->state = $this->generator->valid() ? self::START : self::END;
+            $this->state = $this->getGenerator()->valid() ? self::START : self::END;
         }
     }
     
@@ -83,7 +93,7 @@ final class PersistentGeneratorStream implements StreamInterface {
     
     /**
      * @param ?string $key
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;
@@ -166,13 +176,13 @@ final class PersistentGeneratorStream implements StreamInterface {
                 if ($this->state === self::START) {
                     $this->state = self::MIDDLE;
                 } else {
-                    $this->generator->next();
+                    $this->getGenerator()->next();
                 }
                 
-                $this->buffer .= $this->generator->current();
+                $this->buffer .= $this->getGenerator()->current();
                 $this->bufferSize = strlen($this->buffer);
                 
-                if (! $this->generator->valid()) {
+                if (! $this->getGenerator()->valid()) {
                     $this->state = self::END;
                     $this->close();
                     break;

@@ -14,6 +14,7 @@ final class ProcessStream implements StreamInterface {
     
     private string $command;
     
+    /** @var resource|null */
     private $handle;
     
     /**
@@ -23,16 +24,26 @@ final class ProcessStream implements StreamInterface {
         $this->command = $command;
     }
     
+    /** @return resource */
+    private function getHandle() {
+        $this->init();
+        if ($this->handle === null) {
+            throw new RuntimeException('Process stream is closed.');
+        }
+        return $this->handle;
+    }
+    
     private function init(): void {
         if ($this->handle !== null) {
             return;
         }
         
-        $this->handle = popen($this->command, StreamWrapperInterface::MODE_OPEN_READONLY);
-        if ($this->handle === false) {
+        $handle = popen($this->command, StreamWrapperInterface::MODE_OPEN_READONLY);
+        if ($handle === false) {
             $this->handle = null;
             throw new RuntimeException(sprintf('Failed to open process "%s".', $this->command));
         }
+        $this->handle = $handle;
     }
     
     /**
@@ -41,7 +52,7 @@ final class ProcessStream implements StreamInterface {
     public function eof(): bool {
         $this->init();
         
-        return feof($this->handle);
+        return feof($this->getHandle());
     }
     
     /**
@@ -72,7 +83,7 @@ final class ProcessStream implements StreamInterface {
     
     /**
      * @param ?string $key
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;
@@ -129,7 +140,11 @@ final class ProcessStream implements StreamInterface {
             return '';
         }
         
-        return fread($this->handle, min($length, self::CHUNK_SIZE));
+        $result = fread($this->getHandle(), min($length, self::CHUNK_SIZE));
+        if ($result === false) {
+            throw new RuntimeException('Cannot read process output.');
+        }
+        return $result;
     }
     
     /**

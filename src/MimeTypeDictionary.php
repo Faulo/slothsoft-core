@@ -18,10 +18,13 @@ final class MimeTypeDictionary {
     
     private static bool $initialized = false;
     
+    /** @var array<mixed> */
     private static array $mimeExtensionList = [];
     
+    /** @var array<mixed> */
     private static array $mimeCompressionsList = [];
     
+    /** @var array<mixed> */
     private static array $extensionMimeList = [];
     
     private static function init(): void {

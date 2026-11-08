@@ -36,6 +36,7 @@ final class GenericAdapterTest extends TestCase {
         
         $document = $sut->writeDocument();
         
+        $this->assertNotNull($document->documentElement);
         $this->assertSame('result', $document->documentElement->tagName);
         $this->assertSame('ok', $document->documentElement->textContent);
     }

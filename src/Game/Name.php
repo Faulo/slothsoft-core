@@ -22,6 +22,7 @@ final class Name {
     
     const GENERATE_CONFIG_COUNT = 'numberof';
     
+    /** @var array<string, int|string> */
     protected static $generateConfig = [
         'generated' => '',
         'action' => 'main.generate',
@@ -32,11 +33,11 @@ final class Name {
     ];
     
     /**
-     * @param array $config
-     * @return array
+     * @param array<mixed> $config
+     * @return array<mixed>
      */
     public static function generate(array $config = []): array {
-        $ret = null;
+        $ret = [];
         $param = self::$generateConfig;
         foreach ($param as $key => &$val) {
             if (isset($config[$key])) {

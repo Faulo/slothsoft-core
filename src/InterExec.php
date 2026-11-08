@@ -20,7 +20,9 @@ class InterExec {
     
     /**
      * Environment variables (null to use existing variables).
+     * @var array<mixed>
      */
+    
     public ?array $environment_vars = null;
     
     /**
@@ -70,7 +72,9 @@ class InterExec {
     
     /**
      * Array containing event callbacks.
+     * @var array<mixed>
      */
+    
     protected array $events = array();
     
     /**
@@ -87,6 +91,7 @@ class InterExec {
     
     /**
      * Process I/O pipes.
+     * @var array<int, resource>|null
      */
     public ?array $pipes = null;
     
@@ -111,7 +116,7 @@ class InterExec {
      *
      * @param string $command_to_run
      *            The command line to execute.
-     * @param array $environment_vars
+     * @param array<mixed> $environment_vars
      *            (Optional) Environment variables.
      */
     public function __construct($command_to_run, $environment_vars = null) {
@@ -161,7 +166,7 @@ class InterExec {
     public function is_running() {
         if (is_resource($this->process_handle)) {
             $stat = proc_get_status($this->process_handle);
-            return ! (! $stat['running'] || $stat['signaled'] || $stat['stopped']);
+            return $stat !== false && ! (! $stat['running'] || $stat['signaled'] || $stat['stopped']);
         }
         return false;
     }
@@ -190,7 +195,7 @@ class InterExec {
      * @example : '"C:\a test\b.exe" -h' -> 'cd "C:\a test\" && b.exe -h'
      */
     protected function fix_windows_command_path($commandPath) {
-        return trim(preg_replace('/^\s*"([^"]+?)\\\\([^\\\\]+)"\s?(.*)/s', 'cd "$1" && "$2" $3', $commandPath));
+        return trim(preg_replace('/^\s*"([^"]+?)\\\\([^\\\\]+)"\s?(.*)/s', 'cd "$1" && "$2" $3', $commandPath) ?? $commandPath);
     }
     
     /**
@@ -224,6 +229,9 @@ class InterExec {
         
         $this->fire('start');
         
+        if (! is_resource($this->process_handle) || ! isset($this->pipes[self::STDIN])) {
+            throw new \RuntimeException('Cannot start process.');
+        }
         // avoid blocking on pipes
         stream_set_blocking($this->pipes[self::STDIN], false);
     }
@@ -232,6 +240,12 @@ class InterExec {
      * @return void
      */
     protected function run_mainloop() {
+        if ($this->pipes === null || ! isset($this->pipes[self::STDIN], $this->pipes[self::STDOUT], $this->pipes[self::STDERR])) {
+            throw new \RuntimeException('Process pipes are not open.');
+        }
+        if ($this->data_buffer_size <= 0) {
+            throw new \InvalidArgumentException('The read buffer size must be positive.');
+        }
         $lastBuffer = '';
         // wait for process to finish
         while (true) {
@@ -274,14 +288,6 @@ class InterExec {
                             $this->stdout .= $buf;
                             $lastBuffer = $buf;
                             $this->fire('output', array(
-                                $buf
-                            ));
-                        }
-                        
-                        // fire error event
-                        if ($t == self::STDERR) {
-                            $this->stderr .= $buf;
-                            $this->fire('error', array(
                                 $buf
                             ));
                         }
@@ -328,10 +334,10 @@ class InterExec {
      */
     protected function run_shutdown(): void {
         // close and clean used resources
-        foreach ($this->pipes as $pipe)
+        foreach (($this->pipes ?? []) as $pipe)
             fclose($pipe);
         $this->pipes = null;
-        $this->return = proc_close($this->process_handle);
+        $this->return = is_resource($this->process_handle) ? proc_close($this->process_handle) : -1;
         $this->process_handle = null;
         
         // calculate time taken so far

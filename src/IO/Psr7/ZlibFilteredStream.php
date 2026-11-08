@@ -9,6 +9,7 @@ final class ZlibFilteredStream extends AbstractFilteredStream {
     
     private int $zlibCoding;
     
+    /** @var mixed */
     private $compressor;
     
     /**
@@ -33,13 +34,21 @@ final class ZlibFilteredStream extends AbstractFilteredStream {
      * @return string
      */
     protected function processPayload(string $data): string {
-        return deflate_add($this->compressor, $data, ZLIB_NO_FLUSH);
+        $result = deflate_add($this->compressor, $data, ZLIB_NO_FLUSH);
+        if ($result === false) {
+            throw new \RuntimeException('Unable to compress stream payload.');
+        }
+        return $result;
     }
     
     /**
      * @return string
      */
     protected function processFooter(): string {
-        return deflate_add($this->compressor, '', ZLIB_FINISH);
+        $result = deflate_add($this->compressor, '', ZLIB_FINISH);
+        if ($result === false) {
+            throw new \RuntimeException('Unable to finish stream compression.');
+        }
+        return $result;
     }
 }

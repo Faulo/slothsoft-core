@@ -14,16 +14,22 @@ use DOMXPath;
  */
 final class WebCrawler {
     
+    /** @var int */
     public $maxDepth = 0;
     
+    /** @var int */
     public $maxDocs = 1;
     
+    /** @var int */
     public $maxTime = 0;
     
+    /** @var string */
     protected $url;
     
+    /** @var array<mixed> */
     protected $linkList;
     
+    /** @var array<mixed> */
     protected $errorList;
     
     /**
@@ -133,7 +139,14 @@ final class WebCrawler {
         
         $url = preg_replace('/\?.*/', '', $url);
         $data = parse_url($url);
+        if ($data === false) {
+            return false;
+        }
         $parentData = parse_url($parentUrl);
+        if ($parentData === false) {
+            return false;
+        }
+        $parentData += ['scheme' => '', 'host' => ''];
         if (! isset($parentData['path'])) {
             $parentData['path'] = '';
         }

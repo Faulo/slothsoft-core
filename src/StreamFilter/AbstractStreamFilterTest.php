@@ -25,6 +25,7 @@ abstract class AbstractStreamFilterTest extends TestCase {
     
     private string $streamId;
     
+    /** @var string */
     private $tempFile;
     
     private string $input;
@@ -48,6 +49,7 @@ abstract class AbstractStreamFilterTest extends TestCase {
      */
     public function testWriteToResource() {
         $resource = fopen($this->tempFile, 'wb');
+        $this->assertIsResource($resource);
         stream_filter_append($resource, $this->streamId, STREAM_FILTER_WRITE);
         fwrite($resource, $this->input);
         fclose($resource);
@@ -76,6 +78,7 @@ abstract class AbstractStreamFilterTest extends TestCase {
         file_put_contents($this->tempFile, $this->input);
         
         $resource = fopen($this->tempFile, 'rb');
+        $this->assertIsResource($resource);
         stream_filter_append($resource, $this->streamId, STREAM_FILTER_READ);
         $actualResult = stream_get_contents($resource);
         fclose($resource);

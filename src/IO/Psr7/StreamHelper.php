@@ -16,7 +16,7 @@ final class StreamHelper {
      * @return StreamInterface
      */
     public static function cacheStream(StreamInterface $input, $chunkSize = Memory::ONE_KILOBYTE): StreamInterface {
-        $cache = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
+        $cache = \GuzzleHttp\Psr7\Utils::tryFopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
         while (! $input->eof()) {
             fwrite($cache, $input->read($chunkSize));
         }
@@ -32,7 +32,7 @@ final class StreamHelper {
      */
     public static function sliceStream(StreamInterface $input, int $offset, int $length): StreamInterface {
         $input = self::cacheStream($input);
-        $cache = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
+        $cache = \GuzzleHttp\Psr7\Utils::tryFopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
         $input->seek($offset);
         $totalLength = 0;
         while (! $input->eof() and $totalLength < $length) {

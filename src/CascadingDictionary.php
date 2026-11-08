@@ -10,10 +10,16 @@ use IteratorAggregate;
 use ReturnTypeWillChange;
 use Traversable;
 
+/**
+ * @implements ArrayAccess<string, mixed>
+ * @implements IteratorAggregate<string, mixed>
+ */
 final class CascadingDictionary implements ArrayAccess, IteratorAggregate {
     
+    /** @var array<mixed> */
     private array $values = [];
     
+    /** @var callable(string, string): int */
     private $comparer;
     
     /**
@@ -75,7 +81,7 @@ final class CascadingDictionary implements ArrayAccess, IteratorAggregate {
     }
     
     /**
-     * @return Traversable
+     * @return Traversable<mixed>
      */
     public function getIterator(): Traversable {
         return new ArrayIterator($this->values);

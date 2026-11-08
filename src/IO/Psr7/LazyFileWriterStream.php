@@ -67,7 +67,7 @@ final class LazyFileWriterStream implements StreamInterface {
     
     /**
      * @param ?string $key
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;
@@ -100,7 +100,11 @@ final class LazyFileWriterStream implements StreamInterface {
      * @return int
      */
     public function tell(): int {
-        return $this->handle === null ? 0 : $this->handle->ftell();
+        $position = $this->handle === null ? 0 : $this->handle->ftell();
+        if ($position === false) {
+            throw new \RuntimeException('Cannot determine stream position.');
+        }
+        return $position;
     }
     
     /**
@@ -169,6 +173,10 @@ final class LazyFileWriterStream implements StreamInterface {
             return '';
         }
         
-        return $this->getHandle()->fread(min($length, $this->getSize() + 1));
+        $result = $this->getHandle()->fread(min($length, $this->getSize() + 1));
+        if ($result === false) {
+            throw new \RuntimeException('Cannot read stream.');
+        }
+        return $result;
     }
 }

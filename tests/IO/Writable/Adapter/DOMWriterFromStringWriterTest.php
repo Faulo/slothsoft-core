@@ -24,15 +24,16 @@ final class DOMWriterFromStringWriterTest extends TestCase implements StringWrit
         return '<xml/>';
     }
     
-    public function test_loadString() {
+    public function test_loadString(): void {
         $sut = new DOMWriterFromStringWriter($this);
         
         $actual = $sut->toDocument();
         
+        $this->assertNotNull($actual->documentElement);
         $this->assertThat($actual->documentElement->tagName, new IsEqual('xml'));
     }
     
-    public function test_toDocument_doesNotCache() {
+    public function test_toDocument_doesNotCache(): void {
         $sut = new DOMWriterFromStringWriter($this);
         
         $expected = $sut->toDocument();

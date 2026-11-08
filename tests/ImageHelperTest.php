@@ -22,7 +22,7 @@ class ImageHelperTest extends TestCase {
      * @dataProvider imageProvider
      * @test
      */
-    public function testConvertToPng(string $inFile, string $expectedFile, ?int $alphaColorIndex) {
+    public function testConvertToPng(string $inFile, string $expectedFile, ?int $alphaColorIndex): void {
         $actualFile = FileInfoFactory::createTempFile();
         
         ImageHelper::convertToPng(FileInfoFactory::createFromPath($inFile), $actualFile, $alphaColorIndex);
@@ -30,6 +30,7 @@ class ImageHelperTest extends TestCase {
         $this->assertFileEquals($expectedFile, (string) $actualFile);
     }
     
+    /** @return array<mixed> */
     public static function imageProvider(): array {
         return [
             'TGA to PNG' => [

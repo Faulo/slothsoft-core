@@ -128,6 +128,10 @@ final class CLI {
             trigger_error($e->getMessage(), E_USER_WARNING);
         }
         
-        return $process->getExitCode();
+        $exitCode = $process->getExitCode();
+        if ($exitCode === null) {
+            throw new \RuntimeException('The process did not provide an exit code.');
+        }
+        return $exitCode;
     }
 }

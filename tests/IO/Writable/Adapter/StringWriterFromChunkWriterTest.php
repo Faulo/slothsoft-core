@@ -19,6 +19,7 @@ final class StringWriterFromChunkWriterTest extends TestCase implements ChunkWri
         $this->assertTrue(class_exists(StringWriterFromChunkWriter::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Adapter\StringWriterFromChunkWriter'!");
     }
     
+    /** @var array<mixed> */
     private static array $values;
     
     private static string $expected;
@@ -37,7 +38,7 @@ final class StringWriterFromChunkWriterTest extends TestCase implements ChunkWri
     
     private const ITERATIONS = 10_000;
     
-    public function test_string() {
+    public function test_string(): void {
         $sut = new StringWriterFromChunkWriter($this);
         
         for ($i = 0; $i < self::ITERATIONS; $i++) {

@@ -5,10 +5,11 @@ namespace Slothsoft\Core\IO\Sanitizer;
 
 final class ArraySanitizer implements SanitizerInterface {
     
+    /** @var array<mixed> */
     private array $default;
     
     /**
-     * @param array $default
+     * @param array<mixed> $default
      */
     public function __construct(array $default = []) {
         $this->default = $default;
@@ -16,14 +17,14 @@ final class ArraySanitizer implements SanitizerInterface {
     
     /**
      * @param mixed $value
-     * @return array
+     * @return array<mixed>
      */
     public function apply($value): array {
         return is_array($value) ? $value : $this->getDefault();
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getDefault(): array {
         return $this->default;

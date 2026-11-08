@@ -12,7 +12,7 @@ final class RecursiveFileIterator {
     
     /**
      * @param string $directory
-     * @return iterable
+     * @return iterable<mixed>
      * @throws InvalidArgumentException
      */
     public static function iterateDirectoriesAndFiles(string $directory): iterable {
@@ -20,6 +20,9 @@ final class RecursiveFileIterator {
             throw new InvalidArgumentException("Directory '$directory' does not exist.");
         }
         $directory = realpath($directory);
+        if ($directory === false) {
+            throw new InvalidArgumentException('Cannot resolve directory path.');
+        }
         $iterator = new RecursiveDirectoryIterator($directory);
         $iterator = new class($iterator) extends RecursiveFilterIterator {
             
@@ -42,7 +45,7 @@ final class RecursiveFileIterator {
     
     /**
      * @param string $directory
-     * @return iterable
+     * @return iterable<mixed>
      */
     public static function iterateFiles(string $directory): iterable {
         foreach (self::iterateDirectoriesAndFiles($directory) as $file) {
@@ -54,7 +57,7 @@ final class RecursiveFileIterator {
     
     /**
      * @param string $directory
-     * @return iterable
+     * @return iterable<mixed>
      */
     public static function iterateDirectories(string $directory): iterable {
         foreach (self::iterateDirectoriesAndFiles($directory) as $file) {

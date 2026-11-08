@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Completed PHPStan type annotations and added explicit handling for failed reads, serialization, and missing DOM elements while preserving PHP 7.4 compatibility.
+
 ## [1.15.1] - 2026-10-27
 
 ### Fixed

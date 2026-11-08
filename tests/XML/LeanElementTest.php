@@ -71,8 +71,9 @@ class LeanElementTest extends TestCase {
             $child
         ]);
         
-        $this->assertEquals($value, $sut->getChildByTag($tag)
-            ->getAttribute($key));
+        $result = $sut->getChildByTag($tag);
+        $this->assertNotNull($result);
+        $this->assertEquals($value, $result->getAttribute($key));
     }
     
     public function testUnserializeMissingFieldsUsesDefaults(): void {
@@ -81,6 +82,11 @@ class LeanElementTest extends TestCase {
         $this->assertSame('', $sut->getTag());
         $this->assertSame([], $sut->getAttributes());
         $this->assertSame([], [...$sut->getChildren()]);
+    }
+    
+    public function testCreateTreeRejectsEmptyDocument(): void {
+        $this->expectException(\InvalidArgumentException::class);
+        LeanElement::createTreeFromDOMDocument(new \DOMDocument());
     }
     
 }

@@ -19,6 +19,7 @@ final class ChunkWriterMergerTest extends TestCase implements ChunkWriterInterfa
         $this->assertTrue(class_exists(ChunkWriterMerger::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Mergers\ChunkWriterMerger'!");
     }
     
+    /** @var array<mixed> */
     private static array $values;
     
     public static function setUpBeforeClass(): void {
@@ -39,7 +40,7 @@ final class ChunkWriterMergerTest extends TestCase implements ChunkWriterInterfa
      *           [2]
      *           [3]
      */
-    public function test_values(int $count) {
+    public function test_values(int $count): void {
         $sut = new ChunkWriterMerger($this, $this, $this);
         
         $expected = [

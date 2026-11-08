@@ -12,8 +12,10 @@ namespace Slothsoft\Core\Game;
  */
 final class Dice {
     
+    /** @var positive-int */
     protected $sidesCount;
     
+    /** @var positive-int */
     protected $diceCount;
     
     /**

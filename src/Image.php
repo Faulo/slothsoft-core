@@ -58,12 +58,12 @@ final class Image {
      * @param mixed $spriteHeight
      * @param mixed $cols
      * @param mixed $rows
-     * @param array $imageList
+     * @param array<mixed> $imageList
      * @return bool
      */
     public static function createSprite($destFile, $spriteWidth, $spriteHeight, $cols = 1, $rows = 1, array $imageList = []): bool {
-        $width = $spriteWidth * $cols;
-        $height = $spriteHeight * $rows;
+        $width = max(1, (int) ($spriteWidth * $cols));
+        $height = max(1, (int) ($spriteHeight * $rows));
         $ret = imagepng(imagecreatetruecolor($width, $height), $destFile, 9);
         if ($ret and $imageList) {
             self::addSprite($destFile, $imageList, $spriteWidth, $spriteHeight);
@@ -73,7 +73,7 @@ final class Image {
     
     /**
      * @param mixed $destFile
-     * @param array $sourceFileList
+     * @param array<mixed> $sourceFileList
      * @param mixed $spriteWidth
      * @param mixed $spriteHeigh
      * @return bool
@@ -106,10 +106,13 @@ final class Image {
     
     /**
      * @param mixed $file
-     * @return array
+     * @return array<mixed>
      */
     public static function imageInfo($file): array {
         $arr = getimagesize($file);
+        if ($arr === false) {
+            throw new DomainException('Cannot read image dimensions.');
+        }
         return [
             'width' => $arr[0],
             'height' => $arr[1],
@@ -124,6 +127,9 @@ final class Image {
      */
     public static function createFromFile($file) {
         $size = getimagesize($file);
+        if ($size === false) {
+            throw new DomainException('Cannot read image dimensions.');
+        }
         switch ($size['mime']) {
             case 'image/jpeg':
                 return imagecreatefromjpeg($file); // jpeg file
@@ -154,6 +160,9 @@ final class Image {
         }
         
         $transparencyIndex = imagecolorallocate($new_image, $transparencyColor['red'], $transparencyColor['green'], $transparencyColor['blue']);
+        if ($transparencyIndex === false) {
+            throw new DomainException('Cannot allocate transparency color.');
+        }
         imagefill($new_image, 0, 0, $transparencyIndex);
         imagecolortransparent($new_image, $transparencyIndex);
     }
@@ -177,6 +186,9 @@ final class Image {
         imagecopyresized($new_image, $pic, 0, 0, $x, $y, $new_width, $new_height, $new_width, $new_height);
         if ($originaltransparentcolor > -1) {
             $newtransparentcolor = imagecolorallocate($new_image, $transparentcolor['red'], $transparentcolor['green'], $transparentcolor['blue']);
+            if ($newtransparentcolor === false) {
+                throw new DomainException('Cannot allocate transparency color.');
+            }
             imagecolortransparent($new_image, $newtransparentcolor);
         }
         imagedestroy($pic);

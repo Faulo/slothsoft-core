@@ -7,8 +7,10 @@ use LogicException;
 
 final class StreamWrapperRegistrar implements StreamWrapperInterface {
     
+    /** @var array<mixed> */
     private static array $factories = [];
     
+    /** @return void */
     private static function addFactory(string $scheme, StreamWrapperFactoryInterface $factory) {
         self::$factories[$scheme] = $factory;
     }
@@ -41,9 +43,10 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      *
      * @param string $url
      * @param int $flags
-     * @return boolean|array
+     * @return boolean|array<mixed>
      * @see https://www.php.net/manual/de/streamwrapper.url-stat.php
      */
+    
     public function url_stat(string $url, int $flags) {
         $factory = self::getFactoryByUrl($url);
         return $factory ? $factory->statUrl($url, $flags) : false;
@@ -51,6 +54,14 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     
     private ?StreamWrapperInterface $stream = null;
     
+    private function getStream(): StreamWrapperInterface {
+        if ($this->stream === null) {
+            throw new LogicException('The stream is not open.');
+        }
+        return $this->stream;
+    }
+    
+    /** @var resource|null */
     public $context;
     
     /**
@@ -63,7 +74,11 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @see https://www.php.net/manual/de/streamwrapper.stream-open.php
      */
     public function stream_open(string $path, string $mode, int $options, ?string &$opened_path): bool {
-        $this->stream = self::getFactoryByUrl($path)->createStreamWrapper($path, $mode, $options);
+        $factory = self::getFactoryByUrl($path);
+        if ($factory === null) {
+            return false;
+        }
+        $this->stream = $factory->createStreamWrapper($path, $mode, $options);
         
         if ($this->stream === null) {
             return false;
@@ -89,11 +104,11 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
     /**
      *
      * {@inheritdoc}
-     * @return array
+     * @return array<mixed>
      * @see StreamWrapperInterface::stream_stat
      */
     public function stream_stat(): array {
-        return $this->stream->stream_stat();
+        return $this->getStream()->stream_stat();
     }
     
     /**
@@ -103,7 +118,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @see StreamWrapperInterface::stream_eof
      */
     public function stream_eof(): bool {
-        return $this->stream->stream_eof();
+        return $this->getStream()->stream_eof();
     }
     
     /**
@@ -115,7 +130,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @see StreamWrapperInterface::stream_seek
      */
     public function stream_seek(int $offset, int $whence): int {
-        return $this->stream->stream_seek($offset, $whence);
+        return $this->getStream()->stream_seek($offset, $whence);
     }
     
     /**
@@ -126,7 +141,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @see StreamWrapperInterface::stream_read
      */
     public function stream_read(int $count) {
-        return $this->stream->stream_read($count);
+        return $this->getStream()->stream_read($count);
     }
     
     /**
@@ -137,7 +152,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @see StreamWrapperInterface::stream_write
      */
     public function stream_write(string $data) {
-        return $this->stream->stream_write($data);
+        return $this->getStream()->stream_write($data);
     }
     
     /**
@@ -147,7 +162,7 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @see StreamWrapperInterface::stream_tell
      */
     public function stream_tell() {
-        return $this->stream->stream_tell();
+        return $this->getStream()->stream_tell();
     }
     
     /**
@@ -157,6 +172,6 @@ final class StreamWrapperRegistrar implements StreamWrapperInterface {
      * @see StreamWrapperInterface::stream_close
      */
     public function stream_close(): bool {
-        return $this->stream->stream_close();
+        return $this->getStream()->stream_close();
     }
 }

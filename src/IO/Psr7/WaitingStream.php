@@ -14,12 +14,15 @@ final class WaitingStream implements StreamInterface {
     
     private int $usleep;
     
+    /**
+     * @var array{interval: int, content: string}|null
+     */
     private ?array $heartbeat;
     
     /**
      * @param StreamInterface $stream
      * @param int $waitInMicroseconds
-     * @param ?array $heartbeat
+     * @param ?array{interval: int, content: string} $heartbeat
      */
     public function __construct(StreamInterface $stream, int $waitInMicroseconds, ?array $heartbeat = null) {
         $this->stream = $stream;
@@ -82,7 +85,7 @@ final class WaitingStream implements StreamInterface {
     
     /**
      * @param ?string $key
-     * @return array|mixed|null
+     * @return array<mixed>|mixed|null
      */
     public function getMetadata(?string $key = null) {
         return $this->stream->getMetadata($key);

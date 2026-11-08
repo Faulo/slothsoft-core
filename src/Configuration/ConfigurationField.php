@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Slothsoft\Core\Configuration;
 
-use ReflectionParameter;
+use ReflectionMethod;
 class ConfigurationField {
     
+    /** @var mixed */
     private $value;
     
     /**
@@ -24,14 +25,11 @@ class ConfigurationField {
     public function getValue() {
         if ($this->value === null) {
             $traceList = debug_backtrace();
-            $class = $traceList[1]['class'];
-            $type = $traceList[1]['type'];
+            $class = $traceList[1]['class'] ?? '';
+            $type = $traceList[1]['type'] ?? '';
             $function = $traceList[1]['function'];
             $function[0] = 's';
-            $param = new ReflectionParameter([
-                $class,
-                $function
-            ], 0);
+            $param = (new ReflectionMethod($class, $function))->getParameters()[0];
             throw new ConfigurationRequiredException(sprintf('Please call %s%s%s($%s) in your config.php.', $class, $type, $function, $param->name));
         }
         return $this->value;

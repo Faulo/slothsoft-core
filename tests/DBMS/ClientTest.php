@@ -18,7 +18,7 @@ class ClientTest extends TestCase {
         $this->assertTrue(class_exists(Client::class), "Failed to load class 'Slothsoft\Core\DBMS\Client'!");
     }
     
-    public function testConfigurationRequired() {
+    public function testConfigurationRequired(): void {
         Client::clearDefaultAuthority();
         
         putenv(Client::ENV_CONNECTION_SERVER);
@@ -31,7 +31,7 @@ class ClientTest extends TestCase {
         Client::getDefaultAuthority();
     }
     
-    public function testEnvironmentVariable() {
+    public function testEnvironmentVariable(): void {
         Client::clearDefaultAuthority();
         
         putenv(Client::ENV_CONNECTION_SERVER . '=test-server');
@@ -48,7 +48,7 @@ class ClientTest extends TestCase {
         $this->assertEquals('test-password', $authority->password);
     }
     
-    public function testEnvironmentVariableFile() {
+    public function testEnvironmentVariableFile(): void {
         Client::clearDefaultAuthority();
         
         putenv(Client::ENV_CONNECTION_SERVER);
@@ -68,20 +68,20 @@ class ClientTest extends TestCase {
         
         $this->assertEquals('test-password-file', $authority->password);
     }
-
-    public function testReconnectKeepsLegacyErrorHandlingWithStrictMysqliReportMode() {
+    
+    public function testReconnectKeepsLegacyErrorHandlingWithStrictMysqliReportMode(): void {
         if (! extension_loaded('mysqli')) {
             $this->markTestSkipped('Client requires the mysqli extension.');
         }
-
+        
         $driver = new mysqli_driver();
         $reportMode = $driver->report_mode;
         Client::setDefaultAuthority(new Authority('localhost', 'root', 'invalid-password'));
-
+        
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
             $client = new Client();
-
+            
             $this->assertFalse($client->reconnect());
         } finally {
             mysqli_report($reportMode);

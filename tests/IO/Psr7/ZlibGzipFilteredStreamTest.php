@@ -12,7 +12,9 @@ final class ZlibGzipFilteredStreamTest extends AbstractFilteredStreamTestCase {
     }
     
     protected function calculateExpectedResult(string $input): string {
-        return gzencode($input, -1, FORCE_GZIP);
+        $result = gzencode($input, -1, FORCE_GZIP);
+        $this->assertIsString($result);
+        return $result;
     }
     
     protected function getFilterFactory(): FilteredStreamWriterInterface {

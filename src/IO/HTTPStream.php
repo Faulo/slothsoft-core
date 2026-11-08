@@ -24,27 +24,40 @@ abstract class HTTPStream {
     
     const STATUS_CONTENTDONE = 4;
     
+    /** @var array<string, string> */
     protected $headerList = [];
     
+    /** @var int */
     protected $status = self::STATUS_DONE;
     
+    /** @var string */
     protected $content = '';
     
+    /** @var string|null */
     protected $mime = null;
     
+    /** @var string|null */
     protected $encoding = null;
     
+    /** @var float */
     protected $sleepDuration = Seconds::MILLISECOND;
     
+    /** @var string|null */
     protected $heartbeatContent = null;
     
     // character to send after each heartbeatInterval is reached
+    
+    /** @var string|null */
     protected $heartbeatEOL = null;
     
     // character to send before new content, when heartbeatContent was sent
+    
+    /** @var float */
     protected $heartbeatInterval = Seconds::SECOND;
     
     // time without actual content before heartbeatContent is sent
+    
+    /** @var float */
     protected $heartbeatTimeout = Seconds::HOUR;
     
     // time without actual content before child is terminated

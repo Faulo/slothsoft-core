@@ -20,6 +20,7 @@ final class PersistentGeneratorStreamTest extends TestCase {
         $this->assertTrue(class_exists(PersistentGeneratorStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\PersistentGeneratorStream'!");
     }
     
+    /** @param array<mixed> $values */
     private function createSuT(array $values): PersistentGeneratorStream {
         $writer = new ChunkWriterFromChunksDelegate(function () use ($values): Generator {
             yield from $values;
@@ -28,6 +29,7 @@ final class PersistentGeneratorStreamTest extends TestCase {
         return new PersistentGeneratorStream($writer);
     }
     
+    /** @return iterable<mixed> */
     public function valuesProvider(): iterable {
         yield '1-2-3' => [
             'one',

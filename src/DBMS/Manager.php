@@ -66,8 +66,10 @@ final class Manager {
     
     protected static Client $client;
     
+    /** @var array<mixed> */
     protected static array $databaseList = [];
     
+    /** @var array<mixed> */
     protected static array $tableList = [];
     
     /**

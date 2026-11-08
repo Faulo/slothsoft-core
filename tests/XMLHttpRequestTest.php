@@ -22,7 +22,7 @@ final class XMLHttpRequestTest extends TestCase {
      * @test
      */
     
-    public function whenConstructed_thenStateIsUnsent() {
+    public function whenConstructed_thenStateIsUnsent(): void {
         $sut = new XMLHttpRequest();
         
         $this->assertThat($sut->readyState, new IsEqual(XMLHttpRequest::UNSENT));
@@ -31,7 +31,7 @@ final class XMLHttpRequestTest extends TestCase {
     /**
      * @test
      */
-    public function whenOpened_thenStateIsOpened() {
+    public function whenOpened_thenStateIsOpened(): void {
         $sut = new XMLHttpRequest();
         $sut->open('GET', 'https://www.w3.org', false);
         
@@ -41,7 +41,7 @@ final class XMLHttpRequestTest extends TestCase {
     /**
      * @test
      */
-    public function whenSent_thenStateIsDone() {
+    public function whenSent_thenStateIsDone(): void {
         $sut = new XMLHttpRequest();
         $sut->open('GET', 'https://www.w3.org', false);
         try {

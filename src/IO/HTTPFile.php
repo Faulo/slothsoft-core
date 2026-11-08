@@ -87,7 +87,7 @@ final class HTTPFile implements FileWriterInterface {
     /**
      *
      * @param string $fileName
-     * @param array $fileList
+     * @param array<mixed> $fileList
      * @return HTTPFile
      */
     public static function createFromFileList(array $fileList, string $fileName = ''): HTTPFile {
@@ -126,7 +126,7 @@ final class HTTPFile implements FileWriterInterface {
         if ($fileName === '') {
             $fileName = 'data.json';
         }
-        return self::createFromString(json_encode($object), $fileName);
+        return self::createFromString(json_encode($object, JSON_THROW_ON_ERROR), $fileName);
     }
     
     /**
@@ -162,19 +162,22 @@ final class HTTPFile implements FileWriterInterface {
             }
         }
         $param = parse_url($url);
+        if ($param === false) {
+            return null;
+        }
         if (! isset($param['host'])) {
             $url = 'http://slothsoft.net' . $url;
         }
         
         if (self::$CURL_ENABLED) {
-            $refererURI = sprintf('Referer: %s://%s%s', $param['scheme'], $param['host'], $param['path']);
+            $refererURI = sprintf('Referer: %s://%s%s', $param['scheme'] ?? 'http', $param['host'] ?? 'slothsoft.net', $param['path'] ?? '');
             $filePath = self::getTempFile();
             $downloadExec = sprintf(self::CURL_COMMAND, escapeshellarg(urldecode($url)), escapeshellarg($filePath), escapeshellarg($refererURI));
             shell_exec($downloadExec);
             $ret = file_exists($filePath) ? self::createFromPath($filePath, $fileName) : null;
         } else {
             @$data = file_get_contents($url);
-            $ret = strlen($data) ? self::createFromString($data, $fileName) : null;
+            $ret = is_string($data) && strlen($data) ? self::createFromString($data, $fileName) : null;
         }
         return $ret;
     }
@@ -240,8 +243,10 @@ final class HTTPFile implements FileWriterInterface {
         return $ret;
     }
     
+    /** @var string */
     private $path;
     
+    /** @var string */
     private $name;
     
     private function __construct(string $filePath, string $fileName = '') {
@@ -270,7 +275,11 @@ final class HTTPFile implements FileWriterInterface {
      * @return string
      */
     public function getContents(): string {
-        return file_get_contents($this->getPath());
+        $result = file_get_contents($this->getPath());
+        if ($result === false) {
+            throw new \RuntimeException('Unable to read or serialize content.');
+        }
+        return $result;
     }
     
     /**

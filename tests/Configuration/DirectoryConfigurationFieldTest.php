@@ -51,6 +51,7 @@ final class DirectoryConfigurationFieldTest extends TestCase {
         $this->assertSame($value, $field->getValue());
     }
     
+    /** @return array<mixed> */
     public function provideConfigurationMethods(): array {
         return [
             'constructor' => [true],

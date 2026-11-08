@@ -19,10 +19,11 @@ abstract class GenericAdapter implements AdapterInterface {
     
     protected InputInterface $template;
     
+    /** @var array<mixed> */
     protected array $param = [];
     
     /**
-     * @param array $param
+     * @param array<mixed> $param
      * @return void
      */
     public function setParameters(array $param) {

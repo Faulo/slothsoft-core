@@ -19,7 +19,7 @@ interface StreamWrapperInterface {
     
     /**
      *
-     * @return array
+     * @return array<mixed>
      * @see https://www.php.net/manual/en/streamwrapper.stream-stat.php
      */
     public function stream_stat(): array;

@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class MimeTypeDictionaryTest extends TestCase {
     
+    /** @return array<mixed> */
     public function someMimeTypes(): array {
         return [
             [
@@ -80,7 +81,7 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testGuessExtensions(string $extension, string $mimeType, string $parentMimeType, bool $isXml, $isHtml, $isText) {
+    public function testGuessExtensions(string $extension, string $mimeType, string $parentMimeType, bool $isXml, bool $isHtml, bool $isText): void {
         $this->assertEquals($extension, MimeTypeDictionary::guessExtension($mimeType));
     }
     
@@ -88,7 +89,7 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testGuessMimeType(string $extension, string $mimeType, string $parentMimeType, bool $isXml, $isHtml, $isText) {
+    public function testGuessMimeType(string $extension, string $mimeType, string $parentMimeType, bool $isXml, bool $isHtml, bool $isText): void {
         $this->assertEquals($mimeType, MimeTypeDictionary::guessMime($extension));
     }
     
@@ -96,7 +97,7 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testMatchesMime(string $extension, string $mimeType, string $parentMimeType, bool $isXml, $isHtml, $isText) {
+    public function testMatchesMime(string $extension, string $mimeType, string $parentMimeType, bool $isXml, bool $isHtml, bool $isText): void {
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, $mimeType));
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, $parentMimeType));
         $this->assertTrue(MimeTypeDictionary::matchesMime($extension, '*/*'));
@@ -106,7 +107,7 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testIsXml(string $extension, string $mimeType, string $parentMimeType, bool $isXml, $isHtml, $isText) {
+    public function testIsXml(string $extension, string $mimeType, string $parentMimeType, bool $isXml, bool $isHtml, bool $isText): void {
         $this->assertEquals($isXml, MimeTypeDictionary::isXml($mimeType));
     }
     
@@ -114,7 +115,7 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testIsHtml(string $extension, string $mimeType, string $parentMimeType, bool $isXml, $isHtml, $isText) {
+    public function testIsHtml(string $extension, string $mimeType, string $parentMimeType, bool $isXml, bool $isHtml, bool $isText): void {
         $this->assertEquals($isHtml, MimeTypeDictionary::isHtml($mimeType));
     }
     
@@ -122,7 +123,7 @@ class MimeTypeDictionaryTest extends TestCase {
      *
      * @dataProvider someMimeTypes
      */
-    public function testIsText(string $extension, string $mimeType, string $parentMimeType, bool $isXml, $isHtml, $isText) {
+    public function testIsText(string $extension, string $mimeType, string $parentMimeType, bool $isXml, bool $isHtml, bool $isText): void {
         $this->assertEquals($isText, MimeTypeDictionary::isText($mimeType));
     }
 }

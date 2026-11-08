@@ -30,7 +30,7 @@ final class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInte
      */
     public function toChunks(): Generator {
         if ($this->shouldRefreshCache()) {
-            $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
+            $handle = \GuzzleHttp\Psr7\Utils::tryFopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
             foreach ($this->sourceWriter->toChunks() as $chunk) {
                 fwrite($handle, $chunk);
                 yield $chunk;
@@ -52,7 +52,7 @@ final class ChunkWriterFileCache implements ChunkWriterInterface, FileWriterInte
      */
     public function toFile(): SplFileInfo {
         if ($this->shouldRefreshCache()) {
-            $handle = fopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
+            $handle = \GuzzleHttp\Psr7\Utils::tryFopen('php://temp', StreamWrapperInterface::MODE_CREATE_READWRITE);
             foreach ($this->sourceWriter->toChunks() as $chunk) {
                 fwrite($handle, $chunk);
             }

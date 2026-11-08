@@ -52,6 +52,7 @@ abstract class FileSystem {
     
     const ARCHIVE_MAX_FILES = 1000;
     
+    /** @var array<mixed> */
     public static array $sizeUnits = [
         'B',
         'kB',
@@ -60,6 +61,7 @@ abstract class FileSystem {
         'TB'
     ];
     
+    /** @var array<mixed> */
     public static array $videoExtensions = [
         'avi',
         'mkv',
@@ -74,6 +76,7 @@ abstract class FileSystem {
         'ogm'
     ];
     
+    /** @var array<mixed> */
     public static array $audioExtensions = [
         'mp3',
         'wav',
@@ -84,6 +87,7 @@ abstract class FileSystem {
         'm4a'
     ];
     
+    /** @var array<mixed> */
     public static array $subttitleExtensions = [
         'vtt',
         'srt',
@@ -198,7 +202,7 @@ abstract class FileSystem {
                 @unlink($path);
             } else {
                 if ($isDir) {
-                    $modifyTime = self::changetime($path);
+                    $modifyTime = self::changetime($path) ?? 0;
                     $storage = self::getStorage();
                     $storageKey = self::generateStorageKey($path);
                     if ($tmpNode = $storage->retrieveXML($storageKey, $modifyTime, $dataDoc)) {
@@ -206,7 +210,7 @@ abstract class FileSystem {
                             $dataDoc = $tmpNode->ownerDocument;
                         }
                         if ($tmpNode->firstChild instanceof DOMElement) {
-                            $retNode = $tmpNode->removeChild($tmpNode->firstChild);
+                            $retNode = $tmpNode->removeChild($tmpNode->firstChild) ?: null;
                         }
                     }
                 }
@@ -268,10 +272,10 @@ abstract class FileSystem {
                     }
                     if ($tagName) {
                         $retNode = $dataDoc->createElement($tagName);
-                        $time = self::changetime($path);
+                        $time = self::changetime($path) ?? time();
                         $attr['change-datetime'] = date(DateTimeFormatter::FORMAT_DATETIME, $time);
                         $attr['change-utc'] = date(DateTimeFormatter::FORMAT_UTC, $time);
-                        $time = self::maketime($path);
+                        $time = self::maketime($path) ?? time();
                         $attr['make-datetime'] = date(DateTimeFormatter::FORMAT_DATETIME, $time);
                         $attr['make-utc'] = date(DateTimeFormatter::FORMAT_UTC, $time);
                         $attr['path'] = $path;
@@ -281,7 +285,7 @@ abstract class FileSystem {
                         foreach ($attr as $key => $val) {
                             $val = (string) $val;
                             if (! mb_check_encoding($val, 'UTF-8')) {
-                                $val = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
+                                $val = mb_convert_encoding($val, 'UTF-8', 'UTF-8') ?: $val;
                             }
                             $retNode->setAttribute($key, $val);
                         }
@@ -365,7 +369,7 @@ abstract class FileSystem {
         } elseif ($file = self::lookupFile($fileName)) {
             $time = strtotime($file->DateLastModified);
         }
-        return $time;
+        return $time === false ? null : $time;
     }
     
     /**
@@ -380,7 +384,7 @@ abstract class FileSystem {
         } elseif ($file = self::lookupFile($fileName)) {
             $time = strtotime($file->DateLastModified);
         }
-        return $time;
+        return $time === false ? null : $time;
     }
     
     /**
@@ -450,11 +454,11 @@ abstract class FileSystem {
         ];
         $filename = str_replace($notAllowed, $toReplace, $filename);
         $filename = htmlentities($filename, ENT_QUOTES, 'UTF-8');
-        $filename = preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~iu', '$1', $filename);
+        $filename = preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~iu', '$1', $filename) ?: $filename;
         $filename = html_entity_decode($filename, ENT_QUOTES, 'UTF-8');
-        $filename = mb_convert_encoding($filename, 'UTF-8', 'UTF-8');
+        $filename = mb_convert_encoding($filename, 'UTF-8', 'UTF-8') ?: $filename;
         $filename = str_replace($notAllowed, $toReplace, $filename);
-        $filename = preg_replace('~\s+~iu', ' ', $filename);
+        $filename = preg_replace('~\s+~iu', ' ', $filename) ?: $filename;
         $filename = trim($filename);
         return $filename;
     }
@@ -518,7 +522,7 @@ abstract class FileSystem {
         $chunksize = 16777216; // 16 MB
         $chunksize = 8192; // 8 kB
         $chunksize = 1048576; // 1 MB
-        $handle = fopen($filePath, 'rb');
+        $handle = \GuzzleHttp\Psr7\Utils::tryFopen($filePath, 'rb');
         if ($start < PHP_INT_MAX) {
             fseek($handle, $start, SEEK_SET);
         } else {
@@ -560,7 +564,7 @@ abstract class FileSystem {
      * @param string $relPath
      * @param int $options
      * @param string $filter
-     * @return array
+     * @return array<mixed>
      */
     public static function scanDir(string $relPath, int $options = 0, ?string $filter = null): array {
         $dirPath = realpath($relPath);
@@ -646,6 +650,9 @@ abstract class FileSystem {
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);
+            if ($dirPath === false) {
+                return false;
+            }
             $rootPath = dirname($dirPath);
         }
         if (is_dir($dirPath)) {
@@ -669,7 +676,7 @@ abstract class FileSystem {
     
     /**
      * @param string $filePath
-     * @return array
+     * @return array<mixed>
      * @throws Exception
      */
     public static function mediaInfo(string $filePath): array {
@@ -684,7 +691,7 @@ abstract class FileSystem {
             'unknown' => []
         ];
         if ($filePath) {
-            $modifyTime = self::changetime($filePath);
+            $modifyTime = self::changetime($filePath) ?? 0;
             $storage = self::getStorage();
             $storageKey = self::generateStorageKey($filePath, 'mediaInfo');
             if ($mediaInfo = $storage->retrieveJSON($storageKey, $modifyTime)) {
@@ -703,7 +710,7 @@ abstract class FileSystem {
                         $type = strtolower($match[4]);
                         $codec = $match[5];
                         $settings = $match[5] . $match[6];
-                        if (! isset($ret[$type])) {
+                        if (! isset($ret[$type]) || ! is_array($ret[$type])) {
                             die($match[0]);
                         }
                         $ret[$type][$key] = [
@@ -754,6 +761,9 @@ abstract class FileSystem {
      */
     public static function archivePath($directoryPath, $archiveName, $checkUpdate = false) {
         $directoryPath = realpath($directoryPath);
+        if ($directoryPath === false) {
+            return false;
+        }
         // $rootPath = realpath($directoryPath . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR;
         // $dirPath = substr($directoryPath, strlen($rootPath));
         
@@ -772,7 +782,7 @@ abstract class FileSystem {
     /**
      * @param mixed $destPath
      * @param mixed $sourceURI
-     * @param array $options
+     * @param array<mixed> $options
      * @return mixed
      * @throws Exception
      */
@@ -832,7 +842,7 @@ abstract class FileSystem {
                     if (strpos($uri, './') === 0) {
                         $uri = substr($uri, 2);
                     }
-                    $uri = sprintf('%s://%s%s%s', $sourceParam['scheme'], $sourceParam['host'], $sourceParam['path'], $uri);
+                    $uri = sprintf('%s://%s%s%s', $sourceParam['scheme'] ?? 'http', $sourceParam['host'] ?? '', $sourceParam['path'] ?? '', $uri);
                 }
                 $ret = $uri;
             }
@@ -845,7 +855,7 @@ abstract class FileSystem {
      * @param string $delimiter
      * @param string $enclosure
      * @param string $escape
-     * @return ?array
+     * @return ?array<mixed>
      */
     public static function loadCSV(string $path, string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): ?array {
         $ret = null;
@@ -859,12 +869,14 @@ abstract class FileSystem {
         return $ret;
     }
     
+    /** @var array<mixed> */
     private static array $base64Source = [
         '+',
         '/',
         '='
     ];
     
+    /** @var array<mixed> */
     private static array $base64Target = [
         '-',
         '_',
@@ -941,11 +953,11 @@ abstract class FileSystem {
      * @throws DirectoryCouldNotBeCreatedException
      */
     public static function copy(string $from, string $to): void {
-        if (realpath($from) === false) {
+        if (($resolvedFrom = realpath($from)) === false) {
             throw new InvalidArgumentException("Source '$from' does not exist.");
         }
         
-        $from = realpath($from);
+        $from = $resolvedFrom;
         
         if (is_dir($from)) {
             if (is_file($to)) {

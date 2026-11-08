@@ -234,7 +234,7 @@ final class Client {
     }
     
     /**
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getDatabaseList(): ?array {
         $ret = null;
@@ -246,7 +246,7 @@ final class Client {
     
     /**
      * @param string $dbName
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getTableList(string $dbName): ?array {
         $ret = null;
@@ -283,9 +283,9 @@ final class Client {
     /**
      * @param string $dbName
      * @param string $tableName
-     * @param array $cols
-     * @param array $keys
-     * @param array $options
+     * @param array<mixed> $cols
+     * @param array<mixed> $keys
+     * @param array<mixed> $options
      * @return void
      */
     public function createTable(string $dbName, string $tableName, array $cols, array $keys, array $options = []): void {
@@ -325,9 +325,10 @@ final class Client {
     /**
      * @param string $dbName
      * @param string $tableName
-     * @param array|string $index
+     * @param array<mixed>|string $index
      * @return void
      */
+    
     public function addIndex(string $dbName, string $tableName, $index): void {
         if (! is_array($index)) {
             $index = [
@@ -345,11 +346,12 @@ final class Client {
     /**
      * @param string $dbName
      * @param string $tableName
-     * @param array|string|bool $columnQuery
-     * @param array|string $sqlQuery
+     * @param array<mixed>|string|bool $columnQuery
+     * @param array<mixed>|string $sqlQuery
      * @param string $sqlSuffix
-     * @return ?array
+     * @return ?array<mixed>
      */
+    
     public function select(string $dbName, string $tableName, $columnQuery = true, $sqlQuery = '', string $sqlSuffix = ''): ?array {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
@@ -397,7 +399,7 @@ final class Client {
                 $sqlQuery .= ' ' . $sqlSuffix;
             }
             $sql = sprintf('SELECT %s FROM %s WHERE %s', implode(',', $columnQuery), $dbHandle, $sqlQuery);
-            if ($res = $this->execute($sql)) {
+            if (($res = $this->execute($sql)) instanceof mysqli_result) {
                 if ($retArr) {
                     $ret = $res->fetch_all(MYSQLI_ASSOC);
                 } else {
@@ -416,8 +418,8 @@ final class Client {
     /**
      * @param string $dbName
      * @param string $tableName
-     * @param array $insertData
-     * @param array $onDuplicateData
+     * @param array<mixed> $insertData
+     * @param array<mixed> $onDuplicateData
      * @return ?int
      */
     public function insert(string $dbName, string $tableName, array $insertData = [], array $onDuplicateData = []): ?int {
@@ -440,6 +442,9 @@ final class Client {
             $sql = sprintf('INSERT INTO %s (`%s`) VALUES (%s)%s', $dbHandle, implode('`,`', $keys), implode(',', $insertData), $onDuplicateSQL);
             if ($this->execute($sql)) {
                 $ret = $this->sqli->insert_id;
+                if (! is_int($ret)) {
+                    throw new \OverflowException('Insert ID exceeds the integer range.');
+                }
             } else {
                 $this->error($sql);
             }
@@ -450,7 +455,7 @@ final class Client {
     /**
      * @param string $dbName
      * @param string $tableName
-     * @param array $arr
+     * @param array<mixed> $arr
      * @param mixed $idQuery
      * @return ?int
      */
@@ -461,6 +466,9 @@ final class Client {
             $sql = sprintf('UPDATE %s SET %s WHERE %s', $dbHandle, $this->_get_update_data($arr), $this->get_ids($idQuery));
             if ($this->execute($sql)) {
                 $ret = $this->sqli->affected_rows;
+                if (! is_int($ret)) {
+                    throw new \OverflowException('Affected row count exceeds the integer range.');
+                }
             } else {
                 $this->error($sql);
             }
@@ -481,6 +489,9 @@ final class Client {
             $sql = sprintf('DELETE FROM %s WHERE %s', $dbHandle, $this->get_ids($idQuery));
             if ($this->execute($sql)) {
                 $ret = $this->sqli->affected_rows;
+                if (! is_int($ret)) {
+                    throw new \OverflowException('Affected row count exceeds the integer range.');
+                }
             } else {
                 $this->error($sql);
             }
@@ -520,14 +531,14 @@ final class Client {
     /**
      * @param string $dbName
      * @param string $tableName
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getColumns(string $dbName, string $tableName): ?array {
         $ret = null;
         $dbHandle = $this->get_handle($dbName, $tableName);
         if ($this->connect()) {
             $sql = sprintf('SHOW COLUMNS from %s', $dbHandle);
-            if ($res = $this->execute($sql)) {
+            if (($res = $this->execute($sql)) instanceof mysqli_result) {
                 $ret = [];
                 if ($res->num_rows > 0) {
                     while ($tmp = $res->fetch_assoc()) {
@@ -550,7 +561,7 @@ final class Client {
         $dbHandle = $this->get_handle($dbName, $tableName);
         $sql = sprintf('OPTIMIZE TABLE %s', $dbHandle);
         $res = $this->execute($sql);
-        if ($res === false) {
+        if (! $res instanceof mysqli_result) {
             return false;
         }
         
@@ -584,7 +595,7 @@ final class Client {
         $mode = null;
         if (strlen($dbName)) {
             $mode = 'db';
-            if (strlen($tableName)) {
+            if (strlen($tableName ?? '')) {
                 $mode = 'table';
             }
         }
@@ -638,7 +649,7 @@ final class Client {
     }
     
     /**
-     * @param array $arr
+     * @param array<mixed> $arr
      * @return string
      */
     protected function _get_update_data(array $arr): string {

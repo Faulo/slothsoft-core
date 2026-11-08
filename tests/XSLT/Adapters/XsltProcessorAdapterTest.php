@@ -23,7 +23,7 @@ final class XsltProcessorAdapterTest extends TestCase {
     public function testClassExists(): void {
         $this->assertTrue(class_exists(XsltProcessorAdapter::class), "Failed to load class 'Slothsoft\Core\XSLT\Adapters\XsltProcessorAdapter'!");
     }
-
+    
     /**
      * @test
      * @dataProvider validDocumentTypes
@@ -35,15 +35,17 @@ final class XsltProcessorAdapterTest extends TestCase {
         string $expectedSystemId
     ): void {
         $result = $this->createAdapter($documentType)->writeDocument();
-
+        
         $this->assertInstanceOf(DOMDocumentType::class, $result->doctype);
         $this->assertSame($expectedName, $result->doctype->name);
         $this->assertSame($expectedPublicId, $result->doctype->publicId);
         $this->assertSame($expectedSystemId, $result->doctype->systemId);
         $this->assertNull($result->doctype->internalSubset);
+        $this->assertNotNull($result->documentElement);
         $this->assertSame('root', $result->documentElement->tagName);
     }
-
+    
+    /** @return iterable<mixed> */
     public function validDocumentTypes(): iterable {
         yield 'HTML5' => [
             '<!DOCTYPE html>',
@@ -64,30 +66,35 @@ final class XsltProcessorAdapterTest extends TestCase {
             'about:legacy-compat'
         ];
     }
-
+    
     /**
      * @test
      */
     public function writeDocumentConvertsDocumentTypeBeforeOtherPrologNodes(): void {
         $result = $this->createAdapter('<!DOCTYPE root>', '<xsl:comment>comment</xsl:comment>')->writeDocument();
-
+        
         $this->assertInstanceOf(DOMDocumentType::class, $result->doctype);
+        $this->assertNotNull($result->doctype->nextSibling);
         $this->assertSame('comment', $result->doctype->nextSibling->nodeValue);
+        $this->assertNotNull($result->documentElement);
         $this->assertSame('root', $result->documentElement->tagName);
     }
-
+    
     /**
      * @test
      * @dataProvider unconvertedText
      */
     public function writeDocumentPreservesUnsupportedText(string $text): void {
         $result = $this->createAdapter($text)->writeDocument();
-
+        
         $this->assertNull($result->doctype);
+        $this->assertNotNull($result->documentElement);
+        $this->assertNotNull($result->documentElement->previousSibling);
         $this->assertInstanceOf(DOMText::class, $result->documentElement->previousSibling);
         $this->assertSame($text, $result->documentElement->previousSibling->nodeValue);
     }
-
+    
+    /** @return iterable<mixed> */
     public function unconvertedText(): iterable {
         yield 'ordinary text' => [
             'not a doctype'
@@ -105,7 +112,7 @@ final class XsltProcessorAdapterTest extends TestCase {
             '<!DOCTYPE root [<!ELEMENT root ANY>]>'
         ];
     }
-
+    
     /**
      * @test
      */
@@ -115,15 +122,17 @@ final class XsltProcessorAdapterTest extends TestCase {
             '<xsl:comment>separator</xsl:comment>' .
             '<xsl:text disable-output-escaping="yes">root&gt;</xsl:text>'
         )->writeDocument();
-
+        
         $this->assertNull($result->doctype);
+        $this->assertNotNull($result->documentElement);
+        $this->assertNotNull($result->documentElement->previousSibling);
         $this->assertSame('root>', $result->documentElement->previousSibling->nodeValue);
     }
-
+    
     private function createAdapter(string $text, string $followingProlog = ''): XsltProcessorAdapter {
         $source = new DOMDocument();
         $source->loadXML('<input/>');
-
+        
         $template = new DOMDocument();
         $template->loadXML(
             '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' .
@@ -134,7 +143,7 @@ final class XsltProcessorAdapterTest extends TestCase {
             '</xsl:template>' .
             '</xsl:stylesheet>'
         );
-
+        
         $adapter = new XsltProcessorAdapter();
         $adapter->setSource(new DocumentInput($source));
         $adapter->setTemplate(new DocumentInput($template));

@@ -35,7 +35,7 @@ final class LazyStringWriterStream implements StreamInterface {
     }
     
     private function init(): void {
-        if ($this->state === self::ABORTED) {
+        if ($this->state === self::ABORTED || ($this->state === self::NEW && $this->writer === null)) {
             throw new BadMethodCallException('The LazyStringWriterStream was closed before it could finish reading its data.');
         }
         
@@ -75,7 +75,7 @@ final class LazyStringWriterStream implements StreamInterface {
     
     /**
      * @param ?string $key
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getMetadata(?string $key = null): ?array {
         return $key === null ? [] : null;

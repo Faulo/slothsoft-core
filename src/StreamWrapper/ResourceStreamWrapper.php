@@ -5,6 +5,7 @@ namespace Slothsoft\Core\StreamWrapper;
 
 class ResourceStreamWrapper implements StreamWrapperInterface {
     
+    /** @var resource */
     private $handle;
     
     /**
@@ -15,10 +16,14 @@ class ResourceStreamWrapper implements StreamWrapperInterface {
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function stream_stat(): array {
-        return fstat($this->handle);
+        $stat = fstat($this->handle);
+        if ($stat === false) {
+            throw new \RuntimeException('Cannot stat stream.');
+        }
+        return $stat;
     }
     
     /**
@@ -42,7 +47,7 @@ class ResourceStreamWrapper implements StreamWrapperInterface {
      * @return string|false
      */
     public function stream_read(int $count) {
-        return fread($this->handle, $count);
+        return $count > 0 ? fread($this->handle, $count) : '';
     }
     
     /**

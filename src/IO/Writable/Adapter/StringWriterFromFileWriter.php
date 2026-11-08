@@ -21,7 +21,11 @@ final class StringWriterFromFileWriter implements StringWriterInterface {
      * @return string
      */
     public function toString(): string {
-        return file_get_contents((string) $this->source->toFile());
+        $result = file_get_contents((string) $this->source->toFile());
+        if ($result === false) {
+            throw new \RuntimeException('Unable to read or serialize content.');
+        }
+        return $result;
     }
 }
 

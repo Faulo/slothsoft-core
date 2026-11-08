@@ -21,6 +21,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
         $this->assertTrue(class_exists(OneTimeGeneratorStream::class), "Failed to load class 'Slothsoft\Core\IO\Psr7\OneTimeGeneratorStream'!");
     }
     
+    /** @param array<mixed> $values */
     private function createSuT(array $values): OneTimeGeneratorStream {
         $writer = new ChunkWriterFromChunksDelegate(function () use ($values): Generator {
             yield from $values;
@@ -29,6 +30,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
         return new OneTimeGeneratorStream($writer);
     }
     
+    /** @return iterable<mixed> */
     public function valuesProvider(): iterable {
         yield '1-2-3' => [
             'one',
@@ -46,7 +48,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_getSize(string ...$values) {
+    public function test_getSize(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $actual = $sut->getSize();
@@ -58,7 +60,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_read_first(string ...$values) {
+    public function test_read_first(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $expected = $values[0];
@@ -71,7 +73,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_read_second(string ...$values) {
+    public function test_read_second(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $expected = $values[1];
@@ -85,7 +87,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_read_part_of_first(string ...$values) {
+    public function test_read_part_of_first(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $expected = substr($values[0], 0, 2);
@@ -98,7 +100,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_read_part_of_first_twice(string ...$values) {
+    public function test_read_part_of_first_twice(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $expected = [
@@ -119,7 +121,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_seek(string ...$values) {
+    public function test_seek(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $this->expectException(BadMethodCallException::class);
@@ -130,7 +132,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_eof(string ...$values) {
+    public function test_eof(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $sut->read(PHP_INT_MAX);
@@ -144,7 +146,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_rewind(string ...$values) {
+    public function test_rewind(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $this->expectException(BadMethodCallException::class);
@@ -155,7 +157,7 @@ final class OneTimeGeneratorStreamTest extends TestCase {
      *
      * @dataProvider valuesProvider
      */
-    public function test_that_reading_after_closing_throws(string ...$values) {
+    public function test_that_reading_after_closing_throws(string ...$values): void {
         $sut = $this->createSuT($values);
         
         $sut->close();

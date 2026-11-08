@@ -20,8 +20,8 @@ final class LeanElement implements DOMWriterInterface {
     use DOMWriterDocumentFromElementTrait;
     
     /**
-     * @param DOMNodeList $domNodeList
-     * @return array
+     * @param DOMNodeList<\DOMNode> $domNodeList
+     * @return array<mixed>
      */
     public static function createTreeListFromDOMNodeList(DOMNodeList $domNodeList): array {
         $ret = [];
@@ -38,7 +38,11 @@ final class LeanElement implements DOMWriterInterface {
      * @return LeanElement
      */
     public static function createTreeFromDOMDocument(DOMDocument $domDocument): LeanElement {
-        return self::createTreeFromDOMElement($domDocument->documentElement);
+        $element = $domDocument->documentElement;
+        if ($element === null) {
+            throw new \InvalidArgumentException('The document has no document element.');
+        }
+        return self::createTreeFromDOMElement($element);
     }
     
     /**
@@ -51,11 +55,11 @@ final class LeanElement implements DOMWriterInterface {
     
     /**
      * @param DOMElement $element
-     * @param array $children
+     * @param array<mixed> $children
      * @return LeanElement
      */
     public static function createOneFromDOMElement(DOMElement $element, array $children = []): LeanElement {
-        $tag = $element->localName;
+        $tag = $element->localName ?? $element->tagName;
         $attributes = [];
         foreach ($element->attributes as $attr) {
             $attributes[$attr->name] = $attr->value;
@@ -65,8 +69,8 @@ final class LeanElement implements DOMWriterInterface {
     
     /**
      * @param string $tag
-     * @param array $attributes
-     * @param iterable $children
+     * @param array<mixed> $attributes
+     * @param iterable<mixed> $children
      * @return LeanElement
      */
     public static function createOneFromArray(string $tag, array $attributes, iterable $children = []): LeanElement {
@@ -75,15 +79,17 @@ final class LeanElement implements DOMWriterInterface {
     
     private string $tag;
     
+    /** @var array<mixed> */
     private array $attributes;
     
+    /** @var Vector<LeanElement> */
     private Vector $children;
     
     /**
      *
      * @param string $tag
-     * @param array $attributes
-     * @param Vector $children
+     * @param array<mixed> $attributes
+     * @param Vector<LeanElement> $children
      */
     private function __construct(string $tag, array $attributes, Vector $children) {
         $this->tag = $tag;
@@ -130,7 +136,7 @@ final class LeanElement implements DOMWriterInterface {
     
     /**
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getAttributes(): array {
         return $this->attributes;
@@ -182,7 +188,7 @@ final class LeanElement implements DOMWriterInterface {
     }
     
     /**
-     * @param array $attributes
+     * @param array<mixed> $attributes
      * @return LeanElement
      */
     public function withAttributes(array $attributes): LeanElement {
@@ -194,7 +200,7 @@ final class LeanElement implements DOMWriterInterface {
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function __serialize(): array {
         return [
@@ -205,7 +211,7 @@ final class LeanElement implements DOMWriterInterface {
     }
     
     /**
-     * @param array $data
+     * @param array<mixed> $data
      * @return void
      */
     public function __unserialize(array $data): void {

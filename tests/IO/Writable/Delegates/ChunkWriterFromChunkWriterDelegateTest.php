@@ -19,6 +19,7 @@ final class ChunkWriterFromChunkWriterDelegateTest extends TestCase implements C
         $this->assertTrue(class_exists(ChunkWriterFromChunkWriterDelegate::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromChunkWriterDelegate'!");
     }
     
+    /** @var array<mixed> */
     private static array $values;
     
     public static function setUpBeforeClass(): void {
@@ -39,7 +40,7 @@ final class ChunkWriterFromChunkWriterDelegateTest extends TestCase implements C
      *           [2]
      *           [3]
      */
-    public function test_values(int $count) {
+    public function test_values(int $count): void {
         $sut = new ChunkWriterFromChunkWriterDelegate(function () {
             return $this;
         });

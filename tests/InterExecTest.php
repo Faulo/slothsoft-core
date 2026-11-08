@@ -38,8 +38,12 @@ final class InterExecTest extends TestCase {
         $sut->pipes = [];
         $peers = [];
         for ($index = 0; $index < 3; $index++) {
-            $sut->pipes[] = stream_socket_client('tcp://' . $address);
-            $peers[] = stream_socket_accept($listener);
+            $pipe = stream_socket_client('tcp://' . $address);
+            $this->assertIsResource($pipe);
+            $sut->pipes[] = $pipe;
+            $peer = stream_socket_accept($listener);
+            $this->assertIsResource($peer);
+            $peers[] = $peer;
         }
         fclose($listener);
         $sut->time_start = microtime(true);
@@ -54,7 +58,7 @@ final class InterExecTest extends TestCase {
             $this->assertSame([''], $buffers);
             $this->assertSame('', $sut->stdout);
         } finally {
-            foreach (array_merge($sut->pipes, $peers) as $pipe) {
+            foreach (array_merge($sut->pipes ?? [], $peers) as $pipe) {
                 fclose($pipe);
             }
         }

@@ -48,9 +48,9 @@ final class Table {
     }
     
     /**
-     * @param array $cols
-     * @param array $keys
-     * @param array $options
+     * @param array<mixed> $cols
+     * @param array<mixed> $keys
+     * @param array<mixed> $options
      * @return void
      */
     public function createTable(array $cols, array $keys, array $options = []): void {
@@ -58,18 +58,19 @@ final class Table {
     }
     
     /**
-     * @param array|string|bool $columnQuery
-     * @param array|string $sqlQuery
+     * @param array<mixed>|string|bool $columnQuery
+     * @param array<mixed>|string $sqlQuery
      * @param string $sqlSuffix
-     * @return ?array
+     * @return ?array<mixed>
      */
+    
     public function select($columnQuery = true, $sqlQuery = '', string $sqlSuffix = ''): ?array {
         return $this->db->select($this->name, $columnQuery, $sqlQuery, $sqlSuffix);
     }
     
     /**
-     * @param array $insertData
-     * @param array $onDuplicateData
+     * @param array<mixed> $insertData
+     * @param array<mixed> $onDuplicateData
      * @return ?int
      */
     public function insert(array $insertData = [], array $onDuplicateData = []): ?int {
@@ -77,7 +78,7 @@ final class Table {
     }
     
     /**
-     * @param array $arr
+     * @param array<mixed> $arr
      * @param mixed $idQuery
      * @return ?int
      */
@@ -94,7 +95,7 @@ final class Table {
     }
     
     /**
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getColumns(): ?array {
         return $this->db->getColumns($this->name);
@@ -116,9 +117,10 @@ final class Table {
     }
     
     /**
-     * @param array|string $index
+     * @param array<mixed>|string $index
      * @return void
      */
+    
     public function addIndex($index): void {
         $this->db->addIndex($this->name, $index);
     }

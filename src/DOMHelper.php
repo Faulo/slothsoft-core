@@ -5,6 +5,7 @@ namespace Slothsoft\Core;
 
 use DomainException;
 use DOMDocument;
+use DOMElement;
 use DOMDocumentFragment;
 use DOMException;
 use DOMImplementation;
@@ -228,7 +229,10 @@ final class DOMHelper {
                 ob_end_clean();
                 throw new RuntimeException(sprintf('Error loading HTML:%s%s%s%s', PHP_EOL, substr($xmlCode, 0, 1024), PHP_EOL, substr($error, 0, 1024)));
             }
-            $rootNode = $parseDoc->documentElement->lastChild;
+            $rootNode = $parseDoc->documentElement ? $parseDoc->documentElement->lastChild : null;
+            if ($rootNode === null) {
+                throw new RuntimeException('Parsed HTML has no body element.');
+            }
             
             if ($targetDoc === null) {
                 $targetDoc = $parseDoc;
@@ -249,8 +253,8 @@ final class DOMHelper {
                 }
             }
             if ($targetDoc === $parseDoc) {
-                while ($targetDoc->hasChildNodes()) {
-                    $targetDoc->removeChild($targetDoc->lastChild);
+                while (($lastChild = $targetDoc->lastChild) !== null) {
+                    $targetDoc->removeChild($lastChild);
                 }
             }
         } else {
@@ -290,7 +294,15 @@ final class DOMHelper {
      * @return string
      */
     public function stringify(DOMNode $sourceNode): string {
-        return $sourceNode->ownerDocument->saveXML($sourceNode);
+        $document = $sourceNode instanceof DOMDocument ? $sourceNode : $sourceNode->ownerDocument;
+        if ($document === null) {
+            throw new RuntimeException('Cannot serialize a node without a document.');
+        }
+        $result = $sourceNode instanceof DOMDocument ? $document->saveXML() : $document->saveXML($sourceNode);
+        if ($result === false) {
+            throw new RuntimeException('Cannot serialize the node.');
+        }
+        return $result;
     }
     
     /**
@@ -308,11 +320,19 @@ final class DOMHelper {
         return $doc;
     }
     
+    /**
+     * @param mixed $source
+     * @param mixed $template
+     * @param array<mixed> $param
+     */
     private function transformToAdapter($source, $template, array $param = []): AdapterInterface {
         $source = XsltFactory::createInput($source);
         $template = XsltFactory::createInput($template);
         
         $templateDoc = $template->toDocument();
+        if ($templateDoc->documentElement === null) {
+            throw new DomainException('The template has no document element.');
+        }
         if ($templateDoc->documentElement->namespaceURI !== self::NS_XSL) {
             throw new DomainException("Template file '{$template->toFile()}' is in namespace '{$templateDoc->documentElement->namespaceURI}, but should have been 'http://www.w3.org/1999/XSL/Transform'!");
         }
@@ -330,7 +350,7 @@ final class DOMHelper {
     /**
      * @param mixed $source
      * @param mixed $template
-     * @param array $param
+     * @param array<mixed> $param
      * @return DOMDocument
      */
     public function transformToDocument($source, $template, array $param = []): DOMDocument {
@@ -340,7 +360,7 @@ final class DOMHelper {
     /**
      * @param mixed $source
      * @param mixed $template
-     * @param array $param
+     * @param array<mixed> $param
      * @param ?SplFileInfo $output
      * @return SplFileInfo
      */
@@ -357,7 +377,7 @@ final class DOMHelper {
     /**
      * @param mixed $source
      * @param mixed $template
-     * @param array $param
+     * @param array<mixed> $param
      * @param ?DOMDocument $targetDoc
      * @return DOMDocumentFragment
      */
@@ -403,13 +423,14 @@ final class DOMHelper {
         return $retDoc;
     }
     
+    /** @param array<mixed> $nsList */
     private function normalizeQualifiedName(DOMNode $sourceNode, array $nsList, ?DOMNode $parentNode = null): string {
         if (empty($sourceNode->prefix) or empty($sourceNode->namespaceURI)) {
-            return $sourceNode->localName;
+            return $sourceNode->localName ?? $sourceNode->nodeName;
         }
         
         if ($parentNode !== null and $parentNode->namespaceURI === $sourceNode->namespaceURI) {
-            return $sourceNode->localName;
+            return $sourceNode->localName ?? $sourceNode->nodeName;
         }
         
         if (isset($nsList[$sourceNode->namespaceURI])) {
@@ -419,11 +440,13 @@ final class DOMHelper {
         return $sourceNode->prefix . ':' . $sourceNode->localName;
     }
     
+    /** @return array<mixed> */
     private function getKnownNamespacePrefixes(): array {
         return array_flip(self::SLOTHSOFT_NAMESPACES + self::W3C_NAMESPACES + self::HTML_NAMESPACES + self::PHP_NAMESPACES + self::MISC_NAMESPACES);
     }
     
     /**
+     * @param array<string, string> $nsList
      * @throws DOMException
      */
     private function normalizeNode(DOMNode $sourceNode, DOMDocument $retDoc, array $nsList): DOMNode {
@@ -433,11 +456,21 @@ final class DOMHelper {
                 $retNode = $retDoc;
                 break;
             case XML_ELEMENT_NODE:
+                if (! $sourceNode instanceof DOMElement) {
+                    throw new DOMException('Expected an element node.');
+                }
                 $tagName = $this->normalizeQualifiedName($sourceNode, $nsList, $sourceNode->parentNode);
-                $retNode = $retDoc->createElementNS($sourceNode->namespaceURI, $tagName);
+                $retNode = $sourceNode->namespaceURI === null
+                    ? $retDoc->createElement($tagName)
+                    : $retDoc->createElementNS($sourceNode->namespaceURI, $tagName);
                 foreach ($sourceNode->attributes as $childNode) {
                     $tagName = $this->normalizeQualifiedName($childNode, $nsList);
-                    $retNode->setAttributeNS($childNode->namespaceURI, $tagName, $childNode->value);
+                    $namespace = $childNode->namespaceURI;
+                    if ($namespace === null) {
+                        $retNode->setAttribute($tagName, $childNode->value);
+                    } else {
+                        $retNode->setAttributeNS($namespace, $tagName, $childNode->value);
+                    }
                 }
                 break;
             default:
@@ -449,6 +482,9 @@ final class DOMHelper {
                 $node = $this->normalizeNode($childNode, $retDoc, $nsList);
                 $retNode->appendChild($node);
             }
+        }
+        if ($retNode === false) {
+            throw new DOMException('Cannot import node.');
         }
         return $retNode;
     }

@@ -31,6 +31,9 @@ final class ImageHelper {
         
         if ($alphaColorIndex !== -1) {
             $image = imagecreatefrompng((string) $targetFile);
+            if ($image === false) {
+                throw new \RuntimeException('Cannot load converted PNG.');
+            }
             imagecolortransparent($image, 0);
             imagepng($image, (string) $targetFile);
         }

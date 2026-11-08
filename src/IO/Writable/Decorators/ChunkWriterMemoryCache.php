@@ -10,6 +10,7 @@ final class ChunkWriterMemoryCache implements ChunkWriterInterface {
     
     private ChunkWriterInterface $source;
     
+    /** @var array<mixed> */
     private ?array $chunks = null;
     
     /**

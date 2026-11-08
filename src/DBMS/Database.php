@@ -60,7 +60,7 @@ final class Database {
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getTableList(): ?array {
         return $this->client->getTableList($this->name);
@@ -90,9 +90,9 @@ final class Database {
     
     /**
      * @param string $tableName
-     * @param array $cols
-     * @param array $keys
-     * @param array $options
+     * @param array<mixed> $cols
+     * @param array<mixed> $keys
+     * @param array<mixed> $options
      * @return void
      */
     public function createTable(string $tableName, array $cols, array $keys, array $options = []): void {
@@ -101,19 +101,20 @@ final class Database {
     
     /**
      * @param string $tableName
-     * @param array|string|bool $columnQuery
-     * @param array|string $sqlQuery
+     * @param array<mixed>|string|bool $columnQuery
+     * @param array<mixed>|string $sqlQuery
      * @param string $sqlSuffix
-     * @return ?array
+     * @return ?array<mixed>
      */
+    
     public function select(string $tableName, $columnQuery = true, $sqlQuery = '', string $sqlSuffix = ''): ?array {
         return $this->client->select($this->name, $tableName, $columnQuery, $sqlQuery, $sqlSuffix);
     }
     
     /**
      * @param string $tableName
-     * @param array $insertData
-     * @param array $onDuplicateData
+     * @param array<mixed> $insertData
+     * @param array<mixed> $onDuplicateData
      * @return ?int
      */
     public function insert(string $tableName, array $insertData = [], array $onDuplicateData = []): ?int {
@@ -122,7 +123,7 @@ final class Database {
     
     /**
      * @param string $tableName
-     * @param array $arr
+     * @param array<mixed> $arr
      * @param mixed $idQuery
      * @return ?int
      */
@@ -141,7 +142,7 @@ final class Database {
     
     /**
      * @param string $tableName
-     * @return ?array
+     * @return ?array<mixed>
      */
     public function getColumns(string $tableName): ?array {
         return $this->client->getColumns($this->name, $tableName);
@@ -156,7 +157,7 @@ final class Database {
             return $this->client->optimize($this->name, $tableName);
         } else {
             $tableNameList = $this->getTableList();
-            foreach ($tableNameList as $tableName) {
+            foreach (($tableNameList ?? []) as $tableName) {
                 $this->client->optimize($this->name, $tableName);
             }
         }
@@ -173,9 +174,10 @@ final class Database {
     
     /**
      * @param string $tableName
-     * @param array|string $index
+     * @param array<mixed>|string $index
      * @return void
      */
+    
     public function addIndex(string $tableName, $index): void {
         $this->client->addIndex($this->name, $tableName, $index);
     }
@@ -186,7 +188,7 @@ final class Database {
     public function resetCharset(): void {
         $this->client->resetCharset($this->name);
         $tableList = $this->getTableList();
-        foreach ($tableList as $table) {
+        foreach (($tableList ?? []) as $table) {
             $table = Manager::getTable($this->name, $table);
             $this->client->resetCharset($this->name, $table->getName());
         }

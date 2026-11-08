@@ -20,6 +20,10 @@ final class FileInfo extends SplFileInfo implements FileWriterInterface, StringW
      * @return string
      */
     public function toString(): string {
-        return file_get_contents((string) $this);
+        $result = file_get_contents((string) $this);
+        if ($result === false) {
+            throw new \RuntimeException('Unable to read or serialize content.');
+        }
+        return $result;
     }
 }

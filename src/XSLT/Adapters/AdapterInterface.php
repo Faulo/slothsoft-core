@@ -28,7 +28,7 @@ interface AdapterInterface {
     public function setTemplate(InputInterface $input);
     
     /**
-     * @param array $param
+     * @param array<mixed> $param
      * @return void
      */
     public function setParameters(array $param);

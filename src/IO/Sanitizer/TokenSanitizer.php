@@ -5,10 +5,11 @@ namespace Slothsoft\Core\IO\Sanitizer;
 
 final class TokenSanitizer implements SanitizerInterface {
     
+    /** @var array<mixed> */
     private array $default;
     
     /**
-     * @param array $default
+     * @param array<mixed> $default
      */
     public function __construct(array $default = []) {
         $this->default = $default;
@@ -16,12 +17,12 @@ final class TokenSanitizer implements SanitizerInterface {
     
     /**
      * @param mixed $value
-     * @return array
+     * @return array<mixed>
      */
     public function apply($value): array {
         if (is_string($value)) {
             $result = [];
-            foreach (preg_split('~\s+~', $value) as $val) {
+            foreach ((preg_split('~\s+~', $value) ?: []) as $val) {
                 $val = trim($val);
                 if (strlen($val)) {
                     $result[] = $val;
@@ -36,7 +37,7 @@ final class TokenSanitizer implements SanitizerInterface {
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getDefault(): array {
         return $this->default;

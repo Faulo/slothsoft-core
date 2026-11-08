@@ -19,6 +19,7 @@ final class ChunkWriterMemoryCacheTest extends TestCase implements ChunkWriterIn
         $this->assertTrue(class_exists(ChunkWriterMemoryCache::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Decorators\ChunkWriterMemoryCache'!");
     }
     
+    /** @var array<mixed> */
     private static array $values;
     
     public static function setUpBeforeClass(): void {
@@ -39,7 +40,7 @@ final class ChunkWriterMemoryCacheTest extends TestCase implements ChunkWriterIn
      *           [2]
      *           [3]
      */
-    public function test_values(int $count) {
+    public function test_values(int $count): void {
         $sut = new ChunkWriterMemoryCache($this);
         
         $expected = self::$values;

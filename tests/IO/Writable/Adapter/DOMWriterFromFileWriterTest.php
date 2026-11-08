@@ -26,15 +26,16 @@ final class DOMWriterFromFileWriterTest extends TestCase implements FileWriterIn
         return FileInfoFactory::createFromString('<xml/>');
     }
     
-    public function test_loadFile() {
+    public function test_loadFile(): void {
         $sut = new DOMWriterFromFileWriter($this);
         
         $actual = $sut->toDocument();
         
+        $this->assertNotNull($actual->documentElement);
         $this->assertThat($actual->documentElement->tagName, new IsEqual('xml'));
     }
     
-    public function test_toDocument_doesNotCache() {
+    public function test_toDocument_doesNotCache(): void {
         $sut = new DOMWriterFromFileWriter($this);
         
         $expected = $sut->toDocument();

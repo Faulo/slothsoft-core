@@ -92,6 +92,7 @@ final class Storage implements EphemeralStorageInterface {
         return self::touchOnExit()->getValue();
     }
     
+    /** @var array<mixed> */
     protected static array $storageList = [];
     
     /**
@@ -236,7 +237,7 @@ final class Storage implements EphemeralStorageInterface {
      * @param int $cacheTime
      * @param mixed $data
      * @param mixed $options
-     * @return ?array
+     * @return ?array<mixed>
      * @throws Exception
      */
     public static function loadExternalHeader(string $uri, ?int $cacheTime = null, $data = null, $options = null): ?array {
@@ -269,7 +270,7 @@ final class Storage implements EphemeralStorageInterface {
     }
     
     /**
-     * @param array $options
+     * @param array<mixed> $options
      * @param mixed $uri
      * @param mixed $data
      * @return XMLHttpRequest
@@ -294,7 +295,7 @@ final class Storage implements EphemeralStorageInterface {
         
         if (! isset($options['header']['referer'])) {
             $refererURI = $uri;
-            $refererParam = parse_url($refererURI);
+            $refererParam = parse_url($refererURI) ?: [];
             if (! isset($refererParam['scheme'])) {
                 $refererParam['scheme'] = 'http';
             }
@@ -348,7 +349,7 @@ final class Storage implements EphemeralStorageInterface {
     }
     
     /**
-     * @param array $options
+     * @param array<mixed> $options
      * @param string $uri
      * @return string
      */
@@ -420,6 +421,9 @@ final class Storage implements EphemeralStorageInterface {
      */
     public static function _getStorageNameFromURI($uri): string {
         $arr = parse_url(strtolower($uri));
+        if ($arr === false) {
+            throw new Exception('Cannot parse storage URI.');
+        }
         if (! isset($arr['scheme'])) {
             $arr['scheme'] = 'http';
         }
@@ -446,7 +450,7 @@ final class Storage implements EphemeralStorageInterface {
      */
     protected static function _getHostFromURI($uri) {
         $host = parse_url($uri, PHP_URL_HOST);
-        $host = strtolower($host);
+        $host = strtolower($host ?: '');
         $host = explode('.', $host);
         while (count($host) > 2) {
             $last = array_shift($host);
@@ -481,7 +485,7 @@ final class Storage implements EphemeralStorageInterface {
     }
     
     /**
-     * @param array $options
+     * @param array<mixed> $options
      * @param mixed $uri
      * @param mixed $data
      * @return string
@@ -510,6 +514,7 @@ final class Storage implements EphemeralStorageInterface {
     
     protected int $now;
     
+    /** @var array<mixed> */
     protected array $touchList;
     
     protected int $cleanseTime;
@@ -529,7 +534,7 @@ final class Storage implements EphemeralStorageInterface {
         
         if (! $this->dbmsTable->tableExists()) {
             $this->install();
-            if (! $this->dbmsTable->tableExists()) {
+            if ($this->dbmsTable === null || ! $this->dbmsTable->tableExists()) {
                 $this->dbmsTable = null;
             }
         }
@@ -673,7 +678,7 @@ final class Storage implements EphemeralStorageInterface {
     public function delete(string $name): bool {
         $ret = false;
         if ($this->dbmsTable) {
-            $ret = $this->dbmsTable->delete(self::_hash($name));
+            $ret = ($this->dbmsTable->delete(self::_hash($name)) ?? 0) > 0;
         }
         $this->_createLog('delete', $name, $ret);
         
@@ -727,7 +732,8 @@ final class Storage implements EphemeralStorageInterface {
      * @return boolean
      */
     public function storeDocument(string $name, DOMDocument $dataDoc, int $modifyTime): bool {
-        return $dataDoc->documentElement and $this->store($name, $dataDoc->saveXML(), $modifyTime);
+        $payload = $dataDoc->saveXML();
+        return $dataDoc->documentElement !== null && $payload !== false && $this->store($name, $payload, $modifyTime);
     }
     
     /**
@@ -738,7 +744,8 @@ final class Storage implements EphemeralStorageInterface {
      * @return boolean
      */
     public function storeJSON(string $name, $dataObject, int $modifyTime): bool {
-        return $this->store($name, json_encode($dataObject), $modifyTime);
+        $payload = json_encode($dataObject);
+        return $payload !== false && $this->store($name, $payload, $modifyTime);
     }
     
     /**

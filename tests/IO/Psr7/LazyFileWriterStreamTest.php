@@ -30,6 +30,7 @@ final class LazyFileWriterStreamTest extends TestCase {
         return new LazyFileWriterStream($writer);
     }
     
+    /** @return iterable<mixed> */
     public function valuesProvider(): iterable {
         yield '1-2-3' => [
             'one-two-three'

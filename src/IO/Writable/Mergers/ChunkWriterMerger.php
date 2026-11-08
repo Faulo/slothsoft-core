@@ -8,6 +8,7 @@ use Slothsoft\Core\IO\Writable\ChunkWriterInterface;
 
 final class ChunkWriterMerger implements ChunkWriterInterface {
     
+    /** @var array<mixed> */
     private array $writers;
     
     /**

@@ -21,6 +21,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
     
     const STATE_CLOSED = 4;
     
+    /** @var StreamInterface */
     private $stream;
     
     private int $state;
@@ -164,7 +165,7 @@ abstract class AbstractFilteredStream implements StreamInterface {
     
     /**
      * @param ?string $key
-     * @return array|mixed|null
+     * @return array<mixed>|mixed|null
      */
     public function getMetadata(?string $key = null) {
         return $this->stream->getMetadata($key);

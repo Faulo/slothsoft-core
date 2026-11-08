@@ -54,6 +54,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     public string $responseType;
     
+    /** @var mixed */
     public $response = null;
     
     public ?string $responseText = null;
@@ -84,6 +85,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     protected string $url;
     
+    /** @var array<mixed> */
     protected array $urlParam;
     
     protected bool $async;
@@ -92,10 +94,13 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     protected ?string $password;
     
+    /** @var array<mixed> */
     protected array $requestHeaders;
     
+    /** @var array<mixed> */
     protected array $responseHeaders;
     
+    /** @var array<mixed> */
     protected array $eventListeners;
     
     protected string $responseHead;
@@ -108,10 +113,12 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     protected string $cookieFile = '';
     
+    /** @var array<mixed> */
     public static array $cookies = array();
     
     public static bool $useCookies = false;
     
+    /** @var array<mixed> */
     protected array $_env = [
         'SERVER_NAME' => 'localhost',
         'SERVER_SOFTWARE' => 'PHP'
@@ -266,6 +273,9 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
         // my_dump($this->requestHeaders);
         // my_dump($data);
         
+        if ($this->url === '' || $this->method === '') {
+            throw new Exception('A request URL and method are required.');
+        }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->url);
         
@@ -321,7 +331,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
             curl_close($ch);
         }
         
-        if ($res !== false) {
+        if (is_string($res)) {
             // $bodyPos = strpos($res, self::NEWLINE . self::NEWLINE);
             $this->responseHead = (string) substr($res, 0, $bodyPos - strlen(self::NEWLINE . self::NEWLINE));
             $this->responseText = (string) substr($res, $bodyPos);
@@ -374,10 +384,10 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
             }
             
             $toCharset = 'UTF-8';
-            $fromCharset = $this->_responseCharset ?: strtoupper(mb_detect_encoding($this->responseText)); // 'ISO-8859-1'
+            $fromCharset = $this->_responseCharset ?: strtoupper(mb_detect_encoding($this->responseText) ?: 'UTF-8'); // 'ISO-8859-1'
             
-            if (strlen($fromCharset) and $toCharset !== $fromCharset) {
-                $this->responseText = mb_convert_encoding($this->responseText, $toCharset, $fromCharset);
+            if ($toCharset !== $fromCharset) {
+                $this->responseText = mb_convert_encoding($this->responseText, $toCharset, $fromCharset) ?: $this->responseText;
             }
             
             if (substr($this->responseText, 0, 3) === $this->utf8BOM) {
@@ -387,23 +397,23 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
             // parse HTML/XML response body
             try {
                 $isXML = false;
-                if (strpos($this->_responseType, 'html') !== false) {
+                if (strpos($this->_responseType ?? '', 'html') !== false) {
                     $isXML = true;
                 }
-                if (strpos($this->_responseType, 'xml') !== false) {
+                if (strpos($this->_responseType ?? '', 'xml') !== false) {
                     $isXML = true;
                 }
                 if ($isXML) {
                     $xml = $this->responseText;
                     $xml = str_replace('&nbsp;', '&#160;', $xml);
                     $xml = str_replace('&', '&amp;', $xml);
-                    $xml = preg_replace('/&amp;(#?[\w\d]+;)/i', '&${1}', $xml);
+                    $xml = preg_replace('/&amp;(#?[\w\d]+;)/i', '&${1}', $xml) ?? $xml;
                     if (strlen($xml)) {
                         $this->responseXML = new DOMDocument('1.0', $toCharset);
                         $this->responseXML->loadXML($xml, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_PARSEHUGE);
                         // my_dump($this->responseXML->saveXML());
                         if (! $this->responseXML->documentElement) {
-                            $html = mb_convert_encoding($this->responseText, $fromCharset, $toCharset);
+                            $html = mb_convert_encoding($this->responseText, $fromCharset, $toCharset) ?: $this->responseText;
                             // $html = preg_replace('/\<!--+.*?-+-\>/s', '', $html); //kommentare rausnehmen, wer braucht die schon
                             // nicht-konforme "--" aus kommentaren entfernen
                             $matchList = [];
@@ -422,7 +432,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
                                 }
                             }
                             foreach ($delNodes as $delNode) {
-                                $delNode->parentNode->removeChild($delNode);
+                                $this->responseXML->removeChild($delNode);
                             }
                         }
                         $this->responseXML->encoding = $toCharset;
@@ -463,7 +473,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getAllResponseHeaders(): array {
         return $this->responseHeaders;
@@ -567,7 +577,7 @@ final class XMLHttpRequest implements \w3c\XMLHttpRequest {
     
     /**
      * @param mixed $head
-     * @return array
+     * @return array<mixed>
      */
     public static function parseHeaderList($head): array {
         $ret = [];

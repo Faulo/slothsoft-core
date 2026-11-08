@@ -11,7 +11,7 @@ class CascadingDictionaryTest extends TestCase {
      *
      * @test
      */
-    public function testGetIterator() {
+    public function testGetIterator(): void {
         $dict = new CascadingDictionary();
         
         $dict['A'] = 1;
@@ -27,7 +27,7 @@ class CascadingDictionaryTest extends TestCase {
      *
      * @test
      */
-    public function testIsset() {
+    public function testIsset(): void {
         $dict = new CascadingDictionary();
         
         $dict['A'] = 1;
@@ -40,7 +40,7 @@ class CascadingDictionaryTest extends TestCase {
      *
      * @test
      */
-    public function testUnset() {
+    public function testUnset(): void {
         $dict = new CascadingDictionary();
         
         $dict['A'] = 1;
@@ -56,7 +56,7 @@ class CascadingDictionaryTest extends TestCase {
      *
      * @test
      */
-    public function testCascadingIsset() {
+    public function testCascadingIsset(): void {
         $dict = new CascadingDictionary();
         
         $dict['A/B'] = 1;
@@ -72,7 +72,7 @@ class CascadingDictionaryTest extends TestCase {
      *
      * @test
      */
-    public function testCascadingValue() {
+    public function testCascadingValue(): void {
         $dict = new CascadingDictionary();
         
         $dict['A'] = 1;
@@ -98,7 +98,7 @@ class CascadingDictionaryTest extends TestCase {
      *
      * @test
      */
-    public function testCascadingGetIterator() {
+    public function testCascadingGetIterator(): void {
         $dict = new CascadingDictionary();
         
         $dict['A'] = 1;

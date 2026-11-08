@@ -18,7 +18,7 @@ final class Psr7StreamWrapper implements StreamWrapperInterface {
     }
     
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function stream_stat(): array {
         return [];

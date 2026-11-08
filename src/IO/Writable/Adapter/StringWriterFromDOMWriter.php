@@ -21,7 +21,11 @@ final class StringWriterFromDOMWriter implements StringWriterInterface {
      * @return string
      */
     public function toString(): string {
-        return $this->source->toDocument()->saveXML();
+        $result = $this->source->toDocument()->saveXML();
+        if ($result === false) {
+            throw new \RuntimeException('Unable to serialize document.');
+        }
+        return $result;
     }
 }
 

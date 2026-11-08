@@ -12,7 +12,9 @@ final class ZlibDeflateFilteredStreamTest extends AbstractFilteredStreamTestCase
     }
     
     protected function calculateExpectedResult(string $input): string {
-        return gzencode($input, -1, FORCE_DEFLATE);
+        $result = gzencode($input, -1, FORCE_DEFLATE);
+        $this->assertIsString($result);
+        return $result;
     }
     
     protected function getFilterFactory(): FilteredStreamWriterInterface {

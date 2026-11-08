@@ -52,7 +52,11 @@ final class XsltProcessorAdapter extends GenericAdapter {
         $xslt->registerPHPFunctions();
         $xslt->importStylesheet($this->template->toDocument());
         
-        return $this->normalizeDocumentType($xslt->transformToDoc($this->source->toDocument()));
+        $document = $xslt->transformToDoc($this->source->toDocument());
+        if (! $document instanceof DOMDocument) {
+            throw new \RuntimeException('XSLT transformation did not produce a document.');
+        }
+        return $this->normalizeDocumentType($document);
     }
     
     private function normalizeDocumentType(DOMDocument $document): DOMDocument {

@@ -90,6 +90,7 @@ class CacheDirectoryStorageTest extends TestCase {
         }
     }
     
+    /** @return iterable<mixed> */
     public function storageProvider(): iterable {
         $now = time();
         
@@ -231,6 +232,7 @@ class CacheDirectoryStorageTest extends TestCase {
         }
     }
     
+    /** @return iterable<mixed> */
     public function xmlProvider(): iterable {
         $now = time();
         $xml = '<hello>world</hello>';
@@ -273,9 +275,10 @@ class CacheDirectoryStorageTest extends TestCase {
     }
     
     /**
-     *
      * @dataProvider jsonProvider
      * @test
+     * @param mixed $storeValue
+     * @param mixed $retrieveValue
      */
     public function given_storeJSON_when_retrieveJSON_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
@@ -287,14 +290,15 @@ class CacheDirectoryStorageTest extends TestCase {
         if ($retrieveValue === null) {
             $this->assertNull($actual);
         } else {
-            $this->assertJsonStringEqualsJsonString(json_encode($retrieveValue), json_encode($actual));
+            $this->assertJsonStringEqualsJsonString(json_encode($retrieveValue, JSON_THROW_ON_ERROR), json_encode($actual, JSON_THROW_ON_ERROR));
         }
     }
     
     /**
-     *
      * @dataProvider jsonProvider
      * @test
+     * @param mixed $storeValue
+     * @param mixed $retrieveValue
      */
     public function given_storeJSON_when_exists_then_return(string $storeKey, string $retrieveKey, int $storeTime, int $retrieveTime, $storeValue, $retrieveValue): void {
         $sut = new CacheDirectoryStorage();
@@ -323,6 +327,7 @@ class CacheDirectoryStorageTest extends TestCase {
         $this->assertFalse($sut->exists($storeKey, $storeTime));
     }
     
+    /** @return iterable<mixed> */
     public function jsonProvider(): iterable {
         $now = time();
         $json = [
@@ -370,4 +375,12 @@ class CacheDirectoryStorageTest extends TestCase {
             null
         ];
     }
+    
+    /** @runInSeparateProcess */
+    public function testStoreInvalidJsonReturnsFalseWithoutCreatingEntry(): void {
+        $sut = new CacheDirectoryStorage(__METHOD__);
+        $this->assertFalse($sut->storeJSON('invalid', "\xB1\x31", 1));
+        $this->assertFalse($sut->exists('invalid', 1));
+    }
+    
 }

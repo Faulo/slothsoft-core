@@ -21,7 +21,11 @@ trait DOMWriterElementFromDocumentTrait {
      * @throws RuntimeException
      */
     public function toElement(DOMDocument $targetDoc): DOMElement {
-        $element = $targetDoc->importNode($this->toDocument()->documentElement, true);
+        $source = $this->toDocument()->documentElement;
+        if ($source === null) {
+            throw new RuntimeException('The document has no document element.');
+        }
+        $element = $targetDoc->importNode($source, true);
         
         if (! $element instanceof DOMElement) {
             throw new RuntimeException('Unable to import document element.');

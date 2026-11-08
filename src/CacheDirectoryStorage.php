@@ -80,7 +80,8 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
             return null;
         }
         
-        return file_get_contents($path);
+        $payload = file_get_contents($path);
+        return $payload === false ? null : $payload;
     }
     
     /**
@@ -210,6 +211,7 @@ final class CacheDirectoryStorage implements EphemeralStorageInterface {
      * @return bool
      */
     public function storeJSON(string $name, $dataObject, int $modifyTime): bool {
-        return $this->store($name, json_encode($dataObject), $modifyTime);
+        $payload = json_encode($dataObject);
+        return $payload !== false && $this->store($name, $payload, $modifyTime);
     }
 }

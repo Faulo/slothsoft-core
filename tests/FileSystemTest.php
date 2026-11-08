@@ -20,10 +20,11 @@ class FileSystemTest extends TestCase {
      *
      * @dataProvider createSanitizedFilenames
      */
-    public function testFilenameSanitize($input, $output): void {
+    public function testFilenameSanitize(string $input, string $output): void {
         $this->assertEquals($output, FileSystem::filenameSanitize($input));
     }
     
+    /** @return iterable<mixed> */
     public function createSanitizedFilenames(): iterable {
         return [
             [
@@ -79,6 +80,7 @@ class FileSystemTest extends TestCase {
         $this->assertEquals($expected, FileSystem::commandExists($command));
     }
     
+    /** @return iterable<mixed> */
     public function commandExamples(): iterable {
         return [
             [

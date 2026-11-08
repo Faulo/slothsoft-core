@@ -10,45 +10,45 @@ use PHPUnit\Framework\TestCase;
  */
 class CLITest extends TestCase {
     
-    public function testDefaultTotalTimeout() {
+    public function testDefaultTotalTimeout(): void {
         $this->assertEquals(0, CLI::getTotalTimeout());
     }
     
-    public function testSetTotalTimeout() {
+    public function testSetTotalTimeout(): void {
         CLI::setTotalTimeout(42);
         $this->assertEquals(42, CLI::getTotalTimeout());
     }
     
-    public function testDefaultIdleTimeout() {
+    public function testDefaultIdleTimeout(): void {
         $this->assertEquals(0, CLI::getIdleTimeout());
     }
     
-    public function testSetIdleTimeout() {
+    public function testSetIdleTimeout(): void {
         CLI::setIdleTimeout(42);
         $this->assertEquals(42, CLI::getIdleTimeout());
     }
     
-    public function testDefaultStdOut() {
+    public function testDefaultStdOut(): void {
         $this->assertEquals(STDOUT, CLI::getStdOut());
     }
     
-    public function testDefaultStdErr() {
+    public function testDefaultStdErr(): void {
         $this->assertEquals(STDERR, CLI::getStdErr());
     }
     
-    public function testSetStdOut() {
+    public function testSetStdOut(): void {
         $handle = tmpfile();
         CLI::setStdOut($handle);
         $this->assertEquals($handle, CLI::getStdOut());
     }
     
-    public function testSetStdErr() {
+    public function testSetStdErr(): void {
         $handle = tmpfile();
         CLI::setStdErr($handle);
         $this->assertEquals($handle, CLI::getStdErr());
     }
     
-    public function testBasicExecute() {
+    public function testBasicExecute(): void {
         $command = PHP_BINARY . ' --version';
         $out = tmpfile();
         $err = tmpfile();
@@ -66,7 +66,7 @@ class CLITest extends TestCase {
         $this->assertEmpty($err);
     }
     
-    public function testExecuteWithTotalTimeout() {
+    public function testExecuteWithTotalTimeout(): void {
         $command = 'php -r sleep(1);';
         $out = tmpfile();
         $err = tmpfile();
@@ -87,7 +87,7 @@ class CLITest extends TestCase {
         $this->assertNotEquals(0, $code);
     }
     
-    public function testExecuteWithIdleTimeout() {
+    public function testExecuteWithIdleTimeout(): void {
         $command = 'php -r sleep(1);';
         $out = tmpfile();
         $err = tmpfile();

@@ -46,10 +46,12 @@ final class XsltFactory {
     
     const PROCESSOR_SAXON9_ARGS = '%1$s -xsl:%2$s -o:%3$s';
     
+    /** @var array<mixed> */
     private static array $versionMapping = [
         '1.0' => self::PROCESSOR_PHP
     ];
     
+    /** @var array<mixed> */
     private static array $processorConfiguration = [
         self::PROCESSOR_PHP => [],
         self::PROCESSOR_LIBXML => [
@@ -88,7 +90,7 @@ final class XsltFactory {
     
     /**
      * @param string $processorId
-     * @param array $config
+     * @param array<mixed> $config
      * @return void
      */
     public static function setConfigurationForProcessor(string $processorId, array $config) {
@@ -98,19 +100,21 @@ final class XsltFactory {
     
     /**
      * @param string $processorId
-     * @return array
+     * @return array<mixed>
      */
     public static function getConfigurationForProcessor(string $processorId): array {
         self::assertIsValidProcessor($processorId);
         return self::$processorConfiguration[$processorId];
     }
     
+    /** @return void */
     private static function assertIsValidVersion(string $xsltVersion) {
         if (! isset(self::$versionMapping[$xsltVersion])) {
             throw new DomainException("XSLT version '$xsltVersion' is not supported by this implementation by default, you may enable it via XsltFactry:setProcessorForVersion.");
         }
     }
     
+    /** @return void */
     private static function assertIsValidProcessor(string $processorId) {
         if (! isset(self::$processorConfiguration[$processorId])) {
             throw new DomainException("XSLT processor '$processorId' is not supported by this implementation.");

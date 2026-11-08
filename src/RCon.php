@@ -42,16 +42,22 @@ class RCon {
     
     const ERR_RESPONSE_CODE_AUTH = 'Server authentication failed!';
     
+    /** @var resource|false */
     protected $socket;
     
+    /** @var mixed */
     protected $ip;
     
+    /** @var mixed */
     protected $port;
     
+    /** @var int */
     protected $requestId;
     
+    /** @var int */
     public $errno;
     
+    /** @var string */
     public $errstr;
     
     /**
@@ -71,6 +77,14 @@ class RCon {
             ));
         }
         $this->send(self::SERVERDATA_AUTH, $password);
+    }
+    
+    /** @return resource */
+    private function getSocket() {
+        if (! is_resource($this->socket)) {
+            throw new Exception('RCON socket is not connected.');
+        }
+        return $this->socket;
     }
     
     /**
@@ -104,7 +118,7 @@ class RCon {
         $sendString = $packetSize . $sendString;
         // Send packet
         // my_dump($sendData);die();
-        fwrite($this->socket, $sendString, strlen($sendString));
+        fwrite($this->getSocket(), $sendString, strlen($sendString));
         
         // Read response
         $responseData = [];
@@ -113,9 +127,15 @@ class RCon {
         $responseData['string1'] = '';
         $responseData['string2'] = '';
         
-        $string = fread($this->socket, 4);
+        $string = fread($this->getSocket(), 4);
+        if ($string === false) {
+            throw new Exception('Cannot read response length.');
+        }
         if ($length = $this->getLong($string)) {
-            $string = fread($this->socket, $length);
+            $string = fread($this->getSocket(), $length);
+            if ($string === false) {
+                throw new Exception('Cannot read response.');
+            }
             $responseData['requestId'] = $this->getLong($string);
             $responseData['commandId'] = $this->getLong($string);
             $responseData['string1'] = $this->getString($string);
@@ -138,7 +158,7 @@ class RCon {
     
     /**
      * @param mixed $string
-     * @param array $data
+     * @param array<mixed> $data
      * @return void
      * @throws Exception
      */
@@ -160,6 +180,9 @@ class RCon {
         $string = (string) substr($string, 4);
         if (strlen($data) === 4) {
             $data = unpack('V', $data);
+            if ($data === false) {
+                throw new Exception('Cannot unpack response.');
+            }
             $ret = (int) reset($data);
         }
         return $ret;

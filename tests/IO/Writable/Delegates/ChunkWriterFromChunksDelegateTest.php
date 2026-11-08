@@ -18,8 +18,10 @@ final class ChunkWriterFromChunksDelegateTest extends TestCase {
         $this->assertTrue(class_exists(ChunkWriterFromChunksDelegate::class), "Failed to load class 'Slothsoft\Core\IO\Writable\Delegates\ChunkWriterFromChunksDelegate'!");
     }
     
+    /** @var array<mixed> */
     private static array $values;
     
+    /** @var \Closure */
     private static $delegate;
     
     public static function setUpBeforeClass(): void {
@@ -40,7 +42,7 @@ final class ChunkWriterFromChunksDelegateTest extends TestCase {
      *           [2]
      *           [3]
      */
-    public function test_values(int $count) {
+    public function test_values(int $count): void {
         $sut = new ChunkWriterFromChunksDelegate(self::$delegate);
         
         $expected = self::$values;

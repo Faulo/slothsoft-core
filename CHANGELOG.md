@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `FileInfo::readContents()` now accepts `SplFileInfo` objects as well as string paths and casts the argument to a string internally.
+- `FileInfo::readContents()` now accepts `SplFileInfo` objects as well as string paths, using `getPathname()` for objects so subclasses such as `SplFileObject` are read correctly.
 
 ### Fixed
 

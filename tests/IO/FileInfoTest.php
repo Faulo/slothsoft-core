@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SplFileInfo;
+use SplFileObject;
 
 /**
  * FileInfoTest
@@ -40,6 +41,13 @@ final class FileInfoTest extends TestCase {
             'empty' => [''],
             'binary' => ["\x00\xff\r\n\x80"]
         ];
+    }
+    
+    public function testReadContentsUsesPathnameOfFileObject(): void {
+        $file = new SplFileObject(__FILE__);
+        $file->seek(2);
+        self::assertSame(FileInfo::readContents(__FILE__), FileInfo::readContents($file));
+        self::assertSame(2, $file->key());
     }
     
     public function testReadContentsThrowsForMissingFile(): void {

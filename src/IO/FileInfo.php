@@ -17,8 +17,8 @@ final class FileInfo extends SplFileInfo implements FileWriterInterface, StringW
      * @throws RuntimeException
      */
     public static function readContents($path): string {
-        $path = $path instanceof SplFileInfo 
-            ? $path->getPathname() 
+        $path = $path instanceof SplFileInfo
+            ? $path->getPathname()
             : (string) $path;
         if (is_dir($path)) {
             throw new InvalidArgumentException(sprintf('Unable to read contents of directory "%s".', $path));

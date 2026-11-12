@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.1] - 2026-11-12
+
 ### Changed
 
 - `FileInfo::readContents()` now accepts `SplFileInfo` objects as well as string paths, using `getPathname()` for objects so subclasses such as `SplFileObject` are read correctly.
 
 ### Fixed
 
-- Reused `FileInfo::readContents()` in `HTTPFile::getContents()` and `StringWriterFromFileWriter::toString()` so failed reads throw consistently and directories are rejected. File-writer adapters now read the pathname even when a supplied file object overrides string conversion.
+- Reused `FileInfo::readContents()` in `HTTPFile::getContents()`, `StringWriterFromFileWriter::toString()`, and `DBMS\Client::executeFile()` so failed reads throw consistently and directories are rejected. File-writer adapters now read the pathname even when a supplied file object overrides string conversion.
 
 ## [1.16.0] - 2026-11-12
 
@@ -740,7 +742,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release.
 
-[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.16.0...HEAD
+[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.16.1...HEAD
+[1.16.1]: https://github.com/Faulo/slothsoft-core/compare/1.16.0...1.16.1
 [1.16.0]: https://github.com/Faulo/slothsoft-core/compare/1.15.3...1.16.0
 [1.15.3]: https://github.com/Faulo/slothsoft-core/compare/1.15.2...1.15.3
 [1.15.2]: https://github.com/Faulo/slothsoft-core/compare/1.15.1...1.15.2

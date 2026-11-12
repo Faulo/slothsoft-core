@@ -12,10 +12,12 @@ use SplFileInfo;
 final class FileInfo extends SplFileInfo implements FileWriterInterface, StringWriterInterface {
     
     /**
+     * @param SplFileInfo|string $path
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public static function readContents(string $path): string {
+    public static function readContents($path): string {
+        $path = (string) $path;
         if (is_dir($path)) {
             throw new InvalidArgumentException(sprintf('Unable to read contents of directory "%s".', $path));
         }
@@ -39,6 +41,6 @@ final class FileInfo extends SplFileInfo implements FileWriterInterface, StringW
      * @throws RuntimeException
      */
     public function toString(): string {
-        return self::readContents($this->getPathname());
+        return self::readContents($this);
     }
 }

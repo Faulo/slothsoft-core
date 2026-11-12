@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `FileInfo::readContents()` now accepts `SplFileInfo` objects as well as string paths and casts the argument to a string internally.
+
+### Fixed
+
+- Reused `FileInfo::readContents()` in `HTTPFile::getContents()` and `StringWriterFromFileWriter::toString()` so failed reads throw consistently and directories are rejected. File-writer adapters now read the pathname even when a supplied file object overrides string conversion.
+
 ## [1.16.0] - 2026-11-12
 
 ### Added

@@ -8,6 +8,7 @@ use mysqli_driver;
 use mysqli_result;
 use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\ConfigurationRequiredException;
+use Slothsoft\Core\IO\FileInfo;
 
 /**
  * Legacy mysqli client wrapper with process-wide default connection configuration.
@@ -525,7 +526,7 @@ final class Client {
      * @return ?bool
      */
     public function executeFile(string $file): ?bool {
-        if ($sql = file_get_contents($file)) {
+        if ($sql = FileInfo::readContents($file)) {
             return $this->sqli->multi_query($sql);
         }
         return null;

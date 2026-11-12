@@ -6,6 +6,7 @@ namespace Slothsoft\Core\IO;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use SplFileInfo;
 
 /**
  * FileInfoTest
@@ -23,6 +24,7 @@ final class FileInfoTest extends TestCase {
         try {
             self::assertSame(strlen($contents), file_put_contents($path, $contents));
             self::assertSame($contents, FileInfo::readContents($path));
+            self::assertSame($contents, FileInfo::readContents(new SplFileInfo($path)));
             self::assertSame($contents, (new FileInfo($path))->toString());
         } finally {
             unlink($path);
@@ -47,6 +49,13 @@ final class FileInfoTest extends TestCase {
         FileInfo::readContents($path);
     }
     
+    public function testReadContentsThrowsForMissingFileInfo(): void {
+        $path = __FILE__ . '/missing';
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage($path);
+        FileInfo::readContents(new SplFileInfo($path));
+    }
+    
     public function testToStringThrowsForMissingFile(): void {
         $path = __FILE__ . '/missing';
         $this->expectException(RuntimeException::class);
@@ -58,6 +67,12 @@ final class FileInfoTest extends TestCase {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(__DIR__);
         FileInfo::readContents(__DIR__);
+    }
+    
+    public function testReadContentsThrowsForDirectoryInfo(): void {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(__DIR__);
+        FileInfo::readContents(new SplFileInfo(__DIR__));
     }
     
     public function testToStringThrowsForDirectory(): void {

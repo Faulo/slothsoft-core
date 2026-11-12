@@ -273,14 +273,11 @@ final class HTTPFile implements FileWriterInterface {
     
     /**
      * @return string
+     * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
     public function getContents(): string {
-        $result = file_get_contents($this->getPath());
-        if ($result === false) {
-            throw new \RuntimeException('Unable to read or serialize content.');
-        }
-        return $result;
+        return FileInfo::readContents($this->getPath());
     }
     
     /**
@@ -366,6 +363,8 @@ final class HTTPFile implements FileWriterInterface {
     
     /**
      * @return string
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function toString(): string {
         return $this->getContents();

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.0] - 2026-11-12
+
+### Added
+
+- Added `FileInfo::readContents(string $path): string`, throwing `InvalidArgumentException` for directories and `RuntimeException` on failed reads, and reused it in `FileInfo::toString()`.
+
 ## [1.15.3] - 2026-11-08
 
 ### Fixed
@@ -726,7 +732,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release.
 
-[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.15.3...HEAD
+[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.16.0...HEAD
+[1.16.0]: https://github.com/Faulo/slothsoft-core/compare/1.15.3...1.16.0
 [1.15.3]: https://github.com/Faulo/slothsoft-core/compare/1.15.2...1.15.3
 [1.15.2]: https://github.com/Faulo/slothsoft-core/compare/1.15.1...1.15.2
 [1.15.1]: https://github.com/Faulo/slothsoft-core/compare/1.15.0...1.15.1

@@ -35,7 +35,7 @@
     "suggest": {
         "ext-mysqli": "Needed for databasing",
         "ext-curl": "Needed for networking",
-        "ext-com_dotnet": "Needed for when FileSystem processes files >2GB under Windows",
+        "ext-com_dotnet": "Enables the legacy FileSystem metadata lookup for unreadable paths on Windows",
         "ext-imagick": "Needed for ImageHelper",
         "ext-gd": "Needed for ImageHelper"
     },

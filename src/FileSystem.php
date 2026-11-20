@@ -11,7 +11,9 @@ use DOMNode;
 use DOMXPath;
 use Exception;
 use FInfo;
+use GuzzleHttp\Psr7\Utils;
 use InvalidArgumentException;
+use RuntimeException;
 use SebastianBergmann\CodeCoverage\Util\DirectoryCouldNotBeCreatedException;
 use Slothsoft\Core\Calendar\DateTimeFormatter;
 use Slothsoft\Core\Configuration\ConfigurationField;
@@ -58,7 +60,9 @@ abstract class FileSystem {
         'kB',
         'MB',
         'GB',
-        'TB'
+        'TB',
+        'PB',
+        'EB'
     ];
     
     /** @var array<mixed> */
@@ -139,7 +143,7 @@ abstract class FileSystem {
      * @return string
      */
     public static function drawBytes($size, int $precision = 2): string {
-        for ($i = 0; $size > 1024; $i++) {
+        for ($i = 0; $size > 1024 && isset(self::$sizeUnits[$i + 1]); $i++) {
             $size /= 1024.0;
         }
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
@@ -204,7 +208,7 @@ abstract class FileSystem {
                 if ($isDir) {
                     $modifyTime = self::changetime($path) ?? 0;
                     $storage = self::getStorage();
-                    $storageKey = self::generateStorageKey($path);
+                    $storageKey = self::generateStorageKey($path, 'asNode-v2');
                     if ($tmpNode = $storage->retrieveXML($storageKey, $modifyTime, $dataDoc)) {
                         if (! $dataDoc) {
                             $dataDoc = $tmpNode->ownerDocument;
@@ -225,7 +229,7 @@ abstract class FileSystem {
                         $tagName = 'file';
                         $attr['mime'] = self::mime($path);
                         $attr['size-int'] = self::size($path);
-                        $attr['size-string'] = self::drawBytes($attr['size-int']);
+                        $attr['size-string'] = self::drawBytes($attr['size-int'] ?? 0);
                         $attr['ext'] = self::extension($path);
                         if (self::isVideo($path)) {
                             $attr['isVideo'] = '';
@@ -264,7 +268,8 @@ abstract class FileSystem {
                         foreach ($childList as $child) {
                             $node = self::asNode((string) $child, $dataDoc);
                             if ($node instanceof DOMElement) {
-                                $attr['size-int'] += (float) $node->getAttribute('size-int');
+                                $childSize = $node->getAttribute('size-int');
+                                $attr['size-int'] += is_numeric($childSize) ? $childSize + 0 : 0;
                                 $childNodes[] = $node;
                             }
                         }
@@ -321,13 +326,13 @@ abstract class FileSystem {
      * @return ?int
      */
     public static function size(string $fileName): ?int {
-        $size = null;
         if (is_readable($fileName)) {
-            $size = filesize($fileName);
-        } elseif ($file = self::lookupFile($fileName)) {
-            $size = $file->Size;
+            return self::parseByteCount(@filesize($fileName));
         }
-        return $size;
+        if ($file = self::lookupFile($fileName)) {
+            return self::parseByteCount($file->Size);
+        }
+        return null;
     }
     
     /**
@@ -392,10 +397,15 @@ abstract class FileSystem {
      * @return mixed A COM filesystem automation object, or null when unavailable.
      */
     public static function lookupFile(string $fileName) {
+        if (! class_exists(COM::class)) {
+            return null;
+        }
         if (is_readable($fileName)) {
             $com = new COM('Scripting.FileSystemObject');
             return is_file($fileName) ? $com->GetFile($fileName) : $com->GetFolder($fileName);
-        } elseif ($folder = self::lookupFile(dirname($fileName))) {
+        }
+        $parent = dirname($fileName);
+        if ($parent !== $fileName && ($folder = self::lookupFile($parent))) {
             $base = basename($fileName);
             foreach ($folder->files as $file) {
                 if ($file->name === $base) {
@@ -469,43 +479,145 @@ abstract class FileSystem {
      * @return void
      */
     public static function download($filePath, $downloadName) {
-        // error_reporting(0);
-        $size = (float) self::size($filePath);
-        $start = 0.0;
-        $end = $size;
-        $headers = [
-            'HTTP/1.1 200 OK',
-            'Connection: close',
-            'Content-Description: File Transfer',
-            'Content-Type: application/octet-stream',
-            'Content-Transfer-Encoding: binary',
-            'Accept-Ranges: bytes',
-            'Cache-Control: must-revalidate',
-            'Transfer-Encoding: chunked'
-        ];
-        if (isset($_SERVER['HTTP_RANGE'])) {
-            $range = $_SERVER['HTTP_RANGE'];
-            $match = [];
-            if (preg_match('/^bytes=(\d+)-$/', $range, $match)) {
-                $start = (float) $match[1];
-                // file_put_contents('start.'.time() . '.1.json', json_encode($start));
-            } elseif (preg_match('/^bytes=(\d+)-(\d+)$/', $range, $match)) {
-                $start = (float) $match[1];
-                $end = (float) $match[2];
-                file_put_contents('ENDBYTE.' . time() . '.txt', $range);
+        $handle = Utils::tryFopen($filePath, 'rb');
+        try {
+            $stat = fstat($handle);
+            $size = $stat['size'] ?? null;
+            if (! is_int($size) || $size < 0) {
+                throw new RuntimeException('Could not determine a representable file size.');
             }
+            
+            $range = self::resolveDownloadRange($_SERVER['HTTP_RANGE'] ?? '', $size);
+            header('Accept-Ranges: bytes');
+            if ($range === []) {
+                http_response_code(416);
+                header("Content-Range: bytes */$size");
+                header('Content-Length: 0');
+                return;
+            }
+            
+            [$start, $length] = $range ?? [0, $size];
+            self::seekFile($handle, $start);
+            http_response_code($range === null ? 200 : 206);
+            if ($range !== null) {
+                $end = $start + ($length - 1);
+                header("Content-Range: bytes $start-$end/$size");
+            }
+            header('Connection: close');
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: must-revalidate');
+            header("Content-Disposition: attachment; filename*=UTF-8''" . rawurlencode($downloadName));
+            header("Content-Length: $length");
+            
+            set_time_limit(0);
+            foreach (self::readChunks($handle, $length) as $chunk) {
+                echo $chunk;
+                flush();
+            }
+        } finally {
+            fclose($handle);
         }
-        $length = $end - $start;
-        if ($start or $end !== $size) {
-            $headers[0] = 'HTTP/1.1 206 Partial content';
-            $headers[] = sprintf('Content-Range: bytes %1$.0f-%2$.0f/%3$.0f', $start, $end - 1, $size);
+    }
+    
+    /**
+     * @return array{int, int}|array{}|null Offset and length, an empty array for an unsatisfiable range, or null to ignore the header.
+     */
+    private static function resolveDownloadRange(string $header, int $size): ?array {
+        if (! preg_match('/\Abytes=([0-9]*)-([0-9]*)\z/i', trim($header), $matches) || ($matches[1] === '' && $matches[2] === '')) {
+            return null;
         }
-        $headers[] = sprintf('Content-Disposition: attachment; filename*=UTF-8\'\'%1$s', rawurlencode($downloadName));
-        $headers[] = sprintf('Content-Length: %1$.0f', $length);
-        foreach ($headers as $head) {
-            header($head);
+        if ($size === 0) {
+            return [];
         }
-        self::outputChunk($filePath, $start, $length);
+        if ($matches[1] === '') {
+            $length = min(self::parseUnsignedDecimal($matches[2]) ?? $size, $size);
+            return $length === 0 ? [] : [$size - $length, $length];
+        }
+        $start = self::parseUnsignedDecimal($matches[1]);
+        if ($start === null || $start >= $size) {
+            return [];
+        }
+        $lastByte = $size - 1;
+        $end = $matches[2] === '' ? $lastByte : min(self::parseUnsignedDecimal($matches[2]) ?? $lastByte, $lastByte);
+        return $end < $start ? [] : [$start, $end - $start + 1];
+    }
+    
+    private static function parseUnsignedDecimal(string $digits): ?int {
+        $digits = ltrim($digits, '0');
+        $max = (string) PHP_INT_MAX;
+        if (strlen($digits) > strlen($max) || (strlen($digits) === strlen($max) && strcmp($digits, $max) > 0)) {
+            return null;
+        }
+        return (int) $digits;
+    }
+    
+    /** @param mixed $value */
+    private static function parseByteCount($value): ?int {
+        if (is_int($value)) {
+            return $value >= 0 ? $value : null;
+        }
+        if (is_float($value)) {
+            $limit = (float) PHP_INT_MAX + 1.0;
+            return $value >= 0 && $value < $limit && floor($value) === $value ? (int) $value : null;
+        }
+        if (! is_string($value)) {
+            return null;
+        }
+        
+        $value = trim($value);
+        if (! is_numeric($value) || ! preg_match('/\A([+-]?)([0-9]*)(?:\.([0-9]*))?(?:e([+-]?[0-9]+))?\z/i', $value, $parts)) {
+            return null;
+        }
+        $fraction = $parts[3] ?? '';
+        $digits = ltrim($parts[2] . $fraction, '0');
+        if ($digits === '') {
+            return 0;
+        }
+        if ($parts[1] === '-') {
+            return null;
+        }
+        
+        // Apply the decimal exponent directly to preserve whole-byte precision.
+        $exponent = (int) ($parts[4] ?? '0');
+        if ($exponent < -strlen($digits) || $exponent > strlen($fraction) + strlen((string) PHP_INT_MAX)) {
+            return null;
+        }
+        $shift = $exponent - strlen($fraction);
+        if ($shift >= 0) {
+            return self::parseUnsignedDecimal($digits . str_repeat('0', $shift));
+        }
+        $integerDigits = strlen($digits) + $shift;
+        if ($integerDigits < strlen(rtrim($digits, '0'))) {
+            return null;
+        }
+        return self::parseUnsignedDecimal(substr($digits, 0, $integerDigits));
+    }
+    
+    /** @param resource $handle */
+    private static function seekFile($handle, int $offset): void {
+        if (@fseek($handle, $offset) !== 0) {
+            throw new RuntimeException("Could not seek to file offset $offset.");
+        }
+    }
+    
+    /**
+     * @param resource $handle
+     * @return iterable<string>
+     */
+    private static function readChunks($handle, int $length): iterable {
+        while ($length > 0) {
+            $chunk = fread($handle, min(1048576, $length));
+            if ($chunk === false) {
+                throw new RuntimeException('Could not read file chunk.');
+            }
+            if ($chunk === '') {
+                break;
+            }
+            $length -= strlen($chunk);
+            yield $chunk;
+        }
     }
     
     /**
@@ -515,47 +627,24 @@ abstract class FileSystem {
      * @return void
      */
     public static function outputChunk($filePath, $start, $length) {
+        $offset = self::parseByteCount($start);
+        $byteCount = self::parseByteCount($length);
+        if ($offset === null || $byteCount === null) {
+            throw new InvalidArgumentException('File offset and length must be nonnegative whole numbers within the native integer range.');
+        }
+        
         set_time_limit(0);
-        // how many bytes per chunk
-        $chunksize = 16384; // 1 kB
-        $chunksize = 1073741824; // 1 GB
-        $chunksize = 16777216; // 16 MB
-        $chunksize = 8192; // 8 kB
-        $chunksize = 1048576; // 1 MB
-        $handle = \GuzzleHttp\Psr7\Utils::tryFopen($filePath, 'rb');
-        if ($start < PHP_INT_MAX) {
-            fseek($handle, $start, SEEK_SET);
-        } else {
-            /*
-             * fseek($handle, PHP_INT_MAX, SEEK_SET);
-             * $start -= PHP_INT_MAX;
-             * while ($start > 0) {
-             * fread($handle, min($chunksize, $start));
-             * $start -= $chunksize;
-             * }
-             * //
-             */
-            while ($start > 0) {
-                fread($handle, min($chunksize, $start));
-                $start -= $chunksize;
+        $handle = Utils::tryFopen($filePath, 'rb');
+        try {
+            self::seekFile($handle, $offset);
+            foreach (self::readChunks($handle, $byteCount) as $chunk) {
+                echo dechex(strlen($chunk)) . "\n" . $chunk . "\n";
+                flush();
             }
+            echo "0\n            \n";
+        } finally {
+            fclose($handle);
         }
-        // *
-        while ($length > 0) {
-            $read = min($chunksize, $length);
-            echo dechex($read) . "
-";
-            echo fread($handle, $read) . "
-";
-            flush();
-            $length -= $chunksize;
-        }
-        echo "0
-            
-";
-        // */
-        // fpassthru($handle);
-        fclose($handle);
     }
     
     /**

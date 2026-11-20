@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Use native integer sizes and seeks for large files on 64-bit PHP. File downloads now send exact byte ranges and lengths, and directory listings preserve totals within the native integer range.
+
 ## [1.16.1] - 2026-11-12
 
 ### Changed

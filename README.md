@@ -64,6 +64,10 @@ These APIs are older and may be redesigned later, but they are still intended to
 - `Slothsoft\Core\DBMS`
     - mysqli wrapper layer.
 
+### File sizes and offsets
+
+On 64-bit PHP, FileSystem uses native integer file sizes and seek offsets on Linux and Windows. On 32-bit PHP, file sizes and offsets are limited to the signed native integer range, up to 2,147,483,647 bytes. PHP and the underlying filesystem may fail to report or seek within larger files reliably on 32-bit builds. Use 64-bit PHP for files at or above 2 GiB. The optional Windows COM extension supports legacy metadata lookup for paths PHP reports as unreadable.
+
 ## Historical / Deprecated / Out Of Support
 
 These components are included for historical reasons only. Do not use them for new code. Prefer maintained libraries or package-local implementations instead.

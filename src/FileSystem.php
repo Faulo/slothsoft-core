@@ -11,12 +11,12 @@ use DOMNode;
 use DOMXPath;
 use Exception;
 use FInfo;
+use Generator;
 use GuzzleHttp\Psr7\Utils;
 use InvalidArgumentException;
 use RuntimeException;
 use SebastianBergmann\CodeCoverage\Util\DirectoryCouldNotBeCreatedException;
 use Slothsoft\Core\Calendar\DateTimeFormatter;
-use Slothsoft\Core\Configuration\ConfigurationField;
 use Slothsoft\Core\Configuration\StorageConfigurationField;
 use SplFileInfo;
 
@@ -99,10 +99,6 @@ abstract class FileSystem {
         'ass'
     ];
     
-    /**
-     * @param string $directory
-     * @return void
-     */
     public static function ensureDirectory(string $directory): void {
         if (is_file($directory)) {
             unlink($directory);
@@ -113,35 +109,19 @@ abstract class FileSystem {
         }
     }
     
-    /**
-     * @param string $fileName
-     * @return bool
-     */
     public static function isVideo(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$videoExtensions);
     }
     
-    /**
-     * @param string $fileName
-     * @return bool
-     */
     public static function isAudio(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$audioExtensions);
     }
     
-    /**
-     * @param string $fileName
-     * @return bool
-     */
     public static function isSubttitle(string $fileName): bool {
         return in_array(strtolower(self::extension($fileName)), self::$subttitleExtensions);
     }
     
-    /**
-     * @param mixed $size
-     * @param int $precision
-     * @return string
-     */
+    /** @param mixed $size */
     public static function drawBytes($size, int $precision = 2): string {
         for ($i = 0; $size > 1024 && isset(self::$sizeUnits[$i + 1]); $i++) {
             $size /= 1024.0;
@@ -149,7 +129,7 @@ abstract class FileSystem {
         return sprintf('%.' . $precision . 'f %s', $size, self::$sizeUnits[$i]);
     }
     
-    private static function storage(): ConfigurationField {
+    private static function storage(): StorageConfigurationField {
         static $field;
         if ($field === null) {
             $field = new StorageConfigurationField(new CacheDirectoryStorage());
@@ -157,27 +137,16 @@ abstract class FileSystem {
         return $field;
     }
     
-    /**
-     * @param EphemeralStorageInterface $storage
-     * @return void
-     */
+    /** @return void */
     public static function setStorage(EphemeralStorageInterface $storage) {
         self::storage()->setValue($storage);
     }
     
-    /**
-     * @return EphemeralStorageInterface
-     */
     public static function getStorage(): EphemeralStorageInterface {
         return self::storage()->getValue();
     }
     
-    /**
-     * @param string $path
-     * @param string $hash
-     * @return string
-     * @throws Exception
-     */
+    /** @throws Exception */
     public static function generateStorageKey(string $path, string $hash = ''): string {
         $key = realpath($path);
         if (! $key) {
@@ -190,9 +159,6 @@ abstract class FileSystem {
     }
     
     /**
-     * @param string $path
-     * @param ?DOMDocument $dataDoc
-     * @return ?DOMNode
      * @throws DOMException
      * @throws Exception
      */
@@ -268,8 +234,7 @@ abstract class FileSystem {
                         foreach ($childList as $child) {
                             $node = self::asNode((string) $child, $dataDoc);
                             if ($node instanceof DOMElement) {
-                                $childSize = $node->getAttribute('size-int');
-                                $attr['size-int'] += is_numeric($childSize) ? $childSize + 0 : 0;
+                                $attr['size-int'] += (int) $node->getAttribute('size-int');
                                 $childNodes[] = $node;
                             }
                         }
@@ -312,19 +277,10 @@ abstract class FileSystem {
         return $retNode;
     }
     
-    /**
-     * @param string $fileName
-     * @param bool $absolute
-     * @return string
-     */
     public static function webpath(string $fileName, bool $absolute = true): string {
         return $absolute ? str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen($_SERVER['DOCUMENT_ROOT']))) : str_replace(DIRECTORY_SEPARATOR, '/', substr($fileName, strlen(dirname($_SERVER['SCRIPT_FILENAME']) . '/')));
     }
     
-    /**
-     * @param string $fileName
-     * @return ?int
-     */
     public static function size(string $fileName): ?int {
         if (is_readable($fileName)) {
             return self::parseByteCount(@filesize($fileName));
@@ -335,37 +291,21 @@ abstract class FileSystem {
         return null;
     }
     
-    /**
-     * @param string $fileName
-     * @return ?float
-     */
     public static function free(string $fileName): ?float {
         $space = disk_free_space($fileName);
         return is_float($space) ? $space : null;
     }
     
-    /**
-     * @param string $fileName
-     * @return ?string
-     */
     public static function mime(string $fileName): ?string {
         $fInfo = new FInfo(FILEINFO_MIME_TYPE);
         @$ret = $fInfo->file($fileName);
         return is_string($ret) ? $ret : null;
     }
     
-    /**
-     * @param string $fileName
-     * @return string
-     */
     public static function extension(string $fileName): string {
         return pathinfo($fileName, PATHINFO_EXTENSION);
     }
     
-    /**
-     * @param string $fileName
-     * @return ?int
-     */
     public static function changetime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
@@ -377,10 +317,6 @@ abstract class FileSystem {
         return $time === false ? null : $time;
     }
     
-    /**
-     * @param string $fileName
-     * @return ?int
-     */
     public static function maketime(string $fileName): ?int {
         // $time = filemtime($fileName);
         $time = null;
@@ -392,10 +328,7 @@ abstract class FileSystem {
         return $time === false ? null : $time;
     }
     
-    /**
-     * @param string $fileName
-     * @return mixed A COM filesystem automation object, or null when unavailable.
-     */
+    /** @return mixed A COM filesystem automation object, or null when unavailable. */
     public static function lookupFile(string $fileName) {
         if (! class_exists(COM::class)) {
             return null;
@@ -421,11 +354,6 @@ abstract class FileSystem {
         return null;
     }
     
-    /**
-     * @param string $filename
-     * @param bool $removeRoot
-     * @return string
-     */
     public static function filenameEncode(string $filename, bool $removeRoot = false): string {
         if ($removeRoot) {
             if (strpos($filename, ServerEnvironment::getRootDirectory()) === 0) {
@@ -440,10 +368,6 @@ abstract class FileSystem {
         ], '-', $filename);
     }
     
-    /**
-     * @param string $filename
-     * @return string
-     */
     public static function filenameSanitize(string $filename): string {
         $notAllowed = [
             ':',
@@ -562,37 +486,10 @@ abstract class FileSystem {
             $limit = (float) PHP_INT_MAX + 1.0;
             return $value >= 0 && $value < $limit && floor($value) === $value ? (int) $value : null;
         }
-        if (! is_string($value)) {
-            return null;
+        if (is_string($value)) {
+            return self::parseUnsignedDecimal($value);
         }
-        
-        $value = trim($value);
-        if (! is_numeric($value) || ! preg_match('/\A([+-]?)([0-9]*)(?:\.([0-9]*))?(?:e([+-]?[0-9]+))?\z/i', $value, $parts)) {
-            return null;
-        }
-        $fraction = $parts[3] ?? '';
-        $digits = ltrim($parts[2] . $fraction, '0');
-        if ($digits === '') {
-            return 0;
-        }
-        if ($parts[1] === '-') {
-            return null;
-        }
-        
-        // Apply the decimal exponent directly to preserve whole-byte precision.
-        $exponent = (int) ($parts[4] ?? '0');
-        if ($exponent < -strlen($digits) || $exponent > strlen($fraction) + strlen((string) PHP_INT_MAX)) {
-            return null;
-        }
-        $shift = $exponent - strlen($fraction);
-        if ($shift >= 0) {
-            return self::parseUnsignedDecimal($digits . str_repeat('0', $shift));
-        }
-        $integerDigits = strlen($digits) + $shift;
-        if ($integerDigits < strlen(rtrim($digits, '0'))) {
-            return null;
-        }
-        return self::parseUnsignedDecimal(substr($digits, 0, $integerDigits));
+        return null;
     }
     
     /** @param resource $handle */
@@ -604,9 +501,9 @@ abstract class FileSystem {
     
     /**
      * @param resource $handle
-     * @return iterable<string>
+     * @return Generator<int, string>
      */
-    private static function readChunks($handle, int $length): iterable {
+    private static function readChunks($handle, int $length): Generator {
         while ($length > 0) {
             $chunk = fread($handle, min(1048576, $length));
             if ($chunk === false) {
@@ -650,9 +547,6 @@ abstract class FileSystem {
     /**
      * List the contents of a directory.
      *
-     * @param string $relPath
-     * @param int $options
-     * @param ?string $filter
      * @return list<int|string|SplFileInfo>
      */
     public static function scanDir(string $relPath, int $options = 0, ?string $filter = null): array {
@@ -731,11 +625,7 @@ abstract class FileSystem {
         return $ret;
     }
     
-    /**
-     * @param string $dirPath
-     * @param ?string $rootPath
-     * @return non-empty-array<int|string, int|null>|false
-     */
+    /** @return non-empty-array<int|string, int|null>|false */
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);
@@ -764,7 +654,6 @@ abstract class FileSystem {
     }
     
     /**
-     * @param string $filePath
      * @return array<mixed>
      * @throws Exception
      */
@@ -943,13 +832,7 @@ abstract class FileSystem {
         return $ret;
     }
     
-    /**
-     * @param string $path
-     * @param string $delimiter
-     * @param string $enclosure
-     * @param string $escape
-     * @return list<list<string|null>|null>|null
-     */
+    /** @return list<list<string|null>|null>|null */
     public static function loadCSV(string $path, string $delimiter = ',', string $enclosure = '"', string $escape = '\\'): ?array {
         $ret = null;
         if ($handle = fopen($path, 'r')) {
@@ -976,37 +859,21 @@ abstract class FileSystem {
         '~'
     ];
     
-    /**
-     * Creates a filesystem-compatible name using base64.
-     *
-     * @param string $fileName
-     * @return string
-     */
+    /** Creates a filesystem-compatible name using base64. */
     public static function base64Encode(string $fileName): string {
         $fileName = base64_encode($fileName);
         $fileName = str_replace(self::$base64Source, self::$base64Target, $fileName);
         return $fileName;
     }
     
-    /**
-     * Decodes a name created by base64Encode.
-     *
-     * @param string $fileName
-     * @return string
-     */
+    /** Decodes a name created by base64Encode. */
     public static function base64Decode(string $fileName): string {
         $fileName = str_replace(self::$base64Target, self::$base64Source, $fileName);
         $fileName = base64_decode($fileName);
         return $fileName;
     }
     
-    /**
-     * Deletes the contents of a directory.
-     *
-     * @param string $path
-     * @param bool $keepRoot
-     * @return void
-     */
+    /** Deletes the contents of a directory. */
     public static function removeDir(string $path, bool $keepRoot = false): void {
         if ($path === '' or ! is_dir($path) or ! is_writable($path) or ! realpath($path)) {
             return;
@@ -1040,9 +907,6 @@ abstract class FileSystem {
     /**
      * Copies files and directories.
      *
-     * @param string $from
-     * @param string $to
-     * @return void
      * @throws InvalidArgumentException
      * @throws DirectoryCouldNotBeCreatedException
      */
@@ -1080,12 +944,7 @@ abstract class FileSystem {
         }
     }
     
-    /**
-     * Determines whether a command is available on the command line.
-     *
-     * @param string $command
-     * @return bool
-     */
+    /** Determines whether a command is available on the command line. */
     public static function commandExists(string $command): bool {
         $which = PHP_OS === 'WINNT' ? "where $command 2>NUL" : "command -v $command 2>/dev/null";
         return exec($which) !== '';

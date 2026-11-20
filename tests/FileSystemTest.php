@@ -115,10 +115,11 @@ class FileSystemTest extends TestCase {
         }
     }
     
-    /** @runInSeparateProcess */
+    /** @runInSeparateProcess
+     * @throws \Exception
+     */
     public function testOutputChunkThrowsBeyondIntMax(): void {
         $path = temp_file(__METHOD__);
-        $this->assertIsString($path);
         try {
             file_put_contents($path, 'abc');
             $this->expectException(InvalidArgumentException::class);

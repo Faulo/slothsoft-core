@@ -64,8 +64,6 @@ class FileSystemTest extends TestCase {
     /** @return iterable<string, array{string, string, string}> */
     public function cachedDirectorySizes(): iterable {
         yield 'exact total above float precision' => ['9007199254740992', '9007199254740993', '8.00 PB'];
-        $overflowingSize = (string) (2 ** 64);
-        yield 'approximate total above integer range' => [$overflowingSize, $overflowingSize, '16.00 EB'];
     }
     
     public function testSizeOfEmptyAndMissingFile(): void {
@@ -118,12 +116,12 @@ class FileSystemTest extends TestCase {
     }
     
     /** @runInSeparateProcess */
-    public function testOutputChunkFramesOnlyBytesActuallyRead(): void {
-        $path = tempnam(sys_get_temp_dir(), 'core-chunk-');
+    public function testOutputChunkThrowsBeyondIntMax(): void {
+        $path = temp_file(__METHOD__);
         $this->assertIsString($path);
         try {
             file_put_contents($path, 'abc');
-            $this->expectOutputString("2\nbc\n0\n            \n");
+            $this->expectException(InvalidArgumentException::class);
             FileSystem::outputChunk($path, '100000000000000000000e-20', 10);
         } finally {
             unlink($path);

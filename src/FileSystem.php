@@ -19,6 +19,7 @@ use SebastianBergmann\CodeCoverage\Util\DirectoryCouldNotBeCreatedException;
 use Slothsoft\Core\Calendar\DateTimeFormatter;
 use Slothsoft\Core\Configuration\StorageConfigurationField;
 use SplFileInfo;
+use variant;
 
 /**
  * Legacy file-system helper for path handling, directory scans, media metadata, and archive operations.
@@ -137,8 +138,7 @@ abstract class FileSystem {
         return $field;
     }
     
-    /** @return void */
-    public static function setStorage(EphemeralStorageInterface $storage) {
+    public static function setStorage(EphemeralStorageInterface $storage): void {
         self::storage()->setValue($storage);
     }
     
@@ -328,8 +328,8 @@ abstract class FileSystem {
         return $time === false ? null : $time;
     }
     
-    /** @return mixed A COM filesystem automation object, or null when unavailable. */
-    public static function lookupFile(string $fileName) {
+    /** Looks up the Windows filesystem automation object for a path. */
+    public static function lookupFile(string $fileName): ?variant {
         if (! class_exists(COM::class)) {
             return null;
         }
@@ -400,9 +400,8 @@ abstract class FileSystem {
     /**
      * @param mixed $filePath
      * @param mixed $downloadName
-     * @return void
      */
-    public static function download($filePath, $downloadName) {
+    public static function download($filePath, $downloadName): void {
         $handle = Utils::tryFopen($filePath, 'rb');
         try {
             $stat = fstat($handle);
@@ -469,12 +468,16 @@ abstract class FileSystem {
     }
     
     private static function parseUnsignedDecimal(string $digits): ?int {
-        $digits = ltrim($digits, '0');
-        $max = (string) PHP_INT_MAX;
-        if (strlen($digits) > strlen($max) || (strlen($digits) === strlen($max) && strcmp($digits, $max) > 0)) {
-            return null;
+        $matches = [];
+        if (preg_match('~^0*(\d+)$~', $digits, $matches)) {
+            $digits = $matches[1];
+            $max = (string) PHP_INT_MAX;
+            if (strlen($digits) > strlen($max) || (strlen($digits) === strlen($max) && strcmp($digits, $max) > 0)) {
+                return null;
+            }
+            return (int) $digits;
         }
-        return (int) $digits;
+        return null;
     }
     
     /** @param mixed $value */
@@ -487,7 +490,8 @@ abstract class FileSystem {
             return $value >= 0 && $value < $limit && floor($value) === $value ? (int) $value : null;
         }
         if (is_string($value)) {
-            return self::parseUnsignedDecimal($value);
+            $value = self::parseUnsignedDecimal($value);
+            return $value >= 0 ? $value : null;
         }
         return null;
     }
@@ -521,9 +525,9 @@ abstract class FileSystem {
      * @param mixed $filePath
      * @param mixed $start
      * @param mixed $length
-     * @return void
      */
-    public static function outputChunk($filePath, $start, $length) {
+    public static function outputChunk($filePath, $start, $length): void {
+        $filePath = (string) $filePath;
         $offset = self::parseByteCount($start);
         $byteCount = self::parseByteCount($length);
         if ($offset === null || $byteCount === null) {
@@ -714,10 +718,9 @@ abstract class FileSystem {
     /**
      * @param mixed $archivePath
      * @param mixed $targetDirectory
-     * @return bool
      * @throws Exception
      */
-    public static function extractArchive($archivePath, $targetDirectory) {
+    public static function extractArchive($archivePath, $targetDirectory): bool {
         if (! is_readable(self::ZIP_PATH)) {
             throw new Exception('7-Zip not found @ ' . self::ZIP_PATH);
         }
@@ -734,10 +737,9 @@ abstract class FileSystem {
      * @param mixed $directoryPath
      * @param mixed $archiveName
      * @param mixed $checkUpdate
-     * @return bool
      * @throws Exception
      */
-    public static function archivePath($directoryPath, $archiveName, $checkUpdate = false) {
+    public static function archivePath($directoryPath, $archiveName, $checkUpdate = false): bool {
         $directoryPath = realpath($directoryPath);
         if ($directoryPath === false) {
             return false;
@@ -765,10 +767,9 @@ abstract class FileSystem {
      * @param mixed $destPath
      * @param mixed $sourceURI
      * @param array<mixed> $options
-     * @return string
      * @throws Exception
      */
-    public static function downloadByURI($destPath, $sourceURI, array $options = []) {
+    public static function downloadByURI($destPath, $sourceURI, array $options = []): string {
         $ret = 'ERROR';
         $downloadCommand = $options['download-cmd'] ?? 'curl %s -o %s';
         $copyCommand = $options['copy-cmd'] ?? 'copy %s %s /y';

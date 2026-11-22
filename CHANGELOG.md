@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.3] - 2026-11-22
+
+### Fixed
+
+- Fixed return type regression of `FileSystem::scanDir()`.
+- Fixed return type regression of `FileSystem::dirModifyTime()`.
+
 ## [1.16.2] - 2026-11-20
 
 ### Changed
@@ -752,7 +759,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release.
 
-[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.16.2...HEAD
+[unreleased]: https://github.com/Faulo/slothsoft-core/compare/1.16.3...HEAD
+[1.16.3]: https://github.com/Faulo/slothsoft-core/compare/1.16.2...1.16.3
 [1.16.2]: https://github.com/Faulo/slothsoft-core/compare/1.16.1...1.16.2
 [1.16.1]: https://github.com/Faulo/slothsoft-core/compare/1.16.0...1.16.1
 [1.16.0]: https://github.com/Faulo/slothsoft-core/compare/1.15.3...1.16.0

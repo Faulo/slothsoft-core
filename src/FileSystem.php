@@ -629,7 +629,7 @@ abstract class FileSystem {
         return $ret;
     }
     
-    /** @return non-empty-array<int|string, int|null>|false */
+    /** @return non-empty-array<string, int|null>|false */
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);
@@ -647,7 +647,9 @@ abstract class FileSystem {
             foreach ($arr as $file) {
                 $filePath = $dirPath . DIRECTORY_SEPARATOR . $file;
                 if (is_dir($filePath)) {
-                    $ret += self::dirModifyTime($filePath);
+                    if ($childRet = self::dirModifyTime($filePath)) {
+                        $ret += $childRet;
+                    }
                 } else {
                     $ret[substr($filePath, $rootLength)] = self::changetime($filePath);
                 }
@@ -846,14 +848,14 @@ abstract class FileSystem {
         return $ret;
     }
     
-    /** @var array<mixed> */
+    /** @var array<string> */
     private static array $base64Source = [
         '+',
         '/',
         '='
     ];
     
-    /** @var array<mixed> */
+    /** @var array<string> */
     private static array $base64Target = [
         '-',
         '_',

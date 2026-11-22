@@ -180,6 +180,40 @@ class FileSystemTest extends TestCase {
         ];
     }
     
+    /** @throws Exception */
+    public function testScanDirSortPreservesNumericFilenamesAsStrings(): void {
+        $directory = temp_dir(__NAMESPACE__);
+        try {
+            foreach (['123', 'a.b.txt', 'a.z'] as $filename) {
+                $this->assertTrue(touch($directory . DIRECTORY_SEPARATOR . $filename));
+            }
+            
+            $this->assertSame(['123', 'a.z', 'a.b.txt'], FileSystem::scanDir($directory, FileSystem::SCANDIR_SORT));
+        } finally {
+            FileSystem::removeDir($directory);
+        }
+    }
+    
+    /** @throws Exception */
+    public function testDirModifyTimePreservesNumericDirectoryKeys(): void {
+        $directory = temp_dir(__NAMESPACE__);
+        try {
+            $numericDirectory = $directory . DIRECTORY_SEPARATOR . '123';
+            $this->assertTrue(mkdir($numericDirectory . DIRECTORY_SEPARATOR . '456', 0777, true));
+            $this->assertTrue(touch($numericDirectory . DIRECTORY_SEPARATOR . 'file.txt'));
+            
+            $modifyTimes = FileSystem::dirModifyTime($numericDirectory);
+            $this->assertIsArray($modifyTimes);
+            $this->assertCount(3, $modifyTimes);
+            $this->assertArrayHasKey('123' . DIRECTORY_SEPARATOR . 'file.txt', $modifyTimes);
+            $keys = array_keys($modifyTimes);
+            $this->assertContains(123, $keys);
+            $this->assertContains(456, $keys);
+        } finally {
+            FileSystem::removeDir($directory);
+        }
+    }
+    
     public function testRemoveDirIncludingRoot(): void {
         $directory = temp_dir(__NAMESPACE__);
         

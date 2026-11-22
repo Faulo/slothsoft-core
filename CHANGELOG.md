@@ -11,8 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed return type regression of `FileSystem::scanDir()`.
-- Fixed return type regression of `FileSystem::dirModifyTime()`.
+- Keep numeric filenames as strings when sorting `FileSystem::scanDir()` results.
+- Skip child directories that no longer resolve to a directory in `FileSystem::dirModifyTime()` and document that numeric names can produce integer keys.
 
 ## [1.16.2] - 2026-11-20
 

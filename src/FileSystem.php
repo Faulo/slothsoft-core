@@ -603,12 +603,7 @@ abstract class FileSystem {
         }
         $ret = array_values(array_diff($ret, $exclude));
         if ($options & self::SCANDIR_SORT) {
-            $tmp = [];
-            foreach ($ret as $val) {
-                $tmp[$val] = preg_replace('/\.[^.]+$/', '', $val);
-            }
-            asort($tmp);
-            $ret = array_keys($tmp);
+            usort($ret, static fn(string $left, string $right): int => pathinfo($left, PATHINFO_FILENAME) <=> pathinfo($right, PATHINFO_FILENAME));
         }
         if ($options & self::SCANDIR_REALPATH) {
             foreach ($ret as &$val) {
@@ -629,7 +624,7 @@ abstract class FileSystem {
         return $ret;
     }
     
-    /** @return non-empty-array<string, int|null>|false */
+    /** @return non-empty-array<int|string, int|null>|false */
     public static function dirModifyTime(string $dirPath, ?string $rootPath = null) {
         if ($rootPath === null) {
             $dirPath = realpath($dirPath);

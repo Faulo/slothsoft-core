@@ -551,7 +551,7 @@ abstract class FileSystem {
     /**
      * List the contents of a directory.
      *
-     * @return list<int|string|SplFileInfo>
+     * @return list<string|SplFileInfo>
      */
     public static function scanDir(string $relPath, int $options = 0, ?string $filter = null): array {
         $dirPath = realpath($relPath);
